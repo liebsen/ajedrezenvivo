@@ -8,9 +8,9 @@
         <span>Lobby</span>
       </h3>
       <div v-if="players.length < 2" class="has-text-centered">
-        <h5>Invitá a tus amigos a jugar online</h5>
-        <div class="notification has-background-white has-text-centered">
-          <div class="columns is-social-box is-mobile is-vcentered has-text-centered">
+        <h5>Invitá a tus amigos a jugar online&nbsp;</h5>
+        <div class="column is-social-box has-text-centered">
+          <div class="columns is-mobile is-vcentered has-text-centered">
             <div class="column">
               <a :href="'mailto:?Body=Estoy como ' + $root.player.code + '\nhttps://ajedrezenvivo.herokuapp.com/lobby&Subject=¿Querés jugar ajedrez conmigo? Estoy como ' + $root.player.code" target="_blank">
                 <span class="icon has-text-warning is-size-3">
@@ -182,7 +182,7 @@
 
 <style>
   .is-social-box {
-    max-width: 400px;
+    max-width: 320px;
     margin: 0 auto;
   }
 
