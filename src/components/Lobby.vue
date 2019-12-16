@@ -51,9 +51,9 @@
           </div>
         </div>
       </div>
-      <div v-for="player in players" class="columns" else>
-        <div v-if="player != $root.player.code" class="column">
-          <a href="#" class="button is-success" @click="play(player)">
+      <div v-for="player in players" else>
+        <div v-if="player != $root.player.code">
+          <a href="#" class="button is-text is-rounded" @click="play(player)">
             <span class="icon">
               <span class="fas fa-play"></span>
             </span>
@@ -73,7 +73,10 @@
   export default {
     name: 'lobby',
     mounted: function(){
-      this.$socket.emit('lobby', this.$root.player)
+      this.$socket.emit('preferences',{
+        nick:this.$root.player.code,
+        oldnick:this.$root.code
+      })
       this.documentTitle = document.title 
     },
     beforeDestroy: function() {
@@ -81,6 +84,16 @@
       document.title = this.documentTitle
     },
     sockets: {
+      nick: function (data) {
+        if(this.$root.code === data.oldnick){
+          if(data.exists){
+            snackbar('error','El nick ' + data.nick + ' ya está en uso. Por favor elegí otro.')
+            this.$router.push('/preferences')
+          } else {
+            this.$socket.emit('lobby', this.$root.player)
+          }
+        }
+      },
       players: function (data) {
         if(data.length > 1){
           snackbar('success','Jugadores en línea: ' + (data.length - 1))

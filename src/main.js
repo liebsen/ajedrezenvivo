@@ -59,6 +59,7 @@ new Vue({
   	loading:true,
   	processing:false,
     player:{},
+    code: generateRandomCode(6),
   	message:'',
   	typeMessage:''
   },
