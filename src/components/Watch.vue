@@ -1,0 +1,516 @@
+<template>
+  <div class="game-container" v-show="!$root.loading">
+    <!--div class="playlist-container">
+      <div class="pietimer">
+        <div class="pie spinner"></div>
+        <div class="pie filler"></div>
+        <div class="mask"></div>
+      </div>
+    </div-->
+    <div class="pres-container">
+      <div class="pres content">
+        <div class="columns is-result is-vcentered has-text-centered">
+          <div class="column is-player-white">
+            <h1><span v-show="data.result==='1-0'">🏆</span></h1>
+            <h3 class="has-text-black" v-html="data.white"></h3>
+          </div>
+          <div class="column is-player-black">
+            <h1><span v-show="data.result==='0-1'">🏆</span></h1>
+            <h3 class="has-text-white" v-html="data.black"></h3>
+          </div>
+        </div>
+        <div class="columns is-vcentered has-text-centered is-player-info">
+          <div class="column">
+            <h6 v-show="data.date && data.date !='?'" v-html="data.date"></h6>
+            <h6 v-show="data.event && data.event !='?'" v-html="data.event"></h6>
+            <h6 v-show="data.site && data.site !='?'" v-html="data.site"></h6>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="status">
+      <span class="has-text-weight-semibold">
+        <a href="#" @click="setClock">
+          &nbsp;🕗 <!-- <span v-html="speed / 1000"></span>s--> <span v-html="$root.msToTime(duration)"></span>
+        </a>
+      </span>
+      <div class="bar">
+        <div class="bar-progress"></div>
+      </div>
+    </div>  
+    <div class="container">
+      <div class="content column">
+        <div class="columns">
+          <div class="column">
+            <div class="board-container">
+              <h6 class="black has-text-left" @click="gameFlip">
+                <span v-show="data.result==='0-1'">🏆</span>
+                <span v-html="data.black"></span> 
+                <span class="has-text-grey" v-html="data.blackelo"></span>
+              </h6>
+              <div class="board" :class="{ 'black' : orientation==='black' }">
+                <div class="score-container">
+                  <div class="score" :style="'max-height:' + vscore + '%'"></div>
+                </div>            
+                <div id="board" @click="gamePause"></div>
+              </div>
+              <h6 class="white has-text-right" @click="gameFlip">
+                <span v-show="data.result==='1-0'">🏆</span>
+                <span v-html="data.white"></span> 
+                <span class="has-text-grey" v-html="data.whiteelo"></span>                  
+              </h6>
+            </div>
+          </div>
+          <div class="column datospartida">
+            <!--h5 class="has-text-black">♛ Datos de la partida</h5-->
+            <div v-if="Object.keys(data).length">
+              <div class="columns">
+                <div class="column">
+                  <span v-html="ecode" class=""></span>&nbsp;
+                  <span v-html="opening" class="has-text-black"></span>
+                </div>
+              </div>  
+              <div class="columns gamepgn">
+                <div class="movesTableContainer">
+                  <div class="movesTable">
+                    <div class="moveRow" v-for="(move,index) in pgnIndex">
+                      <div class="moveNumCell" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
+                        <span v-html="(index+1)"></span>
+                      </div>
+
+                      <div class="moveCell moveSAN movew" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
+                        <a :class="'moveindex m' + (move.i-2)" @click="gamePos(move.i-2)">
+                          <span v-html="move.white"></span>
+                        </a>
+                      </div>
+
+                      <div class="moveCell moveSAN moveb" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
+                        <a :class="'moveindex m' + (move.i-1)" @click="gamePos(move.i-1)">
+                          <span v-html="move.black"></span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="columns">
+                <div class="column" v-show="data.date && data.date !='?'">
+                  <span class=""  v-html="data.date"></span>
+                </div>
+                <div class="column" v-show="data.event && data.event !='?'">
+                  <span class="" v-html="data.event"></span>
+                </div>
+                <div class="column" v-show="data.round && data.round !='?'">
+                  <span class="" v-html="data.round"></span>
+                </div>
+                <div class="column" v-show="data.site && data.site !='?'">
+                  <span class=""  v-html="data.site"></span>
+                </div>
+              </div>   
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+
+  import axios from 'axios'
+  import Chess from 'chess.js'
+  import Chessboard from '../../assets/js/chessboard'
+  import snackbar from '../components/Snackbar'
+  import swal from 'sweetalert'
+  import playSound from '../components/playSound'
+
+  export default {
+    name: 'watch',
+    /*
+    watch: {
+      '$route': function () {
+        this.gameSeek()
+      }
+    },*/
+    mounted: function(){
+
+      window.app = this
+
+      if(localStorage.getItem('speed')){
+        this.speed = parseInt(localStorage.getItem('speed'))
+      }
+
+      axios.get('/assets/json/eco_es.json')
+        .then((response) => {
+          this.eco = response.data
+          this.gameStart()
+        })
+    },
+    methods: {
+      gameMove:function(){
+        if(!this.paused){
+          var move = this.gameMoves[this.index];
+          this.selectedIndex = parseInt(location.hash.replace('#',''))
+
+          var sound = 'move.mp3'
+
+          if(this.game.game_over()){
+            sound = 'game-end.mp3'
+          } else {
+            if(move.flags === 'c'){
+              sound = 'capture.mp3'        
+            }
+
+            if(move.flags === 'k'){
+              sound = 'castle.mp3'
+            }
+
+            if(move.flags === 'q'){
+              sound = 'castle.mp3'
+            }
+
+            if (this.game.in_check() === true) {
+              sound = 'check.mp3'
+            }
+          }
+
+          playSound(sound)
+
+          // exit if the game is over
+          if (!move || this.game.game_over() === true ||
+            this.game.in_draw() === true ||
+            this.gameMoves.length === 0) return;
+
+          document.querySelectorAll('.square-55d63').forEach((item) => {
+            item.classList.remove('highlight-move');
+          })
+
+          document.querySelectorAll('.moveindex').forEach((item) => {
+            item.parentNode.classList.remove('active');
+          })
+
+          var perc = (this.index + 1) / this.gameMoves.length * 100;
+          $('.bar-progress').animate({width:perc+'%'},this.speed,'linear')
+          document.querySelector('.moveindex.m' + this.index).parentNode.classList.add('active')
+
+          var n = document.querySelector('.moveindex.m' + this.index).parentNode.offsetTop
+          var x = document.querySelector('.moveindex.m' + this.index).parentNode.clientHeight
+          var y = n + x
+          var h = parseInt(document.querySelector('.movesTableContainer').style.height)
+          if(y>h){
+            document.querySelector('.movesTableContainer').scrollTop = n
+          }
+
+          this.index++
+          const moved = this.game.move(move)
+
+          if(this.game.history().length < 14){
+            setTimeout(() => {
+              this.eco.forEach((eco,i) => {
+                if(eco.pgn === this.game.pgn()){
+                  this.opening = eco.name
+                  this.ecode = eco.eco
+                }
+              })
+            },1000)
+          }
+
+          this.board.position(this.game.fen());  
+
+          this.uciCmd('position startpos moves' + this.get_moves(), this.evaler);
+          this.uciCmd("eval", this.evaler);
+
+          if(moved){
+            document.querySelector('.square-' + moved.from).classList.add('highlight-move')
+            document.querySelector('.square-' + moved.to).classList.add('highlight-move')
+          }
+
+          if(this.index === this.gameMoves.length){
+            this.gamePause()
+          }
+
+          setTimeout(this.gameMove, this.speed)
+        }
+      },
+      get_moves: function()
+      {
+        var moves = '';
+        var pgn = []
+        var history = this.game.history({verbose: true});
+        
+        for(var i = 0; i < history.length; ++i) {
+            var move = history[i];
+            moves += ' ' + move.from + move.to + (move.promotion ? move.promotion : '');
+        }
+
+        return moves;
+      },
+      gamePGN:function(pgn){
+        var data = []
+        pgn.split('.').forEach(function(turn){
+          turn.split(' ').forEach(function(move){
+            if(move.length){
+              if(isNaN(move) && move.length > 1){
+                data.push(move)
+              }
+            }
+          })
+        })
+        return data
+      },
+      gamePGNIndex:function(pgn){
+        var data = []
+        , index = 0
+        , selectedIndex = parseInt(location.hash.replace('#',''))
+        , symbols = [
+          {K:'♔',Q:'♕',B:'♗',N:'♘',R:'♖',p:'♙'},
+          {K:'♚',Q:'♛',B:'♝',N:'♞',R:'♜',p:'♟'}
+        ]
+        pgn.split('.').forEach(function(turn,i){
+          const white = turn.split(' ')[1]||''
+          const black = turn.split(' ')[2]||''
+          if(isNaN(white)){
+            data.push({
+              white:white,
+              black:black,
+              i:Math.ceil(i*2),
+              odd:i%2==0
+            })
+          }
+        })
+        return data
+      },  
+      uciCmd: function(cmd, which) {
+        //console.log("UCI: " + cmd);
+        (which || this.evaler).postMessage(cmd);
+      },    
+      gameStart: function(){
+        this.$root.loading = true
+        const pref = JSON.parse(localStorage.getItem('player'))||{}
+        axios.post( this.$root.endpoint + '/game', {id:this.$route.params.game} ).then((res) => {
+          if(!Object.keys(res.data).length) return location.href="/404"
+          var game = res.data
+          const totalms = this.$root.countMoves(game.pgn) * this.speed
+
+          this.evaler = typeof STOCKFISH === "function" ? STOCKFISH() : new Worker('/assets/js/stockfish.js')
+
+          this.evaler.onmessage = function(event) {
+            var t = window.app
+            var line;
+            
+            if (event && typeof event === "object") {
+              line = event.data;
+            } else {
+              line = event;
+            }
+            
+            //console.log("evaler: " + line);
+
+            var match = null
+            if(match = line.match(/^Total evaluation: (\-?\d+\.\d+)/)) {
+              t.score = parseFloat(match[1]);
+              t.vscore = 50 - (t.score / 20 * 100)
+            }
+
+            /// Ignore some output.
+            if (line === "uciok" || line === "readyok" || line.substr(0, 11) === "option name") {
+              return;
+            }
+          }
+
+          this.gameMoves = this.gamePGN(game.pgn)
+          this.pgnIndex = this.gamePGNIndex(game.pgn)
+          this.data = game
+          this.duration = totalms / 1000
+          this.$root.loading = false
+
+          setTimeout(() => {
+            this.boardEl = document.getElementById('board')
+            this.game = new Chess()
+
+            if(pref.pieces){
+              this.boardCfg.pieceTheme = '/assets/img/chesspieces/' + pref.pieces + '/{piece}.png'
+            }
+
+            this.board = Chessboard('board', this.boardCfg)
+            this.orientation = this.board.orientation()
+            $(window).resize(() => {
+              this.board.resize()
+            })
+
+            this.board.resize()
+
+            playSound('game-start.mp3')
+
+            document.querySelector('.pres-container .is-player-white').classList.add('slideOutTL') 
+            document.querySelector('.pres-container .is-player-black').classList.add('slideOutTR') 
+            document.querySelector('.pres-container .is-player-info').classList.add('slideOutB') 
+            document.querySelector('.pres-container').classList.add('fadeOut')   
+            setTimeout(() => {
+              document.querySelector('.pres-container').style.display = 'none'
+            },1500)           
+
+            const offset = 100
+            setTimeout(() => {
+              document.querySelector('.movesTableContainer').style.height = ($('.board').height() - offset) + 'px'
+
+              setTimeout(() => {
+                /* autoplay kickstart */
+                this.gameSeek()
+              }, 500)
+            }, 500)
+          },2000)
+        })
+      },
+      gameFlip: function(){
+        this.board.flip()
+        this.orientation = this.board.orientation()
+        const white = document.querySelector('.board-container .white').innerHTML
+        const black = document.querySelector('.board-container .black').innerHTML
+        document.querySelector('.board-container .white').innerHTML = black
+        document.querySelector('.board-container .black').innerHTML = white
+      },
+      gameSeek:function(){
+        window.setTimeout(() => {
+          this.selectedIndex = parseInt(location.hash.replace('#',''))
+          if(!isNaN(this.selectedIndex)) {
+            this.gamePos(this.selectedIndex)
+          }
+          this.gameMove()
+          if(!isNaN(this.selectedIndex) && !this.paused) {
+            this.gamePause()
+          }
+        }, 10)
+      },
+      gamePos:function(pos){
+        if(pos > this.gameMoves.length){
+          return
+        }
+
+        this.index = pos
+
+        const moves = this.gameMoves.slice(0,this.index)
+        var move = this.gameMoves[this.index];
+        // ---------------
+
+        var pgn = []
+        moves.forEach((move,i) => {
+          if(i%2){
+            pgn.push(move)
+          } else {
+            pgn.push([Math.ceil(i/2)+1,move].join('. '))     
+          }   
+        })
+
+        document.querySelectorAll('.square-55d63').forEach((item) => {
+          item.classList.remove('highlight-move')
+        })
+
+        document.querySelectorAll('.moveindex').forEach((item) => {
+          item.parentNode.classList.remove('active');
+        })
+
+        document.querySelector('.moveindex.m' + this.index).parentNode.classList.add('active');
+
+        var perc = (this.index + 1) / this.gameMoves.length * 100;
+        $('.bar-progress').animate({width:perc+'%'},100,'linear')
+        const pgns = pgn.join(' ')
+        this.game.reset()
+
+        this.game.load_pgn(pgns) 
+        this.board.position(this.game.fen())
+
+
+        const moved = this.game.move(move)
+
+        if(moved){
+          document.querySelector('.square-' + moved.from).classList.add('highlight-move')
+          document.querySelector('.square-' + moved.to).classList.add('highlight-move')
+        }
+      },
+      gamePause:function(){
+        this.paused = !this.paused
+        document.querySelector('.bar-progress').classList.remove('paused')
+        if(this.paused){
+          document.querySelector('.bar-progress').classList.add('paused')
+        } else {
+          setTimeout(this.gameMove, 500)
+        }
+      },
+      gameSpeed:function(s){
+        this.speed+= s
+        if(this.speed >= 1000 && this.speed <= 10000){
+          localStorage.setItem('speed',speed)
+        } else {
+          this.speed-=s
+        }
+      },
+      onMoveEnd: function() {
+        document.querySelectorAll('.square-' + this.squareToHighlight).forEach((square) => {
+          square.classList.add('highlight-move');
+        })
+      },
+      setClock : function(){
+        this.gamePause()
+        swal("Ingresa el intervalo en milisegundos entre 1000/60000", {
+          content: {
+            element: 'input',
+            attributes: {
+              placeholder: "Valor en milisegundos",
+              value: this.speed
+            }
+          },
+          closeOnClickOutside:false
+        })
+        .then((speed) => {
+          if(speed){
+            speed = parseInt(speed)
+            if(speed > 60000 || speed < 1000){
+              swal('El valor debe ser entre 1000 / 60000')
+            } else {
+              this.speed = speed
+              localStorage.setItem('speed',speed)
+              const totalms = this.$root.countMoves(this.data.pgn) * this.speed
+              this.duration = totalms / 1000
+            }          
+          }
+          this.gamePause()              
+        })
+        .catch(() => {
+          this.gamePause()
+        })
+      }
+    },
+    data () {
+      return {
+        boardCfg: {
+          showErrors:true,
+          position: 'start',
+          draggable: false,
+          onMoveEnd: this.onMoveEnd,
+          moveSpeed:250,
+          pieceTheme:'/assets/img/chesspieces/wikipedia/{piece}.png'
+        },
+        data:{},
+        eco:{},
+        duration:0,
+        score:0.10,
+        vscore: 49,
+        ecode:null,
+        opening:null,
+        board:null,
+        game:null,
+        orientation:null,
+        gameMoves:[],
+        pgnIndex:[],
+        room: location.pathname.replace('/',''),
+        selectedIndex: parseInt(location.hash.replace('#','')),
+        boardEl:document.getElementById('board'),
+        index:0,
+        paused:false,
+        speed:3000,
+        squareToHighlight:null
+      }
+    }
+  }
+</script>

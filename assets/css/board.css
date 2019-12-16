@@ -1,0 +1,220 @@
+.status {
+    display: inline-block;
+    background-color: #fff;
+    padding: 0.25rem;
+    width: 100%;
+    position: fixed;  
+    z-index: 10;
+    bottom: 0;
+}
+.pres-container {
+    display: inline-block;
+    background: rgb(255,255,25);
+    background: -webkit-linear-gradient(left, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 50%, rgba(0,0,0,1) 50%, rgba(0,0,0,1) 100%);
+    background: -o-linear-gradient(left, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 50%, rgba(0,0,0,1) 50%, rgba(0,0,0,1) 100%);
+    background: linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 50%, rgba(0,0,0,1) 50%, rgba(0,0,0,1) 100%);
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 199;
+}
+
+.pres {
+    .column {
+        height: 50vh;
+        padding-top: 5rem;
+    }
+    h1 {
+        font-size: 5rem;
+        min-height: 6rem;
+    }
+}
+
+#board {
+    min-width: 100%;
+    
+    .board-b72b1 {
+        .row-5277c {
+            &:first-child {
+                .square-55d63 {
+                    &:first-child {
+                        border-top-left-radius: 5px;
+                    }
+                    &:nth-last-child(2) {
+                        border-top-right-radius: 5px;
+                    }
+                }
+            }
+            &:last-child {
+                .square-55d63 {
+                    &:first-child {
+                        border-bottom-left-radius: 5px;
+                    }
+                    &:nth-last-child(2) {
+                        border-bottom-right-radius: 5px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.board-container {
+    .white {
+        margin-top: 0.5rem;
+    }
+    .black {
+        margin-bottom: 0.25rem; 
+    }
+
+    .board {
+        position: relative;
+
+        .score-container {
+            position: absolute;
+            top: 0;
+            left: -8px;
+            width: 5px;
+            background-color: white;
+            height: 100%;
+            border-radius: 3px;
+
+            .score {
+                width: 5px;
+                border-radius: 3px;
+                background-color: black;
+                max-height: 49%;
+                height: 100%;
+                transition: max-height ease-in 0.25s;
+            }
+        }
+    }
+
+    .board.black {
+        .score-container {
+            transform: rotate(180deg);
+        }
+    }
+}
+
+.bar {
+    position: relative;
+    z-index: 99;
+    background-color: rgba(0,0,0,0.1);
+    border-radius: 5px;
+    cursor: pointer;
+}
+.bar-progress {
+    height: 6px;
+    background-color: red;
+    border-radius: 5px;
+    width: 0;
+}  
+.bar-progress.paused {
+    background-color: grey;
+} 
+
+.highlight-move {
+  filter: saturate(400%);
+}
+
+.in-check {
+  background-color: red!important;
+}
+
+.movesTableContainer {
+    position: relative;
+    width: 100%;
+    min-height: 350px;
+    overflow-y: scroll;
+    text-align: left;
+}
+.movesTable {
+    display: table;
+    position: absolute;
+    width: 100%;
+    font-size: 14px;
+    border-spacing: 0;
+}
+.moveRow {
+    display: table-row;
+}
+.moveCell {
+    display: table-cell;
+    width: 15%;
+    padding: 4px 3px;
+    vertical-align: middle;    
+}
+.moveCell.active {
+    animation:.25s ease;
+    background-color:#23d160!important;
+    color: white;
+    a { 
+        background-color:#23d160;
+        color: white;
+    }
+}
+.clickableCell {
+    cursor: pointer;
+}
+.moveNumCell {
+    display: table-cell;
+    width: 1%;
+    color: #888;
+    text-align: center;
+    border-right: 1px solid #aaa;
+    padding: 4px 0;
+    font-size: 13px;
+    vertical-align: middle;
+}
+.moveSAN {
+    font-size: 15px;
+}
+.moveb.moveSAN {
+    text-shadow: 0 0 1px rgba(0,0,0,0.4);
+}
+.movew, .movew a {
+    color: #030303;
+}
+.moveb {
+    background-color: rgb(150, 150, 150);
+}
+.moveb a {
+    color: rgb(252, 252, 252);
+}
+.moveRowEven.moveb {
+    background-color: rgb(180, 180, 180);
+}
+.movew, .moveNumCell {
+    background-color: rgb(235, 235, 245);
+}
+.moveRowOdd.movew, .moveNumCell.moveRowOdd {
+    background-color: rgb(250, 250, 255);
+}
+
+.plyNotation {
+    width: 50%;
+    display: inline-block;
+}
+
+.selectedCell {
+    background: rgb(89, 142, 222)!important;
+}
+
+@media screen and (max-width: 769px) {
+    .is-player-info {
+        position: absolute; 
+        left: 0; 
+        right: 0; 
+        bottom: 0;
+    }
+
+    .pres-container {
+        background: -webkit-linear-gradient(bottom, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 50%, rgba(0,0,0,1) 50%, rgba(0,0,0,1) 100%);
+        background: -o-linear-gradient(bottom, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 50%, rgba(0,0,0,1) 50%, rgba(0,0,0,1) 100%);
+        background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 50%, rgba(0,0,0,1) 50%, rgba(0,0,0,1) 100%);
+    }
+}
