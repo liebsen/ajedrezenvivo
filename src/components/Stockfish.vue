@@ -183,9 +183,6 @@
         t.opening = ''
         t.score = 0.10
         t.vscore = 49
-        //t.uciCmd('setoption name Contempt value 0')
-        //t.setSkillLevel(0)
-        //t.uciCmd('setoption name King Safety value 0')
         t.gameStart(t.time.level)
       },
       gamePGN:function(pgn){
@@ -211,45 +208,20 @@
         const pref = JSON.parse(localStorage.getItem('player'))||{}
         
         t.engine = typeof STOCKFISH === "function" ? STOCKFISH() : new Worker('/assets/js/stockfish.js');
-        //t.evaler = typeof STOCKFISH === "function" ? STOCKFISH() : new Worker('/assets/js/stockfish.js');
         t.engineStatus = {};
         t.uciCmd('uci')
         t.setSkillLevel(level)
 
-        /*
-        t.evaler.onmessage = function(event) {
-          var line;
-          
-          if (event && typeof event === "object") {
-            line = event.data;
-          } else {
-            line = event;
-          }
-          
-          //console.log("evaler: " + line);
-          
-          /// Ignore some output.
-          if (line === "uciok" || line === "readyok" || line.substr(0, 11) === "option name") {
-            return;
-          }
-          
-          //if (evaluation_el.textContent) {
-            //evaluation_el.textContent += "\n";
-          //}
-          //evaluation_el.textContent += line;
-        }*/
-
         t.engine.onmessage = function(event) {
           var line;
           var t = window.app
-
+          
           if (event && typeof event === "object") {
             line = event.data;
           } else {
             line = event;
           }
-
-          //console.log("Reply: " + line)
+          //console.log(line)
           if(line == 'uciok') {
             t.engineStatus.engineLoaded = true;
           } else if(line == 'readyok') {
@@ -257,28 +229,22 @@
           } else {
             var match = line.match(/^bestmove ([a-h][1-8])([a-h][1-8])([qrbn])?/);
             /// Did the AI move?
+
             if(match) {
-              t.isEngineRunning = false;
-              const move = t.game.move({from: match[1], to: match[2], promotion: match[3]});
-              
-              if(!t.hintMode){
-                t.prepareMove();
-              }
-
-              //t.uciCmd("eval", t.evaler)
-              t.uciCmd("eval");
-
-              if(!t.hintMode){
-                if(move) {
+              if(t.isEngineRunning) {
+                const move = t.game.move({from: match[1], to: match[2], promotion: match[3]});
+                if(!t.hintMode){
+                  t.board.position(t.game.fen())
                   t.updateMoves(move)
+                } else {
+                  document.querySelector('.square-' + move.from).classList.add('highlight-move')
+                  document.querySelector('.square-' + move.to).classList.add('highlight-move')
+                  t.game.undo()
+                  t.hintMode = false
                 }
-              } else {
-                document.querySelector('.square-' + move.from).classList.add('highlight-move')
-                document.querySelector('.square-' + move.to).classList.add('highlight-move')
-                t.game.undo()
-                t.hintMode = false
+                t.isEngineRunning = false
               }
-            /// Is it sending feedback?
+              /// Is it sending feedback?
             } else if(match = line.match(/^info .*\bdepth (\d+) .*\bnps (\d+)/)) {
               t.engineStatus.search = 'Depth: ' + match[1] + ' Nps: ' + match[2];
             }
@@ -300,15 +266,18 @@
               if(match = line.match(/\b(upper|lower)bound\b/)) {
                 t.engineStatus.score = ((match[1] == 'upper') == (t.game.turn() == 'w') ? '<= ' : '>= ') + t.engineStatus.score
               }
-              t.displayStatus()          
+              if(!t.hintMode){
+                t.displayStatus()
+              }
             }
           }
 
-          if(t.engineStatus.engineLoaded && t.playerColor==='black' && !t.hintMode){
+          if(t.engineStatus.engineLoaded && t.playerColor==='black' && !t.hintMode && !t.stockfishMoved){
             setTimeout(() => {
+              t.stockfishMoved = true
               t.prepareMove()
             },t.ucitime)
-          }          
+          } 
         }
 
         setTimeout(() => {
@@ -320,8 +289,9 @@
           if(pref.pieces){
             t.boardCfg.pieceTheme = '/assets/img/chesspieces/' + pref.pieces + '/{piece}.png'
           }
+
           t.board = Chessboard('board', t.boardCfg)
-          t.board.orientation(t.playerColor)
+          t.board.orientation(t.playerColor)  
 
           if(t.playerColor==='white'){
             t.data.white = t.$root.player.code
@@ -349,6 +319,7 @@
           const target = $(e.target).attr('src') ? $(e.target).parent() : $(e.target)
           const square = target.attr('id').substring(0,2)
 
+          
           if(!t.moveFrom){
             if(piece && piece[0]!=t.playerColor[0]) return
             if(!src){ // blank square
@@ -380,8 +351,13 @@
               return 'snapback'
             }
 
+            t.isEngineRunning = false
+            t.uciCmd('position startpos moves' + t.get_moves())
+            t.uciCmd("go " + (t.time.depth ? "depth " + t.time.depth : ""))
+
             t.board.position(t.game.fen())
             t.updateMoves(move)
+
             setTimeout(() => {
               t.prepareMove();  
             },t.ucitime)    
@@ -403,33 +379,16 @@
       },
       prepareMove : function() {
         var t = this
-        //stopClock();
-        //$('#pgn').text(game.pgn());
-        //updateClock();
-        t.board.position(t.game.fen());        
-
         if(!t.game.game_over()) {
-          if(t.game.turn() != t.playerColor[0]) {
-            t.uciCmd('position startpos moves' + t.get_moves());
-            //t.uciCmd('position startpos moves' + t.get_moves(), t.evaler);
-            //t.uciCmd("eval", t.evaler);
-            
-            if (t.time && t.time.wtime) {
-              t.uciCmd("go " + (t.time.depth ? "depth " + t.time.depth : "") + " wtime " + t.time.wtime + " winc " + t.time.winc + " btime " + t.time.btime + " binc " + t.time.binc);
-            } else {
-              t.uciCmd("go " + (t.time.depth ? "depth " + t.time.depth : ""));
-            }
-            t.isEngineRunning = true;
-          }
-          /*
-          if(t.game.history().length >= 2 && !time.depth && !time.nodes) {
-              startClock();
-          }*/
+          t.isEngineRunning = true
+          t.uciCmd('position startpos moves' + t.get_moves())
+          t.uciCmd("go " + (t.time.depth ? "depth " + t.time.depth : ""))          
         }
       },  
       showHint: function(){
         var t = this
         t.hintMode = true
+        t.isEngineRunning = false
         t.uciCmd('position startpos moves' + t.get_moves());
         t.uciCmd("go " + (t.time.depth ? "depth " + t.time.depth : ""));
       },
@@ -442,7 +401,7 @@
       updateMoves:function(move){
         var t = this
         var sound = 'move.mp3'
-        
+
         if(t.game.game_over()){
           if(t.game.turn() === t.playerColor[0]){
             swal({
@@ -541,9 +500,11 @@
         return data
       },  
       setPlayerColor:function(color){
-        const allow = ['white','black']
-        if(!allow[color]){
-          color = allow[Math.floor(Math.random() * allow.length)]
+        if(color==='random'){
+          const allow = ['white','black']
+          if(!allow[color]){
+            color = allow[Math.floor(Math.random() * allow.length)]
+          }
         }
         this.playerColor = color
       },
@@ -614,27 +575,26 @@
         }
       },
       onDrop : function(source, target) {
-        // see if the move is legal
         var move = this.game.move({
           from: source,
           to: target,
           promotion: 'q'
-        });
+        })
 
-        // illegal move
-        if (move === null) return 'snapback';
+        if (move === null) return 'snapback'
 
+        this.isEngineRunning = false
+        this.uciCmd('position startpos moves' + this.get_moves())
+        this.uciCmd("go " + (this.time.depth ? "depth " + this.time.depth : ""))
         this.moveFrom = null
         this.updateMoves(move)
+
         setTimeout(() => {
-          this.prepareMove();  
+          this.prepareMove()
         },this.ucitime)
       },
       onSnapEnd: function() {
         this.board.position(this.game.fen(),false);
-      },
-      gameFlip: function(){
-        this.board.flip()
       }
     },
     data () {
@@ -669,7 +629,7 @@
         board:null,
         game:null,
         pgnIndex:[],
-        gameMoves:[],
+        stockfishMoved:false,
         ucitime: 1000
       }
     }
