@@ -72,7 +72,7 @@
               <span v-show="data.result==='0-1'">🏆</span>
               <span v-show="data.black === $root.player.code" v-html="data.white"></span> 
               <span v-show="data.white === $root.player.code" v-html="data.black"></span> 
-              <span v-show="data.black === 'Stockfish'">
+              <span>
                 <span>nivel</span> 
                 <span v-html="time.level / 2"></span>
               </span>
@@ -87,10 +87,6 @@
               <span v-show="data.result==='1-0'">🏆</span>
               <span v-show="data.black === $root.player.code" v-html="data.black"></span> 
               <span v-show="data.white === $root.player.code" v-html="data.white"></span> 
-              <span v-show="data.white === 'Stockfish'">
-                <span>nivel</span> 
-                <span v-html="time.level / 2"></span>
-              </span>
             </h6>
           </div>
         </div>
