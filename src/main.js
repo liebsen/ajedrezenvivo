@@ -50,7 +50,7 @@ new Vue({
 
     this.player = player
     if(player.available)
-    this.$socket.emit('join', this.player)
+    //this.$socket.emit('join', this.player)
     this.loading = false
   },
   data:{
