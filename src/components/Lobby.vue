@@ -88,7 +88,7 @@
       nick: function (data) {
         if(this.$root.code === data.oldnick){
           if(data.exists){
-            snackbar('error','El nick ' + data.nick + ' ya está en uso. Por favor elegí otro.')
+            snackbar('error','El nick ' + data.nick + ' ya está en uso, por favor elegí otro')
             this.$router.push('/preferences')
           } else {
             this.$socket.emit('lobby', this.$root.player)
@@ -97,7 +97,7 @@
       },
       players: function (data) {
         if(data.length > 1){
-          snackbar('success','Jugadores en línea: ' + (data.length - 1))
+          snackbar('success','Hay ' + (data.length - 1) +  ' jugador' + (data.length > 2 ? 'es' : '') + ' esperando invitación ')
           document.title = '(' + (data.length - 1) + ') ' + this.documentTitle
           var sound = 'game-start.mp3'
           if(this.players.length > data.length) {
@@ -105,7 +105,7 @@
           }
           playSound(sound)
         } else {
-          snackbar('error','No hay jugadores en línea en este momento')       
+          snackbar('error','No hay jugadores en este momento')       
           document.title = '(0) ' + this.documentTitle   
           playSound('check.mp3')
         }        
@@ -120,7 +120,7 @@
       reject: function(data) {
         if(data.asker === this.$root.player.code){
           swal.close()
-          swal("Partida declinada", 'Lamentablemente ' + data.player + ' declinó la partida.')
+          swal("Partida declinada", '👤 ' + data.player + ' declinó tu invitación')
         }
       },
       invite: function(data) {
@@ -132,9 +132,7 @@
             buttons: ["Declinar", "Aceptar"]
           })
           .then(accept => {
-            console.log("1")
             if (accept) {
-              console.log("2")
               axios.post( this.$root.endpoint + '/create', {
                 white: data.asker,
                 black: data.player,
@@ -153,7 +151,6 @@
                 }        
               })
             } else {
-              console.log("3")
               t.$socket.emit('reject', data)
               console.log('Clicked on cancel')
             }
@@ -164,8 +161,8 @@
     methods: {
       play: function(player){
         swal({
-          title: "Esperando confirmación",
-          text: 'Por favor espere a que ' + player + ' responda la solicitud.',
+          title: "Esperando confirmación...",
+          text: '👤 ' + player + ' debe responder la solicitud',
           buttons: false
         })
         this.$socket.emit('invite', {
