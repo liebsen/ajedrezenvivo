@@ -205,8 +205,6 @@
         
         t.engine = typeof STOCKFISH === "function" ? STOCKFISH() : new Worker('/assets/js/stockfish.js');
         t.engineStatus = {};
-        t.uciCmd('uci')
-        t.setSkillLevel(level)
 
         t.engine.onmessage = function(event) {
           var line;
@@ -277,10 +275,14 @@
             },t.ucitime)
           } 
         }
+        
+        t.uciCmd('uci')
+        t.setSkillLevel(level)
 
         setTimeout(() => {
           t.boardEl = document.getElementById('board')
           t.game = new Chess()
+
           if(window.innerWidth < 789){
             t.boardCfg.draggable = false 
           }
@@ -526,9 +528,9 @@
         if (skill < 5) {
           t.time.depth = "1";
         } else if (skill < 10) {
-          t.time.depth = "10";
+          t.time.depth = "5";
         } else if (skill < 15) {
-          t.time.depth = "20";
+          t.time.depth = "10";
         } else {
           /// Let the engine decide.
           t.time.depth = "";
@@ -537,11 +539,11 @@
         t.uciCmd('setoption name Skill Level value ' + skill);
         ///NOTE: Stockfish level 20 does not make errors (intentially), so these numbers have no effect on level 20.
         /// Level 0 starts at 10
-        max_err = Math.round((skill * -0.5) + 900);
+        max_err = Math.round((skill * -0.5) + 300);
         //max_err = Math.round((skill * -0.25) + 5);
 
         /// Level 0 starts at 1
-        err_prob = Math.round((skill * 6.35) + 10);
+        err_prob = Math.round((skill * 6.35) + 5);
 
         t.uciCmd('setoption name Skill Level Maximum Error value ' + max_err);
         t.uciCmd('setoption name Skill Level Probability value ' + err_prob);
