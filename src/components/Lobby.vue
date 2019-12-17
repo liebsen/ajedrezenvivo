@@ -55,7 +55,7 @@
         <div v-if="player != $root.player.code">
           <a href="#" class="button is-text is-rounded" @click="play(player)">
             <span class="icon">
-              <span class="fas fa-play"></span>
+              <span class="fas fa-user"></span>
             </span>
             <span v-html="player"></span>
           </a>
@@ -107,8 +107,8 @@
           playSound(sound)
         } else {
           snackbar('error','No hay jugadores en este momento')       
-          document.title = '(0) ' + this.documentTitle   
-          playSound('check.mp3')
+          document.title = this.documentTitle   
+          //playSound('check.mp3')
         }        
         this.players = data
       },

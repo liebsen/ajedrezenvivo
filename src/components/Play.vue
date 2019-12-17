@@ -353,53 +353,56 @@
         })
       },
       boardTaps:function(){
-        $('.square-55d63').on('mousedown touchstart',(e) => {
+        var t = this
+        var events = ['click', 'touchstart']
+        document.querySelectorAll('.square-55d63').forEach(item => {
+          events.forEach(event => {
+            item.addEventListener(event, element => {
+              const src = element.target.getAttribute('src')
+              const piece = element.target.getAttribute('data-piece')
+              const target = src ? element.target.parentNode : element.target
+              const square = target.id.substring(0,2)
+              if(!t.moveFrom){
+                if(piece && piece[0]!=t.playerColor[0]) return
+                if(!src){ // blank square
+                  t.removeHighlight()
+                  return
+                } 
+                target.classList.add('highlight-move')
+                t.moveFrom = square
+              } else {
 
-          var t = window.app
-          const src = $(e.target).attr('src')
-          const piece = $(e.target).attr('data-piece')
-          const target = $(e.target).attr('src') ? $(e.target).parent() : $(e.target)
-          const square = target.attr('id').substring(0,2)
+                if(square === t.moveFrom) return
 
-          if(!t.moveFrom){
-            if(piece && piece[0]!=t.playerColor[0]) return
-            if(!src){ // blank square
-              t.removeHighlight()
-              return
-            } 
-            $(e.target).parent().addClass('highlight-move')
-            t.moveFrom = square
-          } else {
+                var moveObj = ({
+                  from: t.moveFrom,
+                  to: square,
+                  promotion: 'q' // NOTE: always promote to a queen for example simplicity
+                });
 
-            if(square === t.moveFrom) return
+                t.moveFrom = null
+                var move = t.game.move(moveObj)
 
-            var moveObj = ({
-              from: t.moveFrom,
-              to: square,
-              promotion: 'q' // NOTE: always promote to a queen for example simplicity
-            });
+                // illegal move
+                if (move === null) {
+                  t.removeHighlight()
+                  t.moveFrom = square
+                  if(src){
+                    target.classList.add('highlight-move')
+                  }
+                  return 'snapback'
+                }
 
-            t.moveFrom = null
-            var move = t.game.move(moveObj)
-
-            // illegal move
-            if (move === null) {
-              t.removeHighlight()
-              if($(e.target).is('img')){
-                $(e.target).parent().addClass('highlight-move')
-              } 
-              t.moveFrom = square
-              return 'snapback'
-            }
-
-            t.board.position(t.game.fen())
-            t.updateMoves(move)
-            move.id = t.$route.params.game
-            move.fen = t.game.fen()
-            move.pgn = t.game.pgn()
-            move.turn = t.game.turn()
-            t.$socket.emit('move', move)
-          }
+                t.board.position(t.game.fen())
+                t.updateMoves(move)
+                move.id = t.$route.params.game
+                move.fen = t.game.fen()
+                move.pgn = t.game.pgn()
+                move.turn = t.game.turn()
+                t.$socket.emit('move', move)
+              }
+            })
+          })
         })
       },
       onDragStart : function(source, piece, position, orientation) {

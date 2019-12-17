@@ -312,6 +312,59 @@
         },100)
       },   
       boardTaps:function(){
+        var t = this
+        var events = ['click', 'touchstart']
+        document.querySelectorAll('.square-55d63').forEach(item => {
+          events.forEach(event => {
+            item.addEventListener(event, element => {
+              const src = element.target.getAttribute('src')
+              const piece = element.target.getAttribute('data-piece')
+              const target = src ? element.target.parentNode : element.target
+              const square = target.id.substring(0,2)
+              if(!t.moveFrom){
+                if(piece && piece[0]!=t.playerColor[0]) return
+                if(!src){ // blank square
+                  t.removeHighlight()
+                  return
+                } 
+                target.classList.add('highlight-move')
+                t.moveFrom = square
+              } else {
+
+                if(square === t.moveFrom) return
+
+                var moveObj = ({
+                  from: t.moveFrom,
+                  to: square,
+                  promotion: 'q' // NOTE: always promote to a queen for example simplicity
+                });
+
+                t.moveFrom = null
+                var move = t.game.move(moveObj)
+
+                // illegal move
+                if (move === null) {
+                  t.removeHighlight()
+                  t.moveFrom = square
+                  if(src){
+                    target.classList.add('highlight-move')
+                  }
+                  return 'snapback'
+                }
+
+                t.board.position(t.game.fen())
+                t.updateMoves(move)
+                move.id = t.$route.params.game
+                move.fen = t.game.fen()
+                move.pgn = t.game.pgn()
+                move.turn = t.game.turn()
+                t.$socket.emit('move', move)
+              }
+            })
+          })
+        })
+      },      
+      boardTaps2:function(){
         $('.square-55d63').on('mousedown touchstart',(e) => {
           var t = window.app
           const src = $(e.target).attr('src')
