@@ -10,11 +10,11 @@
               <h6 class="has-text-left black">
                 <span v-show="data.result==='0-1'">🏆</span>
                 <span v-show="data.black === $root.player.code">
-                  <span class="button is-danger is-small" v-html="tdisplay.w"></span>
+                  <span class="button is-danger is-rounded is-small" v-html="tdisplay.w"></span>
                   <span v-html="data.white"></span>
                 </span> 
                 <span v-show="data.white === $root.player.code">
-                  <span class="button is-danger is-small" v-html="tdisplay.b"></span>
+                  <span class="button is-danger is-rounded is-small" v-html="tdisplay.b"></span>
                   <span v-html="data.black"></span>
                 </span> 
               </h6>
@@ -28,11 +28,11 @@
                 <span v-show="data.result==='1-0'">🏆</span>
                 <span v-show="data.black === $root.player.code">
                   <span v-html="data.black"></span>
-                  <span class="button is-danger is-small" v-html="tdisplay.b"></span>
+                  <span class="button is-danger is-rounded is-small" v-html="tdisplay.b"></span>
                 </span> 
                 <span v-show="data.white === $root.player.code">
                   <span v-html="data.white"></span>
-                  <span class="button is-danger is-small" v-html="tdisplay.w"></span>
+                  <span class="button is-danger is-rounded is-small" v-html="tdisplay.w"></span>
                 </span> 
               </h6>
             </div>

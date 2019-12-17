@@ -6,7 +6,7 @@ import VueSocketIO from 'vue-socket.io'
 import axios from 'axios'
 import snackbar from './components/Snackbar';
 
-const endpoint='https://ajedrezenvivoapi.herokuapp.com'
+const endpoint='https://ajedrezenvivoapidev.herokuapp.com'
 //const endpoint='https://localhost:4000'
 
 require('../assets/css/main.scss')
