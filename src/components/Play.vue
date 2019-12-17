@@ -108,14 +108,20 @@
         })
 
       this.$socket.emit('join',this.$route.params.game)
+      this.$socket.emit('resume',this.$root.player)
       this.gameStart()
     },
     beforeDestroy: function() {
       this.$socket.emit('gone', this.$root.player)
     },
     sockets: {
+      resume: function(data) {
+        if(data.code != this.$root.player.code){
+          snackbar("success", '👤 ' + data.code + ' se unió a la partida')
+        }
+      },
       gone: function(data) {
-        swal("Partida abandonada", 'Lamentablemente 👤 ' + data.code + ' abandonó la partida')
+        snackbar("error", '👤 ' + data.code + ' abandonó la partida')
       },
       play: function(data) {
         if(data.asker === this.$root.player.code){
@@ -359,7 +365,9 @@
               document.querySelector('.square-' + game.to).classList.add('highlight-move')
             }
 
-          },500)
+            t.gameLoaded = true
+
+          },100)
         })
       },
       boardTaps:function(){
@@ -605,6 +613,7 @@
         board:null,
         boardEl:null,
         game:null,
+        gameLoaded: false,
         gameMoves:[],
         pgnIndex:[],
         moveFrom:null,
