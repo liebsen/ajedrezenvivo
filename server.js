@@ -8,7 +8,7 @@ var app = express();
 app.use(sslRedirect());
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/dist',{
-    maxAge: "3d"
+    maxAge: "1d"
 }));
 
 app.get('*', function(req, res){

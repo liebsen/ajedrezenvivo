@@ -9,9 +9,14 @@
             <div class="board-container">
               <h6 class="has-text-left black">
                 <span v-show="data.result==='0-1'">🏆</span>
-                <span v-show="data.black === $root.player.code" v-html="data.white"></span> 
-                <span v-show="data.white === $root.player.code" v-html="data.black"></span> 
-                <span class="has-text-grey" v-html="data.blackelo"></span>
+                <span v-show="data.black === $root.player.code">
+                  <span class="button is-danger is-small" v-html="tdisplay.w"></span>
+                  <span v-html="data.white"></span>
+                </span> 
+                <span v-show="data.white === $root.player.code">
+                  <span class="button is-danger is-small" v-html="tdisplay.b"></span>
+                  <span v-html="data.black"></span>
+                </span> 
               </h6>
               <div class="board" :class="{ 'black' : playerColor === 'black' }">
                 <div class="score-container">
@@ -21,9 +26,14 @@
               </div>
               <h6 class="has-text-right white">
                 <span v-show="data.result==='1-0'">🏆</span>
-                <span v-show="data.black === $root.player.code" v-html="data.black"></span> 
-                <span v-show="data.white === $root.player.code" v-html="data.white"></span> 
-                <span class="has-text-grey" v-html="data.whiteelo"></span>                  
+                <span v-show="data.black === $root.player.code">
+                  <span v-html="data.black"></span>
+                  <span class="button is-danger is-small" v-html="tdisplay.b"></span>
+                </span> 
+                <span v-show="data.white === $root.player.code">
+                  <span v-html="data.white"></span>
+                  <span class="button is-danger is-small" v-html="tdisplay.w"></span>
+                </span> 
               </h6>
             </div>
           </div>
@@ -116,12 +126,22 @@
     },
     sockets: {
       resume: function(data) {
-        if(data.code != this.$root.player.code){
+        var t = this
+        if(data.code != t.$root.player.code){
           snackbar("success", '👤 ' + data.code + ' se unió a la partida')
+        }
+        t.usersJoined.push(data.code)
+        if(t.usersJoined.length === 2){
+          setTimeout(() => {
+            t.switchClock()
+            t.gameStarted = true
+          },1000)
         }
       },
       gone: function(data) {
-        snackbar("error", '👤 ' + data.code + ' abandonó la partida')
+        if(data.code != this.$root.player.code){
+          snackbar("error", '👤 ' + data.code + ' abandonó la partida')
+        }
       },
       play: function(data) {
         if(data.asker === this.$root.player.code){
@@ -213,7 +233,7 @@
             id:this.$route.params.game,
             result:(t.playerColor==='white'?'1-0':'0-1')
           })
-          swal("¡Felicitaciones!", 'Has vencido a ' + t.opponentName, "success")
+          swal("¡Victoria!", 'Has vencido a ' + t.opponentName, "success")
         }
         
         t.announced_game_over = true
@@ -242,7 +262,6 @@
         return moves;
       },
       gameCapitulate: function(){
-        console.log("capitulate")
         this.$socket.emit('capitulate', {
           asker:this.$root.player.code,
           player:this.opponentName
@@ -290,7 +309,24 @@
             t.opponentName = game.white
           }
 
+          if(game.wtime){
+            t.timer.w = parseInt(game.wtime)
+          } else {
+            t.timer.w = parseInt(game.minutes * 60)
+          }
+
+          t.tdisplay.w = t.getTimeDisplay(t.timer.w)
+
+          if(game.btime){
+            t.timer.b = parseInt(game.btime)
+          } else {
+            t.timer.b = parseInt(game.minutes * 60)
+          }
+
+          t.tdisplay.b = t.getTimeDisplay(t.timer.b)
+
           this.evaler = typeof STOCKFISH === "function" ? STOCKFISH() : new Worker('/assets/js/stockfish.js')
+
 
           this.evaler.onmessage = function(event) {
             var t = window.app
@@ -318,7 +354,6 @@
 
           setTimeout(() => {
             t.game = new Chess()
-
             var pos = 'start'
 
             if(game.fen){
@@ -328,11 +363,16 @@
             var cfg = {
               draggable: true,
               position: pos,
-              onDragStart: t.onDragStart,
-              onDrop: t.onDrop,
-              onSnapEnd: t.onSnapEnd,
               pieceTheme:'/assets/img/chesspieces/wikipedia/{piece}.png'
-            };
+            }
+
+            if(game.result){
+              snackbar('success', 'Esta partida ha concluido')
+            } else {
+              cfg.onDragStart = t.onDragStart
+              cfg.onDrop = t.onDrop
+              cfg.onSnapEnd = t.onSnapEnd
+            }
 
             if(pref.pieces){
               cfg.pieceTheme = '/assets/img/chesspieces/' + pref.pieces + '/{piece}.png'
@@ -356,19 +396,70 @@
 
             t.board.resize()
             t.$root.loading = false
-            playSound('game-start.mp3')
-            t.boardTaps()
+
+            if(game.result){
+              playSound('game-end.mp3')
+            } else {
+              playSound('game-start.mp3')
+              t.boardTaps()
+              if(game.wtime && game.btime){
+                t.switchClock()
+                t.gameStarted = true
+              }
+            }
 
             if(game.pgn){
               t.pgnIndex = this.gamePGNIndex(game.pgn)
               document.querySelector('.square-' + game.from).classList.add('highlight-move')
               document.querySelector('.square-' + game.to).classList.add('highlight-move')
             }
-
-            t.gameLoaded = true
-
           },100)
         })
+      },
+      getTimeDisplay: function(time){
+        var min = parseInt(time / 60, 10)
+        var sec = parseInt(time % 60, 10)
+
+        min = min < 10 ? "0" + min : min
+        sec = sec < 10 ? "0" + sec : sec
+
+        return min + ":" + sec
+      },
+      switchClock: function(){
+        var t = this
+        if(t.clock) {
+          clearInterval(t.clock)
+        }
+        t.clock = setInterval(() => {
+          var turn = t.game.turn()
+          t.tdisplay[turn] = t.getTimeDisplay(t.timer[turn]) 
+          if (--t.timer[turn] < 0) {
+            if(turn === t.playerColor[0]){
+              swal({
+                title: '¿Deseas la revancha?',
+                text: 'Has pedrido por tiempo. ' + t.opponentName + ' ganó la partida',
+                buttons: ["No", "Sí"]
+              })
+              .then(accept => {
+                if (accept) {
+                  this.$socket.emit('invite', {
+                    asker:this.$root.player.code,
+                    player:t.opponentName
+                  })
+                } else {
+                  console.log('Clicked on cancel')
+                }
+              })
+            } else {
+              t.$socket.emit('data',{
+                id:this.$route.params.game,
+                result:(t.playerColor==='white'?'1-0':'0-1')
+              })
+              swal("¡Victoria!", 'Has vencido por tiempo a ' + t.opponentName, "success")
+            }
+            clearInterval(t.clock)
+          }
+        },1000)
       },
       boardTaps:function(){
         var t = this
@@ -376,6 +467,7 @@
         document.querySelectorAll('.square-55d63').forEach(item => {
           events.forEach(event => {
             item.addEventListener(event, element => {
+              if(!t.gameStarted) return
               const src = element.target.getAttribute('src')
               const piece = element.target.getAttribute('data-piece')
               const target = src ? element.target.parentNode : element.target
@@ -433,19 +525,21 @@
       },
       onDrop : function(source, target) {
         var t = this
+
+        if(!t.gameStarted) return
         //move object
         var moveObj = ({
           from: source,
           to: target,
           promotion: 'q' // NOTE: always promote to a queen for example simplicity
-        });
+        })
 
         // see if the move is legal
         var move = t.game.move(moveObj)
 
         // illegal move
         if (move === null) {
-          return 'snapback';
+          return 'snapback'
         }
 
         t.moveFrom = null
@@ -456,8 +550,8 @@
         move.turn = t.game.turn()
         t.$socket.emit('move', move)
       },
-      onSnapEnd : function() {
-        this.board.position(this.game.fen());
+      onSnapEnd: function() {
+        this.board.position(this.game.fen())
       },
       updateMoves:function(move){
         var t = this
@@ -488,7 +582,7 @@
               id:this.$route.params.game,
               result:(t.playerColor==='white'?'1-0':'0-1')
             })
-            swal("¡Felicitaciones!", 'Has vencido a ' + t.opponentName, "success")
+            swal("¡Victoria!", 'Has vencido a ' + t.opponentName, "success")
           }
           
           sound = 'game-end.mp3'
@@ -510,43 +604,37 @@
           if (t.game.in_check() === true) {
             sound = 'check.mp3'
           }
+
+          t.removeHighlight()
+          playSound(sound)
+
+          document.querySelector('.square-' + move.from).classList.add('highlight-move')
+          document.querySelector('.square-' + move.to).classList.add('highlight-move')
+
+          if (t.game.in_check() === true) {
+            document.querySelector('img[data-piece="' + t.game.turn() + 'K"]').parentNode.classList.add('in-check')
+          }
+          
+          t.pgnIndex = this.gamePGNIndex(t.game.pgn())
+
+          if(t.game.history().length < 14){
+            setTimeout(() => {
+              t.eco.forEach((eco,i) => {
+                if(eco.pgn === this.game.pgn()){
+                  t.opening = eco.name
+                  t.ecode = eco.eco
+                }
+              })
+            },1000)
+          }
+
+          t.switchClock()
+          t.$socket.emit('data',{
+            wtime: t.timer.w,
+            btime: t.timer.b,
+            id:this.$route.params.game
+          })
         }
-
-        t.removeHighlight()
-        playSound(sound)
-
-        document.querySelector('.square-' + move.from).classList.add('highlight-move')
-        document.querySelector('.square-' + move.to).classList.add('highlight-move')
-
-        if (t.game.in_check() === true) {
-          document.querySelector('img[data-piece="' + t.game.turn() + 'K"]').parentNode.classList.add('in-check')
-        }
-        
-        t.pgnIndex = this.gamePGNIndex(t.game.pgn())
-
-        if(t.game.history().length < 14){
-          setTimeout(() => {
-            t.eco.forEach((eco,i) => {
-              if(eco.pgn === this.game.pgn()){
-                t.opening = eco.name
-                t.ecode = eco.eco
-              }
-            })
-          },1000)
-        }
-      },
-      gameRestart: function() {
-        var t = this
-        t.game.reset()
-        t.announced_game_over = false
-        t.pgnIndex = []
-        t.ecode = ''
-        t.opening = ''
-        t.status = ''
-        //t.uciCmd('setoption name Contempt value 0')
-        //t.setSkillLevel(0)
-        //t.uciCmd('setoption name King Safety value 0')
-        t.gameStart(t.time.level)
       },
       removeHighlight : function() {
         document.querySelectorAll('.square-55d63').forEach((item) => {
@@ -588,22 +676,15 @@
           }
         })
         return data
-      },  
-      gameFlip: function(){
-        this.board.flip()
-        const head = document.querySelector('.b-area > .head').innerHTML
-        const foot = document.querySelector('.b-area > .foot').innerHTML
-        document.querySelector('.b-area > .head').innerHTML = foot
-        document.querySelector('.b-area > .foot').innerHTML = head
-      },
-      gameResign: function(){},
-      gameAskDraw: function(){},
-      gameUndo: function(){}
+      }
     },
     data () {
       return {
         data:{},
         eco:{},
+        timer:{w:null,b:null},
+        tdisplay:{w:null,b:null},
+        clock:null,
         opening:null,
         score:0.10,
         vscore:49,
@@ -613,7 +694,8 @@
         board:null,
         boardEl:null,
         game:null,
-        gameLoaded: false,
+        gameStarted:false,
+        usersJoined:[],
         gameMoves:[],
         pgnIndex:[],
         moveFrom:null,

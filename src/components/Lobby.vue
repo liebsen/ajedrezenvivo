@@ -128,7 +128,7 @@
         if(data.player === this.$root.player.code){
           swal({
             title: "¿Aceptás la partida?",
-            text: '👤 ' + data.asker + ' te está invitando',
+            text: '👤 ' + data.asker + ' te está invitando a una partida de ' + data.minutes + ' minutos',
             buttons: ["Declinar", "Aceptar"]
           })
           .then(accept => {
@@ -136,7 +136,7 @@
               axios.post( this.$root.endpoint + '/create', {
                 white: data.asker,
                 black: data.player,
-                minutes: 10,
+                minutes: data.minutes,
                 broadcast: true
               }).then((response) => {
                 if(response.data.status === 'success'){
@@ -160,14 +160,41 @@
     },
     methods: {
       play: function(player){
+        var t = this
+        const template = (`<div class="dialog-invite"><div><input type="radio" class="is-checkradio has-background-color is-success" name="clock" id="min1" value="30" checked><label for="min30">30 min</label></div><div><input type="radio" class="is-checkradio has-background-color is-success" name="clock" id="min10" value="10"><label for="min5">10 min</label></div><div><input type="radio" class="is-checkradio has-background-color is-success" name="clock" id="min5" value="5"><label for="min3">5 min</label></div></div>`);
         swal({
-          title: "Esperando confirmación...",
-          text: '👤 ' + player + ' debe responder la solicitud',
-          buttons: false
-        })
-        this.$socket.emit('invite', {
-          asker:this.$root.player.code,
-          player:player          
+          title: 'Opciones de partida',
+          buttons: ["Cancelar", "Invitar"],
+          content: {
+            element: 'div',
+            attributes: {
+              innerHTML: `${template}`,
+            }
+          }
+        }).then(accept => {
+          if (accept) {
+            var options = document.getElementsByName("clock")
+            var minutes = null
+            if (options) {
+              for (var i = 0; i < options.length; i++) {
+                if (options[i].checked){
+                  minutes = options[i].value;
+                }
+              }
+            }
+
+            swal({
+              title: "Esperando confirmación...",
+              text: '👤 ' + player + ' debe responder la solicitud',
+              buttons: false
+            })
+
+            t.$socket.emit('invite', {
+              asker:t.$root.player.code,
+              player:player,
+              minutes: minutes      
+            })
+          }
         })
       }
     },

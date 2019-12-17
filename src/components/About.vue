@@ -56,10 +56,10 @@
 
       <ul>
         <li>
-          <a href="https://github.com/martinfrith/livechessapi.git" target="_blank">API REST</a>
+          <a href="https://github.com/martinfrith/ajedrezenvivoapi.git" target="_blank">API REST</a>
         </li>
         <li>  
-          <a href="https://github.com/martinfrith/livechessvue.git" target="_blank">APP</a>
+          <a href="https://github.com/martinfrith/ajedrezenvivo.git" target="_blank">APP</a>
         </li>
       </ul>
 
@@ -70,7 +70,7 @@
       </ul>
       <h4>Agradecimientos</h4>
         <p>AjedrezEV quiere agradecer a todas las personas que contribuyen con este proyecto directa o indirectamente usando la aplicación.</p>
-        <p>Un agradecimiento general a todo el equipo de desarrollo y testing de <a href="https://chess-db.com" target="_blank">ChessDB</a>, <a href="https://nodejs.org">NodeJS</a> y <a href="https://vuejs.org">VueJS</a> y en especial a <a href="https://github.com/jhlywa">Jeff Hlywa</a> de <a href="https://github.com/jhlywa/chess.js">chess.js</a> y a <a href="https://github.com/oakmac">Chris Oakman</a> de <a href="https://github.com/oakmac/chessboardjs">chessboard.js</a> como así también a todo su equipo de desarrollo por su contribución al render y al motor de juego. </p>
+        <p>Un agradecimiento especial a <a href="https://github.com/jhlywa">Jeff Hlywa</a> de <a href="https://github.com/jhlywa/chess.js">chess.js</a>, a <a href="https://github.com/oakmac">Chris Oakman</a> de <a href="https://github.com/oakmac/chessboardjs">chessboard.js</a> y a <a href="https://github.com/nmrugg">Nathan Rugg</a> de <a href="https://github.com/nmrugg/stockfish.js">stockfish.js</a>. </p>
 
         <blockquote class="has-background-info"><span class="has-text-white">Son algunos desarrolladores que gracias a su colaboración colectiva apostando <em>su</em> calidad de trabajo individual <em>en</em> la comunidad <em>sin fines de lucro</em> quienes nos permiten acceder y aprovechar software mas especializado y eficiente cada día. ¡Muchas gracias a todos ellos! </span></blockquote>
 

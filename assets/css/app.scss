@@ -32,6 +32,16 @@ body > div {
   color: #00e676!important;
 }
 
+.dialog-invite {
+  div {
+    text-align: left;
+    margin-top: 0.25rem;
+    label {
+      display: inline-block;
+      min-width: 100px;
+    }
+  }
+}
 /* spinner */
 
 .spinner-container {
