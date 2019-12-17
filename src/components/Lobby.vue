@@ -12,39 +12,38 @@
         <h5>Invitá a tus amigos a jugar online&nbsp;</h5>
         <div class="column is-social-box has-text-centered">
           <div class="columns is-mobile is-vcentered has-text-centered">
-            <div class="column">
-              <a :href="'mailto:?Body=Estoy como ' + $root.player.code + '\nhttps://ajedrezenvivo.herokuapp.com/lobby&Subject=¿Querés jugar ajedrez conmigo? Estoy como ' + $root.player.code" target="_blank">
-                <span class="icon has-text-warning is-size-3">
-                  <span class="fas fa-envelope"></span>
+            <div class="column is-hidden-tablet">
+              <a :href="'whatsapp://send?text=¿Querés jugar ajedrez conmigo? Estoy como ' + $root.player.code + ' https://ajedrezenvivo.herokuapp.com/lobby'" target="_blank">
+                <span class="icon has-text-whatsapp is-size-3">
+                  <span class="fab fa-whatsapp-square"></span>
                 </span>
               </a>
             </div>
-
+            <div class="column is-hidden-mobile">
+              <a :href="'https://web.whatsapp.com/send?text=¿Querés jugar ajedrez conmigo? Estoy como ' + $root.player.code + ' https://ajedrezenvivo.herokuapp.com/lobby'" target="_blank">
+                <span class="icon has-text-whatsapp is-size-3">
+                  <span class="fab fa-whatsapp-square"></span>
+                </span>
+              </a>
+            </div>
             <div class="column">
               <a :href="'http://www.facebook.com/sharer.php?u=https://ajedrezenvivo.herokuapp.com/lobby&quote=¿Querés jugar ajedrez conmigo? Estoy como ' + $root.player.code + ' #chess'" target="_blank">
-                <span class="icon has-text-info is-size-3">
+                <span class="icon has-text-facebook is-size-3">
                   <span class="fab fa-facebook"></span>
                 </span>
               </a>
             </div>
             <div class="column">
               <a :href="'https://twitter.com/share?url=https://ajedrezenvivo.herokuapp.com/lobby&amp;text=¿Querés jugar ajedrez conmigo? Estoy como ' + $root.player.code + ' #chess'" target="_blank">
-                <span class="icon has-text-info is-size-3">
+                <span class="icon has-text-twitter is-size-3">
                   <span class="fab fa-twitter"></span>
                 </span>
               </a>
             </div>
-            <div class="column is-hidden-tablet">
-              <a :href="'whatsapp://send?text=¿Querés jugar ajedrez conmigo? Estoy como ' + $root.player.code + ' https://ajedrezenvivo.herokuapp.com/lobby'" target="_blank">
-                <span class="icon has-text-success is-size-3">
-                  <span class="fab fa-whatsapp"></span>
-                </span>
-              </a>
-            </div>
-            <div class="column is-hidden-mobile">
-              <a :href="'https://web.whatsapp.com/send?text=¿Querés jugar ajedrez conmigo? Estoy como ' + $root.player.code + ' https://ajedrezenvivo.herokuapp.com/lobby'" target="_blank">
-                <span class="icon has-text-success is-size-3">
-                  <span class="fab fa-whatsapp"></span>
+            <div class="column">
+              <a :href="'mailto:?Body=Estoy como ' + $root.player.code + '\nhttps://ajedrezenvivo.herokuapp.com/lobby&Subject=¿Querés jugar ajedrez conmigo? Estoy como ' + $root.player.code" target="_blank">
+                <span class="icon has-text-primary is-size-3">
+                  <span class="fas fa-envelope-square"></span>
                 </span>
               </a>
             </div>
@@ -106,7 +105,7 @@
           }
           playSound(sound)
         } else {
-          snackbar('error','No hay jugadores en este momento')       
+          snackbar('default','No hay jugadores en este momento')       
           document.title = this.documentTitle   
           //playSound('check.mp3')
         }        

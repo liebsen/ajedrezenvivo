@@ -364,59 +364,6 @@
           })
         })
       },      
-      boardTaps2:function(){
-        $('.square-55d63').on('mousedown touchstart',(e) => {
-          var t = window.app
-          const src = $(e.target).attr('src')
-          const piece = $(e.target).attr('data-piece')
-          const target = $(e.target).attr('src') ? $(e.target).parent() : $(e.target)
-          const square = target.attr('id').substring(0,2)
-
-          
-          if(!t.moveFrom){
-            if(piece && piece[0]!=t.playerColor[0]) return
-            if(!src){ // blank square
-              t.removeHighlight()
-              return
-            } 
-            $(e.target).parent().addClass('highlight-move')
-            t.moveFrom = square
-          } else {
-
-            if(square === t.moveFrom) return
-
-            var moveObj = ({
-              from: t.moveFrom,
-              to: square,
-              promotion: 'q' // NOTE: always promote to a queen for example simplicity
-            });
-
-            t.moveFrom = null
-            var move = t.game.move(moveObj)
-
-            // illegal move
-            if (move === null) {
-              t.removeHighlight()
-              if($(e.target).is('img')){
-                $(e.target).parent().addClass('highlight-move')
-              } 
-              t.moveFrom = square
-              return 'snapback'
-            }
-
-            t.isEngineRunning = false
-            t.uciCmd('position startpos moves' + t.get_moves())
-            t.uciCmd("go " + (t.time.depth ? "depth " + t.time.depth : ""))
-
-            t.board.position(t.game.fen())
-            t.updateMoves(move)
-
-            setTimeout(() => {
-              t.prepareMove();  
-            },t.ucitime)    
-          }
-        })
-      },
       get_moves: function()
       {
         var moves = '';
