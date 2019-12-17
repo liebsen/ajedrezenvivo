@@ -7,7 +7,8 @@
         </span>
         <span>Lobby</span>
       </h3>
-      <div v-if="players.length < 2" class="has-text-centered">
+      <div v-show="players.length < 2" class="has-text-centered">
+        <h1>&nbsp;</h1>
         <h5>Invitá a tus amigos a jugar online&nbsp;</h5>
         <div class="column is-social-box has-text-centered">
           <div class="columns is-mobile is-vcentered has-text-centered">
@@ -50,7 +51,7 @@
           </div>
         </div>
       </div>
-      <div v-for="player in players" else>
+      <div v-show="players.length > 1" v-for="player in players">
         <div v-if="player != $root.player.code">
           <a href="#" class="button is-text is-rounded" @click="play(player)">
             <span class="icon">
