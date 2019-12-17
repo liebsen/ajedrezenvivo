@@ -101,6 +101,7 @@
     mounted: function(){
       this.$root.loading = true
       window.app = this
+      window.addEventListener('beforeunload', this.beforeunload)
       axios.get('/assets/json/eco_es.json')
         .then((response)=>{
           this.eco = response.data
@@ -109,7 +110,13 @@
       this.$socket.emit('join',this.$route.params.game)
       this.gameStart()
     },
+    beforeDestroy: function() {
+      this.$socket.emit('gone', this.$root.player)
+    },
     sockets: {
+      gone: function(data) {
+        swal("Partida abandonada", 'Lamentablemente 👤 ' + data.code + ' abandonó la partida')
+      },
       play: function(data) {
         if(data.asker === this.$root.player.code){
           swal.close()
@@ -119,7 +126,7 @@
       reject: function(data) {
         if(data.asker === this.$root.player.code){
           swal.close()
-          swal("Partida declinada", 'Lamentablemente ' + data.player + ' declinó la partida.')
+          swal("Partida declinada", 'Lamentablemente 👤 ' + data.player + ' declinó la partida')
         }
       },
       invite: function(data) {
@@ -128,7 +135,7 @@
           swal.close()
           swal({
             title: "¿Aceptás la partida?",
-            text: '👤 ' + data.asker + ' te pide una revancha.',
+            text: '👤 ' + data.asker + ' solicita una revancha',
             buttons: ["Declinar", "Aceptar"]
           })
           .then(accept => {
@@ -182,7 +189,7 @@
         if(data.asker === this.$root.player.code){
           swal({
             title: '¿Deseas la revancha?',
-            text: 'Has capitulado. ' + t.opponentName + ' ganó la partida.',
+            text: 'Has capitulado. ' + t.opponentName + ' ganó la partida',
             buttons: ["No", "Sí"]
           })
           .then(accept => {
@@ -208,6 +215,9 @@
       }
     },
     methods: {
+      beforeunload: function handler(event) {
+        this.$socket.emit('gone', this.$root.player)
+      },      
       uciCmd: function(cmd, which) {
         //console.log("UCI: " + cmd);
         (which || this.evaler).postMessage(cmd);
@@ -452,7 +462,7 @@
           if(t.game.turn() === t.playerColor[0]){
             swal({
               title: '¿Deseas la revancha?',
-              text: t.opponentName + ' ganó la partida.',
+              text: t.opponentName + ' ganó la partida',
               buttons: ["No", "Sí"]
             })
             .then(accept => {

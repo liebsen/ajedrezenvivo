@@ -41,7 +41,7 @@
               </a>
             </div>
             <div class="column">
-              <a :href="'mailto:?Body=Estoy como ' + $root.player.code + '\nhttps://ajedrezenvivo.herokuapp.com/lobby&Subject=¿Querés jugar ajedrez conmigo? Estoy como ' + $root.player.code" target="_blank">
+              <a :href="'mailto:?Body=Estoy como ' + $root.player.code + ' https://ajedrezenvivo.herokuapp.com/lobby&Subject=¿Querés jugar ajedrez conmigo?'" target="_blank">
                 <span class="icon has-text-primary is-size-3">
                   <span class="fas fa-envelope-square"></span>
                 </span>
