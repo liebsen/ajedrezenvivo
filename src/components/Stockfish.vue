@@ -225,8 +225,7 @@
             /// Did the AI move?
 
             if(match) {
-
-              if(t.isEngineRunning) {
+              if(t.hintMode || t.isEngineRunning) {
                 const move = t.game.move({from: match[1], to: match[2], promotion: match[3]});
                 if(!t.hintMode){
                   t.board.position(t.game.fen())
@@ -387,11 +386,10 @@
         }
       },  
       showHint: function(){
-        var t = this
-        t.hintMode = true
-        t.isEngineRunning = false
-        t.uciCmd('position startpos moves' + t.get_moves());
-        t.uciCmd("go " + (t.time.depth ? "depth " + t.time.depth : ""));
+        this.hintMode = true
+        this.isEngineRunning = false
+        this.uciCmd('position startpos moves' + this.get_moves());
+        this.uciCmd("go " + (this.time.depth ? "depth " + this.time.depth : ""));
       },
       removeHighlight: function(){
         document.querySelectorAll('.square-55d63').forEach((item) => {

@@ -82,14 +82,14 @@
             top: 0;
             left: -8px;
             width: 5px;
-            background-color: white;
+            background-color: #f8f8f8;
             height: 100%;
             border-radius: 3px;
 
             .score {
                 width: 5px;
                 border-radius: 3px;
-                background-color: black;
+                background-color: #333;
                 max-height: 49%;
                 height: 100%;
                 transition: max-height ease-in 0.25s;
