@@ -75,8 +75,7 @@
                 <span>nivel</span> 
                 <span v-html="time.level / 2"></span>
               </span>
-              <span class="button thinking">
-              </span>
+              <span class="button is-small thinking"></span>
             </h6>
             <div class="board" :class="{ 'black' : playerColor==='black' }">
               <div class="score-container">
