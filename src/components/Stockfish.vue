@@ -70,11 +70,12 @@
           <div class="board-container">
             <h6 class="has-text-left black">
               <span v-show="data.result==='0-1'">🏆</span>
-              <span v-show="data.black === $root.player.code" v-html="data.white"></span> 
-              <span v-show="data.white === $root.player.code" v-html="data.black"></span> 
+              <span>Stockfish</span> 
               <span>
                 <span>nivel</span> 
                 <span v-html="time.level / 2"></span>
+              </span>
+              <span class="button thinking">
               </span>
             </h6>
             <div class="board" :class="{ 'black' : playerColor==='black' }">
@@ -85,8 +86,7 @@
             </div>
             <h6 class="has-text-right white">
               <span v-show="data.result==='1-0'">🏆</span>
-              <span v-show="data.black === $root.player.code" v-html="data.black"></span> 
-              <span v-show="data.white === $root.player.code" v-html="data.white"></span> 
+              <span v-html="$root.player.code"></span> 
             </h6>
           </div>
         </div>
@@ -228,11 +228,13 @@
             /// Did the AI move?
 
             if(match) {
+
               if(t.isEngineRunning) {
                 const move = t.game.move({from: match[1], to: match[2], promotion: match[3]});
                 if(!t.hintMode){
                   t.board.position(t.game.fen())
                   t.updateMoves(move)
+                  document.querySelector('.thinking').classList.remove('is-loading')
                 } else {
                   document.querySelector('.square-' + move.from).classList.add('highlight-move')
                   document.querySelector('.square-' + move.to).classList.add('highlight-move')
@@ -306,7 +308,7 @@
           t.$root.loading = false
           playSound('game-start.mp3')
           t.boardTaps()
-        },500)
+        },100)
       },   
       boardTaps:function(){
         $('.square-55d63').on('mousedown touchstart',(e) => {
@@ -376,6 +378,7 @@
       },
       prepareMove : function() {
         var t = this
+        document.querySelector('.thinking').classList.add('is-loading')
         if(!t.game.game_over()) {
           t.isEngineRunning = true
           t.uciCmd('position startpos moves' + t.get_moves())
@@ -534,11 +537,12 @@
         
         t.uciCmd('setoption name Skill Level value ' + skill);
         ///NOTE: Stockfish level 20 does not make errors (intentially), so these numbers have no effect on level 20.
-        /// Level 0 starts at 1
-        err_prob = Math.round((skill * 6.35) + 10);
         /// Level 0 starts at 10
         max_err = Math.round((skill * -0.5) + 900);
         //max_err = Math.round((skill * -0.25) + 5);
+
+        /// Level 0 starts at 1
+        err_prob = Math.round((skill * 6.35) + 10);
 
         t.uciCmd('setoption name Skill Level Maximum Error value ' + max_err);
         t.uciCmd('setoption name Skill Level Probability value ' + err_prob);
@@ -614,6 +618,7 @@
         moveFrom:null,
         hintMode: false,
         isEngineRunning: false,
+        engineStatus:{},
         announced_game_over:false,
         playerColor:'white',
         data:{
