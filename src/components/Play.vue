@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="status" v-show="!gameStarted">
-      <h3>Esperando jugadores...</h3>
+      <span class="button is-rounded is-info">Esperando jugadores...</span>
     </div>  
     <div class="container" v-show="gameStarted">
       <div class="content column">
@@ -137,10 +137,10 @@
         })
 
       this.gameLoad()
-      this.$socket.emit('join',this.$route.params.game)
-      
+      this.$socket.emit('join',this.$route.params.game)      
     },
     beforeDestroy: function() {
+      clearInterval(t.clock)
       this.$socket.emit('gone', this.$root.player)
     },
     sockets: {
