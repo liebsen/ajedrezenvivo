@@ -14,35 +14,35 @@
           <div class="columns is-mobile is-vcentered has-text-centered">
             <div class="column is-hidden-tablet">
               <a :href="'whatsapp://send?text=¿Querés jugar ajedrez conmigo? Estoy como ' + $root.player.code + ' https://ajedrezenvivo.herokuapp.com/lobby'" target="_blank">
-                <span class="icon has-text-whatsapp is-size-3">
+                <span class="icon has-text-whatsapp is-size-2">
                   <span class="fab fa-whatsapp-square"></span>
                 </span>
               </a>
             </div>
             <div class="column is-hidden-mobile">
               <a :href="'https://web.whatsapp.com/send?text=¿Querés jugar ajedrez conmigo? Estoy como ' + $root.player.code + ' https://ajedrezenvivo.herokuapp.com/lobby'" target="_blank">
-                <span class="icon has-text-whatsapp is-size-3">
+                <span class="icon has-text-whatsapp is-size-2">
                   <span class="fab fa-whatsapp-square"></span>
                 </span>
               </a>
             </div>
             <div class="column">
               <a :href="'http://www.facebook.com/sharer.php?u=https://ajedrezenvivo.herokuapp.com/lobby&quote=¿Querés jugar ajedrez conmigo? Estoy como ' + $root.player.code + ' #chess'" target="_blank">
-                <span class="icon has-text-facebook is-size-3">
+                <span class="icon has-text-facebook is-size-2">
                   <span class="fab fa-facebook"></span>
                 </span>
               </a>
             </div>
             <div class="column">
               <a :href="'https://twitter.com/share?url=https://ajedrezenvivo.herokuapp.com/lobby&amp;text=¿Querés jugar ajedrez conmigo? Estoy como ' + $root.player.code + ' #chess'" target="_blank">
-                <span class="icon has-text-twitter is-size-3">
+                <span class="icon has-text-twitter is-size-2">
                   <span class="fab fa-twitter"></span>
                 </span>
               </a>
             </div>
             <div class="column">
               <a :href="'mailto:?Body=Estoy como ' + $root.player.code + ' https://ajedrezenvivo.herokuapp.com/lobby&Subject=¿Querés jugar ajedrez conmigo?'" target="_blank">
-                <span class="icon has-text-primary is-size-3">
+                <span class="icon has-text-primary is-size-2">
                   <span class="fas fa-envelope-square"></span>
                 </span>
               </a>
@@ -161,7 +161,7 @@
     methods: {
       play: function(player){
         var t = this
-        const template = (`<div class="dialog-invite"><div><input type="radio" class="is-checkradio has-background-color is-success" name="clock" id="min30" value="30" checked><label for="min30">30 min</label></div><div><input type="radio" class="is-checkradio has-background-color is-success" name="clock" id="min10" value="10"><label for="min10">10 min</label></div><div><input type="radio" class="is-checkradio has-background-color is-success" name="clock" id="min5" value="5"><label for="min5">5 min</label></div></div>`);
+        const template = (`<div class="dialog-invite"><div><input type="radio" class="is-checkradio has-background-color is-success" name="clock" id="min30" value="1" checked><label for="min30">30 min</label></div><div><input type="radio" class="is-checkradio has-background-color is-success" name="clock" id="min10" value="10"><label for="min10">10 min</label></div><div><input type="radio" class="is-checkradio has-background-color is-success" name="clock" id="min5" value="5"><label for="min5">5 min</label></div></div>`);
         swal({
           title: 'Opciones de partida',
           buttons: ["Cancelar", "Invitar"],

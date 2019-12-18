@@ -40,7 +40,6 @@
             </div>
           </div>
           <div class="column datospartida">
-            <!--h5 class="has-text-black">♛ Datos de la partida</h5-->
             <div v-if="Object.keys(data).length">
               <div class="columns">
                 <div class="column">
@@ -62,13 +61,11 @@
                       <div class="moveNumCell" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
                         <span v-html="(index+1)"></span>
                       </div>
-
                       <div class="moveCell moveSAN movew" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
                         <a class="moveindex" :href="'#'+(move.i-2)">
                           <span v-html="move.white"></span>
                         </a>
                       </div>
-
                       <div class="moveCell moveSAN moveb" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
                         <a class="moveindex" :href="'#'+(move.i-1)">
                           <span v-html="move.black"></span>
@@ -78,20 +75,6 @@
                   </div>
                 </div>
               </div>
-              <div class="columns">
-                <div class="column" v-show="data.date && data.date !='?'">
-                  <span class=""  v-html="data.date"></span>
-                </div>
-                <div class="column" v-show="data.event && data.event !='?'">
-                  <span class="" v-html="data.event"></span>
-                </div>
-                <div class="column" v-show="data.round && data.round !='?'">
-                  <span class="" v-html="data.round"></span>
-                </div>
-                <div class="column" v-show="data.site && data.site !='?'">
-                  <span class=""  v-html="data.site"></span>
-                </div>
-              </div>   
             </div>
           </div>
         </div>
@@ -134,10 +117,7 @@
         t.usersJoined.push(data.code)
         
         setTimeout(() => {
-          console.log(t.data.result)
-
           if(t.usersJoined.length === 2 && !t.data.result){
-            console.log("1")
             t.switchClock()
             t.gameStarted = true
           }
@@ -217,7 +197,9 @@
       },
       capitulate: function(data){
         var t = this
+        var result = null
         if(data.asker === this.$root.player.code){
+          result = (t.playerColor==='black'?'1-0':'0-1')
           swal({
             title: '¿Deseas la revancha?',
             text: 'Has capitulado. ' + t.opponentName + ' ganó la partida',
@@ -234,13 +216,15 @@
             }
           })
         } else {
-          const result = (t.playerColor==='white'?'1-0':'0-1')
+          result = (t.playerColor==='white'?'1-0':'0-1')
           t.$socket.emit('data',{
             id:this.$route.params.game,
             result:result
           })
-          t.data.result = result
           swal("¡Victoria!", 'Has vencido a ' + t.opponentName, "success")
+        }
+        if(result){
+          t.data.result = result
         }
         clearInterval(t.clock)
         t.announced_game_over = true
@@ -411,7 +395,6 @@
               t.boardTaps()
               this.$socket.emit('resume',this.$root.player)
               if(game.wtime && game.btime){
-                console.log("2")
                 t.switchClock()
                 t.gameStarted = true
               }
@@ -441,9 +424,12 @@
         }
         t.clock = setInterval(() => {
           var turn = t.game.turn()
+          var result = null
           t.tdisplay[turn] = t.getTimeDisplay(t.timer[turn]) 
           if (--t.timer[turn] < 0) {
+            t.timer[turn] = 0
             if(turn === t.playerColor[0]){
+              result = (t.playerColor==='black'?'1-0':'0-1')
               swal({
                 title: '¿Deseas la revancha?',
                 text: 'Has sido derrotado por tiempo. ' + t.opponentName + ' ganó la partida',
@@ -460,13 +446,20 @@
                 }
               })
             } else {
-              const result = (t.playerColor==='white'?'1-0':'0-1')
+              result = (t.playerColor==='white'?'1-0':'0-1')
               t.$socket.emit('data',{
                 id:this.$route.params.game,
                 result:result
               })
-              t.data.result = result
               swal("¡Victoria!", 'Has vencido por tiempo a ' + t.opponentName, "success")
+            }
+            t.$socket.emit('data',{
+              wtime: t.timer.w,
+              btime: t.timer.b,
+              id:this.$route.params.game
+            })
+            if(result){
+              t.data.result = result
             }
             clearInterval(t.clock)
           }
