@@ -165,7 +165,7 @@
           t.usersJoined.push(data.code)
         }
         setTimeout(() => {
-          if(t.usersJoined.length === 2 && !t.data.result && t.playerColor === 'white'){
+          if(t.usersJoined.length === 2 && !t.data.result && t.$root.player.code === t.data.white){
             t.$socket.emit('start',data)
           }
         },1000)
@@ -390,17 +390,14 @@
 
         t.board.resize()
         t.$root.loading = false
-        //t.switchClock()
-
 
         if(t.data.result){
           playSound('game-end.mp3')
         } else {
           playSound('game-start.mp3')
           t.boardTaps()
-          if(t.data.wtime && t.data.btime){
-            t.gameStarted = true
-          }
+          t.gameStarted = true
+          t.switchClock()
         }
         
         if(t.data.pgn){
