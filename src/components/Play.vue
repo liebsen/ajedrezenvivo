@@ -8,14 +8,15 @@
           <div class="column">
             <div class="board-container">
               <h6 class="has-text-left black">
-                <span v-show="data.result==='0-1'">🏆</span>
                 <span v-show="data.black === $root.player.code">
-                  <span class="button is-danger is-rounded is-small" v-html="tdisplay.w"></span>
-                  <span v-html="data.white"></span>
+                  <span class="button has-background-white has-text-black is-rounded is-small" v-html="tdisplay.w"></span>
+                  <span v-html="data.white" class="has-timer"></span>
+                  <span v-show="data.result==='1-0'">🏆</span>
                 </span> 
                 <span v-show="data.white === $root.player.code">
-                  <span class="button is-danger is-rounded is-small" v-html="tdisplay.b"></span>
-                  <span v-html="data.black"></span>
+                  <span class="button has-background-grey has-text-white is-rounded is-small" v-html="tdisplay.b"></span>
+                  <span v-html="data.black" class="has-timer"></span>
+                  <span v-show="data.result==='0-1'">🏆</span>
                 </span> 
               </h6>
               <div class="board" :class="{ 'black' : playerColor === 'black' }">
@@ -25,14 +26,15 @@
                 <div id="board"></div>
               </div>
               <h6 class="has-text-right white">
-                <span v-show="data.result==='1-0'">🏆</span>
                 <span v-show="data.black === $root.player.code">
-                  <span v-html="data.black"></span>
-                  <span class="button is-danger is-rounded is-small" v-html="tdisplay.b"></span>
+                  <span v-show="data.result==='0-1'">🏆</span>
+                  <span v-html="data.black" class="has-timer"></span>
+                  <span class="button has-background-grey has-text-white is-rounded is-small" v-html="tdisplay.b"></span>
                 </span> 
                 <span v-show="data.white === $root.player.code">
-                  <span v-html="data.white"></span>
-                  <span class="button is-danger is-rounded is-small" v-html="tdisplay.w"></span>
+                  <span v-show="data.result==='1-0'">🏆</span>
+                  <span v-html="data.white" class="has-timer"></span>
+                  <span class="button has-background-white has-text-black is-rounded is-small" v-html="tdisplay.w"></span>
                 </span> 
               </h6>
             </div>
@@ -118,7 +120,6 @@
         })
 
       this.$socket.emit('join',this.$route.params.game)
-      this.$socket.emit('resume',this.$root.player)
       this.gameStart()
     },
     beforeDestroy: function() {
@@ -131,12 +132,16 @@
           snackbar("success", '👤 ' + data.code + ' se unió a la partida')
         }
         t.usersJoined.push(data.code)
-        if(t.usersJoined.length === 2){
-          setTimeout(() => {
+        
+        setTimeout(() => {
+          console.log(t.data.result)
+
+          if(t.usersJoined.length === 2 && !t.data.result){
+            console.log("1")
             t.switchClock()
             t.gameStarted = true
-          },1000)
-        }
+          }
+        },1000)
       },
       gone: function(data) {
         if(data.code != this.$root.player.code){
@@ -229,13 +234,15 @@
             }
           })
         } else {
+          const result = (t.playerColor==='white'?'1-0':'0-1')
           t.$socket.emit('data',{
             id:this.$route.params.game,
-            result:(t.playerColor==='white'?'1-0':'0-1')
+            result:result
           })
+          t.data.result = result
           swal("¡Victoria!", 'Has vencido a ' + t.opponentName, "success")
         }
-        
+        clearInterval(t.clock)
         t.announced_game_over = true
         playSound('game-end.mp3')
       }
@@ -301,6 +308,7 @@
           var pgn = game.pgn || ''
           t.gameMoves = t.gamePGN(pgn)
           t.data = game
+
           if(game.white === t.$root.player.code){
             t.playerColor = 'white'
             t.opponentName = game.black
@@ -326,7 +334,6 @@
           t.tdisplay.b = t.getTimeDisplay(t.timer.b)
 
           this.evaler = typeof STOCKFISH === "function" ? STOCKFISH() : new Worker('/assets/js/stockfish.js')
-
 
           this.evaler.onmessage = function(event) {
             var t = window.app
@@ -402,7 +409,9 @@
             } else {
               playSound('game-start.mp3')
               t.boardTaps()
+              this.$socket.emit('resume',this.$root.player)
               if(game.wtime && game.btime){
+                console.log("2")
                 t.switchClock()
                 t.gameStarted = true
               }
@@ -437,7 +446,7 @@
             if(turn === t.playerColor[0]){
               swal({
                 title: '¿Deseas la revancha?',
-                text: 'Has pedrido por tiempo. ' + t.opponentName + ' ganó la partida',
+                text: 'Has sido derrotado por tiempo. ' + t.opponentName + ' ganó la partida',
                 buttons: ["No", "Sí"]
               })
               .then(accept => {
@@ -451,10 +460,12 @@
                 }
               })
             } else {
+              const result = (t.playerColor==='white'?'1-0':'0-1')
               t.$socket.emit('data',{
                 id:this.$route.params.game,
-                result:(t.playerColor==='white'?'1-0':'0-1')
+                result:result
               })
+              t.data.result = result
               swal("¡Victoria!", 'Has vencido por tiempo a ' + t.opponentName, "success")
             }
             clearInterval(t.clock)

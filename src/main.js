@@ -12,7 +12,6 @@ const endpoint='https://ajedrezenvivoapi.herokuapp.com'
 require('../assets/css/main.scss')
 require('../assets/css/chessboard.css')
 
-
 Vue.use(new VueSocketIO({
   debug: true,
   connection: endpoint
