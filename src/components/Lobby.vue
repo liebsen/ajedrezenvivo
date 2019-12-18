@@ -126,6 +126,7 @@
       invite: function(data) {
         var t = this
         if(data.player === this.$root.player.code){
+          playSound('chat.mp3')
           const template = (`<div class="content"><h4><span class="icon"><span class="fas fa-user"></span></span> ${data.asker}</h4><h3><span class="icon"><span class="fas fa-stopwatch"></span> <span> ${data.minutes}'</span></span></h3></div>`);
           swal({
             title: "¿Aceptás la partida?",

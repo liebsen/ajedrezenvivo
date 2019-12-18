@@ -151,7 +151,10 @@ export default {
   list-style: none;
   width: 20px;
   height: 20px;
-  background: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.2);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center center;
   animation: animate 25s linear infinite;
   bottom: -150px;    
 }
@@ -160,13 +163,15 @@ export default {
   left: 25%;
   width: 80px;
   height: 80px;
+  background-image: url(/assets/img/chesspieces/neo/wN.png);
   animation-delay: 0s;
 }
 
 .circles li:nth-child(2){
   left: 10%;
-  width: 20px;
-  height: 20px;
+  width: 40px;
+  height: 40px;
+  background-image: url(/assets/img/chesspieces/neo/bN.png);
   animation-delay: 2s;
   animation-duration: 12s;
 }
@@ -175,6 +180,7 @@ export default {
   left: 70%;
   width: 20px;
   height: 20px;
+  background-image: url(/assets/img/chesspieces/neo/wQ.png);
   animation-delay: 4s;
 }
 
@@ -182,6 +188,7 @@ export default {
   left: 40%;
   width: 60px;
   height: 60px;
+  background-image: url(/assets/img/chesspieces/neo/bP.png);
   animation-delay: 0s;
   animation-duration: 18s;
 }
@@ -190,6 +197,7 @@ export default {
   left: 65%;
   width: 20px;
   height: 20px;
+  background-image: url(/assets/img/chesspieces/neo/wP.png);
   animation-delay: 0s;
 }
 
@@ -197,6 +205,7 @@ export default {
   left: 75%;
   width: 110px;
   height: 110px;
+  background-image: url(/assets/img/chesspieces/neo/wR.png);
   animation-delay: 3s;
 }
 
@@ -204,6 +213,7 @@ export default {
   left: 35%;
   width: 150px;
   height: 150px;
+  background-image: url(/assets/img/chesspieces/neo/bB.png);
   animation-delay: 7s;
 }
 
@@ -211,6 +221,7 @@ export default {
   left: 50%;
   width: 25px;
   height: 25px;
+  background-image: url(/assets/img/chesspieces/neo/wK.png);
   animation-delay: 15s;
   animation-duration: 45s;
 }
@@ -219,6 +230,7 @@ export default {
   left: 20%;
   width: 15px;
   height: 15px;
+  background-image: url(/assets/img/chesspieces/neo/bN.png);
   animation-delay: 2s;
   animation-duration: 35s;
 }
@@ -227,6 +239,7 @@ export default {
   left: 85%;
   width: 150px;
   height: 150px;
+  background-image: url(/assets/img/chesspieces/neo/wP.png);
   animation-delay: 0s;
   animation-duration: 11s;
 }

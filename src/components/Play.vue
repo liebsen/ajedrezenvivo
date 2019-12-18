@@ -1,8 +1,9 @@
 <template>
   <div>
-    <div class="status">
+    <div class="status" v-show="!gameStarted">
+      <h3>Esperando jugadores...</h3>
     </div>  
-    <div class="container">
+    <div class="container" v-show="gameStarted">
       <div class="content column">
         <div class="columns">
           <div class="column">
@@ -135,26 +136,37 @@
           this.eco = response.data
         })
 
+      this.gameLoad()
       this.$socket.emit('join',this.$route.params.game)
-      this.gameStart()
+      
     },
     beforeDestroy: function() {
       this.$socket.emit('gone', this.$root.player)
     },
     sockets: {
+      start: function(){
+        var t = this
+        setTimeout(() => {
+          t.gameStart()
+        },500)
+      },
       resume: function(data) {
         var t = this
+        var exists = false
         if(data.code != t.$root.player.code){
           snackbar("success", '👤 ' + data.code + ' se unió a la partida')
         }
-        t.usersJoined.push(data.code)
-        console.log("joined " + data.code)
-        console.log("joined(2) " + t.usersJoined.length)
+        for(var i in t.usersJoined){
+          if(t.usersJoined[i] === data.code){
+            exists = true
+          }
+        }
+        if(exists === false){
+          t.usersJoined.push(data.code)
+        }
         setTimeout(() => {
-          console.log("match started")
-          if(t.usersJoined.length === 2 && !t.data.result){
-            t.switchClock()
-            t.gameStarted = true
+          if(t.usersJoined.length === 2 && !t.data.result && t.playerColor === 'white'){
+            t.$socket.emit('start',data)
           }
         },1000)
       },
@@ -227,8 +239,10 @@
 
           t.board.position(t.game.fen())
           t.updateMoves(move)
-          //snackbar('success', 'Opponent moved: ' + data.to)
         }
+        t.timer.w = parseInt(data.wtime)
+        t.timer.b = parseInt(data.btime)
+        t.switchClock()
       },
       capitulate: function(data){
         var t = this
@@ -330,8 +344,73 @@
         return data
       },
       gameStart: function(){
-        this.$root.loading = true
+        var t = this
+        var pos = 'start'
         const pref = JSON.parse(localStorage.getItem('player'))||{}
+
+        t.game = new Chess()
+
+        if(t.data.fen){
+          pos = t.data.fen
+        }
+
+        var cfg = {
+          draggable: true,
+          position: pos,
+          pieceTheme:'/assets/img/chesspieces/wikipedia/{piece}.png'
+        }
+
+        if(t.data.result){
+          snackbar('success', 'Esta partida ha concluido')
+        } else {
+          cfg.onDragStart = t.onDragStart
+          cfg.onDrop = t.onDrop
+          cfg.onSnapEnd = t.onSnapEnd
+        }
+
+        if(pref.pieces){
+          cfg.pieceTheme = '/assets/img/chesspieces/' + pref.pieces + '/{piece}.png'
+        }
+
+        if(window.innerWidth < 789){
+          cfg.draggable = false 
+        }
+
+        if(t.data.pgn){
+          t.game.load_pgn(t.data.pgn)
+        }
+
+        t.boardEl = document.getElementById('board')
+        t.board = Chessboard('board', cfg)      
+        t.board.orientation(t.playerColor)
+
+        $(window).resize(() => {
+          t.board.resize()
+        })
+
+        t.board.resize()
+        t.$root.loading = false
+        //t.switchClock()
+
+
+        if(t.data.result){
+          playSound('game-end.mp3')
+        } else {
+          playSound('game-start.mp3')
+          t.boardTaps()
+          if(t.data.wtime && t.data.btime){
+            t.gameStarted = true
+          }
+        }
+        
+        if(t.data.pgn){
+          t.pgnIndex = this.gamePGNIndex(t.data.pgn)
+          document.querySelector('.square-' + t.data.from).classList.add('highlight-move')
+          document.querySelector('.square-' + t.data.to).classList.add('highlight-move')
+        }
+      },
+      gameLoad: function(){
+        this.$root.loading = true
         var t = this
         axios.post( t.$root.endpoint + '/game',{
           id:this.$route.params.game
@@ -369,6 +448,8 @@
 
           t.tdisplay.b = t.getTimeDisplay(t.timer.b)
 
+          this.$socket.emit('resume',this.$root.player)
+
           this.evaler = typeof STOCKFISH === "function" ? STOCKFISH() : new Worker('/assets/js/stockfish.js')
 
           this.evaler.onmessage = function(event) {
@@ -395,69 +476,6 @@
             }
           }
 
-          setTimeout(() => {
-            t.game = new Chess()
-            var pos = 'start'
-
-            if(game.fen){
-              pos = game.fen
-            }
-
-            var cfg = {
-              draggable: true,
-              position: pos,
-              pieceTheme:'/assets/img/chesspieces/wikipedia/{piece}.png'
-            }
-
-            if(game.result){
-              snackbar('success', 'Esta partida ha concluido')
-            } else {
-              cfg.onDragStart = t.onDragStart
-              cfg.onDrop = t.onDrop
-              cfg.onSnapEnd = t.onSnapEnd
-            }
-
-            if(pref.pieces){
-              cfg.pieceTheme = '/assets/img/chesspieces/' + pref.pieces + '/{piece}.png'
-            }
-
-            if(window.innerWidth < 789){
-              cfg.draggable = false 
-            }
-
-            if(game.pgn){
-              t.game.load_pgn(game.pgn)
-            }
-
-            t.boardEl = document.getElementById('board')
-            t.board = Chessboard('board', cfg)      
-            t.board.orientation(t.playerColor)
-
-            $(window).resize(() => {
-              t.board.resize()
-            })
-
-            t.board.resize()
-            t.$root.loading = false
-
-            if(game.result){
-              playSound('game-end.mp3')
-            } else {
-              playSound('game-start.mp3')
-              t.boardTaps()
-              this.$socket.emit('resume',this.$root.player)
-              if(game.wtime && game.btime){
-                t.switchClock()
-                t.gameStarted = true
-              }
-            }
-
-            if(game.pgn){
-              t.pgnIndex = this.gamePGNIndex(game.pgn)
-              document.querySelector('.square-' + game.from).classList.add('highlight-move')
-              document.querySelector('.square-' + game.to).classList.add('highlight-move')
-            }
-          },100)
         })
       },
       getTimeDisplay: function(time){
@@ -505,11 +523,6 @@
               })
               swal("¡Victoria!", 'Has vencido por tiempo a ' + t.opponentName, "success")
             }
-            t.$socket.emit('data',{
-              wtime: t.timer.w,
-              btime: t.timer.b,
-              id:this.$route.params.game
-            })
             if(result){
               t.data.result = result
             }
@@ -561,11 +574,7 @@
 
                 t.board.position(t.game.fen())
                 t.updateMoves(move)
-                move.id = t.$route.params.game
-                move.fen = t.game.fen()
-                move.pgn = t.game.pgn()
-                move.turn = t.game.turn()
-                t.$socket.emit('move', move)
+                t.emitMove(move)
               }
             })
           })
@@ -600,10 +609,16 @@
 
         t.moveFrom = null
         t.updateMoves(move)
-        move.id = this.$route.params.game
+        t.emitMove(move)
+      },
+      emitMove: function(move){
+        var t = this
+        move.id = t.$route.params.game
         move.fen = t.game.fen()
         move.pgn = t.game.pgn()
         move.turn = t.game.turn()
+        move.wtime = parseInt(t.timer.w)
+        move.btime = parseInt(t.timer.b)
         t.$socket.emit('move', move)
       },
       onSnapEnd: function() {
@@ -683,13 +698,6 @@
               })
             },1000)
           }
-
-          t.switchClock()
-          t.$socket.emit('data',{
-            wtime: t.timer.w,
-            btime: t.timer.b,
-            id:this.$route.params.game
-          })
         }
       },
       removeHighlight : function() {
