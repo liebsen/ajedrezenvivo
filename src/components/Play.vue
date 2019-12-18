@@ -40,20 +40,53 @@
             </div>
           </div>
           <div class="column datospartida">
-            <div v-if="Object.keys(data).length">
-              <div class="columns">
-                <div class="column">
-                  <span v-html="ecode" class=""></span> 
-                  <span v-html="opening" class="has-text-black"></span>
+            <div class="columns">
+              <div class="column">
+                <span v-html="ecode" class=""></span> 
+                <span v-html="opening" class="has-text-black"></span>
+              </div>
+              <div class="column has-text-left" v-show="data.game && !data.game.result">
+                <button @click="gameCapitulate()" class="button is-rounded is-danger" v-if="pgnIndex.length > 0" title="Abandonar partida">
+                  <span class="icon has-text-white">
+                    <span class="fas fa-flag"></span>
+                  </span>
+                </button>
+              </div>
+            </div> 
+            <div class="tabs is-centered is-boxed">
+              <ul>
+                <li :class="{ 'is-active' : tab === 'chat' }">
+                  <a @click="tab = 'chat'">
+                    <span class="icon is-small"><i class="fas fa-comments" aria-hidden="true"></i></span>
+                    <span>Chat</span>
+                  </a>
+                </li>
+                <li :class="{ 'is-active' : tab === 'pgn' }">
+                  <a @click="tab = 'pgn'">
+                    <span class="icon is-small"><i class="fas fa-chess-board" aria-hidden="true"></i></span>
+                    <span>Movimientos</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div v-show="tab === 'chat'">
+              <div class="">
+                <div class="columns">
+                  <div class="column chatbox"></div>
                 </div>
-                <div class="column has-text-left">
-                  <button @click="gameCapitulate()" class="button is-rounded is-danger" v-if="pgnIndex.length > 0" title="Abandonar partida">
-                    <span class="icon has-text-white">
-                      <span class="fas fa-flag"></span>
-                    </span>
-                  </button>
-                </div>
-              </div>  
+                <form @submit.prevent="sendChat">
+                  <div class="field has-addons">
+                    <div className="control is-expanded">
+                      <input class="input" v-model="chat" type="text" placeholder="Ingresa tu mensaje" />
+                    </div>
+                    <div class="control">
+                      <button type="submit" class="button is-info">Enviar</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div v-if="Object.keys(data).length" v-show="tab === 'pgn'">
               <div class="columns gamepgn">
                 <div class="movesTableContainer">
                   <div class="movesTable">
@@ -115,8 +148,10 @@
           snackbar("success", '👤 ' + data.code + ' se unió a la partida')
         }
         t.usersJoined.push(data.code)
-        
+        console.log("joined " + data.code)
+        console.log("joined(2) " + t.usersJoined.length)
         setTimeout(() => {
+          console.log("match started")
           if(t.usersJoined.length === 2 && !t.data.result){
             t.switchClock()
             t.gameStarted = true
@@ -229,9 +264,23 @@
         clearInterval(t.clock)
         t.announced_game_over = true
         playSound('game-end.mp3')
+      },
+      chat: function(data){
+        const chatbox = document.querySelector(".chatbox")
+        const cls = this.$root.player.code === data.sender ? 'is-pulled-right' : 'is-pulled-left has-background-info has-text-white'
+        chatbox.innerHTML+= `<div class="box ${cls}">${data.line}</div>`
+        chatbox.scrollTop = chatbox.scrollHeight
       }
     },
     methods: {
+      sendChat: function(){
+        this.$socket.emit('chat', { 
+          id:this.$route.params.game,
+          sender: this.$root.player.code,
+          line: this.chat
+        })
+        this.chat = ''
+      },
       beforeunload: function handler(event) {
         this.$socket.emit('gone', this.$root.player)
       },      
@@ -686,6 +735,8 @@
       return {
         data:{},
         eco:{},
+        tab:'chat',
+        chat:null,
         timer:{w:null,b:null},
         tdisplay:{w:null,b:null},
         clock:null,

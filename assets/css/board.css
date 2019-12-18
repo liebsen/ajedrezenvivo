@@ -66,6 +66,17 @@
     }
 }
 
+.chatbox {
+    height: 300px;
+    width: 100%;
+    overflow-y: auto;
+
+    .box {
+        clear: both;
+        padding: 0.25rem 0.5rem;
+        margin-bottom: 0.25rem;
+    }
+}
 .board-container {
     .white {
         margin-top: 0.5rem;
