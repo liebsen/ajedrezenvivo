@@ -270,6 +270,9 @@
         const cls = this.$root.player.code === data.sender ? 'is-pulled-right' : 'is-pulled-left has-background-info has-text-white'
         chatbox.innerHTML+= `<div class="box ${cls}">${data.line}</div>`
         chatbox.scrollTop = chatbox.scrollHeight
+        if(data.sender!=this.$root.player.code){
+          playSound('chat.mp3')
+        }
       }
     },
     methods: {
