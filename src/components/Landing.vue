@@ -164,41 +164,41 @@ export default {
   width: 80px;
   height: 80px;
   background-image: url(/assets/img/chesspieces/neo/wN.png);
-  animation-delay: 0s;
+  animation-delay: 8s;
 }
 
 .circles li:nth-child(2){
   left: 10%;
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   background-image: url(/assets/img/chesspieces/neo/bN.png);
-  animation-delay: 2s;
+  animation-delay: 16s;
   animation-duration: 12s;
 }
 
 .circles li:nth-child(3){
   left: 70%;
-  width: 20px;
-  height: 20px;
+  width: 90px;
+  height: 90px;
   background-image: url(/assets/img/chesspieces/neo/wQ.png);
-  animation-delay: 4s;
+  animation-delay: 7s;
 }
 
 .circles li:nth-child(4){
   left: 40%;
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   background-image: url(/assets/img/chesspieces/neo/bP.png);
-  animation-delay: 0s;
+  animation-delay: 10s;
   animation-duration: 18s;
 }
 
 .circles li:nth-child(5){
   left: 65%;
-  width: 20px;
-  height: 20px;
+  width: 80px;
+  height: 80px;
   background-image: url(/assets/img/chesspieces/neo/wP.png);
-  animation-delay: 0s;
+  animation-delay: 20s;
 }
 
 .circles li:nth-child(6){
@@ -206,32 +206,32 @@ export default {
   width: 110px;
   height: 110px;
   background-image: url(/assets/img/chesspieces/neo/wR.png);
-  animation-delay: 3s;
+  animation-delay: 30s;
 }
 
 .circles li:nth-child(7){
   left: 35%;
-  width: 150px;
-  height: 150px;
+  width: 140px;
+  height: 140px;
   background-image: url(/assets/img/chesspieces/neo/bB.png);
-  animation-delay: 7s;
+  animation-delay: 12s;
 }
 
 .circles li:nth-child(8){
   left: 50%;
-  width: 25px;
-  height: 25px;
-  background-image: url(/assets/img/chesspieces/neo/wK.png);
+  width: 100px;
+  height: 100px;
+  background-image: url(/assets/img/chesspieces/neo/bK.png);
   animation-delay: 15s;
   animation-duration: 45s;
 }
 
 .circles li:nth-child(9){
   left: 20%;
-  width: 15px;
-  height: 15px;
-  background-image: url(/assets/img/chesspieces/neo/bN.png);
-  animation-delay: 2s;
+  width: 70px;
+  height: 70px;
+  background-image: url(/assets/img/chesspieces/neo/wB.png);
+  animation-delay: 13s;
   animation-duration: 35s;
 }
 
@@ -239,8 +239,8 @@ export default {
   left: 85%;
   width: 150px;
   height: 150px;
-  background-image: url(/assets/img/chesspieces/neo/wP.png);
-  animation-delay: 0s;
+  background-image: url(/assets/img/chesspieces/neo/bQ.png);
+  animation-delay: 18s;
   animation-duration: 11s;
 }
 
