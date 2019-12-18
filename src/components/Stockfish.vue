@@ -68,25 +68,27 @@
       <div class="columns">
         <div class="column">
           <div class="board-container">
-            <h6 class="has-text-left black">
-              <span v-show="data.result==='0-1'">🏆</span>
-              <span>Stockfish</span> 
-              <span>
-                <span>nivel</span> 
-                <span v-html="time.level / 2"></span>
-              </span>
-              <span class="button is-small thinking"></span>
-            </h6>
-            <div class="board" :class="{ 'black' : playerColor==='black' }">
-              <div class="score-container">
-                <div class="score" :style="'max-height:' + vscore + '%'"></div>
-              </div>            
-              <div id="board"></div>
+            <div :class="boardColor">
+              <h6 class="has-text-left black">
+                <span v-show="data.result==='0-1'">🏆</span>
+                <span>Stockfish</span> 
+                <span>
+                  <span>nivel</span> 
+                  <span v-html="time.level / 2"></span>
+                </span>
+                <span class="button is-small thinking"></span>
+              </h6>
+              <div class="board" :class="{ 'black' : playerColor==='black' }">
+                <div class="score-container">
+                  <div class="score" :style="'max-height:' + vscore + '%'"></div>
+                </div>            
+                <div id="board"></div>
+              </div>
+              <h6 class="has-text-right white">
+                <span v-show="data.result==='1-0'">🏆</span>
+                <span v-html="$root.player.code"></span> 
+              </h6>
             </div>
-            <h6 class="has-text-right white">
-              <span v-show="data.result==='1-0'">🏆</span>
-              <span v-html="$root.player.code"></span> 
-            </h6>
           </div>
         </div>
         <div class="column datospartida">
@@ -287,6 +289,7 @@
           }
           if(pref.pieces){
             t.boardCfg.pieceTheme = '/assets/img/chesspieces/' + pref.pieces + '/{piece}.png'
+            t.boardColor = pref.pieces
           }
 
           t.board = Chessboard('board', t.boardCfg)
@@ -628,6 +631,7 @@
         ecode:null,
         opening:null,
         board:null,
+        boardColor:'',
         game:null,
         pgnIndex:[],
         stockfishMoved:false,

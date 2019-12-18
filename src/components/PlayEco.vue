@@ -14,8 +14,12 @@
       <div class="content column">
         <div class="columns">
           <div class="column">
-            <div class="board">
-              <div id="board" @click="gamePause"></div>
+            <div class="board-container">
+              <div :class="boardColor">
+                <div class="board">
+                  <div id="board" @click="gamePause"></div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="column datospartida">
@@ -167,7 +171,8 @@
         axios.get( '/assets/json/eco_es.json').then((res) => {
           if(!Object.keys(res.data).length) return location.href="/404"
           var game = null
-        console.log(this.$route.params.name)
+          const pref = JSON.parse(localStorage.getItem('player'))||{}
+
           res.data.forEach((item) => {
             if(this.$route.params.name===item.eco){
               game = item    
@@ -184,6 +189,12 @@
           setTimeout(() => {
             this.boardEl = document.getElementById('board')
             this.game = new Chess()
+
+            if(pref.pieces){
+              this.boardCfg.pieceTheme = '/assets/img/chesspieces/' + pref.pieces + '/{piece}.png'
+              this.boardColor = pref.pieces
+            }
+
             this.board = Chessboard('board', this.boardCfg)      
 
             $(window).resize(() => {
@@ -323,6 +334,7 @@
           moveSpeed:250,
           pieceTheme:'/assets/img/chesspieces/wikipedia/{piece}.png'
         },
+        boardColor:'',
         data:{},
         eco:{},
         duration:0,

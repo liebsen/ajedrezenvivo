@@ -8,36 +8,38 @@
         <div class="columns">
           <div class="column">
             <div class="board-container">
-              <h6 class="has-text-left black">
-                <span v-show="data.black === $root.player.code">
-                  <span class="button has-background-white has-text-black is-rounded is-small" v-html="tdisplay.w"></span>
-                  <span v-html="data.white" class="has-timer"></span>
-                  <span v-show="data.result==='1-0'">🏆</span>
-                </span> 
-                <span v-show="data.white === $root.player.code">
-                  <span class="button has-background-grey has-text-white is-rounded is-small" v-html="tdisplay.b"></span>
-                  <span v-html="data.black" class="has-timer"></span>
-                  <span v-show="data.result==='0-1'">🏆</span>
-                </span> 
-              </h6>
-              <div class="board" :class="{ 'black' : playerColor === 'black' }">
-                <div class="score-container">
-                  <div class="score" :style="'max-height:' + vscore + '%'"></div>
-                </div>            
-                <div id="board"></div>
+              <div :class="boardColor">
+                <h6 class="has-text-left black">
+                  <span v-show="data.black === $root.player.code">
+                    <span class="button has-background-white has-text-black is-rounded is-small" v-html="tdisplay.w"></span>
+                    <span v-html="data.white" class="has-timer"></span>
+                    <span v-show="data.result==='1-0'">🏆</span>
+                  </span> 
+                  <span v-show="data.white === $root.player.code">
+                    <span class="button has-background-grey has-text-white is-rounded is-small" v-html="tdisplay.b"></span>
+                    <span v-html="data.black" class="has-timer"></span>
+                    <span v-show="data.result==='0-1'">🏆</span>
+                  </span> 
+                </h6>
+                <div class="board" :class="{ 'black' : playerColor === 'black' }">
+                  <div class="score-container">
+                    <div class="score" :style="'max-height:' + vscore + '%'"></div>
+                  </div>            
+                  <div id="board"></div>
+                </div>
+                <h6 class="has-text-right white">
+                  <span v-show="data.black === $root.player.code">
+                    <span v-show="data.result==='0-1'">🏆</span>
+                    <span v-html="data.black" class="has-timer"></span>
+                    <span class="button has-background-grey has-text-white is-rounded is-small" v-html="tdisplay.b"></span>
+                  </span> 
+                  <span v-show="data.white === $root.player.code">
+                    <span v-show="data.result==='1-0'">🏆</span>
+                    <span v-html="data.white" class="has-timer"></span>
+                    <span class="button has-background-white has-text-black is-rounded is-small" v-html="tdisplay.w"></span>
+                  </span> 
+                </h6>
               </div>
-              <h6 class="has-text-right white">
-                <span v-show="data.black === $root.player.code">
-                  <span v-show="data.result==='0-1'">🏆</span>
-                  <span v-html="data.black" class="has-timer"></span>
-                  <span class="button has-background-grey has-text-white is-rounded is-small" v-html="tdisplay.b"></span>
-                </span> 
-                <span v-show="data.white === $root.player.code">
-                  <span v-show="data.result==='1-0'">🏆</span>
-                  <span v-html="data.white" class="has-timer"></span>
-                  <span class="button has-background-white has-text-black is-rounded is-small" v-html="tdisplay.w"></span>
-                </span> 
-              </h6>
             </div>
           </div>
           <div class="column datospartida">
@@ -376,6 +378,7 @@
 
         if(pref.pieces){
           cfg.pieceTheme = '/assets/img/chesspieces/' + pref.pieces + '/{piece}.png'
+          t.boardColor = pref.pieces
         }
 
         if(window.innerWidth < 789){
@@ -762,6 +765,7 @@
         ecode:null,
         board:null,
         boardEl:null,
+        boardColor:'',
         game:null,
         gameStarted:false,
         usersJoined:[],

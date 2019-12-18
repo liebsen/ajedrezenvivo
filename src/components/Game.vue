@@ -43,22 +43,24 @@
         <div class="columns">
           <div class="column">
             <div class="board-container">
-              <h6 class="black has-text-left" @click="gameFlip">
-                <span v-show="data.result==='0-1'">🏆</span>
-                <span v-html="data.black"></span> 
-                <span class="has-text-grey" v-html="data.blackelo"></span>
-              </h6>
-              <div class="board" :class="{ 'black' : orientation==='black' }">
-                <div class="score-container">
-                  <div class="score" :style="'max-height:' + vscore + '%'"></div>
-                </div>            
-                <div id="board" @click="gamePause"></div>
+              <div :class="boardColor">
+                <h6 class="black has-text-left" @click="gameFlip">
+                  <span v-show="data.result==='0-1'">🏆</span>
+                  <span v-html="data.black"></span> 
+                  <span class="has-text-grey" v-html="data.blackelo"></span>
+                </h6>
+                <div class="board" :class="{ 'black' : orientation==='black' }">
+                  <div class="score-container">
+                    <div class="score" :style="'max-height:' + vscore + '%'"></div>
+                  </div>            
+                  <div id="board" @click="gamePause"></div>
+                </div>
+                <h6 class="white has-text-right" @click="gameFlip">
+                  <span v-show="data.result==='1-0'">🏆</span>
+                  <span v-html="data.white"></span> 
+                  <span class="has-text-grey" v-html="data.whiteelo"></span>                  
+                </h6>
               </div>
-              <h6 class="white has-text-right" @click="gameFlip">
-                <span v-show="data.result==='1-0'">🏆</span>
-                <span v-html="data.white"></span> 
-                <span class="has-text-grey" v-html="data.whiteelo"></span>                  
-              </h6>
             </div>
           </div>
           <div class="column datospartida">
@@ -336,6 +338,7 @@
 
             if(pref.pieces){
               this.boardCfg.pieceTheme = '/assets/img/chesspieces/' + pref.pieces + '/{piece}.png'
+              this.boardColor = pref.pieces
             }
 
             this.board = Chessboard('board', this.boardCfg)
@@ -502,6 +505,7 @@
           moveSpeed:250,
           pieceTheme:'/assets/img/chesspieces/wikipedia/{piece}.png'
         },
+        boardColor:'',
         data:{},
         eco:{},
         duration:0,
