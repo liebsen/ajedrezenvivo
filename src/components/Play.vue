@@ -46,7 +46,7 @@
                 <span v-html="ecode" class=""></span> 
                 <span v-html="opening" class="has-text-black"></span>
               </div>
-              <div class="column has-text-left" v-show="data.game && !data.game.result">
+              <div class="column has-text-left" v-show="gameStarted">
                 <button @click="gameCapitulate()" class="button is-rounded is-danger" v-if="pgnIndex.length > 0" title="Abandonar partida">
                   <span class="icon has-text-white">
                     <span class="fas fa-flag"></span>
@@ -137,11 +137,14 @@
         })
 
       this.gameLoad()
-      this.$socket.emit('join',this.$route.params.game)      
+      this.$socket.emit('join',this.$route.params.game)
     },
     beforeDestroy: function() {
-      clearInterval(t.clock)
       this.$socket.emit('gone', this.$root.player)
+      this.$socket.emit('leave',this.$route.params.game)      
+      if(t.clock){
+        clearInterval(t.clock)
+      }
     },
     sockets: {
       start: function(){
@@ -242,6 +245,8 @@
         }
         t.timer.w = parseInt(data.wtime)
         t.timer.b = parseInt(data.btime)
+        t.tdisplay.w = t.getTimeDisplay(t.timer.w)
+        t.tdisplay.b = t.getTimeDisplay(t.timer.b)
         t.switchClock()
       },
       capitulate: function(data){
@@ -300,6 +305,7 @@
       },
       beforeunload: function handler(event) {
         this.$socket.emit('gone', this.$root.player)
+        this.$socket.emit('leave',this.$route.params.game)
       },      
       uciCmd: function(cmd, which) {
         //console.log("UCI: " + cmd);

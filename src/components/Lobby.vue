@@ -81,7 +81,7 @@
       this.documentTitle = document.title 
     },
     beforeDestroy: function() {
-      this.$socket.emit('leave', this.$root.player)
+      this.$socket.emit('lobby_leave', this.$root.player)
       document.title = this.documentTitle
     },
     sockets: {
@@ -91,7 +91,7 @@
             snackbar('error','El nick ' + data.nick + ' ya está en uso, por favor elegí otro')
             this.$router.push('/preferences')
           } else {
-            this.$socket.emit('lobby', this.$root.player)
+            this.$socket.emit('lobby_join', this.$root.player)
           }
         }
       },

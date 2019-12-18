@@ -47,8 +47,6 @@ new Vue({
     }
 
     this.player = player
-    if(player.available)
-    //this.$socket.emit('join', this.player)
     this.loading = false
   },
   data:{
@@ -62,9 +60,6 @@ new Vue({
   	typeMessage:''
   },
   methods: {
-    beforeunload: function handler(event) {
-      this.$socket.emit('leave', this.player)
-    },
   	createGame:({type,target}) => {
       axios.post( endpoint + '/create', {} ).then((res) => {
         if(res.data.status==='success'){
