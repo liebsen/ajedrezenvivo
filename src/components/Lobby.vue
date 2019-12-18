@@ -161,7 +161,7 @@
     methods: {
       play: function(player){
         var t = this
-        const template = (`<div class="dialog-invite"><div><input type="radio" class="is-checkradio has-background-color is-success" name="clock" id="min30" value="1" checked><label for="min30">30 min</label></div><div><input type="radio" class="is-checkradio has-background-color is-success" name="clock" id="min10" value="10"><label for="min10">10 min</label></div><div><input type="radio" class="is-checkradio has-background-color is-success" name="clock" id="min5" value="5"><label for="min5">5 min</label></div></div>`);
+        const template = (`<div class="dialog-invite"><div><input type="radio" class="is-checkradio has-background-color is-success" name="clock" id="min30" value="30" checked><label for="min30">30 min</label></div><div><input type="radio" class="is-checkradio has-background-color is-success" name="clock" id="min10" value="10"><label for="min10">10 min</label></div><div><input type="radio" class="is-checkradio has-background-color is-success" name="clock" id="min5" value="5"><label for="min5">5 min</label></div></div>`);
         swal({
           title: 'Opciones de partida',
           buttons: ["Cancelar", "Invitar"],
