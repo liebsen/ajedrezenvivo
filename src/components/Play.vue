@@ -144,8 +144,8 @@
     beforeDestroy: function() {
       this.$socket.emit('gone', this.$root.player)
       this.$socket.emit('leave',this.$route.params.game)      
-      if(t.clock){
-        clearInterval(t.clock)
+      if(this.clock){
+        clearInterval(this.clock)
       }
     },
     sockets: {
