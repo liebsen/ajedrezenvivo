@@ -36,7 +36,7 @@
             <div class="column">
               <a :href="'https://twitter.com/share?url=https://ajedrezenvivo.herokuapp.com/lobby&amp;text=¿Querés jugar ajedrez conmigo? Estoy como ' + $root.player.code + ' #chess'" target="_blank">
                 <span class="icon has-text-twitter is-size-2">
-                  <span class="fab fa-twitter"></span>
+                  <span class="fab fa-twitter-square"></span>
                 </span>
               </a>
             </div>
