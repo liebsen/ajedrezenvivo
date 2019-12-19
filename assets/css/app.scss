@@ -111,6 +111,15 @@ body > div {
   }
 }
 
+.columns-centered {
+  position: fixed;
+  display: inline-grid;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
 .columns.is-vcentered{
   -webkit-box-align:center;
   -ms-flex-align:center;

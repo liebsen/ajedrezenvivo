@@ -7,45 +7,53 @@
         </span>
         <span>Salón</span>
       </h3>
-      <div v-show="players.length < 2" class="has-text-centered">
-        <h1>&nbsp;</h1>
-        <h5>Invitá a tus amigos a jugar online&nbsp;</h5>
-        <div class="column is-social-box has-text-centered">
-          <div class="columns is-mobile is-vcentered has-text-centered">
-            <div class="column is-hidden-tablet">
-              <a :href="'whatsapp://send?text=¿Querés jugar ajedrez conmigo? Estoy como ' + $root.player.code + ' https://ajedrezenvivo.herokuapp.com/lobby'" target="_blank">
-                <span class="icon has-text-whatsapp is-size-2">
-                  <span class="fab fa-whatsapp-square"></span>
-                </span>
-              </a>
-            </div>
-            <div class="column is-hidden-mobile">
-              <a :href="'https://web.whatsapp.com/send?text=¿Querés jugar ajedrez conmigo? Estoy como ' + $root.player.code + ' https://ajedrezenvivo.herokuapp.com/lobby'" target="_blank">
-                <span class="icon has-text-whatsapp is-size-2">
-                  <span class="fab fa-whatsapp-square"></span>
-                </span>
-              </a>
-            </div>
-            <div class="column">
-              <a :href="'http://www.facebook.com/sharer.php?u=https://ajedrezenvivo.herokuapp.com/lobby&quote=¿Querés jugar ajedrez conmigo? Estoy como ' + $root.player.code + ' #chess'" target="_blank">
-                <span class="icon has-text-facebook is-size-2">
-                  <span class="fab fa-facebook"></span>
-                </span>
-              </a>
-            </div>
-            <div class="column">
-              <a :href="'https://twitter.com/share?url=https://ajedrezenvivo.herokuapp.com/lobby&amp;text=¿Querés jugar ajedrez conmigo? Estoy como ' + $root.player.code + ' #chess'" target="_blank">
-                <span class="icon has-text-twitter is-size-2">
-                  <span class="fab fa-twitter-square"></span>
-                </span>
-              </a>
-            </div>
-            <div class="column">
-              <a :href="'mailto:?Body=Estoy como ' + $root.player.code + ' https://ajedrezenvivo.herokuapp.com/lobby&Subject=¿Querés jugar ajedrez conmigo?'" target="_blank">
-                <span class="icon has-text-primary is-size-2">
-                  <span class="fas fa-envelope-square"></span>
-                </span>
-              </a>
+      <div v-show="players.length < 2" class="columns-centered">
+        <div class="columns is-flex is-vcentered">
+          <div class="column is-social-box has-text-centered">
+            <h6>Invita a tus amigos</h6>
+            <div class="columns is-mobile is-vcentered has-text-centered">
+              <div class="column is-hidden-tablet">
+                <a :href="'whatsapp://send?text=¿Querés jugar ajedrez conmigo? Estoy como ' + $root.player.code + ' https://ajedrezenvivo.herokuapp.com/lobby'" target="_blank">
+                  <span class="icon has-text-whatsapp is-size-2">
+                    <span class="fab fa-whatsapp"></span>
+                  </span>
+                </a>
+              </div>
+              <div class="column is-hidden-mobile">
+                <a :href="'https://web.whatsapp.com/send?text=¿Querés jugar ajedrez conmigo? Estoy como ' + $root.player.code + ' https://ajedrezenvivo.herokuapp.com/lobby'" target="_blank">
+                  <span class="icon has-text-whatsapp is-size-2">
+                    <span class="fab fa-whatsapp"></span>
+                  </span>
+                </a>
+              </div>
+              <div class="column">
+                <a :href="'http://www.facebook.com/sharer.php?u=https://ajedrezenvivo.herokuapp.com/lobby&quote=¿Querés jugar ajedrez conmigo? Estoy como ' + $root.player.code + ' #chess'" target="_blank">
+                  <span class="icon has-text-facebook is-size-2">
+                    <span class="fab fa-facebook"></span>
+                  </span>
+                </a>
+              </div>
+              <div class="column">
+                <a :href="'https://twitter.com/share?url=https://ajedrezenvivo.herokuapp.com/lobby&amp;text=¿Querés jugar ajedrez conmigo? Estoy como ' + $root.player.code + ' #chess'" target="_blank">
+                  <span class="icon has-text-twitter is-size-2">
+                    <span class="fab fa-twitter"></span>
+                  </span>
+                </a>
+              </div>
+              <div class="column">
+                <a :href="'http://www.linkedin.com/shareArticle?mini=true&url=https://ajedrezenvivo.herokuapp.com/lobby&text=¿Querés jugar ajedrez conmigo? Estoy como ' + $root.player.code + ' #chess'" target="_blank">
+                  <span class="icon has-text-twitter is-size-2">
+                    <span class="fab fa-linkedin"></span>
+                  </span>
+                </a>
+              </div>
+              <div class="column">
+                <a :href="'mailto:?Body=Estoy como ' + $root.player.code + ' https://ajedrezenvivo.herokuapp.com/lobby&Subject=¿Querés jugar ajedrez conmigo?'" target="_blank">
+                  <span class="icon has-text-primary is-size-2">
+                    <span class="fas fa-envelope-square"></span>
+                  </span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
