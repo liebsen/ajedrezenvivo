@@ -1,15 +1,14 @@
 <template>
   <div class="area has-text-centered fadeIn">
-
-    <div class="columns is-vcentered">
+    <div class="columns is-flex is-vcentered">
       <div class="column is-hidden-mobile"></div>
       <div class="column is-8 has-text-centered">
         <div class="content is-hidden-mobile">
-          <h1 class="has-text-white"></a>Estudiá, entrená y ganá</h1>
+          <h1 class="has-text-white"></a>Estudia, entrena y gana</h1>
           <h6></h6>
         </div>
         <div class="content is-hidden-tablet">
-          <h4 class="has-text-white"></a>Estudiá, entrená y ganá</h4>
+          <h3 class="has-text-white"></a>Estudia, entrena y gana</h3>
           <h6></h6>
         </div>
         <div class="has-text-centered">
@@ -118,6 +117,11 @@ export default {
 
 <style>
 
+
+#search .has-addons {
+  margin-bottom: 1.25rem;
+}
+
 .area {
   display: inline-flex;
   position: fixed;
@@ -131,6 +135,7 @@ export default {
 
 .area > .columns {
   width: 100%;
+  margin-left: 0;
 } 
 
 .area .field.has-addons {
@@ -148,15 +153,14 @@ export default {
 }
 
 .circles li {
-  position: absolute;
   display: block;
+  position: absolute;
+  bottom: -150px;    
   list-style: none;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.25);
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center center;
-  box-shadow: 0 0 80px rgba(255,255,255,0.5);
-  bottom: -150px;    
 }
 
 .circles li.white {
@@ -169,16 +173,16 @@ export default {
 
 .circles li:nth-child(1){
   left: 25%;
-  width: 80px;
-  height: 80px;
+  width: 140px;
+  height: 140px;
   background-image: url(/assets/img/chesspieces/neo/wK.png);
   animation-delay: 8s;
 }
 
 .circles li:nth-child(2){
   left: 10%;
-  width: 60px;
-  height: 60px;
+  width: 180px;
+  height: 180px;
   background-image: url(/assets/img/chesspieces/neo/wQ.png);
   animation-delay: 16s;
   animation-duration: 12s;
@@ -236,8 +240,8 @@ export default {
 
 .circles li:nth-child(9){
   left: 20%;
-  width: 70px;
-  height: 70px;
+  width: 90px;
+  height: 90px;
   background-image: url(/assets/img/chesspieces/neo/bR.png);
   animation-delay: 13s;
   animation-duration: 35s;
@@ -263,8 +267,8 @@ export default {
 
 .circles li:nth-child(12){
   left: 50%;
-  width: 60px;
-  height: 60px;
+  width: 160px;
+  height: 160px;
   background-image: url(/assets/img/chesspieces/neo/bP.png);
   animation-delay: 8s;
   animation-duration: 11s;
