@@ -80,6 +80,8 @@
       })
       this.documentTitle = document.title 
       window.addEventListener('beforeunload', this.beforeunload)
+      window.addEventListener('focus', this.onfocus)
+      //window.addEventListener('blur', this.onblur)
     },
     beforeDestroy: function() {
       this.$socket.emit('lobby_leave', this.$root.player)
@@ -169,6 +171,12 @@
     methods: {
       beforeunload: function handler(event) {
         this.$socket.emit('lobby_leave', this.$root.player)
+      },
+      onblur: function handler(event) {
+        this.$socket.emit('lobby_leave', this.$root.player)
+      },
+      onfocus: function handler(event) {
+        this.$socket.emit('lobby_join', this.$root.player)
       },
       play: function(player){
         var t = this
