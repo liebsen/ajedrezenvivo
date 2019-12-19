@@ -45,6 +45,10 @@ new Vue({
       localStorage.setItem('player',JSON.stringify(player))
     }
 
+    window.addEventListener('beforeunload', this.beforeunload)
+    window.addEventListener('focus', this.onfocus)
+    //window.addEventListener('blur', this.onblur)
+
     this.player = player
     this.loading = false
   },
@@ -59,6 +63,17 @@ new Vue({
   	typeMessage:''
   },
   methods: {
+    onfocus: function handler(event) {
+      if(this.$route.name==='lobby'){
+        this.$socket.emit('lobby_join', this.$root.player)
+      }
+    },
+    onblur: function handler(event) {
+      this.$socket.emit('lobby_leave', this.$root.player)
+    },
+    beforeunload: function handler(event) {
+      this.$socket.emit('lobby_leave', this.$root.player)
+    },
   	createGame:({type,target}) => {
       axios.post( endpoint + '/create', {} ).then((res) => {
         if(res.data.status==='success'){

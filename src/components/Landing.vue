@@ -253,7 +253,7 @@ export default {
 }
 
 .circles li:nth-child(11){
-  left: 85%;
+  left: 15%;
   width: 80px;
   height: 80px;
   background-image: url(/assets/img/chesspieces/neo/bN.png);
@@ -262,7 +262,7 @@ export default {
 }
 
 .circles li:nth-child(12){
-  left: 85%;
+  left: 50%;
   width: 60px;
   height: 60px;
   background-image: url(/assets/img/chesspieces/neo/bP.png);
