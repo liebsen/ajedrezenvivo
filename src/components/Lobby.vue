@@ -5,7 +5,7 @@
         <span class="icon">
           <span class="fas fa-traffic-light"></span> 
         </span>
-        <span>Lobby</span>
+        <span>Salón</span>
       </h3>
       <div v-show="players.length < 2" class="has-text-centered">
         <h1>&nbsp;</h1>
@@ -79,6 +79,7 @@
         oldnick:this.$root.code
       })
       this.documentTitle = document.title 
+      window.addEventListener('beforeunload', this.beforeunload)
     },
     beforeDestroy: function() {
       this.$socket.emit('lobby_leave', this.$root.player)
@@ -166,6 +167,9 @@
       }
     },
     methods: {
+      beforeunload: function handler(event) {
+        this.$socket.emit('lobby_leave', this.$root.player)
+      },
       play: function(player){
         var t = this
         const template = (`<div class="content"><h3><span class="icon"><span class="fas fa-stopwatch"></span></span></h3><div class="content dialog-invite"><div><input type="radio" class="is-checkradio has-background-color is-success" name="clock" id="min30" value="30" checked><label for="min30">30 min</label></div><div><input type="radio" class="is-checkradio has-background-color is-success" name="clock" id="min10" value="10"><label for="min10">10 min</label></div><div><input type="radio" class="is-checkradio has-background-color is-success" name="clock" id="min5" value="5"><label for="min5">5 min</label></div></div></div>`);

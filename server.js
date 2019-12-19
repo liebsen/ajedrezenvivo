@@ -8,9 +8,9 @@ var app = express()
 app.use(sslRedirect())
 app.use(bodyParser.json())
 
-app.use(express.static(__dirname + '/dist'/*,{
+app.use(express.static(__dirname + '/dist',{
     maxAge: "1d"
-}*/))
+}))
 
 app.get('*', function(req, res){
 	res.sendFile('index.html', { root: __dirname + '/dist' })
