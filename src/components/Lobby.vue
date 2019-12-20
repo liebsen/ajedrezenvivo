@@ -10,8 +10,8 @@
       <div v-show="players.length < 2" class="columns-centered">
         <div class="columns is-flex is-vcentered">
           <div class="column is-social-box has-text-centered">
-            <h6>Invita a tus amigos</h6>
-            <div class="columns is-mobile is-vcentered has-text-centered">
+            <!--h6>Invita a tus amigos</h6-->
+            <div class="columns is-mobile is-vcentered has-text-centered fadeIn">
               <div class="column is-hidden-tablet">
                 <a :href="'whatsapp://send?text=¿Querés jugar ajedrez online? Estoy como ' + $root.player.code + ' https://ajedrezenvivo.herokuapp.com/lobby'" target="_blank">
                   <span class="icon has-text-whatsapp is-size-2">

@@ -5,11 +5,11 @@
         <div class="column is-hidden-mobile"></div>
         <div class="column is-8 has-text-centered">
           <div class="content is-hidden-mobile">
-            <h1 class="has-text-white"></a>Estudia, entrena y gana</h1>
+            <h1 class=""></a>Estudia, entrena y gana</h1>
             <h6></h6>
           </div>
           <div class="content is-hidden-tablet">
-            <h3 class="has-text-white"></a>Estudia, entrena y gana</h3>
+            <h3 class=""></a>Estudia, entrena y gana</h3>
             <h6></h6>
           </div>
           <div class="has-text-centered">
@@ -41,7 +41,7 @@
             </form>     
           </div>       
           <div class="has-text-centered">
-            <h4 class="has-text-white">Jugar contra</h4>
+            <h4 class="">Jugar contra</h4>
             <h6>&nbsp;</h6>
           </div>
           <div class="columns is-vcentered has-text-centered is-hidden-mobile">
@@ -131,7 +131,7 @@ export default {
   top: 60px;
   padding: 2rem;
   min-height: 100%;
-  background: linear-gradient(to left, #1f9cef, #4e54c8);  
+  background: linear-gradient(to left, #cecece, #ffffff);  
 }
 
 .area > .columns {
