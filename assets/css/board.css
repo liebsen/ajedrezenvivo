@@ -163,6 +163,9 @@
                 background-color: #ababab;
             }
         }
+        .highlight-move {
+            filter: sepia(75%);
+        }
     }
 
     .neon {
@@ -179,6 +182,9 @@
             .score {
                 background-color: #fcd8dd;
             }
+        }
+        .highlight-move {
+            filter: brightness(85%);
         }
     }
     .board.black {

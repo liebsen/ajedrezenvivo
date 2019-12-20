@@ -151,7 +151,7 @@ export default {
 .circles li {
   display: block;
   position: absolute;
-  bottom: -150px;    
+  bottom: 0;    
   list-style: none;
   background-repeat: no-repeat;
   background-size: contain;

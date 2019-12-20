@@ -20,7 +20,7 @@
           </div>
         </div>
         <div class="column">
-          <label class="label">Piezas</label>
+          <label class="label">Temas</label>
           <div class="field">
             <input v-model="data.pieces" class="is-checkradio is-success" id="pieces1" type="radio" value="classic" :checked="!data.pieces">
             <label for="pieces1">Classic</label>
