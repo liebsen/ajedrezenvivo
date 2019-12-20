@@ -159,6 +159,8 @@
         setTimeout(() => {
           t.gameStarted = true
           t.board.resize()
+          t.boardTaps()
+          t.switchClock()
         },1)
       },
       resume: function(data) {
@@ -255,7 +257,7 @@
         t.timer.b = parseInt(data.btime)
         t.tdisplay.w = t.getTimeDisplay(t.timer.w)
         t.tdisplay.b = t.getTimeDisplay(t.timer.b)
-        t.switchClock()
+        //t.switchClock()
       },
       capitulate: function(data){
         var t = this
@@ -405,8 +407,7 @@
           playSound('game-end.mp3')
         } else {
           playSound('game-start.mp3')
-          t.boardTaps()
-          t.switchClock()
+
         }
         
         if(t.data.pgn){
@@ -414,7 +415,6 @@
           document.querySelector('.square-' + t.data.from).classList.add('highlight-move')
           document.querySelector('.square-' + t.data.to).classList.add('highlight-move')
         }
-
       },
       gameLoad: function(){
         this.$root.loading = true
