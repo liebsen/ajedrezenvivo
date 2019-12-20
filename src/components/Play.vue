@@ -11,12 +11,12 @@
               <div :class="boardColor">
                 <h6 class="has-text-left black">
                   <span v-show="data.black === $root.player.code">
-                    <span class="button has-background-white has-text-black is-rounded is-small" v-html="tdisplay.w"></span>
+                    <span class="button is-rounded is-small" v-html="tdisplay.w" :class="{ 'has-background-white has-text-black' : timer.w > 10, 'has-background-danger has-text-white' : timer.w <= 10}"></span>
                     <span v-html="data.white" class="has-timer"></span>
                     <span v-show="data.result==='1-0'">🏆</span>
                   </span> 
                   <span v-show="data.white === $root.player.code">
-                    <span class="button has-background-grey has-text-white is-rounded is-small" v-html="tdisplay.b"></span>
+                    <span class="button is-rounded is-small" v-html="tdisplay.b" :class="{ 'has-background-grey has-text-white' : timer.b > 10, 'has-background-danger has-text-white' : timer.b <= 10}"></span>
                     <span v-html="data.black" class="has-timer"></span>
                     <span v-show="data.result==='0-1'">🏆</span>
                   </span> 
@@ -31,12 +31,12 @@
                   <span v-show="data.black === $root.player.code">
                     <span v-show="data.result==='0-1'">🏆</span>
                     <span v-html="data.black" class="has-timer"></span>
-                    <span class="button has-background-grey has-text-white is-rounded is-small" v-html="tdisplay.b"></span>
+                    <span class="button is-rounded is-small" v-html="tdisplay.b" :class="{ 'has-background-grey has-text-white' : timer.b > 10, 'has-background-danger has-text-white' : timer.b <= 10}"></span>
                   </span> 
                   <span v-show="data.white === $root.player.code">
                     <span v-show="data.result==='1-0'">🏆</span>
                     <span v-html="data.white" class="has-timer"></span>
-                    <span class="button has-background-white has-text-black is-rounded is-small" v-html="tdisplay.w"></span>
+                    <span class="button is-rounded is-small" v-html="tdisplay.w" :class="{ 'has-background-white has-text-black' : timer.w > 10, 'has-background-danger has-text-white' : timer.w <= 10}"></span>
                   </span> 
                 </h6>
               </div>
@@ -145,34 +145,40 @@
 
       $(window).resize(() => {
         t.board.resize()
+        t.boardTaps()
       })
 
       t.gameLoad()
       t.$socket.emit('join',t.$route.params.game)
     },
     beforeDestroy: function() {
-      this.$socket.emit('gone', this.$root.player)
+      this.$socket.emit('gone', {
+        player: this.$root.player,
+        id:this.$route.params.game
+      })
       this.$socket.emit('leave',this.$route.params.game)      
-      if(this.clock){
-        clearInterval(this.clock)
-      }
     },
     sockets: {
-      start: function(){
+      start: function(data){
         var t = this
         setTimeout(() => {
-          t.gameStarted = true
-          //t.board.resize()
-          t.boardTaps()
-          t.startClock()
-        },1000)
+          if(!t.gameStarted){
+            t.gameStarted = true
+            if(!t.data.result){
+              t.boardTaps()
+              t.startClock()
+            } else {
+              snackbar('success',"Esta partida ha finalizado")
+            }
+          }
+        },100)
       },
       resume: function(data) {
         var t = this
         var exists = false
-        //if(data.code != t.$root.player.code){
-        snackbar("success", '👤 ' + data.code + ' se unió a la partida')
-        //}
+        if(data.code != t.$root.player.code){
+          snackbar("success", '👤 ' + data.code + ' se unió a la partida')
+        }
         for(var i in t.usersJoined){
           if(t.usersJoined[i] === data.code){
             exists = true
@@ -183,13 +189,16 @@
         }
         setTimeout(() => {
           if(t.usersJoined.length === 2 && !t.data.result && t.$root.player.code === t.data.white){
-            t.$socket.emit('start')
+            t.$socket.emit('start', {
+              player: t.$root.player,
+              id:t.$route.params.game
+            })
           }
         },1500)
       },
       gone: function(data) {
-        if(data.code != this.$root.player.code){
-          snackbar("error", '👤 ' + data.code + ' abandonó la partida')
+        if(data.player.code != this.$root.player.code){
+          snackbar("error", '👤 ' + data.player.code + ' abandonó la partida')
         }
       },
       play: function(data) {
@@ -287,6 +296,8 @@
           result = (t.playerColor==='white'?'1-0':'0-1')
           t.$socket.emit('data',{
             id:this.$route.params.game,
+            wtime: t.timer.w,
+            wtime: t.timer.b,
             result:result
           })
           swal("¡Victoria!", 'Has vencido a ' + t.opponentName, "success")
@@ -294,7 +305,6 @@
         if(result){
           t.data.result = result
         }
-        clearInterval(t.clock)
         t.announced_game_over = true
         playSound('game-end.mp3')
       },
@@ -318,7 +328,10 @@
         this.chat = ''
       },
       beforeunload: function handler(event) {
-        this.$socket.emit('gone', this.$root.player)
+        this.$socket.emit('gone', {
+          player: this.$root.player,
+          id:this.$route.params.game
+        })
         this.$socket.emit('leave',this.$route.params.game)
       },      
       uciCmd: function(cmd, which) {
@@ -380,9 +393,7 @@
           pieceTheme:'/assets/img/chesspieces/wikipedia/{piece}.png'
         }
 
-        if(t.data.result){
-          snackbar('success', 'Esta partida ha concluido')
-        } else {
+        if(!t.data.result){
           cfg.onDragStart = t.onDragStart
           cfg.onDrop = t.onDrop
           cfg.onSnapEnd = t.onSnapEnd
@@ -414,7 +425,11 @@
         }
         
         if(t.data.pgn){
-          t.$socket.emit('start')
+          t.$socket.emit('start', {
+            player: t.$root.player,
+            id:t.$route.params.game
+          })
+
           t.pgnIndex = this.gamePGNIndex(t.data.pgn)
           document.querySelector('.square-' + t.data.from).classList.add('highlight-move')
           document.querySelector('.square-' + t.data.to).classList.add('highlight-move')
@@ -500,44 +515,47 @@
       },
       startClock: function(){
         var t = this
-        if(t.clock) {
-          clearInterval(t.clock)
-        }
-        t.clock = setInterval(() => {
-          var turn = t.game.turn()
-          var result = null
-          t.tdisplay[turn] = t.getTimeDisplay(t.timer[turn]) 
-          if (--t.timer[turn] < 0) {
-            t.timer[turn] = 0
-            if(turn === t.playerColor[0]){
-              result = (t.playerColor==='black'?'1-0':'0-1')
-              swal({
-                title: '¿Deseas la revancha?',
-                text: 'Has sido derrotado por tiempo. ' + t.opponentName + ' ganó la partida',
-                buttons: ["No", "Sí"]
-              })
-              .then(accept => {
-                if (accept) {
-                  this.$socket.emit('invite', {
-                    asker:this.$root.player.code,
-                    player:t.opponentName
-                  })
-                } else {
-                  console.log('Clicked on cancel')
-                }
-              })
-            } else {
-              result = (t.playerColor==='white'?'1-0':'0-1')
-              t.$socket.emit('data',{
-                id:this.$route.params.game,
-                result:result
-              })
-              swal("¡Victoria!", 'Has vencido por tiempo a ' + t.opponentName, "success")
+        const clock = setInterval(() => {
+          if(t.announced_game_over) {
+            clearInterval(clock)
+          } else {
+            var turn = t.game.turn()
+            var result = null
+            t.tdisplay[turn] = t.getTimeDisplay(t.timer[turn]) 
+            if (--t.timer[turn] < 0) {
+              t.timer[turn] = 0
+              if(turn === t.playerColor[0]){
+                result = (t.playerColor==='black'?'1-0':'0-1')
+                swal({
+                  title: '¿Deseas la revancha?',
+                  text: 'Has sido derrotado por tiempo. ' + t.opponentName + ' ganó la partida',
+                  buttons: ["No", "Sí"]
+                })
+                .then(accept => {
+                  if (accept) {
+                    this.$socket.emit('invite', {
+                      asker:this.$root.player.code,
+                      player:t.opponentName
+                    })
+                  } else {
+                    console.log('Clicked on cancel')
+                  }
+                })
+              } else {
+                result = (t.playerColor==='white'?'1-0':'0-1')
+                t.$socket.emit('data',{
+                  id:this.$route.params.game,
+                  wtime: t.timer.w,
+                  wtime: t.timer.b,
+                  result:result
+                })
+                swal("¡Victoria!", 'Has vencido por tiempo a ' + t.opponentName, "success")
+              }
+              if(result){
+                t.data.result = result
+              }
+              t.announced_game_over = true
             }
-            if(result){
-              t.data.result = result
-            }
-            clearInterval(t.clock)
           }
         },1000)
       },
@@ -662,6 +680,8 @@
           } else {
             t.$socket.emit('data',{
               id:this.$route.params.game,
+              wtime: t.timer.w,
+              wtime: t.timer.b,
               result:(t.playerColor==='white'?'1-0':'0-1')
             })
             swal("¡Victoria!", 'Has vencido a ' + t.opponentName, "success")
@@ -759,9 +779,9 @@
         eco:{},
         tab:'chat',
         chat:null,
+        clock:null,
         timer:{w:null,b:null},
         tdisplay:{w:null,b:null},
-        clock:null,
         opening:null,
         score:0.10,
         vscore:49,

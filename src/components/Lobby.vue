@@ -135,7 +135,7 @@
         var t = this
         if(data.player === this.$root.player.code){
           playSound('chat.mp3')
-          const template = (`<div class="content"><h4><span class="icon"><span class="fas fa-user"></span></span> ${data.asker}</h4><h2><span class="icon"><span class="fas fa-stopwatch"></span> <span> ${data.minutes}'</span></span></h2></div>`);
+          const template = (`<div class="content"><h4><span class="icon"><span class="fas fa-user"></span></span> ${data.asker}</h4><h4><span class="icon"><span class="fas fa-stopwatch"></span><span> ${data.minutes}'</span></span></h4></div>`);
           swal({
             title: "¿Aceptás la partida?",
             content: {
@@ -176,7 +176,7 @@
     methods: {
       play: function(player){
         var t = this
-        const template = (`<div class="content"><h2><span class="icon"><span class="fas fa-stopwatch"></span></span></h2><div class="content dialog-invite"><div><input type="radio" class="is-checkradio has-background-color is-success" name="clock" id="min10" value="10" checked><label for="min10">10'</label></div><div><input type="radio" class="is-checkradio has-background-color is-success" name="clock" id="min5" value="5"><label for="min5">5'</label></div><div><input type="radio" class="is-checkradio has-background-color is-success" name="clock" id="min3" value="3"><label for="min3">3'</label></div></div></div>`);
+        const template = (`<div class="content"><h4><span class="icon"><span class="fas fa-stopwatch"></span></span></h4><div class="content dialog-invite"><div><input type="radio" class="is-checkradio has-background-color is-success" name="clock" id="min10" value="10" checked><label for="min10">10'</label></div><div><input type="radio" class="is-checkradio has-background-color is-success" name="clock" id="min5" value="5"><label for="min5">5'</label></div><div><input type="radio" class="is-checkradio has-background-color is-success" name="clock" id="min3" value="3"><label for="min3">3'</label></div></div></div>`);
         swal({
           title: 'Opciones de partida',
           buttons: ["Cancelar", "Invitar"],
