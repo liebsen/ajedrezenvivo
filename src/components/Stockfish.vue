@@ -301,6 +301,7 @@
           // resize event handling
           $(window).resize(() => {
             t.board.resize()
+            t.boardTaps()
           })
 
           t.$root.loading = false
