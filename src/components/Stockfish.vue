@@ -356,14 +356,10 @@
 
                 t.board.position(t.game.fen())
                 t.updateMoves(move)
-                move.id = t.$route.params.game
-                move.fen = t.game.fen()
-                move.pgn = t.game.pgn()
-                move.turn = t.game.turn()
-                move.wtime = 0
-                move.btime = 0
 
-                t.$socket.emit('move', move)
+                setTimeout(() => {
+                  this.prepareMove()
+                },this.ucitime)                
               }
             })
           })
