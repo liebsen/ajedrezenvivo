@@ -474,21 +474,21 @@ table {
 .is-white-pieces {
   background-image: url(/assets/img/chesspieces/neo/wP.png);
   background-repeat: no-repeat;
-background-position: 5px -2px;
+  background-position: 7px -2px;
   background-size: contain;
 }
 
 .is-black-pieces {
   background-image: url(/assets/img/chesspieces/neo/bP.png);
   background-repeat: no-repeat;
-  background-position: 0px -2px;
+  background-position: -2px -2px;
   background-size: contain;
 }
 
 .is-random-pieces {
   background-image: url(/assets/img/chesspieces/neo/wP.png),url(/assets/img/chesspieces/neo/bP.png);
   background-repeat: no-repeat;
-  background-position: 0px 3px, 4px 1px;
+  background-position: 0px 5px, 4px 3px;
   background-size: 90%, 90%;
 }
 

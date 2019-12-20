@@ -223,7 +223,7 @@
     position: relative;
     width: 100%;
     min-height: 350px;
-    overflow-y: scroll;
+    overflow-y: auto;
     text-align: left;
 }
 .movesTable {

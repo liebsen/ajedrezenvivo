@@ -731,6 +731,11 @@
           
           t.pgnIndex = this.gamePGNIndex(t.game.pgn())
 
+          setTimeout(() => {
+            const movesTable = document.querySelector(".movesTableContainer")
+            movesTable.scrollTop = movesTable.scrollHeight
+          },1)
+
           if(t.game.history().length < 14){
             setTimeout(() => {
               t.eco.forEach((eco,i) => {

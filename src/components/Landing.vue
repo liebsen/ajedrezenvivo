@@ -151,7 +151,6 @@ export default {
 .circles li {
   display: block;
   position: absolute;
-  bottom: 0;    
   list-style: none;
   background-repeat: no-repeat;
   background-size: contain;
@@ -159,10 +158,12 @@ export default {
 }
 
 .circles li.white {
+  top: -150px;
   animation: sink 25s linear infinite;
 }
 
 .circles li.black {
+  bottom: -150px;
   animation: emerge 25s linear infinite;
 }
 
@@ -283,12 +284,12 @@ export default {
 
 @keyframes sink {
   0%{
-    transform: translateY(-1000px) rotate(720deg);
+    transform: translateY(0) rotate(720deg);
     opacity: 1;
   }
 
   100%{
-    transform: translateY(0) rotate(0deg);
+    transform: translateY(1000px) rotate(0deg);
     opacity: 0;
   }
 }

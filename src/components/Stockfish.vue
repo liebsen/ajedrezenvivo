@@ -4,12 +4,12 @@
       <div class="columns-centered">
         <div class="columns columns-bottom is-flex has-text-centered">
           <div class="column">
-            <h3>Jugar con Stockfish</h3>
+            <h3>Jugar contra Stockfish</h3>
             <div class="control">
               <div class="buttons levels has-addons">
-                <button class="button is-rounded is-large is-white-pieces" @click="setPlayerColor('white')" :class="{'has-background-warning' : playerColor==='white'}"></button>
-                <button class="button is-large is-random-pieces" @click="setPlayerColor('random')" :class="{'has-background-warning' : playerColor==='random'}"></button>
-                <button class="button is-large is-rounded is-black-pieces" @click="setPlayerColor('black')" :class="{'has-background-warning' : playerColor==='black'}"></button>
+                <button class="button is-rounded is-large is-white-pieces" @click="setPlayerColor('white')" :class="{'has-background-warning' : selectedColor==='white'}"></button>
+                <button class="button is-large is-random-pieces" @click="setPlayerColor('random')" :class="{'has-background-warning' : selectedColor==='random'}"></button>
+                <button class="button is-large is-rounded is-black-pieces" @click="setPlayerColor('black')" :class="{'has-background-warning' : selectedColor==='black'}"></button>
               </div>
             </div>
           </div>
@@ -463,6 +463,11 @@
         const game_pgn = t.game.pgn()
         t.pgnIndex = this.gamePGNIndex(game_pgn)
 
+        setTimeout(() => {
+          const movesTable = document.querySelector(".movesTableContainer")
+          movesTable.scrollTop = movesTable.scrollHeight
+        },1)
+
         if(t.game.history().length < 14){
           setTimeout(() => {
             t.eco.forEach((eco,i) => {
@@ -497,6 +502,7 @@
         return data
       },  
       setPlayerColor:function(color){
+        this.selectedColor = color
         if(color==='random'){
           const allow = ['white','black']
           if(!allow[color]){
@@ -618,6 +624,7 @@
         engineStatus:{},
         announced_game_over:false,
         playerColor:'white',
+        selectedColor:'white',
         data:{
           white:null,
           black:null
