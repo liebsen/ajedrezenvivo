@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container is-widescreen">
     <div class="content column" v-if="time.level < 0">
       <div class="columns has-text-centered">
         <div class="column">

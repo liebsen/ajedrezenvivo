@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="status" v-show="!gameStarted">
-      <span class="button is-rounded is-info">Esperando jugadores...</span>
+      <span class="button is-rounded is-info is-small">Esperando jugadores...</span>
     </div>  
-    <div class="container" v-show="gameStarted">
+    <div class="container is-widescreen">
       <div class="content column">
         <div class="columns">
           <div class="column">
@@ -25,7 +25,7 @@
                   <div class="score-container">
                     <div class="score" :style="'max-height:' + vscore + '%'"></div>
                   </div>            
-                  <div id="board" class="fadeIn"></div>
+                  <div id="board"></div>
                 </div>
                 <h6 class="has-text-right white">
                   <span v-show="data.black === $root.player.code">
@@ -73,17 +73,21 @@
               </ul>
             </div>
             <div v-show="tab === 'chat'">
-              <div class="">
+              <div class="has-text-centered">
                 <div class="columns">
                   <div class="column chatbox"></div>
                 </div>
                 <form @submit.prevent="sendChat">
-                  <div class="field has-addons">
-                    <div className="control is-expanded">
-                      <input class="input" v-model="chat" type="text" placeholder="Ingresa tu mensaje" />
+                  <div class="field has-addons has-text-centered is-flex-centered">
+                    <div class="control">
+                      <input class="input is-rounded" v-model="chat" type="text" placeholder="Ingresa tu mensaje" />
                     </div>
                     <div class="control">
-                      <button type="submit" class="button is-info">Enviar</button>
+                      <button type="submit" class="button is-info is-rounded">
+                        <span class="icon">
+                          <span class="fas fa-paper-plane"></span>
+                        </span>
+                      </button>
                     </div>
                   </div>
                 </form>
@@ -98,12 +102,12 @@
                         <span v-html="(index+1)"></span>
                       </div>
                       <div class="moveCell moveSAN movew" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
-                        <a class="moveindex" :href="'#'+(move.i-2)">
+                        <a class="moveindex">
                           <span v-html="move.white"></span>
                         </a>
                       </div>
                       <div class="moveCell moveSAN moveb" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
-                        <a class="moveindex" :href="'#'+(move.i-1)">
+                        <a class="moveindex">
                           <span v-html="move.black"></span>
                         </a>
                       </div>
@@ -158,9 +162,9 @@
         var t = this
         setTimeout(() => {
           t.gameStarted = true
-          t.board.resize()
+          //t.board.resize()
           t.boardTaps()
-          t.switchClock()
+          t.startClock()
         },1000)
       },
       resume: function(data) {
@@ -179,7 +183,7 @@
         }
         setTimeout(() => {
           if(t.usersJoined.length === 2 && !t.data.result && t.$root.player.code === t.data.white){
-            t.$socket.emit('start',data)
+            t.$socket.emit('start')
           }
         },1500)
       },
@@ -257,7 +261,7 @@
         t.timer.b = parseInt(data.btime)
         t.tdisplay.w = t.getTimeDisplay(t.timer.w)
         t.tdisplay.b = t.getTimeDisplay(t.timer.b)
-        //t.switchClock()
+        //t.startClock()
       },
       capitulate: function(data){
         var t = this
@@ -407,10 +411,10 @@
           playSound('game-end.mp3')
         } else {
           playSound('game-start.mp3')
-
         }
         
         if(t.data.pgn){
+          t.$socket.emit('start')
           t.pgnIndex = this.gamePGNIndex(t.data.pgn)
           document.querySelector('.square-' + t.data.from).classList.add('highlight-move')
           document.querySelector('.square-' + t.data.to).classList.add('highlight-move')
@@ -455,8 +459,6 @@
           }
 
           t.tdisplay.b = t.getTimeDisplay(t.timer.b)
-
-
           t.gameStart()
           t.$socket.emit('resume',this.$root.player)
 
@@ -496,7 +498,7 @@
 
         return min + ":" + sec
       },
-      switchClock: function(){
+      startClock: function(){
         var t = this
         if(t.clock) {
           clearInterval(t.clock)

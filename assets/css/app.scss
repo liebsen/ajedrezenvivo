@@ -8,12 +8,15 @@ body > div {
   height: 100%;
 }
 
-
 .buttons.has-addons {
   justify-content: center;
   .button:not(:last-child) {
     margin-right: -2px;
   }
+}
+
+.is-flex-centered {
+  justify-content: center!important;
 }
 
 .hero {
@@ -783,10 +786,11 @@ table {
 
 /* bulma hacks */
 
-@media screen and (min-width: 769px), print {
-  .is-illustrated {
-    > .columns {
-      margin-top: 6rem;
-    }
+@media screen and (min-width: 1440px), print {
+  .container.is-widescreen {
+    max-width: 100%;
+  }
+  .menu-container {
+    max-width: 100%; 
   }
 }

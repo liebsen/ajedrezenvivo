@@ -38,7 +38,7 @@
         <div class="bar-progress"></div>
       </div>
     </div>  
-    <div class="container">
+    <div class="container is-widescreen">
       <div class="content column">
         <div class="columns">
           <div class="column">

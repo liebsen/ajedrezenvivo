@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container is-widescreen">
     <section class="content column">
       <h3 class="title">
         <span class="icon">

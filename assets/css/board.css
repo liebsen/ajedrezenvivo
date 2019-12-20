@@ -67,7 +67,7 @@
 }
 
 .chatbox {
-    height: 300px;
+    min-height: 270px;
     width: 100%;
     overflow-y: auto;
 
