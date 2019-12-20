@@ -1,64 +1,58 @@
 <template>
   <div class="container is-widescreen">
-    <div class="content column" v-if="time.level < 0">
-      <div class="columns has-text-centered">
-        <div class="column">
-          <h4>Jugar con</h4>
-          <div class="control column">
-            <div class="buttons levels has-addons">
-              <button class="button is-large is-rounded has-background-black" @click="setPlayerColor('white')" :class="{'is-selected' : playerColor==='white'}">
-                <img src="/assets/img/chesspieces/neo/wN.png" width="30">
-              </button>
-              <button class="button is-large" @click="setPlayerColor('random')" :class="{'is-selected' : playerColor==='random'}">
-                <span class="icon has-text-grey">
-                  <span class="fas fa-chess-board"></span>
-                </span>
-              </button>
-              <button class="button is-large is-rounded has-background-light" @click="setPlayerColor('black')" :class="{'is-selected' : playerColor==='black'}">
-                <img src="/assets/img/chesspieces/neo/bN.png" width="30">
-              </button>
+    <div class="content" v-if="time.level < 0">
+      <div class="columns-centered">
+        <div class="columns columns-bottom is-flex has-text-centered">
+          <div class="column">
+            <h3>Jugar con Stockfish</h3>
+            <div class="control">
+              <div class="buttons levels has-addons">
+                <button class="button is-rounded is-large is-white-pieces" @click="setPlayerColor('white')" :class="{'has-background-warning' : playerColor==='white'}"></button>
+                <button class="button is-large is-random-pieces" @click="setPlayerColor('random')" :class="{'has-background-warning' : playerColor==='random'}"></button>
+                <button class="button is-large is-rounded is-black-pieces" @click="setPlayerColor('black')" :class="{'has-background-warning' : playerColor==='black'}"></button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="columns has-text-centered">
-        <div class="column">
-          <h4>Nivel</h4>
-          <div class="control has-text-centered column">
-            <div class="buttons levels has-addons">
-              <button class="button is-rounded" @click="gameStart(0)">
-                <span>0</span>
-              </button>
-              <button class="button" @click="gameStart(2)">
-                <span>1</span>
-              </button>
-              <button class="button" @click="gameStart(4)">
-                <span>2</span>
-              </button>
-              <button class="button" @click="gameStart(6)">
-                <span>3</span>
-              </button>
-              <button class="button" @click="gameStart(8)">
-                <span>4</span>
-              </button>
-              <button class="button" @click="gameStart(10)">
-                <span>5</span>
-              </button>
-              <button class="button" @click="gameStart(12)">
-                <span>6</span>
-              </button>
-              <button class="button" @click="gameStart(14)">
-                <span>7</span>
-              </button>
-              <button class="button" @click="gameStart(16)">
-                <span>8</span>
-              </button>
-              <button class="button" @click="gameStart(18)">
-                <span>9</span>
-              </button>
-              <button class="button is-rounded" @click="gameStart(20)">
-                <span>10</span>
-              </button>
+        <div class="columns is-flex has-text-centered">
+          <div class="column">
+            <h4>Nivel</h4>
+            <div class="control has-text-centered column">
+              <div class="buttons levels has-addons">
+                <button class="button is-rounded" @click="gameStart(0)">
+                  <span>0</span>
+                </button>
+                <button class="button" @click="gameStart(2)">
+                  <span>1</span>
+                </button>
+                <button class="button" @click="gameStart(4)">
+                  <span>2</span>
+                </button>
+                <button class="button" @click="gameStart(6)">
+                  <span>3</span>
+                </button>
+                <button class="button" @click="gameStart(8)">
+                  <span>4</span>
+                </button>
+                <button class="button" @click="gameStart(10)">
+                  <span>5</span>
+                </button>
+                <button class="button" @click="gameStart(12)">
+                  <span>6</span>
+                </button>
+                <button class="button" @click="gameStart(14)">
+                  <span>7</span>
+                </button>
+                <button class="button" @click="gameStart(16)">
+                  <span>8</span>
+                </button>
+                <button class="button" @click="gameStart(18)">
+                  <span>9</span>
+                </button>
+                <button class="button is-rounded" @click="gameStart(20)">
+                  <span>10</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -156,6 +150,7 @@
     mounted: function(){
       //this.$root.loading = true
       window.app = this
+
 
       if (!Worker || (location && location.protocol === "file:")) {
         var script_tag  = document.createElement("script");

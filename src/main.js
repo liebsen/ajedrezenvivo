@@ -12,6 +12,7 @@ require('../assets/css/main.scss')
 require('../assets/css/chessboard.css')
 
 Vue.use(new VueSocketIO({
+  //debug: true,
   connection: endpoint
 }))
 
@@ -74,18 +75,6 @@ new Vue({
     beforeunload: function handler(event) {
       this.$socket.emit('lobby_leave', this.$root.player)
     },
-  	createGame:({type,target}) => {
-      axios.post( endpoint + '/create', {} ).then((res) => {
-        if(res.data.status==='success'){
-          snackbar('success','Juego creado exitosamente. Por favor espere...',3000)
-          setTimeout(() => {
-            router.push(['/play',res.data.room,res.data.secret_room].join('/'))
-          },3000)
-        } else {
-          snackbar('danger','El juego no pudo ser creado.')
-        }        
-      })
-  	},
   	countMoves: (pgn) => {
 	    if(pgn && pgn.indexOf('.')){
 	      return pgn.split('.').length - 1

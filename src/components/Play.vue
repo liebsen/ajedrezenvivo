@@ -145,19 +145,20 @@
           this.eco = response.data
         })
 
-      $(window).resize(() => {
-        t.board.resize()
-        t.boardTaps()
-      })
-
       t.gameLoad()
       t.$socket.emit('join',t.$route.params.game)
     },
+    destroyed () {
+      clearInterval(this.clock)
+    },
     beforeDestroy: function() {
+      console.log("Play: beforeDestroy")
+      this.gameCapitulate()
+      /*
       this.$socket.emit('gone', {
-        player: this.$root.player,
+        player: this.$root.player.code,
         id:this.$route.params.game
-      })
+      })*/
       this.$socket.emit('leave',this.$route.params.game)      
     },
     sockets: {
@@ -199,8 +200,8 @@
         },1500)
       },
       gone: function(data) {
-        if(data.player.code != this.$root.player.code){
-          snackbar("error", '👤 ' + data.player.code + ' abandonó la partida')
+        if(data.player != this.$root.player.code){
+          snackbar("error", '👤 ' + data.player + ' abandonó la partida')
         }
       },
       play: function(data) {
@@ -330,10 +331,11 @@
         this.chat = ''
       },
       beforeunload: function handler(event) {
-        this.$socket.emit('gone', {
-          player: this.$root.player,
+        this.gameCapitulate()
+        /*this.$socket.emit('gone', {
+          player: this.$root.player.code,
           id:this.$route.params.game
-        })
+        })*/
         this.$socket.emit('leave',this.$route.params.game)
       },      
       uciCmd: function(cmd, which) {
@@ -356,13 +358,15 @@
       gameCapitulate: function(){
         this.$socket.emit('capitulate', {
           asker:this.$root.player.code,
-          player:this.opponentName
+          player:this.opponentName,
+          id:this.$route.params.game
         })
       },
       gameAskForDraw: function(){
         this.$socket.emit('askfordraw', {
           asker:this.$root.player.code,
-          player:this.opponentName
+          player:this.opponentName,
+          id:this.$route.params.game
         })
       },
       gamePGN:function(pgn){
@@ -418,7 +422,10 @@
         t.board = Chessboard('board', cfg)      
         t.board.orientation(t.playerColor)
 
-        t.$root.loading = false
+        $(window).resize(() => {
+          t.board.resize()
+          t.boardTaps()
+        })
 
         if(t.data.result){
           playSound('game-end.mp3')
@@ -436,6 +443,8 @@
           document.querySelector('.square-' + t.data.from).classList.add('highlight-move')
           document.querySelector('.square-' + t.data.to).classList.add('highlight-move')
         }
+
+        t.$root.loading = false
       },
       gameLoad: function(){
         this.$root.loading = true
@@ -517,9 +526,9 @@
       },
       startClock: function(){
         var t = this
-        const clock = setInterval(() => {
+        t.clock = setInterval(() => {
           if(t.announced_game_over) {
-            clearInterval(clock)
+            clearInterval(t.clock)
           } else {
             var turn = t.game.turn()
             var result = null

@@ -123,6 +123,10 @@ body > div {
   bottom: 0;
 }
 
+.columns-bottom {
+  margin-top: auto; 
+}
+
 .columns.is-vcentered{
   -webkit-box-align:center;
   -ms-flex-align:center;
@@ -465,6 +469,27 @@ table {
 
 .has-addons {
   margin-bottom: 1rem;
+}
+
+.is-white-pieces {
+  background-image: url(/assets/img/chesspieces/neo/wP.png);
+  background-repeat: no-repeat;
+background-position: 5px -2px;
+  background-size: contain;
+}
+
+.is-black-pieces {
+  background-image: url(/assets/img/chesspieces/neo/bP.png);
+  background-repeat: no-repeat;
+  background-position: 0px -2px;
+  background-size: contain;
+}
+
+.is-random-pieces {
+  background-image: url(/assets/img/chesspieces/neo/wP.png),url(/assets/img/chesspieces/neo/bP.png);
+  background-repeat: no-repeat;
+  background-position: 0px 3px, 4px 1px;
+  background-size: 90%, 90%;
 }
 
 .pagination {

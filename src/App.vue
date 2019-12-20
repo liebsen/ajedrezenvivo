@@ -88,9 +88,7 @@
       </div>    
     </div>
     
-    <keep-alive v-show="!$root.loading" exclude="game,watch,stockfish,live,results,play,lobby,playeco">
-      <router-view :key="$route.fullPath" />
-    </keep-alive>
+    <router-view  />
 
     <div class="tosprompt"></div> 
 

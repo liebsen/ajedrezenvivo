@@ -86,6 +86,19 @@
         nick:this.$root.player.code,
         oldnick:this.$root.code
       })
+
+      document.querySelector('body').addEventListener('click', function (event) {
+        var target = event.target
+        if (target.classList.contains('button')) {
+          target.parentNode.childNodes.forEach((item) => {
+            if (item.classList && item.classList.contains('button')) {
+              item.classList.remove('has-background-warning')
+            }
+          })
+          target.classList.add('has-background-warning')
+        }
+      })
+
       this.documentTitle = document.title 
     },
     beforeDestroy: function() {
@@ -135,7 +148,21 @@
         var t = this
         if(data.player === this.$root.player.code){
           playSound('chat.mp3')
-          const template = (`<div class="content"><h4><span class="icon"><span class="fas fa-user"></span></span> ${data.asker}</h4><h4><span class="icon"><span class="fas fa-stopwatch"></span><span> ${data.minutes}'</span></span></h4></div>`);
+          const template = (`
+<div class="content">
+  <h4>
+    <span class="icon">
+      <span class="fas fa-user"></span>
+    </span> 
+    <span>${data.asker}</span>
+  </h4>
+  <h4>
+    <span class="icon">
+      <span class="fas fa-stopwatch"></span>
+      <span> ${data.minutes}'</span>
+    </span>
+  </h4>
+</div>`);
           swal({
             title: "¿Aceptás la partida?",
             content: {
@@ -149,8 +176,8 @@
           .then(accept => {
             if (accept) {
               axios.post( this.$root.endpoint + '/create', {
-                white: data.asker,
-                black: data.player,
+                white: data.white,
+                black: data.black,
                 minutes: data.minutes,
                 broadcast: true
               }).then((response) => {
@@ -176,9 +203,42 @@
     methods: {
       play: function(player){
         var t = this
-        const template = (`<div class="content"><h4><span class="icon"><span class="fas fa-stopwatch"></span></span></h4><div class="content dialog-invite"><div><input type="radio" class="is-checkradio has-background-color is-success" name="clock" id="min10" value="10" checked><label for="min10">10'</label></div><div><input type="radio" class="is-checkradio has-background-color is-success" name="clock" id="min5" value="5"><label for="min5">5'</label></div><div><input type="radio" class="is-checkradio has-background-color is-success" name="clock" id="min3" value="1"><label for="min3">3'</label></div></div></div>`);
+        const template = (`
+<div class="content">
+  <div class="columns columns-bottom is-flex has-text-centered">
+    <div class="column">
+      <div class="control">
+        <div class="buttons levels has-addons playercolor">
+          <button class="button is-large is-rounded has-background-warning is-white-pieces">
+          </button>
+          <button class="button is-large is-random-pieces">
+          </button>
+          <button class="button is-large is-rounded is-black-pieces">
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="columns is-flex has-text-centered">
+    <div class="column">
+      <h4>
+        <span class="icon">
+          <span class="fas fa-stopwatch"></span>
+        </span>
+      </h4>
+      <div class="control has-text-centered column">
+        <div class="buttons levels has-addons gameclock">
+          <button class="button is-rounded has-background-warning">3'</button>
+          <button class="button">5'</button>
+          <button class="button">10'</button>
+          <button class="button is-rounded">30'</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`);
         swal({
-          title: 'Opciones de partida',
+          title: 'Invitar a ' + player,
           buttons: ["Cancelar", "Invitar"],
           content: {
             element: 'div',
@@ -188,13 +248,26 @@
           }
         }).then(accept => {
           if (accept) {
-            var options = document.getElementsByName("clock")
-            var minutes = null
-            if (options) {
-              for (var i = 0; i < options.length; i++) {
-                if (options[i].checked){
-                  minutes = options[i].value;
-                }
+
+            var playercolor = document.querySelector('.playercolor > .has-background-warning')
+            var gameclock = document.querySelector('.gameclock > .has-background-warning')
+            var white = t.$root.player.code
+            var black = player
+            var minutes = parseInt(gameclock.textContent)
+
+            if(playercolor.classList.contains('is-black-pieces')){
+              white = player
+              black = t.$root.player.code              
+            } 
+
+            if(playercolor.classList.contains('is-random-pieces')){
+              const coin = Math.floor(Math.random() * 1)
+              if(coin){
+                white = player
+                black = t.$root.player.code              
+              } else {
+                white = t.$root.player.code
+                black = player
               }
             }
 
@@ -207,6 +280,8 @@
             t.$socket.emit('invite', {
               asker:t.$root.player.code,
               player:player,
+              white: white,
+              black: black,
               minutes: minutes      
             })
           }
