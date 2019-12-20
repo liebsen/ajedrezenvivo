@@ -161,7 +161,7 @@
           t.board.resize()
           t.boardTaps()
           t.switchClock()
-        },1)
+        },1000)
       },
       resume: function(data) {
         var t = this
