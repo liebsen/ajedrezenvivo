@@ -25,7 +25,7 @@
                   <div class="score-container">
                     <div class="score" :style="'max-height:' + vscore + '%'"></div>
                   </div>            
-                  <div id="board"></div>
+                  <div id="board" class="fadeIn"></div>
                 </div>
                 <h6 class="has-text-right white">
                   <span v-show="data.black === $root.player.code">
@@ -130,16 +130,21 @@
   export default {
     name: 'play',
     mounted: function(){
-      this.$root.loading = true
+      var t = this
+      t.$root.loading = true
       window.app = this
-      window.addEventListener('beforeunload', this.beforeunload)
+      window.addEventListener('beforeunload', t.beforeunload)
       axios.get('/assets/json/eco_es.json')
         .then((response)=>{
           this.eco = response.data
         })
 
-      this.gameLoad()
-      this.$socket.emit('join',this.$route.params.game)
+      $(window).resize(() => {
+        t.board.resize()
+      })
+
+      t.gameLoad()
+      t.$socket.emit('join',t.$route.params.game)
     },
     beforeDestroy: function() {
       this.$socket.emit('gone', this.$root.player)
@@ -152,15 +157,16 @@
       start: function(){
         var t = this
         setTimeout(() => {
-          t.gameStart()
-        },500)
+          t.gameStarted = true
+          t.board.resize()
+        },1)
       },
       resume: function(data) {
         var t = this
         var exists = false
-        if(data.code != t.$root.player.code){
-          snackbar("success", '👤 ' + data.code + ' se unió a la partida')
-        }
+        //if(data.code != t.$root.player.code){
+        snackbar("success", '👤 ' + data.code + ' se unió a la partida')
+        //}
         for(var i in t.usersJoined){
           if(t.usersJoined[i] === data.code){
             exists = true
@@ -173,7 +179,7 @@
           if(t.usersJoined.length === 2 && !t.data.result && t.$root.player.code === t.data.white){
             t.$socket.emit('start',data)
           }
-        },1000)
+        },1500)
       },
       gone: function(data) {
         if(data.code != this.$root.player.code){
@@ -393,11 +399,6 @@
         t.board = Chessboard('board', cfg)      
         t.board.orientation(t.playerColor)
 
-        $(window).resize(() => {
-          t.board.resize()
-        })
-
-        t.board.resize()
         t.$root.loading = false
 
         if(t.data.result){
@@ -405,7 +406,6 @@
         } else {
           playSound('game-start.mp3')
           t.boardTaps()
-          t.gameStarted = true
           t.switchClock()
         }
         
@@ -414,6 +414,7 @@
           document.querySelector('.square-' + t.data.from).classList.add('highlight-move')
           document.querySelector('.square-' + t.data.to).classList.add('highlight-move')
         }
+
       },
       gameLoad: function(){
         this.$root.loading = true
@@ -427,6 +428,7 @@
 
           var game = res.data
           var pgn = game.pgn || ''
+
           t.gameMoves = t.gamePGN(pgn)
           t.data = game
 
@@ -454,11 +456,13 @@
 
           t.tdisplay.b = t.getTimeDisplay(t.timer.b)
 
-          this.$socket.emit('resume',this.$root.player)
 
-          this.evaler = typeof STOCKFISH === "function" ? STOCKFISH() : new Worker('/assets/js/stockfish.js')
+          t.gameStart()
+          t.$socket.emit('resume',this.$root.player)
 
-          this.evaler.onmessage = function(event) {
+          t.evaler = typeof STOCKFISH === "function" ? STOCKFISH() : new Worker('/assets/js/stockfish.js')
+
+          t.evaler.onmessage = function(event) {
             var t = window.app
             var line;
             
@@ -481,7 +485,6 @@
               return;
             }
           }
-
         })
       },
       getTimeDisplay: function(time){
