@@ -153,7 +153,6 @@ export default {
   position: absolute;
   bottom: -150px;    
   list-style: none;
-  background-color: rgba(255, 255, 255, 0.25);
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center center;
@@ -274,13 +273,11 @@ export default {
   0%{
     transform: translateY(0) rotate(0deg);
     opacity: 1;
-    border-radius: 0;
   }
 
   100%{
     transform: translateY(-1000px) rotate(720deg);
     opacity: 0;
-    border-radius: 50%;
   }
 }
 
@@ -288,16 +285,12 @@ export default {
   0%{
     transform: translateY(-1000px) rotate(0deg);
     opacity: 1;
-    border-radius: 0;
   }
 
   100%{
     transform: translateY(0) rotate(720deg);
     opacity: 0;
-    border-radius: 50%;
   }
 }
-
-
 
 </style>
