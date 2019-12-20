@@ -129,7 +129,7 @@ export default {
   left: 0;
   right: 0;
   top: 60px;
-  padding: 2rem;
+  padding: 0 2rem;
   min-height: 100%;
 }
 
