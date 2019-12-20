@@ -43,73 +43,75 @@
             </div>
           </div>
           <div class="column datospartida">
-            <div class="columns">
-              <div class="column">
-                <span v-html="ecode" class=""></span> 
-                <span v-html="opening" class="has-text-black"></span>
-              </div>
-              <div class="column has-text-left" v-show="gameStarted">
-                <button @click="gameCapitulate()" class="button is-rounded is-danger" v-if="pgnIndex.length > 0" title="Abandonar partida">
-                  <span class="icon has-text-white">
-                    <span class="fas fa-flag"></span>
-                  </span>
-                </button>
-              </div>
-            </div> 
-            <div class="tabs is-centered is-boxed">
-              <ul>
-                <li :class="{ 'is-active' : tab === 'chat' }">
-                  <a @click="tab = 'chat'">
-                    <span class="icon is-small"><i class="fas fa-comments" aria-hidden="true"></i></span>
-                    <span>Chat</span>
-                  </a>
-                </li>
-                <li :class="{ 'is-active' : tab === 'pgn' }">
-                  <a @click="tab = 'pgn'">
-                    <span class="icon is-small"><i class="fas fa-chess-board" aria-hidden="true"></i></span>
-                    <span>Movimientos</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div v-show="tab === 'chat'">
-              <div class="has-text-centered">
-                <div class="columns">
-                  <div class="column chatbox"></div>
+            <div v-show="gameStarted">
+              <div class="columns">
+                <div class="column">
+                  <span v-html="ecode" class=""></span> 
+                  <span v-html="opening" class="has-text-black"></span>
                 </div>
-                <form @submit.prevent="sendChat">
-                  <div class="field has-addons has-text-centered is-flex-centered">
-                    <div class="control">
-                      <input class="input is-rounded" v-model="chat" type="text" placeholder="Ingresa tu mensaje" />
-                    </div>
-                    <div class="control">
-                      <button type="submit" class="button is-info is-rounded">
-                        <span class="icon">
-                          <span class="fas fa-paper-plane"></span>
-                        </span>
-                      </button>
-                    </div>
-                  </div>
-                </form>
+                <div class="column has-text-left" v-show="gameStarted">
+                  <button @click="gameCapitulate()" class="button is-rounded is-danger" v-if="pgnIndex.length > 0" title="Abandonar partida">
+                    <span class="icon has-text-white">
+                      <span class="fas fa-flag"></span>
+                    </span>
+                  </button>
+                </div>
+              </div> 
+              <div class="tabs is-centered is-boxed">
+                <ul>
+                  <li :class="{ 'is-active' : tab === 'chat' }">
+                    <a @click="tab = 'chat'">
+                      <span class="icon is-small"><i class="fas fa-comments" aria-hidden="true"></i></span>
+                      <span>Chat</span>
+                    </a>
+                  </li>
+                  <li :class="{ 'is-active' : tab === 'pgn' }">
+                    <a @click="tab = 'pgn'">
+                      <span class="icon is-small"><i class="fas fa-chess-board" aria-hidden="true"></i></span>
+                      <span>Movimientos</span>
+                    </a>
+                  </li>
+                </ul>
               </div>
-            </div>
-            <div v-if="Object.keys(data).length" v-show="tab === 'pgn'">
-              <div class="columns gamepgn">
-                <div class="movesTableContainer">
-                  <div class="movesTable">
-                    <div class="moveRow" v-for="(move,index) in pgnIndex">
-                      <div class="moveNumCell" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
-                        <span v-html="(index+1)"></span>
+              <div v-show="tab === 'chat'">
+                <div class="has-text-centered">
+                  <div class="columns">
+                    <div class="column chatbox"></div>
+                  </div>
+                  <form @submit.prevent="sendChat">
+                    <div class="field has-addons has-text-centered is-flex-centered">
+                      <div class="control">
+                        <input class="input is-rounded" v-model="chat" type="text" placeholder="Ingresa tu mensaje" />
                       </div>
-                      <div class="moveCell moveSAN movew" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
-                        <a class="moveindex">
-                          <span v-html="move.white"></span>
-                        </a>
+                      <div class="control">
+                        <button type="submit" class="button is-info is-rounded">
+                          <span class="icon">
+                            <span class="fas fa-paper-plane"></span>
+                          </span>
+                        </button>
                       </div>
-                      <div class="moveCell moveSAN moveb" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
-                        <a class="moveindex">
-                          <span v-html="move.black"></span>
-                        </a>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div v-if="Object.keys(data).length" v-show="tab === 'pgn'">
+                <div class="columns gamepgn">
+                  <div class="movesTableContainer">
+                    <div class="movesTable">
+                      <div class="moveRow" v-for="(move,index) in pgnIndex">
+                        <div class="moveNumCell" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
+                          <span v-html="(index+1)"></span>
+                        </div>
+                        <div class="moveCell moveSAN movew" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
+                          <a class="moveindex">
+                            <span v-html="move.white"></span>
+                          </a>
+                        </div>
+                        <div class="moveCell moveSAN moveb" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
+                          <a class="moveindex">
+                            <span v-html="move.black"></span>
+                          </a>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -521,7 +523,6 @@
           } else {
             var turn = t.game.turn()
             var result = null
-            t.tdisplay[turn] = t.getTimeDisplay(t.timer[turn]) 
             if (--t.timer[turn] < 0) {
               t.timer[turn] = 0
               if(turn === t.playerColor[0]){
@@ -555,6 +556,8 @@
                 t.data.result = result
               }
               t.announced_game_over = true
+            } else {
+              t.tdisplay[turn] = t.getTimeDisplay(t.timer[turn]) 
             }
           }
         },1000)

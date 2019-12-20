@@ -360,6 +360,9 @@
                 move.fen = t.game.fen()
                 move.pgn = t.game.pgn()
                 move.turn = t.game.turn()
+                move.wtime = 0
+                move.btime = 0
+
                 t.$socket.emit('move', move)
               }
             })
@@ -511,16 +514,16 @@
         this.playerColor = color
       },
       setSkillLevel: function(skill) {
+        var t = this
         var max_err,
-            err_prob,
-            difficulty_slider;
-          var t = this
+          err_prob,
+          difficulty_slider;
         
         if (skill < 0) {
-            skill = 0;
+          skill = 0;
         }
         if (skill > 20) {
-            skill = 20;
+          skill = 20;
         }
         
         t.time.level = skill;
