@@ -131,7 +131,6 @@ export default {
   top: 60px;
   padding: 2rem;
   min-height: 100%;
-  background: linear-gradient(to left, #cecece, #ffffff);  
 }
 
 .area > .columns {
