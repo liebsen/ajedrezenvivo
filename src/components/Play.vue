@@ -424,6 +424,12 @@
 
         $(window).resize(() => {
           t.board.resize()
+          var history = t.game.history({verbose:true})
+          if(history.length){
+            var move = history[history.length-1]
+            document.querySelector('.square-' + move.from).classList.add('highlight-move')
+            document.querySelector('.square-' + move.to).classList.add('highlight-move')
+          }
           t.boardTaps()
         })
 
@@ -673,30 +679,40 @@
         this.uciCmd("eval", this.evaler);
 
         if(t.game.game_over()){
-          if(t.game.turn() === t.playerColor[0]){
-            swal({
-              title: '¿Deseas la revancha?',
-              text: t.opponentName + ' ganó la partida',
-              buttons: ["No", "Sí"]
-            })
-            .then(accept => {
-              if (accept) {
-                this.$socket.emit('invite', {
-                  asker:this.$root.player.code,
-                  player:t.opponentName
-                })
-              } else {
-                console.log('Clicked on cancel')
-              }
-            })
-          } else {
+          if(t.game.in_draw() || t.game.in_stalemate() || t.game.in_threefold_repetition()) {
             t.$socket.emit('data',{
               id:this.$route.params.game,
               wtime: t.timer.w,
               wtime: t.timer.b,
-              result:(t.playerColor==='white'?'1-0':'0-1')
+              result:"1/2-1/2"
             })
-            swal("¡Victoria!", 'Has vencido a ' + t.opponentName, "success")
+            swal("Tablas", 'La partida finalizó con un empate', "info")
+          } else {          
+            if(t.game.turn() === t.playerColor[0]){
+              swal({
+                title: '¿Deseas la revancha?',
+                text: t.opponentName + ' ganó la partida',
+                buttons: ["No", "Sí"]
+              })
+              .then(accept => {
+                if (accept) {
+                  this.$socket.emit('invite', {
+                    asker:this.$root.player.code,
+                    player:t.opponentName
+                  })
+                } else {
+                  console.log('Clicked on cancel')
+                }
+              })
+            } else {
+              t.$socket.emit('data',{
+                id:this.$route.params.game,
+                wtime: t.timer.w,
+                wtime: t.timer.b,
+                result:(t.playerColor==='white'?'1-0':'0-1')
+              })
+              swal("¡Victoria!", 'Has vencido a ' + t.opponentName, "success")
+            }
           }
           
           sound = 'game-end.mp3'

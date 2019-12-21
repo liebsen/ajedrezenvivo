@@ -301,6 +301,12 @@
           // resize event handling
           $(window).resize(() => {
             t.board.resize()
+            var history = t.game.history({verbose:true})
+            if(history.length){
+              var move = history[history.length-1]
+              document.querySelector('.square-' + move.from).classList.add('highlight-move')
+              document.querySelector('.square-' + move.to).classList.add('highlight-move')
+            }
             t.boardTaps()
           })
 
@@ -400,13 +406,12 @@
         var sound = 'move.mp3'
 
         if(t.game.game_over()){
-          if(t.game.turn() === t.playerColor[0]){
+          if(t.game.in_draw() || t.game.in_stalemate() || t.game.in_threefold_repetition()){
             swal({
-              title: "Stockfish ganó la partida",
+              title: "La partida finalizó en tablas",
               text: '¿Deseas jugar otra vez?',
               buttons: ["No", "Sí"]
-            })
-            .then(accept => {
+            }).then(accept => {
               if (accept) {
                 t.gameRestart()
               } else {
@@ -414,19 +419,34 @@
               }
             })
           } else {
-            swal({
-              title: "¡Ganaste!",
-              text: 'Venciste a Stockfish. ¡Felicitaciones! ¿Deseas jugar otra vez?',
-              icon: "success",
-              buttons: ["No", "Sí"]
-            })
-            .then(accept => {
-              if (accept) {
-                t.gameRestart()
-              } else {
-                console.log('Clicked on cancel')
-              }
-            })
+            if(t.game.turn() === t.playerColor[0]){
+              swal({
+                title: "Stockfish ganó la partida",
+                text: '¿Deseas jugar otra vez?',
+                buttons: ["No", "Sí"]
+              })
+              .then(accept => {
+                if (accept) {
+                  t.gameRestart()
+                } else {
+                  console.log('Clicked on cancel')
+                }
+              })
+            } else {
+              swal({
+                title: "¡Ganaste!",
+                text: 'Venciste a Stockfish. ¡Felicitaciones! ¿Deseas jugar otra vez?',
+                icon: "success",
+                buttons: ["No", "Sí"]
+              })
+              .then(accept => {
+                if (accept) {
+                  t.gameRestart()
+                } else {
+                  console.log('Clicked on cancel')
+                }
+              })
+            }
           }
 
           sound = 'game-end.mp3'
