@@ -149,17 +149,15 @@
       t.$socket.emit('join',t.$route.params.game)
     },
     destroyed () {
+      this.$socket.emit('leave',this.data._id)
       clearInterval(this.clock)
     },
     beforeDestroy: function() {
-      console.log("Play: beforeDestroy")
-      this.gameCapitulate()
-      /*
       this.$socket.emit('gone', {
         player: this.$root.player.code,
-        id:this.$route.params.game
-      })*/
-      this.$socket.emit('leave',this.$route.params.game)      
+        id:this.data._id
+      })
+      this.$socket.emit('leave',this.data._id)
     },
     sockets: {
       start: function(data){
@@ -273,7 +271,6 @@
         t.timer.b = parseInt(data.btime)
         t.tdisplay.w = t.getTimeDisplay(t.timer.w)
         t.tdisplay.b = t.getTimeDisplay(t.timer.b)
-        //t.startClock()
       },
       capitulate: function(data){
         var t = this
@@ -331,11 +328,10 @@
         this.chat = ''
       },
       beforeunload: function handler(event) {
-        this.gameCapitulate()
-        /*this.$socket.emit('gone', {
+        this.$socket.emit('gone', {
           player: this.$root.player.code,
-          id:this.$route.params.game
-        })*/
+          id:this.data._id
+        })
         this.$socket.emit('leave',this.$route.params.game)
       },      
       uciCmd: function(cmd, which) {
@@ -368,19 +364,6 @@
           player:this.opponentName,
           id:this.$route.params.game
         })
-      },
-      gamePGN:function(pgn){
-        var data = []
-        pgn.split('.').forEach(function(turn){
-          turn.split(' ').forEach(function(move){
-            if(move.length){
-              if(isNaN(move) && move.length > 1){
-                data.push(move)
-              }
-            }
-          })
-        })
-        return data
       },
       gameStart: function(){
         var t = this
@@ -424,12 +407,7 @@
 
         $(window).resize(() => {
           t.board.resize()
-          var history = t.game.history({verbose:true})
-          if(history.length){
-            var move = history[history.length-1]
-            document.querySelector('.square-' + move.from).classList.add('highlight-move')
-            document.querySelector('.square-' + move.to).classList.add('highlight-move')
-          }
+          t.highlightLastMove()
           t.boardTaps()
         })
 
@@ -446,8 +424,7 @@
           })
 
           t.pgnIndex = this.gamePGNIndex(t.data.pgn)
-          document.querySelector('.square-' + t.data.from).classList.add('highlight-move')
-          document.querySelector('.square-' + t.data.to).classList.add('highlight-move')
+          t.highlightLastMove()
         }
 
         t.$root.loading = false
@@ -465,7 +442,6 @@
           var game = res.data
           var pgn = game.pgn || ''
 
-          t.gameMoves = t.gamePGN(pgn)
           t.data = game
 
           if(game.white === t.$root.player.code){
@@ -736,16 +712,9 @@
           }
 
           t.removeHighlight()
-          playSound(sound)
-
-          document.querySelector('.square-' + move.from).classList.add('highlight-move')
-          document.querySelector('.square-' + move.to).classList.add('highlight-move')
-
-          if (t.game.in_check() === true) {
-            document.querySelector('img[data-piece="' + t.game.turn() + 'K"]').parentNode.classList.add('in-check')
-          }
-          
+          t.addHightlight(move)
           t.pgnIndex = this.gamePGNIndex(t.game.pgn())
+          playSound(sound)
 
           setTimeout(() => {
             const movesTable = document.querySelector(".movesTableContainer")
@@ -781,6 +750,14 @@
             t.boardEl.querySelector('.square-' + move.from).classList.add('highlight-move');
             t.boardEl.querySelector('.square-' + move.to).classList.add('highlight-move');   
           },10)
+        }
+      },
+      highlightLastMove: function(){
+        var history = this.game.history({verbose:true})
+        if(history.length){
+          var move = history[history.length-1]
+          document.querySelector('.square-' + move.from).classList.add('highlight-move')
+          document.querySelector('.square-' + move.to).classList.add('highlight-move')
         }
       },
       gamePGNIndex:function(pgn){
@@ -827,7 +804,6 @@
         game:null,
         gameStarted:false,
         usersJoined:[],
-        gameMoves:[],
         pgnIndex:[],
         moveFrom:null,
         playerColor:null,

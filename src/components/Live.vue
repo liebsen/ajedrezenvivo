@@ -21,7 +21,7 @@
           </div>
         </div>
       </form>   
-      <div v-if="data.count" class="has-text-left">
+      <div v-if="Object.keys(data).length" class="has-text-left">
         <table class="table">
           <thead>
             <th>Mesa</th>
@@ -31,9 +31,13 @@
             <th>Movimientos</th>
           </thead>
           <tbody>
-            <tr v-for="item in data.games">
+            <tr v-for="item in data">
               <td>
-                <router-link :to="'/watch/'+item.room">👁</router-link>
+                <router-link :to="'/watch/'+item._id">
+                  <span class="icon">
+                    <span class="fa fa-play"></span>
+                  </span>
+                </router-link>
               </td>
               <td>
                 <span v-html="item.event"></span>
@@ -122,7 +126,7 @@
     },
     data () {
       return {
-        data:{count:0,games:[]},
+        data:{},
         pages:{},
         query:'',
         limit:10,

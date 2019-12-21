@@ -178,8 +178,7 @@
               axios.post( this.$root.endpoint + '/create', {
                 white: data.white,
                 black: data.black,
-                minutes: data.minutes,
-                broadcast: true
+                minutes: data.minutes
               }).then((response) => {
                 if(response.data.status === 'success'){
                   t.$socket.emit('play', {
