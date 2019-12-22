@@ -8,8 +8,8 @@ import router from './router'
 import snackbar from './components/Snackbar';
 import playSound from './components/playSound'
 
-const endpoint='https://ajedrezenvivoapi.herokuapp.com'
-//const endpoint='https://ajedrezenvivoapidev.herokuapp.com'
+//const endpoint='https://ajedrezenvivoapi.herokuapp.com'
+const endpoint='https://ajedrezenvivoapidev.herokuapp.com'
 
 require('../assets/css/main.scss')
 require('../assets/css/chessboard.css')
@@ -56,6 +56,7 @@ new Vue({
       oldnick:this.$root.code
     })
 
+    this.documentTitle = document.title 
     this.loading = false
   },
   sockets: {
@@ -89,6 +90,7 @@ new Vue({
         playSound(sound)
       } else {
         snackbar('default','No hay jugadores en este momento')       
+        document.title = this.documentTitle
       }        
       this.$root.players = data
     },
@@ -152,7 +154,8 @@ new Vue({
   	loading:true,
     player:{},
     players: [],
-    code: generateRandomCode(6)
+    documentTitle:null,
+    code:generateRandomCode(6)
   },
   methods: {
   	countMoves: (pgn) => {

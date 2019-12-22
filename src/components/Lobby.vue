@@ -95,12 +95,6 @@
           target.classList.add('has-background-warning')
         }
       })
-
-      this.documentTitle = document.title 
-    },
-    beforeDestroy: function() {
-      //this.$socket.emit('lobby_leave', this.$root.player)
-      document.title = this.documentTitle
     },
     methods: {
       play: function(player){
@@ -188,12 +182,6 @@
             })
           }
         })
-      }
-    },
-    data () {
-      return {
-        
-        documentTitle:null
       }
     }
   }
