@@ -70,7 +70,7 @@
                   <span>nivel</span> 
                   <span v-html="time.level / 2"></span>
                 </span>
-                <span class="button is-small thinking"></span>
+                <span class="button is-small thinking" :class="{'is-loading' : thinking}"></span>
               </h6>
               <div class="board" :class="{ 'black' : playerColor==='black' }">
                 <div class="score-container">
@@ -254,7 +254,6 @@
                 if(!t.hintMode){
                   t.board.position(t.game.fen())
                   t.updateMoves(move)
-                  document.querySelector('.thinking').classList.remove('is-loading')
                 } else {
                   document.querySelector('.square-' + move.from).classList.add('highlight-move')
                   document.querySelector('.square-' + move.to).classList.add('highlight-move')
@@ -409,8 +408,8 @@
       },
       prepareMove : function() {
         var t = this
-        document.querySelector('.thinking').classList.add('is-loading')
         if(!t.game.game_over()) {
+          t.thinking = true
           t.isEngineRunning = true
           t.uciCmd('position startpos moves' + t.get_moves())
           t.uciCmd("go " + (t.time.depth ? "depth " + t.time.depth : ""))          
@@ -499,6 +498,7 @@
           }
 
           t.removeHighlight()
+          t.thinking = false
           playSound(sound)
 
           document.querySelector('.square-' + move.from).classList.add('highlight-move')
@@ -668,6 +668,7 @@
         vscore: 49,
         moveFrom:null,
         hintMode: false,
+        thinking: false,
         isEngineRunning: false,
         engineStatus:{},
         announced_game_over:false,
