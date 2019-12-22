@@ -50,7 +50,7 @@
                   <span v-html="opening" class="has-text-black"></span>
                 </div>
                 <div class="column has-text-left" v-show="gameStarted">
-                  <button @click="gameCapitulate()" class="button is-rounded is-danger" v-if="pgnIndex.length > 0" title="Abandonar partida">
+                  <button @click="gameCapitulate()" class="button is-rounded is-danger" v-if="pgnIndex.length > 0 && !announced_game_over" title="Abandonar partida">
                     <span class="icon has-text-white">
                       <span class="fas fa-flag"></span>
                     </span>
@@ -168,8 +168,6 @@
             if(!t.data.result){
               t.boardTaps()
               t.startClock()
-            } else {
-              snackbar('success',"Esta partida ha finalizado")
             }
           }
         },100)
@@ -177,7 +175,7 @@
       resume: function(data) {
         var t = this
         var exists = false
-        if(data.code != t.$root.player.code){
+        if(data.code != t.$root.player.code && !announced_game_over){
           snackbar("success", '👤 ' + data.code + ' se unió a la partida')
         }
         for(var i in t.usersJoined){
@@ -252,6 +250,7 @@
       move: function(data){
         var t = this
         if(data.color != t.playerColor[0]) {
+
           var moveObj = ({
             from: data.from,
             to: data.to,
@@ -413,6 +412,8 @@
 
         if(t.data.result){
           playSound('game-end.mp3')
+          t.announced_game_over = true
+          snackbar('success',"Esta partida ha finalizado")
         } else {
           playSound('game-start.mp3')
         }
@@ -648,89 +649,90 @@
         this.board.position(this.game.fen())
       },
       updateMoves:function(move){
+
         var t = this
-        var sound = 'move.mp3'
+        setTimeout(() => {
+          var sound = 'move.mp3'
 
-        this.uciCmd('position startpos moves' + this.get_moves(), this.evaler);
-        this.uciCmd("eval", this.evaler);
+          this.uciCmd('position startpos moves' + this.get_moves(), this.evaler);
+          this.uciCmd("eval", this.evaler);
 
-        if(t.game.game_over()){
-          if(t.game.in_draw() || t.game.in_stalemate() || t.game.in_threefold_repetition()) {
-            t.$socket.emit('data',{
-              id:this.$route.params.game,
-              wtime: t.timer.w,
-              wtime: t.timer.b,
-              result:"1/2-1/2"
-            })
-            swal("Tablas", 'La partida finalizó con un empate', "info")
-          } else {          
-            if(t.game.turn() === t.playerColor[0]){
-              swal({
-                title: '¿Deseas la revancha?',
-                text: t.opponentName + ' ganó la partida',
-                buttons: ["No", "Sí"]
-              })
-              .then(accept => {
-                if (accept) {
-                  this.$socket.emit('invite', {
-                    asker:this.$root.player.code,
-                    player:t.opponentName
-                  })
-                } else {
-                  console.log('Clicked on cancel')
-                }
-              })
-            } else {
+          if(t.game.game_over()){
+            if(t.game.in_draw() || t.game.in_stalemate() || t.game.in_threefold_repetition()) {
               t.$socket.emit('data',{
                 id:this.$route.params.game,
                 wtime: t.timer.w,
                 wtime: t.timer.b,
-                result:(t.playerColor==='white'?'1-0':'0-1')
+                result:"1/2-1/2"
               })
-              swal("¡Victoria!", 'Has vencido a ' + t.opponentName, "success")
+              swal("Tablas", 'La partida finalizó con un empate', "info")
+            } else {          
+              if(t.game.turn() === t.playerColor[0]){
+                swal({
+                  title: '¿Deseas la revancha?',
+                  text: t.opponentName + ' ganó la partida',
+                  buttons: ["No", "Sí"]
+                })
+                .then(accept => {
+                  if (accept) {
+                    this.$socket.emit('invite', {
+                      asker:this.$root.player.code,
+                      player:t.opponentName
+                    })
+                  } else {
+                    console.log('Clicked on cancel')
+                  }
+                })
+              } else {
+                t.$socket.emit('data',{
+                  id:this.$route.params.game,
+                  wtime: t.timer.w,
+                  wtime: t.timer.b,
+                  result:(t.playerColor==='white'?'1-0':'0-1')
+                })
+                swal("¡Victoria!", 'Has vencido a ' + t.opponentName, "success")
+              }
+            }
+            
+            sound = 'game-end.mp3'
+            t.announced_game_over = true
+          } else {
+
+            if(move.flags === 'c'){
+              sound = 'capture.mp3'        
+            }
+
+            if(move.flags === 'k'){
+              sound = 'castle.mp3'
+            }
+
+            if(move.flags === 'q'){
+              sound = 'castle.mp3'
+            }
+
+            if (t.game.in_check() === true) {
+              sound = 'check.mp3'
             }
           }
-          
-          sound = 'game-end.mp3'
-          t.announced_game_over = true
-        } else {
 
-          if(move.flags === 'c'){
-            sound = 'capture.mp3'        
-          }
-
-          if(move.flags === 'k'){
-            sound = 'castle.mp3'
-          }
-
-          if(move.flags === 'q'){
-            sound = 'castle.mp3'
-          }
-
-          if (t.game.in_check() === true) {
-            sound = 'check.mp3'
-          }
-
-          t.removeHighlight()
           t.addHightlight(move)
           t.pgnIndex = this.gamePGNIndex(t.game.pgn())
           playSound(sound)
 
-          setTimeout(() => {
-            const movesTable = document.querySelector(".movesTableContainer")
-            movesTable.scrollTop = movesTable.scrollHeight
-          },1)
+          const movesTable = document.querySelector(".movesTableContainer")
+          movesTable.scrollTop = movesTable.scrollHeight
 
-          if(t.game.history().length < 14){
-            setTimeout(() => {
-              t.eco.forEach((eco,i) => {
-                if(eco.pgn === this.game.pgn()){
-                  t.opening = eco.name
-                  t.ecode = eco.eco
-                }
-              })
-            },1000)
-          }
+        },10)
+
+        if(t.game.history().length < 14){
+          setTimeout(() => {
+            t.eco.forEach((eco,i) => {
+              if(eco.pgn === this.game.pgn()){
+                t.opening = eco.name
+                t.ecode = eco.eco
+              }
+            })
+          },1000)
         }
       },
       removeHighlight : function() {
@@ -741,23 +743,22 @@
       },
       addHightlight : function(move){
         var t = this
-        t.removeHighlight();
-        if(move){
-          if (t.game.in_check() === true) {
-            $('img[data-piece="' + t.game.turn() + 'K"]').parent().addClass('in-check')
-          }
-          setTimeout(function(){
+        t.removeHighlight()
+        setTimeout(() => {
+          if(move){
+            if (t.game.in_check() === true) {
+              $('img[data-piece="' + t.game.turn() + 'K"]').parent().addClass('in-check')
+            }
             t.boardEl.querySelector('.square-' + move.from).classList.add('highlight-move');
             t.boardEl.querySelector('.square-' + move.to).classList.add('highlight-move');   
-          },10)
-        }
+          }
+        },10)
       },
       highlightLastMove: function(){
         var history = this.game.history({verbose:true})
         if(history.length){
           var move = history[history.length-1]
-          document.querySelector('.square-' + move.from).classList.add('highlight-move')
-          document.querySelector('.square-' + move.to).classList.add('highlight-move')
+          this.addHightlight(move)
         }
       },
       gamePGNIndex:function(pgn){

@@ -403,29 +403,16 @@
       },
       updateMoves:function(move){
         var t = this
-        var sound = 'move.mp3'
+        setTimeout(() => {
+          var sound = 'move.mp3'
 
-        if(t.game.game_over()){
-          if(t.game.in_draw() || t.game.in_stalemate() || t.game.in_threefold_repetition()){
-            swal({
-              title: "La partida finalizó en tablas",
-              text: '¿Deseas jugar otra vez?',
-              buttons: ["No", "Sí"]
-            }).then(accept => {
-              if (accept) {
-                t.gameRestart()
-              } else {
-                console.log('Clicked on cancel')
-              }
-            })
-          } else {
-            if(t.game.turn() === t.playerColor[0]){
+          if(t.game.game_over()){
+            if(t.game.in_draw() || t.game.in_stalemate() || t.game.in_threefold_repetition()){
               swal({
-                title: "Stockfish ganó la partida",
+                title: "La partida finalizó en tablas",
                 text: '¿Deseas jugar otra vez?',
                 buttons: ["No", "Sí"]
-              })
-              .then(accept => {
+              }).then(accept => {
                 if (accept) {
                   t.gameRestart()
                 } else {
@@ -433,60 +420,74 @@
                 }
               })
             } else {
-              swal({
-                title: "¡Ganaste!",
-                text: 'Venciste a Stockfish. ¡Felicitaciones! ¿Deseas jugar otra vez?',
-                icon: "success",
-                buttons: ["No", "Sí"]
-              })
-              .then(accept => {
-                if (accept) {
-                  t.gameRestart()
-                } else {
-                  console.log('Clicked on cancel')
-                }
-              })
+              if(t.game.turn() === t.playerColor[0]){
+                swal({
+                  title: "Stockfish ganó la partida",
+                  text: '¿Deseas jugar otra vez?',
+                  buttons: ["No", "Sí"]
+                })
+                .then(accept => {
+                  if (accept) {
+                    t.gameRestart()
+                  } else {
+                    console.log('Clicked on cancel')
+                  }
+                })
+              } else {
+                swal({
+                  title: "¡Ganaste!",
+                  text: 'Venciste a Stockfish. ¡Felicitaciones! ¿Deseas jugar otra vez?',
+                  icon: "success",
+                  buttons: ["No", "Sí"]
+                })
+                .then(accept => {
+                  if (accept) {
+                    t.gameRestart()
+                  } else {
+                    console.log('Clicked on cancel')
+                  }
+                })
+              }
+            }
+
+            sound = 'game-end.mp3'
+            t.announced_game_over = true
+          } else {
+
+            if(move.flags === 'c'){
+              sound = 'capture.mp3'        
+            }
+
+            if(move.flags === 'k'){
+              sound = 'castle.mp3'
+            }
+
+            if(move.flags === 'q'){
+              sound = 'castle.mp3'
+            }
+
+            if (t.game.in_check() === true) {
+              sound = 'check.mp3'
             }
           }
 
-          sound = 'game-end.mp3'
-          t.announced_game_over = true
-        } else {
+          t.removeHighlight()
+          playSound(sound)
 
-          if(move.flags === 'c'){
-            sound = 'capture.mp3'        
-          }
-
-          if(move.flags === 'k'){
-            sound = 'castle.mp3'
-          }
-
-          if(move.flags === 'q'){
-            sound = 'castle.mp3'
-          }
+          document.querySelector('.square-' + move.from).classList.add('highlight-move')
+          document.querySelector('.square-' + move.to).classList.add('highlight-move')
 
           if (t.game.in_check() === true) {
-            sound = 'check.mp3'
+            document.querySelector('img[data-piece="' + t.game.turn() + 'K"]').parentNode.classList.add('in-check')
           }
-        }
 
-        t.removeHighlight()
-        playSound(sound)
+          const game_pgn = t.game.pgn()
+          t.pgnIndex = this.gamePGNIndex(game_pgn)
 
-        document.querySelector('.square-' + move.from).classList.add('highlight-move')
-        document.querySelector('.square-' + move.to).classList.add('highlight-move')
-
-        if (t.game.in_check() === true) {
-          document.querySelector('img[data-piece="' + t.game.turn() + 'K"]').parentNode.classList.add('in-check')
-        }
-
-        const game_pgn = t.game.pgn()
-        t.pgnIndex = this.gamePGNIndex(game_pgn)
-
-        setTimeout(() => {
           const movesTable = document.querySelector(".movesTableContainer")
           movesTable.scrollTop = movesTable.scrollHeight
-        },1)
+
+        },10)
 
         if(t.game.history().length < 14){
           setTimeout(() => {
