@@ -7,7 +7,7 @@
         </span>
         <span>Salón</span>
       </h3>
-      <div v-show="players.length < 2" class="columns-centered">
+      <div v-show="$root.players.length < 2" class="columns-centered">
         <div class="columns is-flex is-vcentered">
           <div class="column is-social-box has-text-centered">
             <!--h6>Invita a tus amigos</h6-->
@@ -58,13 +58,13 @@
           </div>
         </div>
       </div>
-      <div v-show="players.length > 1" v-for="player in players">
-        <div v-if="player != $root.player.code">
-          <a href="#" class="button is-text is-rounded" @click="play(player)">
+      <div v-show="$root.players.length > 1" v-for="player in $root.players">
+        <div v-if="player.code != $root.player.code">
+          <a href="#" class="button is-text is-rounded" @click="play(player.code)">
             <span class="icon">
               <span class="fas fa-user"></span>
             </span>
-            <span v-html="player"></span>
+            <span v-html="player.code"></span>
           </a>
         </div>
       </div>
@@ -101,24 +101,6 @@
     beforeDestroy: function() {
       //this.$socket.emit('lobby_leave', this.$root.player)
       document.title = this.documentTitle
-    },
-    sockets: {
-      players: function (data) {
-        if(data.length > 1){
-          snackbar('success','Hay ' + (data.length - 1) +  ' jugador' + (data.length > 2 ? 'es' : '') + ' esperando invitación ')
-          document.title = '(' + (data.length - 1) + ') ' + this.documentTitle
-          var sound = 'game-start.mp3'
-          if(this.players.length > data.length) {
-            sound = 'game-end.mp3'
-          }
-          playSound(sound)
-        } else {
-          snackbar('default','No hay jugadores en este momento')       
-          document.title = this.documentTitle   
-          //playSound('check.mp3')
-        }        
-        this.players = data
-      }
     },
     methods: {
       play: function(player){
@@ -210,7 +192,7 @@
     },
     data () {
       return {
-        players: [],
+        
         documentTitle:null
       }
     }

@@ -20,14 +20,14 @@ Vue.use(new VueSocketIO({
 }))
 
 const generateRandomCode = (() => {
-  const USABLE_CHARACTERS = "abcdefghijklmnopqrstuvwxyz0123456789".split("");
+  const USABLE_CHARACTERS = "abcdefghijklmnopqrstuvwxyz0123456789".split("")
 
   return length => {
     return new Array(length).fill(null).map(() => {
-      return USABLE_CHARACTERS[Math.floor(Math.random() * USABLE_CHARACTERS.length)];
-    }).join("");
+      return USABLE_CHARACTERS[Math.floor(Math.random() * USABLE_CHARACTERS.length)]
+    }).join("")
   }
-})();
+})()
 
 
 new Vue({
@@ -35,7 +35,6 @@ new Vue({
   router,
   created: function() {
 
-    window.addEventListener('beforeunload', this.beforeunload)
     const saved = localStorage.getItem('player')
     var player = { 
       code: generateRandomCode(6), 
@@ -50,16 +49,13 @@ new Vue({
       localStorage.setItem('player',JSON.stringify(player))
     }
 
-    window.addEventListener('beforeunload', this.beforeunload)
-    window.addEventListener('focus', this.onfocus)
-    //window.addEventListener('blur', this.onblur)
-
     this.player = player
 
     this.$socket.emit('preferences',{
       nick:this.$root.player.code,
       oldnick:this.$root.code
     })
+
     this.loading = false
   },
   sockets: {
@@ -84,6 +80,17 @@ new Vue({
         swal.close()
         swal("Partida declinada", '👤 ' + data.player + ' declinó tu invitación')
       }
+    },
+    players: function (data) {
+      if(data.length > 1){
+        snackbar('success','Hay ' + (data.length - 1) +  ' jugador' + (data.length > 2 ? 'es' : '') + ' esperando invitación ')
+        document.title = '(' + (data.length - 1) + ') ' + this.documentTitle
+        var sound = 'chat.mp3'
+        playSound(sound)
+      } else {
+        snackbar('default','No hay jugadores en este momento')       
+      }        
+      this.$root.players = data
     },
     invite: function(data) {
       var t = this
@@ -141,27 +148,13 @@ new Vue({
     }
   },
   data:{
-    port:0,
     endpoint:endpoint,
   	loading:true,
-  	processing:false,
     player:{},
-    code: generateRandomCode(6),
-  	message:'',
-  	typeMessage:''
+    players: [],
+    code: generateRandomCode(6)
   },
   methods: {
-    onfocus: function handler(event) {
-      if(this.$route.name==='lobby'){
-        //this.$socket.emit('lobby_join', this.$root.player)
-      }
-    },
-    onblur: function handler(event) {
-      //this.$socket.emit('lobby_leave', this.$root.player)
-    },
-    beforeunload: function handler(event) {
-      this.$socket.emit('lobby_leave', this.$root.player)
-    },
   	countMoves: (pgn) => {
 	    if(pgn && pgn.indexOf('.')){
 	      return pgn.split('.').length - 1
