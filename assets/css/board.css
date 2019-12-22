@@ -177,7 +177,7 @@
         }
         .black-3c85d {
             background: repeating-linear-gradient(-45deg, #cdcbc2, #cdcbc2 2px, #4d4d4d 4px, #4d4d4d 4px);
-            color:#cdcbc2;
+            color:#4d4d4d;
         }
         .score-container {
             background-color: #cdcbc2;
@@ -220,6 +220,9 @@
             .score {
                 background-color: #7598ad;
             }
+        }
+        .highlight-move {
+            filter: sepia(75%);
         }
     }
 
@@ -277,6 +280,9 @@
             .score {
                 background-color: #32664a;
             }
+        }
+        .highlight-move {
+            filter: brightness(125%);
         }
     }
 
