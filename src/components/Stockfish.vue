@@ -97,13 +97,16 @@
                   <span class="fas fa-flag"></span>
                 </span>
               </button>
-              <button @click="showHint()" class="button is-rounded is-success" v-if="pgnIndex.length > 0 && !announced_game_over" title="Mostrar pista">
+              <button @click="showHint()" class="button is-rounded is-success" v-if="pgnIndex.length && !announced_game_over" title="Mostrar pista">
                 <span class="icon has-text-white">
                   <span class="fas fa-question-circle"></span>
                 </span>
               </button>
               <button @click="gameRestart()" class="button is-rounded is-success" v-if="announced_game_over">
                 <span>REMATCH</span>
+              </button>
+              <button @click="showPGN()" class="button is-rounded is-success" v-if="pgnIndex.length">
+                <span>PGN</span>
               </button>
             </div>
           </div>  
@@ -177,6 +180,30 @@
         t.vscore = 49
         t.stockfishMoved = false
         t.gameStart(t.time.level)
+      },
+      showPGN:function(pgn){
+        var pgn = this.game.pgn()
+        const template = (`
+<div class="content">
+  <div class="columns columns-bottom is-flex has-text-centered">
+    <div class="column">
+      <div class="control">
+        <div class="field">
+          <textarea class="textarea" readonly>${pgn}</textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`)
+        swal({
+          title: 'Copiar PGN',
+          content: {
+            element: 'div',
+            attributes: {
+              innerHTML: `${template}`,
+            }
+          }
+        })
       },
       gamePGN:function(pgn){
         var data = []

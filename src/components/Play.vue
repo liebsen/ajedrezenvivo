@@ -50,10 +50,13 @@
                   <span v-html="opening" class="has-text-black"></span>
                 </div>
                 <div class="column has-text-left" v-show="gameStarted">
-                  <button @click="gameCapitulate()" class="button is-rounded is-danger" v-if="pgnIndex.length > 0 && !announced_game_over" title="Abandonar partida">
+                  <button @click="gameCapitulate()" class="button is-rounded is-danger" v-if="pgnIndex.length && !announced_game_over" title="Abandonar partida">
                     <span class="icon has-text-white">
                       <span class="fas fa-flag"></span>
                     </span>
+                  </button>
+                  <button @click="showPGN()" class="button is-rounded is-success" v-if="pgnIndex.length">
+                    <span>PGN</span>
                   </button>
                 </div>
               </div> 
@@ -175,7 +178,7 @@
       resume: function(data) {
         var t = this
         var exists = false
-        if(data.code != t.$root.player.code && !announced_game_over){
+        if(data.code != t.$root.player.code && !t.announced_game_over){
           snackbar("success", '👤 ' + data.code + ' se unió a la partida')
         }
         for(var i in t.usersJoined){
@@ -760,6 +763,30 @@
           var move = history[history.length-1]
           this.addHightlight(move)
         }
+      },
+      showPGN:function(pgn){
+        var pgn = this.game.pgn()
+        const template = (`
+<div class="content">
+  <div class="columns columns-bottom is-flex has-text-centered">
+    <div class="column">
+      <div class="control">
+        <div class="field">
+          <textarea class="textarea" readonly>${pgn}</textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`)
+        swal({
+          title: 'Copiar PGN',
+          content: {
+            element: 'div',
+            attributes: {
+              innerHTML: `${template}`,
+            }
+          }
+        })
       },
       gamePGNIndex:function(pgn){
         var data = []

@@ -1,12 +1,15 @@
 import Vue from 'vue'
 import store from 'store'
-import App from './App.vue'
-import router from './router'
 import VueSocketIO from 'vue-socket.io'
 import axios from 'axios'
+import swal from 'sweetalert'
+import App from './App.vue'
+import router from './router'
 import snackbar from './components/Snackbar';
+import playSound from './components/playSound'
 
 const endpoint='https://ajedrezenvivoapi.herokuapp.com'
+//const endpoint='https://ajedrezenvivoapidev.herokuapp.com'
 
 require('../assets/css/main.scss')
 require('../assets/css/chessboard.css')
@@ -25,6 +28,7 @@ const generateRandomCode = (() => {
     }).join("");
   }
 })();
+
 
 new Vue({
   el: '#app',
@@ -51,7 +55,90 @@ new Vue({
     //window.addEventListener('blur', this.onblur)
 
     this.player = player
+
+    this.$socket.emit('preferences',{
+      nick:this.$root.player.code,
+      oldnick:this.$root.code
+    })
     this.loading = false
+  },
+  sockets: {
+    nick: function (data) {
+      if(this.$root.code === data.oldnick){
+        if(data.exists){
+          snackbar('error','El nick ' + data.nick + ' ya está en uso, por favor elegí otro')
+          this.$router.push('/preferences')
+        } else {
+          this.$socket.emit('lobby_join', this.$root.player)
+        }
+      }
+    },
+    play: function(data) {
+      if(data.asker === this.$root.player.code){
+        swal.close()
+        this.$router.push(['/play',data.id].join('/'))
+      }
+    },
+    reject: function(data) {
+      if(data.asker === this.$root.player.code){
+        swal.close()
+        swal("Partida declinada", '👤 ' + data.player + ' declinó tu invitación')
+      }
+    },
+    invite: function(data) {
+      var t = this
+      if(data.player === this.$root.player.code){
+        playSound('chat.mp3')
+        const template = (`
+<div class="content">
+<h4>
+  <span class="icon">
+    <span class="fas fa-user"></span>
+  </span> 
+  <span>${data.asker}</span>
+</h4>
+<h4>
+  <span class="icon">
+    <span class="fas fa-stopwatch"></span>
+    <span> ${data.minutes}'</span>
+  </span>
+</h4>
+</div>`);
+        swal({
+          title: "¿Aceptás la partida?",
+          content: {
+            element: 'div',
+            attributes: {
+              innerHTML: `${template}`,
+            }
+          },
+          buttons: ["Declinar", "Aceptar"]
+        })
+        .then(accept => {
+          if (accept) {
+            axios.post( this.$root.endpoint + '/create', {
+              white: data.white,
+              black: data.black,
+              minutes: data.minutes
+            }).then((response) => {
+              if(response.data.status === 'success'){
+                t.$socket.emit('play', {
+                  asker: data.asker,
+                  player: data.player,
+                  id: response.data.id
+                })
+                t.$router.push(['/play',response.data.id].join('/'))
+              } else {
+                snackbar('danger','El juego no pudo ser creado.')
+              }        
+            })
+          } else {
+            t.$socket.emit('reject', data)
+            console.log('Clicked on cancel')
+          }
+        })
+      }
+    }
   },
   data:{
     port:0,
@@ -66,11 +153,11 @@ new Vue({
   methods: {
     onfocus: function handler(event) {
       if(this.$route.name==='lobby'){
-        this.$socket.emit('lobby_join', this.$root.player)
+        //this.$socket.emit('lobby_join', this.$root.player)
       }
     },
     onblur: function handler(event) {
-      this.$socket.emit('lobby_leave', this.$root.player)
+      //this.$socket.emit('lobby_leave', this.$root.player)
     },
     beforeunload: function handler(event) {
       this.$socket.emit('lobby_leave', this.$root.player)

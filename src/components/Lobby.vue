@@ -82,10 +82,7 @@
   export default {
     name: 'lobby',
     mounted: function(){
-      this.$socket.emit('preferences',{
-        nick:this.$root.player.code,
-        oldnick:this.$root.code
-      })
+
 
       document.querySelector('body').addEventListener('click', function (event) {
         var target = event.target
@@ -102,20 +99,10 @@
       this.documentTitle = document.title 
     },
     beforeDestroy: function() {
-      this.$socket.emit('lobby_leave', this.$root.player)
+      //this.$socket.emit('lobby_leave', this.$root.player)
       document.title = this.documentTitle
     },
     sockets: {
-      nick: function (data) {
-        if(this.$root.code === data.oldnick){
-          if(data.exists){
-            snackbar('error','El nick ' + data.nick + ' ya está en uso, por favor elegí otro')
-            this.$router.push('/preferences')
-          } else {
-            this.$socket.emit('lobby_join', this.$root.player)
-          }
-        }
-      },
       players: function (data) {
         if(data.length > 1){
           snackbar('success','Hay ' + (data.length - 1) +  ' jugador' + (data.length > 2 ? 'es' : '') + ' esperando invitación ')
@@ -131,72 +118,6 @@
           //playSound('check.mp3')
         }        
         this.players = data
-      },
-      play: function(data) {
-        if(data.asker === this.$root.player.code){
-          swal.close()
-          this.$router.push(['/play',data.id].join('/'))
-        }
-      },
-      reject: function(data) {
-        if(data.asker === this.$root.player.code){
-          swal.close()
-          swal("Partida declinada", '👤 ' + data.player + ' declinó tu invitación')
-        }
-      },
-      invite: function(data) {
-        var t = this
-        if(data.player === this.$root.player.code){
-          playSound('chat.mp3')
-          const template = (`
-<div class="content">
-  <h4>
-    <span class="icon">
-      <span class="fas fa-user"></span>
-    </span> 
-    <span>${data.asker}</span>
-  </h4>
-  <h4>
-    <span class="icon">
-      <span class="fas fa-stopwatch"></span>
-      <span> ${data.minutes}'</span>
-    </span>
-  </h4>
-</div>`);
-          swal({
-            title: "¿Aceptás la partida?",
-            content: {
-              element: 'div',
-              attributes: {
-                innerHTML: `${template}`,
-              }
-            },
-            buttons: ["Declinar", "Aceptar"]
-          })
-          .then(accept => {
-            if (accept) {
-              axios.post( this.$root.endpoint + '/create', {
-                white: data.white,
-                black: data.black,
-                minutes: data.minutes
-              }).then((response) => {
-                if(response.data.status === 'success'){
-                  t.$socket.emit('play', {
-                    asker: data.asker,
-                    player: data.player,
-                    id: response.data.id
-                  })
-                  t.$router.push(['/play',response.data.id].join('/'))
-                } else {
-                  snackbar('danger','El juego no pudo ser creado.')
-                }        
-              })
-            } else {
-              t.$socket.emit('reject', data)
-              console.log('Clicked on cancel')
-            }
-          })
-        }
       }
     },
     methods: {
