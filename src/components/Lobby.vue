@@ -86,9 +86,9 @@
 
       document.querySelector('body').addEventListener('click', function (event) {
         var target = event.target
-        if (target.classList.contains('button')) {
+        if (target.classList.contains('is-toggle')) {
           target.parentNode.childNodes.forEach((item) => {
-            if (item.classList && item.classList.contains('button')) {
+            if (item.classList && item.classList.contains('is-toggle')) {
               item.classList.remove('has-background-warning')
             }
           })
@@ -105,11 +105,11 @@
     <div class="column">
       <div class="control">
         <div class="buttons levels has-addons playercolor">
-          <button class="button is-large is-rounded has-background-warning is-white-pieces">
+          <button class="button is-toggle is-large is-rounded has-background-warning is-white-pieces">
           </button>
-          <button class="button is-large is-random-pieces">
+          <button class="button is-toggle is-large is-random-pieces">
           </button>
-          <button class="button is-large is-rounded is-black-pieces">
+          <button class="button is-toggle is-large is-rounded is-black-pieces">
           </button>
         </div>
       </div>
@@ -124,10 +124,10 @@
       </h4>
       <div class="control has-text-centered column">
         <div class="buttons levels has-addons gameclock">
-          <button class="button is-rounded has-background-warning">3'</button>
-          <button class="button">5'</button>
-          <button class="button">10'</button>
-          <button class="button is-rounded">30'</button>
+          <button class="button is-toggle is-rounded has-background-warning">3'</button>
+          <button class="button is-toggle">5'</button>
+          <button class="button is-toggle">10'</button>
+          <button class="button is-toggle is-rounded">30'</button>
         </div>
       </div>
     </div>

@@ -39,6 +39,7 @@ new Vue({
     var player = { 
       code: generateRandomCode(6), 
       available: true,
+      sound: true,
       pieces: 'classic',
       minutes: 10
     }

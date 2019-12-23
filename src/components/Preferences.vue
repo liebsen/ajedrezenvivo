@@ -13,13 +13,6 @@
           <input type="text" v-model="data.code" class="input" required>
         </div>
         <div class="column">
-          <label class="label">Disponible</label>
-          <div class="field">
-            <input v-model="data.available" class="is-checkradio has-background-color is-success" id="available" type="checkbox">
-            <label for="available"></label>
-          </div>
-        </div>
-        <div class="column">
           <label class="label">Temas</label>
           <div class="field">
             <div class="select">
@@ -43,8 +36,23 @@
             </div>
           </div>
         </div>
+        <div class="column">
+          <div class="control">
+            <label class="label">Disponible</label>
+            <div class="field">
+              <input v-model="data.available" class="is-checkradio has-background-color is-success" id="available" type="checkbox">
+              <label for="available"></label>
+            </div>
+          </div>
+          <div class="control">
+            <label class="label">Sonido</label>
+            <div class="field">
+              <input v-model="data.sound" class="is-checkradio has-background-color is-success" id="sound" type="checkbox">
+              <label for="sound"></label>
+            </div>
+          </div>
+        </div>
       </div>
-
       <div class="columns has-text-centered">
         <div class="column">
           <input type="button" @click="submit" class="button is-rounded is-success" :class="{ 'is-loading' : loading }" value="Guardar">
