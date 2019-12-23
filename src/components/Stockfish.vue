@@ -119,13 +119,13 @@
                   </div>
 
                   <div class="moveCell moveSAN movew" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
-                    <a class="moveindex" :href="'#'+(move.i-2)">
+                    <a class="moveindex">
                       <span v-html="move.white"></span>
                     </a>
                   </div>
 
                   <div class="moveCell moveSAN moveb" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
-                    <a class="moveindex" :href="'#'+(move.i-1)">
+                    <a class="moveindex">
                       <span v-html="move.black"></span>
                     </a>
                   </div>

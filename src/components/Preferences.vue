@@ -13,11 +13,11 @@
           <input type="text" v-model="data.code" class="input" required>
         </div>
         <div class="column">
-          <label class="label">Estilo</label>
+          <label class="label">Temas</label>
           <div class="field">
             <div class="select">
               <select v-model="data.board" id="tablero">
-                <option value="classic">Estilo Tablero</option>
+                <option value="classic">[Tablero]</option>
                 <option value="classic">Classic</option>
                 <option value="neo">Neo</option>
                 <option value="wood">Wood</option>
@@ -36,7 +36,7 @@
           <div class="field">
             <div class="select">
               <select v-model="data.pieces" id="piezas">
-                <option value="classic">Estilo Piezas</option>
+                <option value="classic">[Piezas]</option>
                 <option value="classic">Classic</option>
                 <option value="neo">Neo</option>
                 <option value="wood">Wood</option>
