@@ -397,7 +397,7 @@
 
         if(pref.pieces){
           cfg.pieceTheme = '/assets/img/chesspieces/' + pref.pieces + '/{piece}.png'
-          t.boardColor = pref.pieces
+          t.boardColor = pref.board
         }
 
         if(window.innerWidth < 789){
@@ -660,8 +660,6 @@
 
         var t = this
         setTimeout(() => {
-          var sound = 'move.mp3'
-
           this.uciCmd('position startpos moves' + this.get_moves(), this.evaler);
           this.uciCmd("eval", this.evaler);
 
@@ -702,35 +700,19 @@
               }
             }
             
-            sound = 'game-end.mp3'
             t.announced_game_over = true
-          } else {
+          } 
 
-            if(move.flags === 'c'){
-              sound = 'capture.mp3'        
-            }
-
-            if(move.flags === 'k'){
-              sound = 'castle.mp3'
-            }
-
-            if(move.flags === 'q'){
-              sound = 'castle.mp3'
-            }
-
-            if (t.game.in_check() === true) {
-              sound = 'check.mp3'
-            }
-          }
-
-          t.addHightlight(move)
           t.pgnIndex = this.gamePGNIndex(t.game.pgn())
-          playSound(sound)
+          t.addHightlight(move)
+          setTimeout(() => {
+            t.moveSound(move)
+          },250)
 
           const movesTable = document.querySelector(".movesTableContainer")
           movesTable.scrollTop = movesTable.scrollHeight
 
-        },10)
+        },100)
 
         if(t.game.history().length < 14){
           setTimeout(() => {
@@ -743,6 +725,31 @@
           },1000)
         }
       },
+      moveSound: function(move){
+        var sound = 'move.mp3'
+
+        if(this.game.game_over()){
+          sound = 'game-end.mp3'
+        } else {
+          if(move.flags === 'c'){
+            sound = 'capture.mp3'        
+          }
+
+          if(move.flags === 'k'){
+            sound = 'castle.mp3'
+          }
+
+          if(move.flags === 'q'){
+            sound = 'castle.mp3'
+          }
+
+          if (this.game.in_check() === true) {
+            sound = 'check.mp3'
+          }
+        }
+
+        playSound(sound)
+      },
       removeHighlight : function() {
         document.querySelectorAll('.square-55d63').forEach((item) => {
           item.classList.remove('highlight-move')
@@ -752,15 +759,13 @@
       addHightlight : function(move){
         var t = this
         t.removeHighlight()
-        setTimeout(() => {
-          if(move){
-            if (t.game.in_check() === true) {
-              t.boardEl.querySelector('img[data-piece="' + t.game.turn() + 'K"]').classList.add('in-check')
-            }
-            t.boardEl.querySelector('.square-' + move.from).classList.add('highlight-move');
-            t.boardEl.querySelector('.square-' + move.to).classList.add('highlight-move');   
+        if(move){
+          if (t.game.in_check() === true) {
+            t.boardEl.querySelector('img[data-piece="' + t.game.turn() + 'K"]').classList.add('in-check')
           }
-        },200)
+          t.boardEl.querySelector('.square-' + move.from).classList.add('highlight-move');
+          t.boardEl.querySelector('.square-' + move.to).classList.add('highlight-move');   
+        }
       },
       highlightLastMove: function(){
         var history = this.game.history({verbose:true})

@@ -167,31 +167,12 @@
 
           this.board.position(this.game.fen())
 
-          var sound = 'move.mp3'
 
-          if(this.game.game_over()){
-            sound = 'game-end.mp3'
-          } else {
-            if(move.flags === 'c'){
-              sound = 'capture.mp3'        
-            }
 
-            if(move.flags === 'k'){
-              sound = 'castle.mp3'
-            }
-
-            if(move.flags === 'q'){
-              sound = 'castle.mp3'
-            }
-
-            if (this.game.in_check() === true) {
-              sound = 'check.mp3'
-            }
-          }
-
-          playSound(sound)
-
-          this.addHightlight(moved)
+          setTimeout(() => {
+            this.moveSound(moved)
+            this.addHightlight(moved)
+          },250)          
 
           this.uciCmd('position startpos moves' + this.get_moves(), this.evaler);
           this.uciCmd("eval", this.evaler);
@@ -203,6 +184,7 @@
           document.querySelectorAll('.moveindex').forEach((item) => {
             item.parentNode.classList.remove('active');
           })
+
           document.querySelector('.moveindex.m' + this.index).parentNode.classList.add('active')
 
           var n = document.querySelector('.moveindex.m' + this.index).parentNode.offsetTop
@@ -302,7 +284,7 @@
 
             if(pref.pieces){
               this.boardCfg.pieceTheme = '/assets/img/chesspieces/' + pref.pieces + '/{piece}.png'
-              this.boardColor = pref.pieces
+              this.boardColor = pref.board
             }
 
             this.board = Chessboard('board', this.boardCfg)
@@ -363,6 +345,31 @@
           }
         })
       },
+      moveSound: function(move){
+        var sound = 'move.mp3'
+
+        if(this.game.game_over()){
+          sound = 'game-end.mp3'
+        } else {
+          if(move.flags === 'c'){
+            sound = 'capture.mp3'        
+          }
+
+          if(move.flags === 'k'){
+            sound = 'castle.mp3'
+          }
+
+          if(move.flags === 'q'){
+            sound = 'castle.mp3'
+          }
+
+          if (this.game.in_check() === true) {
+            sound = 'check.mp3'
+          }
+        }
+
+        playSound(sound)
+      },
       removeHighlight: function(){
         document.querySelectorAll('.square-55d63').forEach((item) => {
           item.classList.remove('highlight-move')
@@ -372,15 +379,13 @@
       addHightlight : function(move){
         var t = this
         t.removeHighlight()
-        setTimeout(() => {
-          if(move){
-            if (t.game.in_check() === true) {
-              t.boardEl.querySelector('img[data-piece="' + t.game.turn() + 'K"]').classList.add('in-check')
-            }
-            t.boardEl.querySelector('.square-' + move.from).classList.add('highlight-move');
-            t.boardEl.querySelector('.square-' + move.to).classList.add('highlight-move');   
+        if(move){
+          if (t.game.in_check() === true) {
+            t.boardEl.querySelector('img[data-piece="' + t.game.turn() + 'K"]').classList.add('in-check')
           }
-        },200)
+          t.boardEl.querySelector('.square-' + move.from).classList.add('highlight-move');
+          t.boardEl.querySelector('.square-' + move.to).classList.add('highlight-move');   
+        }
       },
       highlightLastMove: function(){
         var history = this.game.history({verbose:true})
@@ -442,7 +447,11 @@
         
         const moved = this.game.move(move)
         this.board.position(this.game.fen())
-        this.addHightlight(moved)
+
+        setTimeout(() => {
+          this.moveSound(moved)
+          this.addHightlight(moved)
+        },250)
 
         if(!this.paused) {
           this.gamePause()

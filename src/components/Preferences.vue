@@ -16,10 +16,11 @@
           <label class="label">Temas</label>
           <div class="field">
             <div class="select">
-              <select v-model="data.pieces">
+              <select v-model="data.board" id="tablero">
                 <option value="classic">Classic</option>
                 <option value="neo">Neo</option>
                 <option value="wood">Wood</option>
+                <option value="book">Book</option>
                 <option value="newspaper">Newspaper</option>
                 <option value="maya">Maya</option>
                 <option value="glass">Glass</option>
@@ -28,14 +29,31 @@
                 <option value="modern">Modern</option>
                 <option value="club">Club</option>
                 <option value="neon">Neon</option>
-                <option value="eight_bit">8 bit</option>
               </select>
             </div>
+            <label class="label" for="tablero">Tablero</label>
+          </div>
+          <div class="field">
+            <div class="select">
+              <select v-model="data.pieces" id="piezas">
+                <option value="classic">Classic</option>
+                <option value="neo">Neo</option>
+                <option value="wood">Wood</option>
+                <option value="book">Book</option>
+                <option value="newspaper">Newspaper</option>
+                <option value="maya">Maya</option>
+                <option value="glass">Glass</option>
+                <option value="light">Light</option>
+                <option value="condal">Condal</option>
+                <option value="modern">Modern</option>
+                <option value="club">Club</option>
+                <option value="neon">Neon</option>
+              </select>
+            </div>
+            <label class="label" for="piezas">Piezas</label>
           </div>
           <div class="board-container">
-            <div :class="boardColor">
-              <div id="board"></div>          
-            </div>
+            <div id="board" :class="boardColor"></div>
           </div>
         </div>
         <div class="column">
@@ -73,7 +91,11 @@
     name: 'preferences',
     watch: {
       'data.pieces': function (val) {
-        this.boardColor = val
+        this.pieceColor = val
+        this.drawBoard()
+      },
+      'data.board': function (val) {
+        this.bordColor = val
         this.drawBoard()
       }
     },
@@ -107,7 +129,8 @@
 
         if(this.data.pieces){
           this.boardCfg.pieceTheme = '/assets/img/chesspieces/' + this.data.pieces + '/{piece}.png'
-          this.boardColor = this.data.pieces
+          this.boardColor = this.data.board
+          this.pieceColor = this.data.pieces
         }
 
         this.board = Chessboard('board', this.boardCfg)      

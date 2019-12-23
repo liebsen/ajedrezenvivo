@@ -339,7 +339,7 @@
 
             if(pref.pieces){
               cfg.pieceTheme = '/assets/img/chesspieces/' + pref.pieces + '/{piece}.png'
-              this.boardColor = pref.pieces
+              this.boardColor = pref.board
             }
 
             this.board = Chessboard('board', cfg)

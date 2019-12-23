@@ -41,6 +41,7 @@ new Vue({
       available: true,
       sound: true,
       pieces: 'classic',
+      board:'classic',
       minutes: 10
     }
 

@@ -310,7 +310,7 @@
           }
           if(pref.pieces){
             t.boardCfg.pieceTheme = '/assets/img/chesspieces/' + pref.pieces + '/{piece}.png'
-            t.boardColor = pref.pieces
+            t.boardColor = pref.board
           }
 
           t.board = Chessboard('board', t.boardCfg)
@@ -325,6 +325,7 @@
           }
 
           // resize event handling
+
           $(window).resize(() => {
             t.board.resize()
             t.highlightLastMove()
@@ -416,6 +417,31 @@
         this.uciCmd('position startpos moves' + this.get_moves());
         this.uciCmd("go " + (this.time.depth ? "depth " + this.time.depth : ""));
       },
+      moveSound: function(move){
+        var sound = 'move.mp3'
+
+        if(this.game.game_over()){
+          sound = 'game-end.mp3'
+        } else {
+          if(move.flags === 'c'){
+            sound = 'capture.mp3'        
+          }
+
+          if(move.flags === 'k'){
+            sound = 'castle.mp3'
+          }
+
+          if(move.flags === 'q'){
+            sound = 'castle.mp3'
+          }
+
+          if (this.game.in_check() === true) {
+            sound = 'check.mp3'
+          }
+        }
+
+        playSound(sound)
+      },
       removeHighlight: function(){
         document.querySelectorAll('.square-55d63').forEach((item) => {
           item.classList.remove('highlight-move')
@@ -425,15 +451,13 @@
       addHightlight : function(move){
         var t = this
         t.removeHighlight()
-        setTimeout(() => {
-          if(move){
-            if (t.game.in_check() === true) {
-              t.boardEl.querySelector('img[data-piece="' + t.game.turn() + 'K"]').classList.add('in-check')
-            }
-            t.boardEl.querySelector('.square-' + move.from).classList.add('highlight-move');
-            t.boardEl.querySelector('.square-' + move.to).classList.add('highlight-move');   
+        if(move){
+          if (t.game.in_check() === true) {
+            t.boardEl.querySelector('img[data-piece="' + t.game.turn() + 'K"]').classList.add('in-check')
           }
-        },200)
+          t.boardEl.querySelector('.square-' + move.from).classList.add('highlight-move');
+          t.boardEl.querySelector('.square-' + move.to).classList.add('highlight-move');   
+        }
       },
       highlightLastMove: function(){
         var history = this.game.history({verbose:true})
@@ -444,16 +468,27 @@
       },
       updateMoves:function(move){
         var t = this
-        setTimeout(() => {
-          var sound = 'move.mp3'
-
-          if(t.game.game_over()){
-            if(t.game.in_draw() || t.game.in_stalemate() || t.game.in_threefold_repetition()){
+        if(t.game.game_over()){
+          if(t.game.in_draw() || t.game.in_stalemate() || t.game.in_threefold_repetition()){
+            swal({
+              title: "La partida finalizó en tablas",
+              text: '¿Deseas jugar otra vez?',
+              buttons: ["No", "Sí"]
+            }).then(accept => {
+              if (accept) {
+                t.gameRestart()
+              } else {
+                console.log('Clicked on cancel')
+              }
+            })
+          } else {
+            if(t.game.turn() === t.playerColor[0]){
               swal({
-                title: "La partida finalizó en tablas",
+                title: "Stockfish ganó la partida",
                 text: '¿Deseas jugar otra vez?',
                 buttons: ["No", "Sí"]
-              }).then(accept => {
+              })
+              .then(accept => {
                 if (accept) {
                   t.gameRestart()
                 } else {
@@ -461,68 +496,36 @@
                 }
               })
             } else {
-              if(t.game.turn() === t.playerColor[0]){
-                swal({
-                  title: "Stockfish ganó la partida",
-                  text: '¿Deseas jugar otra vez?',
-                  buttons: ["No", "Sí"]
-                })
-                .then(accept => {
-                  if (accept) {
-                    t.gameRestart()
-                  } else {
-                    console.log('Clicked on cancel')
-                  }
-                })
-              } else {
-                swal({
-                  title: "¿Deseas jugar otra vez?",
-                  text: 'Venciste a Stockfish. ¡Felicitaciones! ',
-                  icon: "success",
-                  buttons: ["No", "Sí"]
-                })
-                .then(accept => {
-                  if (accept) {
-                    t.gameRestart()
-                  } else {
-                    console.log('Clicked on cancel')
-                  }
-                })
-              }
-            }
-
-            sound = 'game-end.mp3'
-            t.announced_game_over = true
-          } else {
-
-            if(move.flags === 'c'){
-              sound = 'capture.mp3'        
-            }
-
-            if(move.flags === 'k'){
-              sound = 'castle.mp3'
-            }
-
-            if(move.flags === 'q'){
-              sound = 'castle.mp3'
-            }
-
-            if (t.game.in_check() === true) {
-              sound = 'check.mp3'
+              swal({
+                title: "¿Deseas jugar otra vez?",
+                text: 'Venciste a Stockfish. ¡Felicitaciones! ',
+                icon: "success",
+                buttons: ["No", "Sí"]
+              })
+              .then(accept => {
+                if (accept) {
+                  t.gameRestart()
+                } else {
+                  console.log('Clicked on cancel')
+                }
+              })
             }
           }
+          t.announced_game_over = true
+        }
 
+        const game_pgn = t.game.pgn()
+        t.pgnIndex = this.gamePGNIndex(game_pgn)
 
-          playSound(sound)
+        
+        setTimeout(() => {
+          this.addHightlight(move)
+          this.moveSound(move)
+        },250)
 
-          const game_pgn = t.game.pgn()
-          t.addHightlight(move)
-          t.pgnIndex = this.gamePGNIndex(game_pgn)
-
-          const movesTable = document.querySelector(".movesTableContainer")
-          movesTable.scrollTop = movesTable.scrollHeight
-          t.thinking = false
-        },10)
+        const movesTable = document.querySelector(".movesTableContainer")
+        movesTable.scrollTop = movesTable.scrollHeight
+        t.thinking = false
 
         if(t.game.history().length < 14){
           setTimeout(() => {

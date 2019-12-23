@@ -279,22 +279,27 @@
                 background-color: #ababab;
             }
         }
+
+        .highlight-move {
+            filter: brightness(110%);
+        }
     }
 
-    .eight_bit {
+
+    .book {
 
         .white-1e1d7 {
-            background-color: #f3f3f4;
-            color:#6a9b41;
+            background-color: #efefef;
+            color:#ababab;
         }
         .black-3c85d {
-            background-color: #6a9b41;
-            color:#f3f3f4;
+            background-color: #ababab;
+            color:#efefef;
         }
         .score-container {
-            background-color: #f3f3f4;
+            background-color: #efefef;
             .score {
-                background-color: #6a9b41;
+                background-color: #ababab;
             }
         }
     }
@@ -317,28 +322,26 @@
         }
     }
 
-
     .modern {
-
         .white-1e1d7 {
-            background-color: #e4e2df;
-            color:#32664a;
+            background-color: #f3f3f4;
+            color:#6a9b41;
         }
         .black-3c85d {
-            background-color: #32664a;
-            color:#e4e2df;
+            background-color: #6a9b41;
+            color:#f3f3f4;
         }
         .score-container {
-            background-color: #e4e2df;
+            background-color: #f3f3f4;
             .score {
-                background-color: #32664a;
+                background-color: #6a9b41;
             }
         }
+
         .highlight-move {
-            filter: brightness(125%);
+            filter: brightness(110%);
         }
     }
-
 
     .neon {
         .white-1e1d7 {
@@ -356,7 +359,7 @@
             }
         }
         .highlight-move {
-            filter: brightness(85%);
+            filter: brightness(90%);
         }
     }
 

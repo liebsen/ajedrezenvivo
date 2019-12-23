@@ -40,13 +40,13 @@
                       </div>
 
                       <div class="moveCell moveSAN movew" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
-                        <a class="moveindex" :href="'#'+(move.i-2)">
+                        <a :class="'moveindex m' + (move.i-2)" @click="gamePos(move.i-2)">
                           <span v-html="move.white"></span>
                         </a>
                       </div>
 
                       <div class="moveCell moveSAN moveb" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
-                        <a class="moveindex" :href="'#'+(move.i-1)">
+                        <a :class="'moveindex m' + (move.i-1)" @click="gamePos(move.i-1)">
                           <span v-html="move.black"></span>
                         </a>
                       </div>
@@ -69,14 +69,10 @@
   import Chessboard from '../../assets/js/chessboard'
   import snackbar from '../components/Snackbar'
   import swal from 'sweetalert'
+  import playSound from '../components/playSound'
 
   export default {
     name: 'playeco',
-    watch: {
-      '$route': function () {
-        this.gameSeek()
-      }
-    },
     mounted: function(){
       if(localStorage.getItem('speed')){
         this.speed = parseInt(localStorage.getItem('speed'))
@@ -88,16 +84,11 @@
       gameMove:function(){
         if(!this.paused){
           var move = this.gameMoves[this.index];
-          this.selectedIndex = parseInt(location.hash.replace('#',''))
 
           // exit if the game is over
           if (!move || this.game.game_over() === true ||
             this.game.in_draw() === true ||
             this.gameMoves.length === 0) return;
-
-          document.querySelectorAll(this.squareClass).forEach((item) => {
-            item.classList.remove('highlight-move');
-          })
 
           document.querySelectorAll('.moveindex').forEach((item) => {
             item.parentNode.classList.remove('active');
@@ -105,10 +96,10 @@
 
           var perc = (this.index + 1) / this.gameMoves.length * 100;
           $('.bar-progress').animate({width:perc+'%'},this.speed,'linear')
-          document.querySelector('.moveindex[href="#' + this.index + '"]').parentNode.classList.add('active')
+          document.querySelector('.moveindex.m' + this.index).parentNode.classList.add('active')
 
-          var n = document.querySelector('.moveindex[href="#' + this.index + '"]').parentNode.offsetTop
-          var x = document.querySelector('.moveindex[href="#' + this.index + '"]').parentNode.clientHeight
+          var n = document.querySelector('.moveindex.m' + this.index).parentNode.offsetTop
+          var x = document.querySelector('.moveindex.m' + this.index).parentNode.clientHeight
           var y = n + x
           var h = parseInt(document.querySelector('.movesTableContainer').style.height)
           if(y>h){
@@ -117,19 +108,41 @@
 
           this.index++
           const moved = this.game.move(move)
-          this.board.position(this.game.fen());  
+          this.board.position(this.game.fen())
 
-          if(moved){
-            document.querySelector('.square-' + moved.from).classList.add('highlight-move')
-            document.querySelector('.square-' + moved.to).classList.add('highlight-move')
-          }
 
           if(this.index === this.gameMoves.length){
             this.gamePause()
           }
 
+          setTimeout(() => {
+            this.moveSound(moved)
+            this.addHightlight(moved)
+          },250)
+
           setTimeout(this.gameMove, this.speed)
         }
+      },
+      moveSound: function(move){
+        var sound = 'move.mp3'
+
+        if(move.flags === 'c'){
+          sound = 'capture.mp3'        
+        }
+
+        if(move.flags === 'k'){
+          sound = 'castle.mp3'
+        }
+
+        if(move.flags === 'q'){
+          sound = 'castle.mp3'
+        }
+
+        if (this.game.in_check() === true) {
+          sound = 'check.mp3'
+        }
+
+        playSound(sound)
       },
       gamePGN:function(pgn){
         var data = []
@@ -147,7 +160,6 @@
       gamePGNIndex:function(pgn){
         var data = []
         , index = 0
-        , selectedIndex = parseInt(location.hash.replace('#',''))
         , symbols = [
           {K:'♔',Q:'♕',B:'♗',N:'♘',R:'♖',p:'♙'},
           {K:'♚',Q:'♛',B:'♝',N:'♞',R:'♜',p:'♟'}
@@ -192,16 +204,19 @@
 
             if(pref.pieces){
               this.boardCfg.pieceTheme = '/assets/img/chesspieces/' + pref.pieces + '/{piece}.png'
-              this.boardColor = pref.pieces
+              this.boardColor = pref.board
             }
 
             this.board = Chessboard('board', this.boardCfg)      
 
             $(window).resize(() => {
               this.board.resize()
+              t.highlightLastMove()
             })
 
-            this.board.resize()
+
+            playSound('game-start.mp3')
+
 
             const offset = 100
             setTimeout(() => {
@@ -209,11 +224,37 @@
 
               setTimeout(() => {
                 /* autoplay kickstart */
-                this.gameSeek()
-              }, 500)
+                this.gameMove()
+              }, 1000)
             }, 500)
           },2000)
         })
+      },
+      removeHighlight: function(){
+        this.boardEl.querySelectorAll('.square-55d63').forEach((item) => {
+          item.classList.remove('highlight-move')
+          item.classList.remove('in-check')
+        })
+      },
+      addHightlight : function(move){
+        var t = this
+        t.removeHighlight()
+        if(move){
+          if (t.game.in_check() === true) {
+            t.boardEl.querySelector('img[data-piece="' + t.game.turn() + 'K"]').classList.add('in-check')
+          }
+          t.boardEl.querySelector('.square-' + move.from).classList.add('highlight-move');
+          t.boardEl.querySelector('.square-' + move.to).classList.add('highlight-move');   
+        }
+      },
+      highlightLastMove: function(){
+        var history = this.game.history({verbose:true})
+        if(history.length){
+          var move = history[history.length-1]
+          setTimeout(() => {
+            this.addHightlight(move)
+          },250)          
+        }
       },
       gameFlip: function(){
         this.board.flip()
@@ -221,18 +262,6 @@
         const foot = document.querySelector('.board > .foot').innerHTML
         document.querySelector('.board > .head').innerHTML = foot
         document.querySelector('.board > .foot').innerHTML = head
-      },
-      gameSeek:function(){
-        window.setTimeout(() => {
-          this.selectedIndex = parseInt(location.hash.replace('#',''))
-          if(!isNaN(this.selectedIndex)) {
-            this.gamePos(this.selectedIndex)
-          }
-          this.gameMove()
-          if(!isNaN(this.selectedIndex) && !this.paused) {
-            this.gamePause()
-          }
-        }, 10)
       },
       gamePos:function(pos){
         if(pos > this.gameMoves.length){
@@ -253,23 +282,29 @@
           }   
         })
 
-        document.querySelectorAll('.square').forEach((item) => {
-          item.classList.remove('highlight-move')
-        })
-
         document.querySelectorAll('.moveindex').forEach((item) => {
           item.parentNode.classList.remove('active');
         })
 
-        document.querySelector('.moveindex[href="#' + this.index + '"]').parentNode.classList.add('active');
+        document.querySelector('.moveindex.m' + this.index).parentNode.classList.add('active');
 
         var perc = (this.index + 1) / this.gameMoves.length * 100;
         $('.bar-progress').animate({width:perc+'%'},100,'linear')
         const pgns = pgn.join(' ')
         this.game.reset()
-
         this.game.load_pgn(pgns) 
+        
+        const moved = this.game.move(move)
         this.board.position(this.game.fen())
+
+        setTimeout(() => {
+          this.moveSound(moved)
+          this.addHightlight(moved)
+        },250)          
+
+        if(!this.paused) {
+          this.gamePause()
+        }
       },
       gamePause:function(){
         this.paused = !this.paused
@@ -287,11 +322,6 @@
         } else {
           this.speed-=s
         }
-      },
-      onMoveEnd: function() {
-        document.querySelectorAll('.square-' + this.squareToHighlight).forEach((square) => {
-          square.classList.add('highlight-move');
-        })
       },
       setClock : function(){
         this.gamePause()
@@ -330,7 +360,6 @@
           showErrors:true,
           position: 'start',
           draggable: false,
-          onMoveEnd: this.onMoveEnd,
           moveSpeed:250,
           pieceTheme:'/assets/img/chesspieces/wikipedia/{piece}.png'
         },
@@ -338,20 +367,16 @@
         data:{},
         eco:{},
         duration:0,
-        ecode:'&nbsp;',
-        opening:'&nbsp;',
+        ecode:'',
+        opening:'',
         board:null,
         game:null,
         gameMoves:[],
         pgnIndex:[],
-        room: location.pathname.replace('/',''),
-        selectedIndex: parseInt(location.hash.replace('#','')),
-        boardEl:document.getElementById('board'),
+        boardEl:null,
         index:0,
         paused:false,
-        speed:3000,
-        squareToHighlight:null,
-        squareClass:'.square-55d63'
+        speed:3000
       }
     }
   }
