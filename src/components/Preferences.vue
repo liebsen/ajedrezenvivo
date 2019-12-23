@@ -13,10 +13,11 @@
           <input type="text" v-model="data.code" class="input" required>
         </div>
         <div class="column">
-          <label class="label">Temas</label>
+          <label class="label">Estilo</label>
           <div class="field">
             <div class="select">
               <select v-model="data.board" id="tablero">
+                <option value="classic">Estilo Tablero</option>
                 <option value="classic">Classic</option>
                 <option value="neo">Neo</option>
                 <option value="wood">Wood</option>
@@ -31,11 +32,11 @@
                 <option value="neon">Neon</option>
               </select>
             </div>
-            <label class="label" for="tablero">Tablero</label>
           </div>
           <div class="field">
             <div class="select">
               <select v-model="data.pieces" id="piezas">
+                <option value="classic">Estilo Piezas</option>
                 <option value="classic">Classic</option>
                 <option value="neo">Neo</option>
                 <option value="wood">Wood</option>
@@ -50,7 +51,6 @@
                 <option value="neon">Neon</option>
               </select>
             </div>
-            <label class="label" for="piezas">Piezas</label>
           </div>
           <div class="board-container">
             <div id="board" :class="boardColor"></div>
