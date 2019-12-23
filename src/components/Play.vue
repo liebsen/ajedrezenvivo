@@ -730,7 +730,7 @@
           const movesTable = document.querySelector(".movesTableContainer")
           movesTable.scrollTop = movesTable.scrollHeight
 
-        },100)
+        },10)
 
         if(t.game.history().length < 14){
           setTimeout(() => {
@@ -760,7 +760,7 @@
             t.boardEl.querySelector('.square-' + move.from).classList.add('highlight-move');
             t.boardEl.querySelector('.square-' + move.to).classList.add('highlight-move');   
           }
-        },10)
+        },100)
       },
       highlightLastMove: function(){
         var history = this.game.history({verbose:true})

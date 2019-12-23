@@ -327,12 +327,7 @@
           // resize event handling
           $(window).resize(() => {
             t.board.resize()
-            var history = t.game.history({verbose:true})
-            if(history.length){
-              var move = history[history.length-1]
-              document.querySelector('.square-' + move.from).classList.add('highlight-move')
-              document.querySelector('.square-' + move.to).classList.add('highlight-move')
-            }
+            t.highlightLastMove()
             t.boardTaps()
           })
 
@@ -439,6 +434,13 @@
             t.boardEl.querySelector('.square-' + move.to).classList.add('highlight-move');   
           }
         },100)
+      },
+      highlightLastMove: function(){
+        var history = this.game.history({verbose:true})
+        if(history.length){
+          var move = history[history.length-1]
+          this.addHightlight(move)
+        }
       },
       updateMoves:function(move){
         var t = this

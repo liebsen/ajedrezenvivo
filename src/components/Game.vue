@@ -159,43 +159,13 @@
             this.game.in_draw() === true ||
             this.gameMoves.length === 0) return;
 
-          document.querySelectorAll('.square-55d63').forEach((item) => {
-            item.classList.remove('highlight-move')
-            item.classList.remove('in-check')
-          })
-
-          document.querySelectorAll('.moveindex').forEach((item) => {
-            item.parentNode.classList.remove('active');
-          })
-
           var perc = (this.index + 1) / this.gameMoves.length * 100;
           $('.bar-progress').animate({width:perc+'%'},this.speed,'linear')
-          document.querySelector('.moveindex.m' + this.index).parentNode.classList.add('active')
 
-          var n = document.querySelector('.moveindex.m' + this.index).parentNode.offsetTop
-          var x = document.querySelector('.moveindex.m' + this.index).parentNode.clientHeight
-          var y = n + x
-          var h = parseInt(document.querySelector('.movesTableContainer').style.height)
-          if(y>h){
-            document.querySelector('.movesTableContainer').scrollTop = n
-          }
-
-          this.index++
+ 
           const moved = this.game.move(move)
 
-          if(this.game.history().length < 14){
-            setTimeout(() => {
-              this.eco.forEach((eco,i) => {
-                if(eco.pgn === this.game.pgn()){
-                  this.opening = eco.name
-                  this.ecode = eco.eco
-                }
-              })
-            },1000)
-          }
-
-          this.board.position(this.game.fen());  
-
+          this.board.position(this.game.fen())
 
           var sound = 'move.mp3'
 
@@ -221,20 +191,39 @@
 
           playSound(sound)
 
-          if (this.game.in_check() === true) {
-            document.querySelector('img[data-piece="' + this.game.turn() + 'K"]').parentNode.classList.add('in-check')
-          }
+          this.addHightlight(moved)
 
           this.uciCmd('position startpos moves' + this.get_moves(), this.evaler);
           this.uciCmd("eval", this.evaler);
 
-          if(moved){
-            document.querySelector('.square-' + moved.from).classList.add('highlight-move')
-            document.querySelector('.square-' + moved.to).classList.add('highlight-move')
-          }
-
           if(this.index === this.gameMoves.length){
             this.gamePause()
+          }
+
+          document.querySelectorAll('.moveindex').forEach((item) => {
+            item.parentNode.classList.remove('active');
+          })
+          document.querySelector('.moveindex.m' + this.index).parentNode.classList.add('active')
+
+          var n = document.querySelector('.moveindex.m' + this.index).parentNode.offsetTop
+          var x = document.querySelector('.moveindex.m' + this.index).parentNode.clientHeight
+          var y = n + x
+          var h = parseInt(document.querySelector('.movesTableContainer').style.height)
+          if(y>h){
+            document.querySelector('.movesTableContainer').scrollTop = n
+          }
+
+          this.index++
+
+          if(this.game.history().length < 14){
+            setTimeout(() => {
+              this.eco.forEach((eco,i) => {
+                if(eco.pgn === this.game.pgn()){
+                  this.opening = eco.name
+                  this.ecode = eco.eco
+                }
+              })
+            },1000)
           }
 
           setTimeout(this.gameMove, this.speed)
@@ -295,10 +284,58 @@
       gameStart: function(){
         this.$root.loading = true
         const pref = JSON.parse(localStorage.getItem('player'))||{}
+        this.boardEl = document.getElementById('board')
         axios.post( this.$root.endpoint + '/game', {id:this.$route.params.game} ).then((res) => {
           if(!Object.keys(res.data).length) return location.href="/404"
           var game = res.data
           const totalms = this.$root.countMoves(game.pgn) * this.speed
+
+
+          this.gameMoves = this.gamePGN(game.pgn)
+          this.pgnIndex = this.gamePGNIndex(game.pgn)
+          this.data = game
+          this.duration = totalms / 1000
+          this.$root.loading = false
+
+          setTimeout(() => {
+            this.game = new Chess()
+
+            if(pref.pieces){
+              this.boardCfg.pieceTheme = '/assets/img/chesspieces/' + pref.pieces + '/{piece}.png'
+              this.boardColor = pref.pieces
+            }
+
+            this.board = Chessboard('board', this.boardCfg)
+            this.orientation = this.board.orientation()
+
+            $(window).resize(() => {
+              t.board.resize()
+              t.highlightLastMove()
+            })
+
+            playSound('game-start.mp3')
+
+            
+
+            document.querySelector('.pres-container .is-player-white').classList.add('slideOutTL') 
+            document.querySelector('.pres-container .is-player-black').classList.add('slideOutTR') 
+            document.querySelector('.pres-container .is-player-info').classList.add('slideOutB') 
+            document.querySelector('.pres-container').classList.add('fadeOut')   
+            setTimeout(() => {
+              document.querySelector('.pres-container').style.display = 'none'
+            },1500)           
+
+            const offset = 100
+            setTimeout(() => {
+              document.querySelector('.movesTableContainer').style.height = ($('.board').height() - offset) + 'px'
+
+              setTimeout(() => {
+                /* autoplay kickstart */
+                this.gameSeek()
+              }, 1000)
+            }, 500)
+          },2000)
+
 
           this.evaler = typeof STOCKFISH === "function" ? STOCKFISH() : new Worker('/assets/js/stockfish.js')
 
@@ -325,51 +362,33 @@
               return;
             }
           }
-
-          this.gameMoves = this.gamePGN(game.pgn)
-          this.pgnIndex = this.gamePGNIndex(game.pgn)
-          this.data = game
-          this.duration = totalms / 1000
-          this.$root.loading = false
-
-          setTimeout(() => {
-            this.boardEl = document.getElementById('board')
-            this.game = new Chess()
-
-            if(pref.pieces){
-              this.boardCfg.pieceTheme = '/assets/img/chesspieces/' + pref.pieces + '/{piece}.png'
-              this.boardColor = pref.pieces
-            }
-
-            this.board = Chessboard('board', this.boardCfg)
-            this.orientation = this.board.orientation()
-            $(window).resize(() => {
-              this.board.resize()
-            })
-
-            this.board.resize()
-
-            playSound('game-start.mp3')
-
-            document.querySelector('.pres-container .is-player-white').classList.add('slideOutTL') 
-            document.querySelector('.pres-container .is-player-black').classList.add('slideOutTR') 
-            document.querySelector('.pres-container .is-player-info').classList.add('slideOutB') 
-            document.querySelector('.pres-container').classList.add('fadeOut')   
-            setTimeout(() => {
-              document.querySelector('.pres-container').style.display = 'none'
-            },1500)           
-
-            const offset = 100
-            setTimeout(() => {
-              document.querySelector('.movesTableContainer').style.height = ($('.board').height() - offset) + 'px'
-
-              setTimeout(() => {
-                /* autoplay kickstart */
-                this.gameSeek()
-              }, 500)
-            }, 500)
-          },2000)
         })
+      },
+      removeHighlight: function(){
+        document.querySelectorAll('.square-55d63').forEach((item) => {
+          item.classList.remove('highlight-move')
+          item.classList.remove('in-check')
+        })
+      },
+      addHightlight : function(move){
+        var t = this
+        t.removeHighlight()
+        setTimeout(() => {
+          if(move){
+            if (t.game.in_check() === true) {
+              $('img[data-piece="' + t.game.turn() + 'K"]').parent().addClass('in-check')
+            }
+            t.boardEl.querySelector('.square-' + move.from).classList.add('highlight-move');
+            t.boardEl.querySelector('.square-' + move.to).classList.add('highlight-move');   
+          }
+        },100)
+      },
+      highlightLastMove: function(){
+        var history = this.game.history({verbose:true})
+        if(history.length){
+          var move = history[history.length-1]
+          this.addHightlight(move)
+        }
       },
       gameFlip: function(){
         this.board.flip()
@@ -520,7 +539,7 @@
         pgnIndex:[],
         room: location.pathname.replace('/',''),
         selectedIndex: parseInt(location.hash.replace('#','')),
-        boardEl:document.getElementById('board'),
+        boardEl:null,
         index:0,
         paused:false,
         speed:3000,
