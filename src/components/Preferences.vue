@@ -22,18 +22,20 @@
         <div class="column">
           <label class="label">Temas</label>
           <div class="field">
-            <select v-model="data.pieces">
-              <option value="classic">Classic</option>
-              <option value="neo">Neo</option>
-              <option value="wood">Wood</option>
-              <option value="newspaper">Newspaper</option>
-              <option value="maya">Maya</option>
-              <option value="bases">Bases</option>
-              <option value="condal">Condal</option>
-              <option value="modern">Modern</option>
-              <option value="club">Club</option>
-              <option value="neon">Neon</option>
-            </select>
+            <div class="select">
+              <select v-model="data.pieces">
+                <option value="classic">Classic</option>
+                <option value="neo">Neo</option>
+                <option value="wood">Wood</option>
+                <option value="newspaper">Newspaper</option>
+                <option value="maya">Maya</option>
+                <option value="bases">Bases</option>
+                <option value="condal">Condal</option>
+                <option value="modern">Modern</option>
+                <option value="club">Club</option>
+                <option value="neon">Neon</option>
+              </select>
+            </div>
           </div>
           <div class="board-container">
             <div :class="boardColor">

@@ -427,6 +427,19 @@
           item.classList.remove('in-check')
         })
       },
+      addHightlight : function(move){
+        var t = this
+        t.removeHighlight()
+        setTimeout(() => {
+          if(move){
+            if (t.game.in_check() === true) {
+              $('img[data-piece="' + t.game.turn() + 'K"]').parent().addClass('in-check')
+            }
+            t.boardEl.querySelector('.square-' + move.from).classList.add('highlight-move');
+            t.boardEl.querySelector('.square-' + move.to).classList.add('highlight-move');   
+          }
+        },10)
+      },
       updateMoves:function(move){
         var t = this
         setTimeout(() => {
@@ -497,23 +510,16 @@
             }
           }
 
-          t.removeHighlight()
-          t.thinking = false
+
           playSound(sound)
 
-          document.querySelector('.square-' + move.from).classList.add('highlight-move')
-          document.querySelector('.square-' + move.to).classList.add('highlight-move')
-
-          if (t.game.in_check() === true) {
-            document.querySelector('img[data-piece="' + t.game.turn() + 'K"]').parentNode.classList.add('in-check')
-          }
-
           const game_pgn = t.game.pgn()
+          t.addHightlight(move)
           t.pgnIndex = this.gamePGNIndex(game_pgn)
 
           const movesTable = document.querySelector(".movesTableContainer")
           movesTable.scrollTop = movesTable.scrollHeight
-
+          t.thinking = false
         },10)
 
         if(t.game.history().length < 14){
