@@ -417,7 +417,7 @@
 
         this.index = pos
 
-        const moves = this.gameMoves.slice(0,this.index + 1)
+        const moves = this.gameMoves.slice(0,this.index)
         var move = this.gameMoves[this.index];
         // ---------------
         var pgn = []
@@ -429,11 +429,6 @@
           }   
         })
 
-        document.querySelectorAll('.square-55d63').forEach((item) => {
-          item.classList.remove('highlight-move')
-          item.classList.remove('in-check')
-        })
-
         document.querySelectorAll('.moveindex').forEach((item) => {
           item.parentNode.classList.remove('active');
         })
@@ -443,22 +438,16 @@
         var perc = (this.index + 1) / this.gameMoves.length * 100;
         $('.bar-progress').animate({width:perc+'%'},100,'linear')
         const pgns = pgn.join(' ')
-        console.log(pgns)
         this.game.reset()
 
         this.game.load_pgn(pgns) 
-        this.board.position(this.game.fen())
-        this.game.undo()
-
+        
         const moved = this.game.move(move)
+        this.board.position(this.game.fen())
+        this.addHightlight(moved)
 
-        if (this.game.in_check() === true) {
-          document.querySelector('img[data-piece="' + this.game.turn() + 'K"]').parentNode.classList.add('in-check')
-        }
-
-        if(moved){
-          document.querySelector('.square-' + moved.from).classList.add('highlight-move')
-          document.querySelector('.square-' + moved.to).classList.add('highlight-move')
+        if(!this.paused) {
+          this.gamePause()
         }
       },
       gamePause:function(){
