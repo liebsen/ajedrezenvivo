@@ -438,7 +438,7 @@
             t.boardEl.querySelector('.square-' + move.from).classList.add('highlight-move');
             t.boardEl.querySelector('.square-' + move.to).classList.add('highlight-move');   
           }
-        },10)
+        },100)
       },
       updateMoves:function(move){
         var t = this
@@ -474,8 +474,8 @@
                 })
               } else {
                 swal({
-                  title: "¡Ganaste!",
-                  text: 'Venciste a Stockfish. ¡Felicitaciones! ¿Deseas jugar otra vez?',
+                  title: "¿Deseas jugar otra vez?",
+                  text: 'Venciste a Stockfish. ¡Felicitaciones! ',
                   icon: "success",
                   buttons: ["No", "Sí"]
                 })

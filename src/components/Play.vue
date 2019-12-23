@@ -730,7 +730,7 @@
           const movesTable = document.querySelector(".movesTableContainer")
           movesTable.scrollTop = movesTable.scrollHeight
 
-        },10)
+        },100)
 
         if(t.game.history().length < 14){
           setTimeout(() => {
