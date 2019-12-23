@@ -149,6 +149,7 @@
         })
 
       t.gameLoad()
+      t.$socket.emit('lobby_leave', t.$root.player)
       t.$socket.emit('join',t.$route.params.game)
     },
     destroyed () {
@@ -213,6 +214,7 @@
         if(data.asker === this.$root.player.code){
           swal.close()
           swal("Partida declinada", 'Lamentablemente 👤 ' + data.player + ' declinó la partida')
+          this.$socket.emit('lobby_join', this.$root.player)
         }
       },
       invite: function(data) {
@@ -245,6 +247,7 @@
               })
             } else {
               t.$socket.emit('reject', data)
+              t.$socket.emit('lobby_join', t.$root.player)
               console.log('Clicked on cancel')
             }
           })
@@ -277,7 +280,7 @@
       capitulate: function(data){
         var t = this
         var result = null
-        if(data.asker === this.$root.player.code){
+        if(data.asker === t.$root.player.code){
           result = (t.playerColor==='black'?'1-0':'0-1')
           swal({
             title: '¿Deseas la revancha?',
@@ -286,18 +289,20 @@
           })
           .then(accept => {
             if (accept) {
-              this.$socket.emit('invite', {
-                asker:this.$root.player.code,
+              t.$socket.emit('invite', {
+                asker:t.$root.player.code,
                 player:t.opponentName
               })
             } else {
+              t.$socket.emit('lobby_join', t.$root.player)
+              t.$socket.emit('lobby_join', t.opponentName)
               console.log('Clicked on cancel')
             }
           })
         } else {
           result = (t.playerColor==='white'?'1-0':'0-1')
           t.$socket.emit('data',{
-            id:this.$route.params.game,
+            id:t.$route.params.game,
             wtime: t.timer.w,
             wtime: t.timer.b,
             result:result
