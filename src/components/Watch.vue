@@ -225,12 +225,12 @@
         t.removeHighlight();
         if(move){
           if (t.game.in_check() === true) {
-            $('img[data-piece="' + t.game.turn() + 'K"]').parent().addClass('in-check')
+            t.boardEl.querySelector('img[data-piece="' + t.game.turn() + 'K"]').classList.add('in-check')
           }
           setTimeout(function(){
             t.boardEl.querySelector('.square-' + move.from).classList.add('highlight-move');
             t.boardEl.querySelector('.square-' + move.to).classList.add('highlight-move');   
-          },10)
+          },200)
         }
       },
       highlightLastMove: function(){

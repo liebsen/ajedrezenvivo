@@ -376,12 +376,12 @@
         setTimeout(() => {
           if(move){
             if (t.game.in_check() === true) {
-              $('img[data-piece="' + t.game.turn() + 'K"]').parent().addClass('in-check')
+              t.boardEl.querySelector('img[data-piece="' + t.game.turn() + 'K"]').classList.add('in-check')
             }
             t.boardEl.querySelector('.square-' + move.from).classList.add('highlight-move');
             t.boardEl.querySelector('.square-' + move.to).classList.add('highlight-move');   
           }
-        },100)
+        },200)
       },
       highlightLastMove: function(){
         var history = this.game.history({verbose:true})
@@ -439,7 +439,6 @@
         $('.bar-progress').animate({width:perc+'%'},100,'linear')
         const pgns = pgn.join(' ')
         this.game.reset()
-
         this.game.load_pgn(pgns) 
         
         const moved = this.game.move(move)
