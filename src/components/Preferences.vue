@@ -3,7 +3,7 @@
     <section class="content column">
       <h3 class="title">
         <span class="icon">
-          <span class="fas fa-cog"></span>
+          <span class="fas fa-sliders-h"></span>
         </span> 
         <span>Preferencias</span>
       </h3>
@@ -22,11 +22,13 @@
                 <option value="wood">Wood</option>
                 <option value="newspaper">Newspaper</option>
                 <option value="maya">Maya</option>
-                <option value="bases">Bases</option>
+                <option value="glass">Glass</option>
+                <option value="light">Light</option>
                 <option value="condal">Condal</option>
                 <option value="modern">Modern</option>
                 <option value="club">Club</option>
                 <option value="neon">Neon</option>
+                <option value="eight_bit">8 bit</option>
               </select>
             </div>
           </div>
@@ -37,25 +39,24 @@
           </div>
         </div>
         <div class="column">
+          <label class="label">General</label>
           <div class="control">
-            <label class="label">Disponible</label>
             <div class="field">
               <input v-model="data.available" class="is-checkradio has-background-color is-success" id="available" type="checkbox">
-              <label for="available"></label>
+              <label class="label" for="available">Disponible</label>
             </div>
           </div>
           <div class="control">
-            <label class="label">Sonido</label>
             <div class="field">
               <input v-model="data.sound" class="is-checkradio has-background-color is-success" id="sound" type="checkbox">
-              <label for="sound"></label>
+              <label class="label" for="sound">Sonido</label>
             </div>
           </div>
         </div>
       </div>
       <div class="columns has-text-centered">
         <div class="column">
-          <input type="button" @click="submit" class="button is-rounded is-success" :class="{ 'is-loading' : loading }" value="Guardar">
+          <input type="button" @click="submit" class="button is-rounded is-success" :class="{ 'is-loading' : loading }" value="Actualizar preferencias">
         </div>
       </div>
     </section>

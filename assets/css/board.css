@@ -245,6 +245,59 @@
         }
     }
 
+    .glass {
+
+        .white-1e1d7 {
+            background-color: #717b8e;
+            color:#29303e;
+        }
+        .black-3c85d {
+            background-color: #29303e;
+            color:#717b8e;
+        }
+        .score-container {
+            background-color: #717b8e;
+            .score {
+                background-color: #29303e;
+            }
+        }
+    }
+
+    .light {
+
+        .white-1e1d7 {
+            background-color: #dcdcdc;
+            color:#ababab;
+        }
+        .black-3c85d {
+            background-color: #ababab;
+            color:#dcdcdc;
+        }
+        .score-container {
+            background-color: #dcdcdc;
+            .score {
+                background-color: #ababab;
+            }
+        }
+    }
+
+    .eight_bit {
+
+        .white-1e1d7 {
+            background-color: #f3f3f4;
+            color:#6a9b41;
+        }
+        .black-3c85d {
+            background-color: #6a9b41;
+            color:#f3f3f4;
+        }
+        .score-container {
+            background-color: #f3f3f4;
+            .score {
+                background-color: #6a9b41;
+            }
+        }
+    }
 
     .condal {
 

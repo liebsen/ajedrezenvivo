@@ -314,8 +314,7 @@
             })
 
             playSound('game-start.mp3')
-
-            
+           
 
             document.querySelector('.pres-container .is-player-white').classList.add('slideOutTL') 
             document.querySelector('.pres-container .is-player-black').classList.add('slideOutTR') 

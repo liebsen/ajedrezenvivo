@@ -67,7 +67,7 @@
           </router-link>
           <router-link to="/preferences">
             <span class="icon">
-              <span class="fas fa-cog"></span>
+              <span class="fas fa-sliders-h"></span>
             </span> 
             <span>Preferencias</span>
           </router-link>
