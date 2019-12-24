@@ -149,7 +149,6 @@
         })
 
       t.gameLoad()
-      t.$socket.emit('lobby_leave', t.$root.player)
       t.$socket.emit('join',t.$route.params.game)
     },
     destroyed () {
@@ -213,8 +212,7 @@
       reject: function(data) {
         if(data.asker === this.$root.player.code){
           swal.close()
-          swal("Partida declinada", 'Lamentablemente 👤 ' + data.player + ' declinó la partida')
-          this.$socket.emit('lobby_join', this.$root.player)
+          swal("Partida declinada", '👤 ' + data.player + ' declinó la revancha')
         }
       },
       invite: function(data) {
@@ -247,8 +245,6 @@
               })
             } else {
               t.$socket.emit('reject', data)
-              t.$socket.emit('lobby_join', t.$root.player)
-              console.log('Clicked on cancel')
             }
           })
         }
@@ -294,8 +290,6 @@
                 player:t.opponentName
               })
             } else {
-              t.$socket.emit('lobby_join', t.$root.player)
-              t.$socket.emit('lobby_join', t.opponentName)
               console.log('Clicked on cancel')
             }
           })
@@ -751,7 +745,7 @@
         playSound(sound)
       },
       removeHighlight : function() {
-        document.querySelectorAll('.square-55d63').forEach((item) => {
+        this.boardEl.querySelectorAll('.square-55d63').forEach((item) => {
           item.classList.remove('highlight-move')
           item.classList.remove('in-check')
         })
@@ -759,13 +753,16 @@
       addHightlight : function(move){
         var t = this
         t.removeHighlight()
+        
         if(move){
           if (t.game.in_check() === true) {
-            t.boardEl.querySelector('img[data-piece="' + t.game.turn() + 'K"]').classList.add('in-check')
+            setTimeout(() => {
+              t.boardEl.querySelector('img[data-piece="' + t.game.turn() + 'K"]').classList.add('in-check')
+            },200)      
           }
           t.boardEl.querySelector('.square-' + move.from).classList.add('highlight-move');
           t.boardEl.querySelector('.square-' + move.to).classList.add('highlight-move');   
-        }
+        }      
       },
       highlightLastMove: function(){
         var history = this.game.history({verbose:true})

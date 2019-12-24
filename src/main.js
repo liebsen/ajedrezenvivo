@@ -33,8 +33,17 @@ const generateRandomCode = (() => {
 new Vue({
   el: '#app',
   router,
+  watch: {
+    '$route' (to, from) {
+      if(from.name === 'play'){
+        this.$socket.emit('lobby_join', this.$root.player)
+      }
+      if(to.name === 'play'){
+        this.$socket.emit('lobby_leave', this.$root.player) 
+      }
+    }
+  },
   created: function() {
-
     const saved = localStorage.getItem('player')
     var player = { 
       code: generateRandomCode(6), 

@@ -443,7 +443,7 @@
         playSound(sound)
       },
       removeHighlight: function(){
-        document.querySelectorAll('.square-55d63').forEach((item) => {
+        this.boardEl.querySelectorAll('.square-55d63').forEach((item) => {
           item.classList.remove('highlight-move')
           item.classList.remove('in-check')
         })
@@ -453,7 +453,9 @@
         t.removeHighlight()
         if(move){
           if (t.game.in_check() === true) {
-            t.boardEl.querySelector('img[data-piece="' + t.game.turn() + 'K"]').classList.add('in-check')
+            setTimeout(() => {
+              t.boardEl.querySelector('img[data-piece="' + t.game.turn() + 'K"]').classList.add('in-check')
+            },200)
           }
           t.boardEl.querySelector('.square-' + move.from).classList.add('highlight-move');
           t.boardEl.querySelector('.square-' + move.to).classList.add('highlight-move');   

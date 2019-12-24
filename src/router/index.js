@@ -160,10 +160,8 @@ router.beforeEach((to, from, next) => {
   next()
 })
 
-/*
 router.afterEach(function (to, from, next) {
-  next()
 })
-*/
+
 
 export default router
