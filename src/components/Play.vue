@@ -757,7 +757,7 @@
         if(move){
           if (t.game.in_check() === true) {
             setTimeout(() => {
-              t.boardEl.querySelector('img[data-piece="' + t.game.turn() + 'K"]').classList.add('in-check')
+              t.boardEl.querySelector('img[data-piece="' + t.game.turn() + 'K"]').parentNode.classList.add('in-check')
             },200)      
           }
           t.boardEl.querySelector('.square-' + move.from).classList.add('highlight-move');
