@@ -311,9 +311,13 @@
       },
       chat: function(data){
         const chatbox = document.querySelector(".chatbox")
-        const cls = this.$root.player.code === data.sender ? 'is-pulled-right has-text-right' : 'is-pulled-left has-text-left has-background-info has-text-white'
+        const owned = this.$root.player.code === data.sender
+        const cls = owned ? 'is-pulled-right has-text-right' : 'is-pulled-left has-text-left has-background-info has-text-white'
         chatbox.innerHTML+= `<div class="box ${cls}">${data.line}</div>`
         chatbox.scrollTop = chatbox.scrollHeight
+        if(!owned){
+          snackbar('success', '👤 ' + data.sender + ' : ' + data.line)
+        }
         if(data.sender!=this.$root.player.code){
           playSound('chat.mp3')
         }
@@ -439,7 +443,7 @@
           id:this.$route.params.game
         }).then((res) => {
           if(!Object.keys(res.data).length) {
-            return snackbar('error','Hubo un error al crear partida.')
+            return location.href = "/404"
           }
 
           var game = res.data
