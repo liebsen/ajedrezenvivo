@@ -8,8 +8,8 @@ import router from './router'
 import snackbar from './components/Snackbar';
 import playSound from './components/playSound'
 
-//const endpoint='https://ajedrezenvivoapi.herokuapp.com'
-const endpoint='https://ajedrezenvivoapidev.herokuapp.com'
+const endpoint='https://ajedrezenvivoapi.herokuapp.com'
+//const endpoint='https://ajedrezenvivoapidev.herokuapp.com'
 
 require('../assets/css/main.scss')
 require('../assets/css/chessboard.css')
