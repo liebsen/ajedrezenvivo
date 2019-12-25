@@ -131,7 +131,7 @@
         }
     }
 
-    .neo {
+    .green {
         .white-1e1d7 {
             background-color: #eeeed2;
             color:#769656;
@@ -144,6 +144,40 @@
             background-color: #eeeed2;
             .score {
                 background-color: #769656;
+            }
+        }
+    }
+
+    .tournament {
+        .white-1e1d7 {
+            background-color: #e8e6e3;
+            color:#32674a;
+        }
+        .black-3c85d {
+            background-color: #32674a;
+            color:#e8e6e3;
+        }
+        .score-container {
+            background-color: #e8e6e3;
+            .score {
+                background-color: #32674a;
+            }
+        }
+    }
+
+    .purple {
+        .white-1e1d7 {
+            background-color: #efefef;
+            color:#8877b7;
+        }
+        .black-3c85d {
+            background-color: #8877b7;
+            color:#efefef;
+        }
+        .score-container {
+            background-color: #efefef;
+            .score {
+                background-color: #8877b7;
             }
         }
     }
@@ -161,6 +195,40 @@
             background-color: #c9a870;
             .score {
                 background-color: #8a613c;
+            }
+        }
+    }
+
+    .dark-wood {
+        .white-1e1d7 {
+            background-color: #c2a068;
+            color:#6d3a20;
+        }
+        .black-3c85d {
+            background-color: #6d3a20;
+            color:#c2a068;
+        }
+        .score-container {
+            background-color: #c2a068;
+            .score {
+                background-color: #6d3a20;
+            }
+        }
+    }
+
+    .dash {
+        .white-1e1d7 {
+            background-color: #be925a;
+            color:#79412e;
+        }
+        .black-3c85d {
+            background-color: #79412e;
+            color:#be925a;
+        }
+        .score-container {
+            background-color: #be925a;
+            .score {
+                background-color: #79412e;
             }
         }
     }
@@ -184,7 +252,7 @@
         }
     }
 
-    .club {
+    .orange {
 
         .white-1e1d7 {
             background-color: #fce4b2;
@@ -202,7 +270,7 @@
         }
     }
 
-    .maya {
+    .ocean {
 
         .white-1e1d7 {
             background-color: #d7e2e8;
@@ -294,7 +362,7 @@
         }
     }
 
-    .condal {
+    .red {
 
         .white-1e1d7 {
             background-color: #f0d8bf;
@@ -312,7 +380,7 @@
         }
     }
 
-    .modern {
+    .light-green {
         .white-1e1d7 {
             background-color: #f3f3f4;
             color:#6a9b41;
@@ -329,7 +397,7 @@
         }
     }
 
-    .neon {
+    .bubblegum {
         .white-1e1d7 {
             background-color: #ffffff;
             color:#fcd8dd;
@@ -458,6 +526,7 @@
 }
 
 @media screen and (max-width: 769px) {
+
     .is-player-info {
         position: absolute; 
         left: 0; 

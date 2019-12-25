@@ -9,47 +9,57 @@
       </h3>
       <div class="columns">
         <div class="column">
-          <label class="label">Nick</label>
-          <input type="text" v-model="data.code" class="input" required>
-        </div>
-        <div class="column">
-          <label class="label">Temas</label>
-          <div class="field">
-            <div class="select">
-              <select v-model="data.board" id="tablero">
-                <option value="classic">[Tablero]</option>
-                <option value="classic">Classic</option>
-                <option value="neo">Neo</option>
-                <option value="wood">Wood</option>
-                <option value="book">Book</option>
-                <option value="newspaper">Newspaper</option>
-                <option value="maya">Maya</option>
-                <option value="glass">Glass</option>
-                <option value="light">Light</option>
-                <option value="condal">Condal</option>
-                <option value="modern">Modern</option>
-                <option value="club">Club</option>
-                <option value="neon">Neon</option>
-              </select>
+          <div class="field is-horizontal">
+            <div class="field-body">
+              <div class="field">
+                <div class="select">
+                  <select v-model="data.board" id="tablero">
+                    <option value="classic">[Tablero]</option>
+                    <option value="green">Verde</option>
+                    <option value="tournament">Campaña</option>
+                    <option value="purple">Púrpura</option>
+                    <option value="light-green">Verde claro</option>
+                    <option value="wood">Madera</option>
+                    <option value="dark-wood">Madera oscura</option>
+                    <option value="dash">Dash</option>
+                    <option value="book">Libro</option>
+                    <option value="newspaper">Periódico</option>
+                    <option value="ocean">Océano</option>
+                    <option value="glass">Vidrio</option>
+                    <option value="light">Claro</option>
+                    <option value="red">Rojo</option>
+                    <option value="orange">Naranja</option>
+                    <option value="bubblegum">Chicle</option>
+                  </select>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="field">
-            <div class="select">
-              <select v-model="data.pieces" id="piezas">
-                <option value="classic">[Piezas]</option>
-                <option value="classic">Classic</option>
-                <option value="neo">Neo</option>
-                <option value="wood">Wood</option>
-                <option value="book">Book</option>
-                <option value="newspaper">Newspaper</option>
-                <option value="maya">Maya</option>
-                <option value="glass">Glass</option>
-                <option value="light">Light</option>
-                <option value="condal">Condal</option>
-                <option value="modern">Modern</option>
-                <option value="club">Club</option>
-                <option value="neon">Neon</option>
-              </select>
+            <div class="field-body">
+              <div class="field">
+                <div class="select">
+                  <select v-model="data.pieces" id="piezas">
+                    <option value="classic">[Piezas]</option>
+                    <option value="neo">Neo</option>
+                    <option value="neo_wood">Neo Wood</option>
+                    <option value="wood">Wood</option>
+                    <option value="bases">Bases</option>
+                    <option value="book">Book</option>
+                    <option value="cases">Cases</option>
+                    <option value="newspaper">Newspaper</option>
+                    <option value="maya">Maya</option>
+                    <option value="glass">Glass</option>
+                    <option value="gothic">Gothic</option>
+                    <option value="light">Light</option>
+                    <option value="lolz">Lolz</option>
+                    <option value="tigers">Tigers</option>
+                    <option value="condal">Condal</option>
+                    <option value="marble">Marble</option>
+                    <option value="modern">Modern</option>
+                    <option value="club">Club</option>
+                    <option value="neon">Neon</option>
+                  </select>
+                </div>
+              </div>
             </div>
           </div>
           <div class="board-container">
@@ -57,17 +67,27 @@
           </div>
         </div>
         <div class="column">
-          <label class="label">General</label>
-          <div class="control">
-            <div class="field">
-              <input v-model="data.available" class="is-checkradio has-background-color is-success" id="available" type="checkbox">
-              <label class="label" for="available">Disponible</label>
+          <div class="field">
+            <div class="control">
+              <label class="label">Nombre</label>
+              <input type="text" v-model="data.code" class="input" required>
             </div>
           </div>
-          <div class="control">
-            <div class="field">
-              <input v-model="data.sound" class="is-checkradio has-background-color is-success" id="sound" type="checkbox">
-              <label class="label" for="sound">Sonido</label>
+          <div class="field">
+            <div class="control">
+              <label class="label">General</label>
+              <div class="field">
+                <input v-model="data.available" class="is-checkradio has-background-color is-success" id="available" type="checkbox">
+                <label class="label" for="available">Disponible</label>
+              </div>
+              <div class="field">
+                <input v-model="data.autoaccept" class="is-checkradio has-background-color is-success" id="autoaccept" type="checkbox">
+                <label class="label" for="autoaccept">Aceptar automáticamente</label>
+              </div>
+              <div class="field">
+                <input v-model="data.sound" class="is-checkradio has-background-color is-success" id="sound" type="checkbox">
+                <label class="label" for="sound">Sonido</label>
+              </div>
             </div>
           </div>
         </div>

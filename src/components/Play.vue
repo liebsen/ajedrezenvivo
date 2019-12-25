@@ -4,7 +4,7 @@
       <span class="button is-rounded is-info is-small">Esperando jugadores...</span>
     </div>  
     <div class="container is-widescreen">
-      <div class="content column">
+      <div class="content column" v-show="gameStarted">
         <div class="columns">
           <div class="column">
             <div class="board-container">
@@ -43,7 +43,7 @@
             </div>
           </div>
           <div class="column datospartida">
-            <div v-show="gameStarted">
+            <div>
               <div class="columns">
                 <div class="column">
                   <span v-html="ecode" class=""></span> 
@@ -168,10 +168,13 @@
         setTimeout(() => {
           if(!t.gameStarted){
             t.gameStarted = true
-            if(!t.data.result){
-              t.boardTaps()
-              t.startClock()
-            }
+            setTimeout(() => {
+              t.board.resize()
+              if(!t.data.result){
+                t.boardTaps()
+                t.startClock()
+              }
+            },100)            
           }
         },100)
       },
