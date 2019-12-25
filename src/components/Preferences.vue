@@ -74,7 +74,7 @@
       </div>
       <div class="columns has-text-centered">
         <div class="column">
-          <input type="button" @click="submit" class="button is-rounded is-success" :class="{ 'is-loading' : loading }" value="Actualizar preferencias">
+          <input type="button" @click="submit" class="button is-rounded is-success" :class="{ 'is-loading' : $root.saving }" value="Actualizar preferencias">
         </div>
       </div>
     </section>
@@ -103,24 +103,9 @@
       const saved = localStorage.getItem('player')
       if(saved){
         this.data = JSON.parse(saved)
-        this.nick = this.data.code
+        this.saved = JSON.parse(saved)
       }
-
       this.drawBoard()
-    },
-    sockets: {
-      nick: function (data) {
-        if(this.nick === data.oldnick){
-          this.loading = false
-          if(data.exists){
-            snackbar('error','Las preferencias no fueron guardadas: El nick ' + data.nick + ' ya está en uso. Por favor elija otro.')
-          } else {
-            snackbar('success','Las preferencias han sido guardadas correctamente')
-            localStorage.setItem('player', JSON.stringify(this.data))
-            this.$root.player = this.data
-          }
-        }
-      }
     },
     methods: {
       drawBoard:function(){
@@ -140,17 +125,11 @@
         })
       },
       submit: function(){
-        if(this.nick === this.data.code){
-          localStorage.setItem('player', JSON.stringify(this.data))
-          this.$root.player = this.data
-          snackbar('success','Las preferencias han sido guardadas correctamente')
-        } else {
-          this.loading = true
-          this.$socket.emit('preferences',{
-            nick:this.data.code,
-            oldnick:this.nick
-          })
-        }
+        this.$socket.emit('lobby_leave', this.saved) 
+        this.$socket.emit('lobby_leave', this.data) 
+        this.$root.saving = true
+        this.$root.player = this.data
+        this.$socket.emit('preferences',this.data)
       }
     },
     data () {
@@ -162,6 +141,7 @@
           pieceTheme:'/assets/img/chesspieces/classic/{piece}.png'
         },
         data:{},
+        saved:{},
         nick:null,
         boardColor:null,
         boardEl:null,

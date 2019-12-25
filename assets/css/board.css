@@ -163,9 +163,6 @@
                 background-color: #8a613c;
             }
         }
-        .highlight-move {
-            filter: sepia(75%);
-        }
     }
 
 
@@ -220,9 +217,6 @@
             .score {
                 background-color: #7598ad;
             }
-        }
-        .highlight-move {
-            filter: sepia(75%);
         }
     }
 
@@ -279,10 +273,6 @@
                 background-color: #ababab;
             }
         }
-
-        .highlight-move {
-            filter: brightness(110%);
-        }
     }
 
 
@@ -337,10 +327,6 @@
                 background-color: #6a9b41;
             }
         }
-
-        .highlight-move {
-            filter: brightness(110%);
-        }
     }
 
     .neon {
@@ -357,9 +343,6 @@
             .score {
                 background-color: #fcd8dd;
             }
-        }
-        .highlight-move {
-            filter: brightness(90%);
         }
     }
 
@@ -388,7 +371,7 @@
 } 
 
 .highlight-move {
-  filter: saturate(400%);
+  filter: saturate(400%) brightness(120%);
 }
 
 .in-check {

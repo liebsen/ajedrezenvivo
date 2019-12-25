@@ -8,8 +8,8 @@ import router from './router'
 import snackbar from './components/Snackbar';
 import playSound from './components/playSound'
 
-const endpoint='https://ajedrezenvivoapi.herokuapp.com'
-//const endpoint='https://ajedrezenvivoapidev.herokuapp.com'
+//const endpoint='https://ajedrezenvivoapi.herokuapp.com'
+const endpoint='https://ajedrezenvivoapidev.herokuapp.com'
 
 require('../assets/css/main.scss')
 require('../assets/css/chessboard.css')
@@ -36,59 +36,57 @@ new Vue({
   watch: {
     '$route' (to, from) {
       if(from.name === 'play'){
-        this.$socket.emit('lobby_join', this.$root.player)
+        this.$socket.emit('lobby_join', this.player)
       }
       if(to.name === 'play'){
-        this.$socket.emit('lobby_leave', this.$root.player) 
+        this.$socket.emit('lobby_leave', this.player) 
       }
     }
   },
   created: function() {
     const saved = localStorage.getItem('player')
-    var player = { 
+    var preferences = { 
       code: generateRandomCode(6), 
       available: true,
       sound: true,
       pieces: 'classic',
-      board:'classic',
-      minutes: 10
+      board:'classic'
     }
 
     if(saved){
-      player = JSON.parse(saved)
+      preferences = JSON.parse(saved)
     } else {
-      localStorage.setItem('player',JSON.stringify(player))
+      localStorage.setItem('player',JSON.stringify(preferences))
     }
-
-    this.player = player
-
-    this.$socket.emit('preferences',{
-      nick:this.$root.player.code,
-      oldnick:this.$root.code
-    })
-
+    this.player = preferences
+    this.$socket.emit('preferences', preferences)
     this.documentTitle = document.title 
     this.loading = false
   },
   sockets: {
-    nick: function (data) {
-      if(this.$root.code === data.oldnick){
+    player: function (data) {
+      if(data.code === this.player.code){
         if(data.exists){
-          snackbar('error','El nick ' + data.nick + ' ya está en uso, por favor elegí otro')
+          snackbar('error','El nombre ' + data.code + ' ya está en uso, por favor elige otro')
           this.$router.push('/preferences')
         } else {
-          this.$socket.emit('lobby_join', this.$root.player)
+          if(data.available){
+            this.$socket.emit('lobby_join', data)
+          }        
+          this.player = data
+          localStorage.setItem('player',JSON.stringify(data))
         }
+        this.saving = false
       }
     },
     play: function(data) {
-      if(data.asker === this.$root.player.code){
+      if(data.asker === this.player.code){
         swal.close()
         this.$router.push(['/play',data.id].join('/'))
       }
     },
     reject: function(data) {
-      if(data.asker === this.$root.player.code){
+      if(data.asker === this.player.code){
         swal.close()
         swal("Partida declinada", '👤 ' + data.player + ' declinó tu invitación')
       }
@@ -103,11 +101,11 @@ new Vue({
         snackbar('default','No hay jugadores en este momento')       
         document.title = this.documentTitle
       }        
-      this.$root.players = data
+      this.players = data
     },
     invite: function(data) {
       var t = this
-      if(data.player === this.$root.player.code){
+      if(data.player === this.player.code){
         playSound('chat.mp3')
         const template = (`
 <div class="content">
@@ -136,7 +134,7 @@ new Vue({
         })
         .then(accept => {
           if (accept) {
-            axios.post( this.$root.endpoint + '/create', {
+            axios.post( this.endpoint + '/create', {
               white: data.white,
               black: data.black,
               minutes: data.minutes
@@ -163,6 +161,7 @@ new Vue({
   data:{
     endpoint:endpoint,
   	loading:true,
+    saving:true,
     player:{},
     players: [],
     documentTitle:null,

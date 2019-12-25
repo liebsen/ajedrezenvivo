@@ -31,6 +31,7 @@
           </div>
         </div>       
       </div>
+
       <div class="menu-items">
         <router-link to="/"><img src="/assets/img/logo.png"></router-link>
         <div class="menu-links has-text-left">
@@ -91,7 +92,7 @@
       </div>    
     </div>
     
-    <router-view  />
+    <router-view v-show="!$root.loading" />
 
     <div class="tosprompt"></div> 
 
