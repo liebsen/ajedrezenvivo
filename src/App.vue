@@ -12,13 +12,13 @@
           </router-link>
         </div>
         <div class="column menu-primary">
-          <router-link to="/preferences" class="button is-info is-small is-rounded">
+          <router-link to="/preferences" class="button is-info is-rounded">
             <span class="icon">
               <span class="fas fa-user"></span>
             </span>
             <span v-html="$root.player.code"></span>
           </router-link>
-          <router-link v-show="$root.players.length > 1" to="/lobby" class="button is-success is-small is-rounded">
+          <router-link v-show="$root.players.length > 1" to="/lobby" class="button is-success is-rounded">
             <span v-html="$root.players.length - 1"></span>
           </router-link>
           <div class="menu-bg"></div>

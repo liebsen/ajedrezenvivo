@@ -74,19 +74,19 @@
             </div>
           </div>
           <div class="field">
-            <div class="control">
+            <div class="field-group">
               <label class="label">General</label>
-              <div class="field">
+              <div class="control">
                 <input v-model="data.available" class="is-checkradio has-background-color is-success" id="available" type="checkbox">
                 <label class="label" for="available">Disponible</label>
               </div>
-              <div class="field">
-                <input v-model="data.autoaccept" class="is-checkradio has-background-color is-success" id="autoaccept" type="checkbox">
-                <label class="label" for="autoaccept">Aceptar automáticamente</label>
-              </div>
-              <div class="field">
+              <div class="control">
                 <input v-model="data.sound" class="is-checkradio has-background-color is-success" id="sound" type="checkbox">
                 <label class="label" for="sound">Sonido</label>
+              </div>
+              <div class="control">
+                <input v-model="data.autoaccept" class="is-checkradio has-background-color is-success" id="autoaccept" type="checkbox">
+                <label class="label" for="autoaccept">Auto-aceptar invitaciones</label>
               </div>
             </div>
           </div>
