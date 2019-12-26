@@ -11,26 +11,39 @@
             <img src="/assets/img/logo.png" alt="AjedrezEV">
           </router-link>
         </div>
-        <div class="column menu-primary">
-          <router-link to="/preferences" class="button is-info is-rounded">
-            <span class="icon">
-              <span class="fas fa-user"></span>
-            </span>
-            <span v-html="$root.player.code"></span>
-          </router-link>
-          <router-link v-show="$root.players.length > 1" to="/lobby" class="button is-success is-rounded">
-            <span v-html="$root.players.length - 1"></span>
-          </router-link>
-          <div class="menu-bg"></div>
-          <div class="menu-burger">
-            <svg viewBox="0 0 800 600">
-              <path d="M300,220 C300,220 520,220 540,220 C740,220 640,540 520,420 C440,340 300,200 300,200" id="top"></path>
-              <path d="M300,320 L540,320" id="middle"></path>
-              <path d="M300,210 C300,210 520,210 540,210 C740,210 640,530 520,410 C440,330 300,190 300,190" id="bottom" transform="translate(480, 320) scale(1, -1) translate(-480, -318)"></path>
-            </svg>
+        <div class="column menu-primary has-text-right">
+          <div class="is-hidden-mobile">
+            <router-link to="/preferences" class="button is-rounded">
+              <span class="icon">
+                <span class="fas fa-user"></span>
+              </span>
+              <span v-html="$root.player.code"></span>
+            </router-link>
+            <router-link v-show="$root.players.length > 1" to="/lobby" class="button is-warning is-rounded fadeIn">
+              <span v-html="$root.players.length - 1"></span>
+            </router-link>
           </div>
-        </div>       
-      </div>
+          <div class="is-hidden-tablet">
+            <router-link to="/preferences" class="button is-small is-rounded">
+              <span class="icon">
+                <span class="fas fa-user"></span>
+              </span>
+              <span v-html="$root.player.code"></span>
+            </router-link>
+            <router-link v-show="$root.players.length > 1" to="/lobby" class="button is-small is-warning is-rounded fadeIn">
+              <span v-html="$root.players.length - 1"></span>
+            </router-link>
+          </div>
+        </div>
+        <div class="menu-bg"></div>
+        <div class="menu-burger">
+          <svg viewBox="0 0 800 600">
+            <path d="M300,220 C300,220 520,220 540,220 C740,220 640,540 520,420 C440,340 300,200 300,200" id="top"></path>
+            <path d="M300,320 L540,320" id="middle"></path>
+            <path d="M300,210 C300,210 520,210 540,210 C740,210 640,530 520,410 C440,330 300,190 300,190" id="bottom" transform="translate(480, 320) scale(1, -1) translate(-480, -318)"></path>
+          </svg>
+        </div>
+      </div>       
 
       <div class="menu-items">
         <router-link to="/"><img src="/assets/img/logo.png"></router-link>

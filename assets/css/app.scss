@@ -93,7 +93,7 @@ body > div {
   right: 0;
   z-index: 90;
   height: 60px;
-  background-color: #1f9cef;
+  background-color: #FF4136;
   box-shadow: 0 0 10px rgba(0,0,0,0.15);
   transition: background-color 0.25 linear;
 }
@@ -111,6 +111,7 @@ body > div {
 
   > .column {
     padding: 0;
+    position: relative;
   }
 }
 
@@ -165,6 +166,30 @@ body > div {
 
 .menu.active {
   background-color: #ffec01!important;
+}
+
+.menu-primary {
+  right: 3.5rem;
+  .is-hidden-mobile {
+    > .button {
+      padding-left: 0.85em;
+      padding-right: 0.85em;
+      &:first-child {
+        padding-left: 1.25em;
+        padding-right: 1.25em;
+      }
+    }
+  }
+  .is-hidden-tablet {
+    > .button {
+      padding-left: 0.75em;
+      padding-right: 0.75em;
+      &:first-child {
+        padding-left: 1.25em;
+        padding-right: 1.25em;
+      }
+    }
+  }
 }
 
 .menu-secondary {
@@ -241,7 +266,7 @@ body > div {
 }
 
 .menu-bg {
-  background-color: #1f9cef;
+  background-color: #FF4136;
   pointer-events: none;
   -webkit-transition: .3s;
   transition: .3s;
@@ -382,6 +407,10 @@ table {
   max-width: 100%;  
 }
 
+.button.is-text {
+  text-decoration: none;
+}
+ 
 .spinner-container {
   position: fixed;
   top: 0;

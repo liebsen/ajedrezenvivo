@@ -60,12 +60,12 @@
       </div>
       <div v-show="$root.players.length > 1" v-for="player in $root.players">
         <div v-if="player.code != $root.player.code">
-          <a href="#" class="button is-text is-rounded" @click="play(player.code)">
+          <button class="button is-text is-rounded" @click="play(player.code)">
             <span class="icon">
               <span class="fas fa-user"></span>
             </span>
             <span v-html="player.code"></span>
-          </a>
+          </button>
         </div>
       </div>
     </div>

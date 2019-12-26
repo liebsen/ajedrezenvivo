@@ -111,7 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
     item.addEventListener("click", function() {
       if(document.querySelector('.menu').classList.contains('fs')){
         document.querySelector('.menu').classList.remove('fs')
-        document.querySelector('.menu').classList.remove('fs')
         document.querySelector('.menu-burger').classList.remove('cross')
       } else {
         document.querySelector('.menu').classList.add('fs')
