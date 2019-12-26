@@ -164,7 +164,6 @@
           var perc = (this.index + 1) / this.gameMoves.length * 100;
           $('.bar-progress').animate({width:perc+'%'},this.speed,'linear')
 
- 
           const moved = this.game.move(move)
 
           this.board.position(this.game.fen())
@@ -293,7 +292,7 @@
             })
 
             playSound('game-start.mp3')
-           
+            $('.bar-progress').css({width:'0%'})
 
             /*document.querySelector('.pres-container .is-player-white').classList.add('slideOutTL') 
             document.querySelector('.pres-container .is-player-black').classList.add('slideOutTR') 
@@ -401,6 +400,7 @@
         const black = document.querySelector('.board-container .black').innerHTML
         document.querySelector('.board-container .white').innerHTML = black
         document.querySelector('.board-container .black').innerHTML = white
+        this.highlightLastMove()
       },
       gameSeek:function(){
         window.setTimeout(() => {
@@ -474,11 +474,6 @@
           this.speed-=s
         }
       },
-      onMoveEnd: function() {
-        document.querySelectorAll('.square-' + this.squareToHighlight).forEach((square) => {
-          square.classList.add('highlight-move');
-        })
-      },
       setClock : function(){
         this.gamePause()
         swal("Ingresa el intervalo en milisegundos entre 1000/60000", {
@@ -516,7 +511,6 @@
           showErrors:true,
           position: 'start',
           draggable: false,
-          onMoveEnd: this.onMoveEnd,
           moveSpeed:250,
           pieceTheme:'/assets/img/chesspieces/wikipedia/{piece}.png'
         },
@@ -533,13 +527,10 @@
         orientation:null,
         gameMoves:[],
         pgnIndex:[],
-        room: location.pathname.replace('/',''),
-        selectedIndex: parseInt(location.hash.replace('#','')),
         boardEl:null,
         index:0,
         paused:false,
-        speed:3000,
-        squareToHighlight:null
+        speed:3000
       }
     }
   }
