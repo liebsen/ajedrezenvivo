@@ -3,117 +3,119 @@
     <div class="status" v-show="!gameStarted">
       <span class="button is-rounded is-info is-small">Esperando jugadores...</span>
     </div>  
-    <div class="container is-widescreen">
-      <div class="content column" v-show="gameStarted">
-        <div class="columns">
-          <div class="column">
-            <div class="board-container">
-              <div :class="boardColor">
-                <h6 class="has-text-left black">
-                  <span v-show="data.black === $root.player.code">
-                    <span class="button is-rounded is-small" v-html="tdisplay.w" :class="{ 'has-background-white has-text-black' : timer.w > 10, 'has-background-danger has-text-white' : timer.w <= 10}"></span>
-                    <span v-html="data.white" class="has-timer"></span>
-                    <span v-show="data.result==='1-0'">🏆</span>
-                  </span> 
-                  <span v-show="data.white === $root.player.code">
-                    <span class="button is-rounded is-small" v-html="tdisplay.b" :class="{ 'has-background-grey has-text-white' : timer.b > 10, 'has-background-danger has-text-white' : timer.b <= 10}"></span>
-                    <span v-html="data.black" class="has-timer"></span>
-                    <span v-show="data.result==='0-1'">🏆</span>
-                  </span> 
-                </h6>
-                <div class="board" :class="{ 'black' : playerColor === 'black' }">
-                  <div class="score-container">
-                    <div class="score" :style="'max-height:' + vscore + '%'"></div>
-                  </div>            
-                  <div id="board"></div>
+    <div class="game-container" v-show="!$root.loading">
+      <div class="container is-widescreen">
+        <div class="content column">
+          <div class="columns">
+            <div class="column">
+              <div class="board-container">
+                <div :class="boardColor">
+                  <h6 class="has-text-left black">
+                    <span v-show="data.black === $root.player.code">
+                      <span class="button is-rounded is-small" v-html="tdisplay.w" :class="{ 'has-background-white has-text-black' : timer.w > 10, 'has-background-danger has-text-white' : timer.w <= 10}"></span>
+                      <span v-html="data.white" class="has-timer"></span>
+                      <span v-show="data.result==='1-0'">🏆</span>
+                    </span> 
+                    <span v-show="data.white === $root.player.code">
+                      <span class="button is-rounded is-small" v-html="tdisplay.b" :class="{ 'has-background-grey has-text-white' : timer.b > 10, 'has-background-danger has-text-white' : timer.b <= 10}"></span>
+                      <span v-html="data.black" class="has-timer"></span>
+                      <span v-show="data.result==='0-1'">🏆</span>
+                    </span> 
+                  </h6>
+                  <div class="board" :class="{ 'black' : playerColor === 'black' }">
+                    <div class="score-container">
+                      <div class="score" :style="'max-height:' + vscore + '%'"></div>
+                    </div>            
+                    <div id="board"></div>
+                  </div>
+                  <h6 class="has-text-right white">
+                    <span v-show="data.black === $root.player.code">
+                      <span v-show="data.result==='0-1'">🏆</span>
+                      <span v-html="data.black" class="has-timer"></span>
+                      <span class="button is-rounded is-small" v-html="tdisplay.b" :class="{ 'has-background-grey has-text-white' : timer.b > 10, 'has-background-danger has-text-white' : timer.b <= 10}"></span>
+                    </span> 
+                    <span v-show="data.white === $root.player.code">
+                      <span v-show="data.result==='1-0'">🏆</span>
+                      <span v-html="data.white" class="has-timer"></span>
+                      <span class="button is-rounded is-small" v-html="tdisplay.w" :class="{ 'has-background-white has-text-black' : timer.w > 10, 'has-background-danger has-text-white' : timer.w <= 10}"></span>
+                    </span> 
+                  </h6>
                 </div>
-                <h6 class="has-text-right white">
-                  <span v-show="data.black === $root.player.code">
-                    <span v-show="data.result==='0-1'">🏆</span>
-                    <span v-html="data.black" class="has-timer"></span>
-                    <span class="button is-rounded is-small" v-html="tdisplay.b" :class="{ 'has-background-grey has-text-white' : timer.b > 10, 'has-background-danger has-text-white' : timer.b <= 10}"></span>
-                  </span> 
-                  <span v-show="data.white === $root.player.code">
-                    <span v-show="data.result==='1-0'">🏆</span>
-                    <span v-html="data.white" class="has-timer"></span>
-                    <span class="button is-rounded is-small" v-html="tdisplay.w" :class="{ 'has-background-white has-text-black' : timer.w > 10, 'has-background-danger has-text-white' : timer.w <= 10}"></span>
-                  </span> 
-                </h6>
               </div>
             </div>
-          </div>
-          <div class="column datospartida">
-            <div>
-              <div class="columns">
-                <div class="column">
-                  <span v-html="ecode" class=""></span> 
-                  <span v-html="opening" class="has-text-black"></span>
-                </div>
-                <div class="column has-text-left" v-show="gameStarted">
-                  <button @click="gameCapitulate()" class="button is-rounded is-danger" v-if="pgnIndex.length && !announced_game_over" title="Abandonar partida">
-                    <span class="icon has-text-white">
-                      <span class="fas fa-flag"></span>
-                    </span>
-                  </button>
-                  <button @click="showPGN()" class="button is-rounded is-success" v-if="pgnIndex.length">
-                    <span>PGN</span>
-                  </button>
-                </div>
-              </div> 
-              <div class="tabs is-centered is-boxed">
-                <ul>
-                  <li :class="{ 'is-active' : tab === 'chat' }">
-                    <a @click="tab = 'chat'">
-                      <span class="icon is-small"><i class="fas fa-comments" aria-hidden="true"></i></span>
-                      <span>Chat</span>
-                    </a>
-                  </li>
-                  <li :class="{ 'is-active' : tab === 'pgn' }">
-                    <a @click="tab = 'pgn'">
-                      <span class="icon is-small"><i class="fas fa-chess-board" aria-hidden="true"></i></span>
-                      <span>Movimientos</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div v-show="tab === 'chat'">
-                <div class="has-text-centered">
-                  <div class="columns">
-                    <div class="column chatbox"></div>
+            <div class="column datospartida">
+              <div>
+                <div class="columns">
+                  <div class="column">
+                    <span v-html="ecode" class=""></span> 
+                    <span v-html="opening" class="has-text-black"></span>
                   </div>
-                  <form @submit.prevent="sendChat">
-                    <div class="field has-addons has-text-centered is-flex-centered">
-                      <div class="control">
-                        <input class="input is-rounded" v-model="chat" type="text" placeholder="Ingresa tu mensaje" />
-                      </div>
-                      <div class="control">
-                        <button type="submit" class="button is-info is-rounded">
-                          <span class="icon">
-                            <span class="fas fa-paper-plane"></span>
-                          </span>
-                        </button>
-                      </div>
-                    </div>
-                  </form>
+                  <div class="column has-text-left">
+                    <button @click="gameCapitulate()" class="button is-rounded is-danger" v-if="pgnIndex.length && !announced_game_over" title="Abandonar partida">
+                      <span class="icon has-text-white">
+                        <span class="fas fa-flag"></span>
+                      </span>
+                    </button>
+                    <button @click="showPGN()" class="button is-rounded is-success" v-if="pgnIndex.length">
+                      <span>PGN</span>
+                    </button>
+                  </div>
+                </div> 
+                <div class="tabs is-centered is-boxed">
+                  <ul>
+                    <li :class="{ 'is-active' : tab === 'chat' }">
+                      <a @click="tab = 'chat'">
+                        <span class="icon is-small"><i class="fas fa-comments" aria-hidden="true"></i></span>
+                        <span>Chat</span>
+                      </a>
+                    </li>
+                    <li :class="{ 'is-active' : tab === 'pgn' }">
+                      <a @click="tab = 'pgn'">
+                        <span class="icon is-small"><i class="fas fa-chess-board" aria-hidden="true"></i></span>
+                        <span>Movimientos</span>
+                      </a>
+                    </li>
+                  </ul>
                 </div>
-              </div>
-              <div v-if="Object.keys(data).length" v-show="tab === 'pgn'">
-                <div class="columns gamepgn">
-                  <div class="movesTableContainer">
-                    <div class="movesTable">
-                      <div class="moveRow" v-for="(move,index) in pgnIndex">
-                        <div class="moveNumCell" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
-                          <span v-html="(index+1)"></span>
+                <div v-show="tab === 'chat'">
+                  <div class="has-text-centered">
+                    <div class="columns">
+                      <div class="column chatbox"></div>
+                    </div>
+                    <form @submit.prevent="sendChat">
+                      <div class="field has-addons has-text-centered is-flex-centered">
+                        <div class="control">
+                          <input class="input is-rounded" v-model="chat" type="text" placeholder="Ingresa tu mensaje" />
                         </div>
-                        <div class="moveCell moveSAN movew" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
-                          <a class="moveindex">
-                            <span v-html="move.white"></span>
-                          </a>
+                        <div class="control">
+                          <button type="submit" class="button is-info is-rounded">
+                            <span class="icon">
+                              <span class="fas fa-paper-plane"></span>
+                            </span>
+                          </button>
                         </div>
-                        <div class="moveCell moveSAN moveb" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
-                          <a class="moveindex">
-                            <span v-html="move.black"></span>
-                          </a>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div v-if="Object.keys(data).length" v-show="tab === 'pgn'">
+                  <div class="columns gamepgn">
+                    <div class="movesTableContainer">
+                      <div class="movesTable">
+                        <div class="moveRow" v-for="(move,index) in pgnIndex">
+                          <div class="moveNumCell" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
+                            <span v-html="(index+1)"></span>
+                          </div>
+                          <div class="moveCell moveSAN movew" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
+                            <a class="moveindex">
+                              <span v-html="move.white"></span>
+                            </a>
+                          </div>
+                          <div class="moveCell moveSAN moveb" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
+                            <a class="moveindex">
+                              <span v-html="move.black"></span>
+                            </a>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -168,13 +170,10 @@
         setTimeout(() => {
           if(!t.gameStarted){
             t.gameStarted = true
-            setTimeout(() => {
-              t.board.resize()
-              if(!t.data.result){
-                t.boardTaps()
-                t.startClock()
-              }
-            },100)            
+            if(!t.data.result){
+              t.boardTaps()
+              t.startClock()
+            }
           }
         },100)
       },
@@ -378,66 +377,66 @@
         var pos = 'start'
         const pref = JSON.parse(localStorage.getItem('player'))||{}
 
-        t.game = new Chess()
+        setTimeout(() => {
+          t.game = new Chess()
 
-        if(t.data.fen){
-          pos = t.data.fen
-        }
+          if(t.data.fen){
+            pos = t.data.fen
+          }
 
-        var cfg = {
-          draggable: true,
-          position: pos,
-          pieceTheme:'/assets/img/chesspieces/wikipedia/{piece}.png'
-        }
+          var cfg = {
+            draggable: true,
+            position: pos,
+            pieceTheme:'/assets/img/chesspieces/wikipedia/{piece}.png'
+          }
 
-        if(!t.data.result){
-          cfg.onDragStart = t.onDragStart
-          cfg.onDrop = t.onDrop
-          cfg.onSnapEnd = t.onSnapEnd
-        }
+          if(!t.data.result){
+            cfg.onDragStart = t.onDragStart
+            cfg.onDrop = t.onDrop
+            cfg.onSnapEnd = t.onSnapEnd
+          }
 
-        if(pref.pieces){
-          cfg.pieceTheme = '/assets/img/chesspieces/' + pref.pieces + '/{piece}.png'
-          t.boardColor = pref.board
-        }
+          if(pref.pieces){
+            cfg.pieceTheme = '/assets/img/chesspieces/' + pref.pieces + '/{piece}.png'
+            t.boardColor = pref.board
+          }
 
-        if(window.innerWidth < 789){
-          cfg.draggable = false 
-        }
+          if(window.innerWidth < 789){
+            cfg.draggable = false 
+          }
 
-        if(t.data.pgn){
-          t.game.load_pgn(t.data.pgn)
-        }
+          if(t.data.pgn){
+            t.game.load_pgn(t.data.pgn)
+          }
 
-        t.boardEl = document.getElementById('board')
-        t.board = Chessboard('board', cfg)      
-        t.board.orientation(t.playerColor)
+          t.boardEl = document.getElementById('board')
+          t.board = Chessboard('board', cfg)      
+          t.board.orientation(t.playerColor)
 
-        $(window).resize(() => {
-          t.board.resize()
-          t.highlightLastMove()
-          t.boardTaps()
-        })
-
-        if(t.data.result){
-          playSound('game-end.mp3')
-          t.announced_game_over = true
-          snackbar('success',"Esta partida ha finalizado")
-        } else {
-          playSound('game-start.mp3')
-        }
-        
-        if(t.data.pgn){
-          t.$socket.emit('start', {
-            player: t.$root.player,
-            id:t.$route.params.game
+          $(window).resize(() => {
+            t.board.resize()
+            t.highlightLastMove()
+            t.boardTaps()
           })
 
-          t.pgnIndex = this.gamePGNIndex(t.data.pgn)
-          t.highlightLastMove()
-        }
+          if(t.data.result){
+            playSound('game-end.mp3')
+            t.announced_game_over = true
+            snackbar('success',"Esta partida ha finalizado")
+          } else {
+            playSound('game-start.mp3')
+          }
+          
+          if(t.data.pgn){
+            t.$socket.emit('start', {
+              player: t.$root.player,
+              id:t.$route.params.game
+            })
 
-        t.$root.loading = false
+            t.pgnIndex = this.gamePGNIndex(t.data.pgn)
+            t.highlightLastMove()
+          }      
+        },500)  
       },
       gameLoad: function(){
         this.$root.loading = true
@@ -445,6 +444,9 @@
         axios.post( t.$root.endpoint + '/game',{
           id:this.$route.params.game
         }).then((res) => {
+
+          t.$root.loading = false
+
           if(!Object.keys(res.data).length) {
             return location.href = "/404"
           }

@@ -211,12 +211,11 @@
 
             $(window).resize(() => {
               this.board.resize()
-              t.highlightLastMove()
+              this.highlightLastMove()
             })
 
 
             playSound('game-start.mp3')
-
 
             const offset = 100
             setTimeout(() => {
@@ -237,14 +236,13 @@
         })
       },
       addHightlight : function(move){
-        var t = this
-        t.removeHighlight()
+        this.removeHighlight()
         if(move){
-          if (t.game.in_check() === true) {
-            t.boardEl.querySelector('img[data-piece="' + t.game.turn() + 'K"]').classList.add('in-check')
+          if (this.game.in_check() === true) {
+            this.boardEl.querySelector('img[data-piece="' + this.game.turn() + 'K"]').classList.add('in-check')
           }
-          t.boardEl.querySelector('.square-' + move.from).classList.add('highlight-move');
-          t.boardEl.querySelector('.square-' + move.to).classList.add('highlight-move');   
+          this.boardEl.querySelector('.square-' + move.from).classList.add('highlight-move');
+          this.boardEl.querySelector('.square-' + move.to).classList.add('highlight-move');   
         }
       },
       highlightLastMove: function(){

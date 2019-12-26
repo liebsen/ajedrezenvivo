@@ -6,7 +6,7 @@
         <div class="pie filler"></div>
         <div class="mask"></div>
       </div>
-    </div-->
+    </div>
     <div class="pres-container">
       <div class="pres content">
         <div class="columns is-result is-vcentered has-text-centered">
@@ -27,7 +27,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div-->
     <div class="status">
       <span class="has-text-weight-semibold">
         <a href="#" @click="setClock">
@@ -135,6 +135,8 @@
       }
     },*/
     mounted: function(){
+
+      this.$root.loading = true
 
       window.app = this
 
@@ -262,7 +264,6 @@
         (which || this.evaler).postMessage(cmd);
       },    
       gameStart: function(){
-        this.$root.loading = true
         const pref = JSON.parse(localStorage.getItem('player'))||{}
         this.boardEl = document.getElementById('board')
         axios.post( this.$root.endpoint + '/game', {id:this.$route.params.game} ).then((res) => {
@@ -270,13 +271,11 @@
           var game = res.data
           const totalms = this.$root.countMoves(game.pgn) * this.speed
 
-
           this.gameMoves = this.gamePGN(game.pgn)
           this.pgnIndex = this.gamePGNIndex(game.pgn)
           this.data = game
           this.duration = totalms / 1000
           this.$root.loading = false
-
           setTimeout(() => {
             this.game = new Chess()
 
@@ -289,20 +288,21 @@
             this.orientation = this.board.orientation()
 
             $(window).resize(() => {
-              t.board.resize()
-              t.highlightLastMove()
+              this.board.resize()
+              this.highlightLastMove()
             })
 
             playSound('game-start.mp3')
            
 
-            document.querySelector('.pres-container .is-player-white').classList.add('slideOutTL') 
+            /*document.querySelector('.pres-container .is-player-white').classList.add('slideOutTL') 
             document.querySelector('.pres-container .is-player-black').classList.add('slideOutTR') 
             document.querySelector('.pres-container .is-player-info').classList.add('slideOutB') 
             document.querySelector('.pres-container').classList.add('fadeOut')   
             setTimeout(() => {
               document.querySelector('.pres-container').style.display = 'none'
             },1500)           
+            */
 
             const offset = 100
             setTimeout(() => {
@@ -310,11 +310,11 @@
 
               setTimeout(() => {
                 /* autoplay kickstart */
+                
                 this.gameSeek()
               }, 1000)
             }, 500)
           },2000)
-
 
           this.evaler = typeof STOCKFISH === "function" ? STOCKFISH() : new Worker('/assets/js/stockfish.js')
 
