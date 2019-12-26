@@ -58,14 +58,53 @@
           </div>
         </div>
       </div>
-      <div v-show="$root.players.length > 1" v-for="player in $root.players">
-        <div v-if="player.code != $root.player.code">
-          <button class="button is-text is-rounded" @click="play(player.code)">
-            <span class="icon">
-              <span class="fas fa-user"></span>
-            </span>
-            <span v-html="player.code"></span>
-          </button>
+      <div v-show="$root.players.length > 1">
+        <div class="columns">
+          <div class="column">
+            <h6>
+              <span class="icon">
+                <span class="fa fa-users"></span>
+              </span>
+              <span>Jugadores</span>
+            </h6>
+            <div v-for="player in $root.players">
+              <div v-if="player.code != $root.player.code">
+                <button class="button is-text is-rounded" @click="play(player.code)">
+                  <span class="icon">
+                    <span class="fas fa-user"></span>
+                  </span>
+                  <span v-html="player.code"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <h6>
+              <span class="icon">
+                <span class="fa fa-comments"></span>
+              </span>
+              <span>Chat</span>
+            </h6>
+            <div class="column has-text-left has-background-light">
+              <div class="columns">
+                <div class="column chatbox"></div>
+              </div>
+              <form @submit.prevent="sendChat">
+                <div class="field has-addons">
+                  <div class="control">
+                    <input class="input is-rounded" v-model="chat" type="text" placeholder="Ingresa tu mensaje" />
+                  </div>
+                  <div class="control">
+                    <button type="submit" class="button is-info is-rounded">
+                      <span class="icon">
+                        <span class="fas fa-paper-plane"></span>
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>          
+          </div>
         </div>
       </div>
     </div>
@@ -82,8 +121,6 @@
   export default {
     name: 'lobby',
     mounted: function(){
-
-
       document.querySelector('body').addEventListener('click', function (event) {
         var target = event.target
         if (target.classList.contains('is-toggle')) {
@@ -96,7 +133,27 @@
         }
       })
     },
+    sockets: {
+      lobby_chat: function(data){
+        const chatbox = document.querySelector(".chatbox")
+        const owned = this.$root.player.code === data.sender
+        const cls = owned ? 'is-pulled-right has-text-right' : 'is-pulled-left has-text-left has-background-info has-text-white'
+        const sender = data.sender === this.$root.player.code ? '' : data.sender
+        chatbox.innerHTML+= `<div class="box ${cls}"><strong>${sender}</strong> ${data.line}</div>`
+        chatbox.scrollTop = chatbox.scrollHeight
+        if(data.sender != this.$root.player.code){
+          playSound('chat.mp3')
+        }
+      }
+    },
     methods: {
+      sendChat: function(){
+        this.$socket.emit('lobby_chat', { 
+          sender: this.$root.player.code,
+          line: this.chat
+        })
+        this.chat = ''
+      },
       play: function(player){
         var t = this
         const template = (`
@@ -182,6 +239,11 @@
             })
           }
         })
+      }
+    },
+    data () {
+      return {
+        chat:null
       }
     }
   }
