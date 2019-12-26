@@ -26,7 +26,6 @@
           <thead>
             <th>Mesa</th>
             <th>Evento</th>
-            <th>Lugar</th>
             <th>Blancas</th>
             <th>Negras</th>
             <th>Resultado</th>
@@ -44,9 +43,6 @@
               </td>
               <td>
                 <span v-html="item.event"></span>
-              </td>
-              <td>
-                <span v-html="item.site"></span>
               </td>
               <td>
                 <span v-html="item.white"></span>

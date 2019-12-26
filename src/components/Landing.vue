@@ -54,7 +54,7 @@
               </router-link>    
             </div>
             <div class="column has-text-left">
-              <router-link class="button is-rounded is-medium is-danger" to="/stockfish">
+              <router-link class="button is-rounded is-medium is-info" to="/stockfish">
                 <span class="icon">
                   <span class="fas fa-server"></span>
                 </span> 
@@ -72,7 +72,7 @@
               </router-link>    
             </div>
             <div class="column">
-              <router-link class="button is-rounded is-fullwidth is-danger" to="/stockfish">
+              <router-link class="button is-rounded is-fullwidth is-info" to="/stockfish">
                 <span class="icon">
                   <span class="fas fa-server"></span>
                 </span> 

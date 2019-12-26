@@ -571,7 +571,7 @@
         document.querySelectorAll('.square-55d63').forEach(item => {
           events.forEach(event => {
             item.addEventListener(event, element => {
-              if(!t.gameStarted) return
+              if(!t.gameStarted || t.announced_game_over) return
               const src = element.target.getAttribute('src')
               const piece = element.target.getAttribute('data-piece')
               const target = src ? element.target.parentNode : element.target
@@ -625,8 +625,7 @@
       },
       onDrop : function(source, target) {
         var t = this
-
-        if(!t.gameStarted) return
+        if(!t.gameStarted || t.announced_game_over) return 'snapback'
         //move object
         var moveObj = ({
           from: source,

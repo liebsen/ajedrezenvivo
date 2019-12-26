@@ -94,7 +94,7 @@
               </span>
               <span>Humano</span>
             </router-link>
-            <router-link class="button is-rounded is-danger" to="/stockfish">
+            <router-link class="button is-rounded is-info" to="/stockfish">
               <span class="icon">
                 <span class="fas fa-server"></span>
               </span> 
