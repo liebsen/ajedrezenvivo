@@ -171,24 +171,13 @@ body > div {
 
 .menu-primary {
   right: 3.5rem;
-  .is-hidden-mobile {
-    > .button {
-      padding-left: 0.85em;
-      padding-right: 0.85em;
-      &:first-child {
-        padding-left: 1.25em;
-        padding-right: 1.25em;
-      }
-    }
-  }
-  .is-hidden-tablet {
-    > .button {
-      padding-left: 0.75em;
-      padding-right: 0.75em;
-      &:first-child {
-        padding-left: 1.25em;
-        padding-right: 1.25em;
-      }
+  .button {
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    &:first-child {
+      border-color: white;
+      padding-left: 1.25em;
+      padding-right: 1.25em;
     }
   }
 }

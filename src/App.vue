@@ -13,13 +13,13 @@
         </div>
         <div class="column menu-primary has-text-right">
           <div class="is-hidden-mobile">
-            <router-link to="/preferences" class="button is-rounded">
+            <router-link to="/preferences" class="button is-rounded" title="Establece tus preferencias">
               <span class="icon">
                 <span class="fas fa-user"></span>
               </span>
               <span v-html="$root.player.code"></span>
             </router-link>
-            <router-link v-show="$root.players.length > 1" to="/lobby" class="button is-warning is-rounded fadeIn">
+            <router-link v-show="$root.players.length > 1" to="/lobby" class="button is-warning is-rounded fadeIn" title="Jugadores esperando invitación">
               <span v-html="$root.players.length - 1"></span>
             </router-link>
           </div>
