@@ -132,6 +132,11 @@
           target.classList.add('has-background-warning')
         }
       })
+
+      this.$socket.emit('lobby_chat', { 
+        sender: 'chatbot',
+        line: 'Bienvenid@, gracias por visitar AjedrezEV'
+      })      
     },
     sockets: {
       lobby_chat: function(data){
@@ -139,7 +144,7 @@
         const owned = this.$root.player.code === data.sender
         const cls = owned ? 'is-pulled-right has-text-right' : 'is-pulled-left has-text-left has-background-info has-text-white'
         const sender = data.sender === this.$root.player.code ? '' : data.sender
-        chatbox.innerHTML+= `<div class="box ${cls}"><strong>${sender}</strong> ${data.line}</div>`
+        chatbox.innerHTML+= `<div class="box ${cls}"><strong class="has-text-light">${sender}</strong> ${data.line}</div>`
         chatbox.scrollTop = chatbox.scrollHeight
         if(data.sender != this.$root.player.code){
           playSound('chat.mp3')
