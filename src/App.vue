@@ -6,7 +6,7 @@
   
     <div class="menu hidden-loading slideDown">
       <div class="menu-container is-flex columns is-vcentered">
-        <div class="has-text-left">
+        <div class="column has-text-left">
           <router-link class="menu-logo" to="/">
             <img src="/assets/img/logo.png" alt="AjedrezEV">
           </router-link>

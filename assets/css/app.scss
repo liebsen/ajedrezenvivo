@@ -94,7 +94,6 @@ body > div {
   z-index: 90;
   height: 60px;
   background-color: #FF4136;
-  box-shadow: 0 0 10px rgba(0,0,0,0.15);
   transition: background-color 0.25 linear;
 }
 
@@ -159,6 +158,8 @@ body > div {
 .menu-logo {
   display: inline-block;
   margin-top: 4px;
+  position: relative;
+  z-index: 9;
   img {
     max-height: 3rem;
   }
