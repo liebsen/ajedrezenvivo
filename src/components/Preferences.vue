@@ -16,9 +16,9 @@
                   <select v-model="data.board" id="tablero">
                     <option value="classic">[Tablero]</option>
                     <option value="green">Verde</option>
+                    <option value="light-green">Verde claro</option>
                     <option value="tournament">Campaña</option>
                     <option value="purple">Púrpura</option>
-                    <option value="light-green">Verde claro</option>
                     <option value="wood">Madera</option>
                     <option value="dark-wood">Madera oscura</option>
                     <option value="dash">Dash</option>
