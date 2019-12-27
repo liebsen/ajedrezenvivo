@@ -168,7 +168,7 @@
           if(t.game.in_draw() || t.game.in_stalemate() || t.game.in_threefold_repetition()) {
             swal("Tablas", 'La partida finalizó con un empate', "info")
           } else {          
-            const winner = t.game.turn() === 'w' ? t.data.white : t.data.black
+            const winner = t.game.turn() === 'w' ? t.data.black : t.data.white
             swal("¡Victoria!", winner + ' ganó la partida', "success")
           }
           

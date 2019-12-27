@@ -135,7 +135,7 @@
 
       this.$socket.emit('lobby_chat', { 
         sender: 'chatbot',
-        line: 'Bienvenid@, gracias por visitar AjedrezEV'
+        line: `Bienvenid@ ${this.$root.player.code}, gracias por visitar AjedrezEV`
       })      
     },
     sockets: {
