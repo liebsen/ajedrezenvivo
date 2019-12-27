@@ -7,10 +7,61 @@
         </span>
         <span>Salón</span>
       </h3>
-      <div v-show="$root.players.length < 2" class="columns-centered">
-        <div class="columns is-flex is-vcentered">
+      <div>
+        <div class="columns">
+          <div class="column">
+            <h6>
+              <span class="icon">
+                <span class="fa fa-users"></span>
+              </span>
+              <span>Jugadores</span>
+            </h6>
+            <div v-show="$root.players.length > 1">
+              <div v-for="player in $root.players">
+                <div v-if="player.code != $root.player.code">
+                  <button class="button is-text is-rounded" @click="play(player.code)">
+                    <span class="icon">
+                      <span class="fas fa-user"></span>
+                    </span>
+                    <span v-html="player.code"></span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div v-show="$root.players.length < 2">
+              <span class="has-text-light">No hay jugadores</span>
+            </div>
+          </div>
+          <div class="column">
+            <h6>
+              <span class="icon">
+                <span class="fa fa-comments"></span>
+              </span>
+              <span>Chat</span>
+            </h6>
+            <div class="column has-text-left has-background-light">
+              <div class="columns">
+                <div class="column chatbox"></div>
+              </div>
+              <form @submit.prevent="sendChat">
+                <div class="field has-addons">
+                  <div class="control">
+                    <input class="input is-rounded" v-model="chat" type="text" placeholder="Ingresa tu mensaje" />
+                  </div>
+                  <div class="control">
+                    <button type="submit" class="button is-info is-rounded">
+                      <span class="icon">
+                        <span class="fas fa-paper-plane"></span>
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>          
+          </div>
+        </div>
+        <div class="columns">
           <div class="column is-social-box has-text-centered">
-            <!--h6>Invita a tus amigos</h6-->
             <div class="columns is-mobile is-vcentered has-text-centered fadeIn">
               <div class="column is-hidden-tablet">
                 <a :href="'whatsapp://send?text=¿Querés jugar ajedrez online? Estoy como ' + $root.player.code + ' https://ajedrezenvivo.herokuapp.com/lobby'" target="_blank">
@@ -55,55 +106,6 @@
                 </a>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-      <div v-show="$root.players.length > 1">
-        <div class="columns">
-          <div class="column">
-            <h6>
-              <span class="icon">
-                <span class="fa fa-users"></span>
-              </span>
-              <span>Jugadores</span>
-            </h6>
-            <div v-for="player in $root.players">
-              <div v-if="player.code != $root.player.code">
-                <button class="button is-text is-rounded" @click="play(player.code)">
-                  <span class="icon">
-                    <span class="fas fa-user"></span>
-                  </span>
-                  <span v-html="player.code"></span>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="column">
-            <h6>
-              <span class="icon">
-                <span class="fa fa-comments"></span>
-              </span>
-              <span>Chat</span>
-            </h6>
-            <div class="column has-text-left has-background-light">
-              <div class="columns">
-                <div class="column chatbox"></div>
-              </div>
-              <form @submit.prevent="sendChat">
-                <div class="field has-addons">
-                  <div class="control">
-                    <input class="input is-rounded" v-model="chat" type="text" placeholder="Ingresa tu mensaje" />
-                  </div>
-                  <div class="control">
-                    <button type="submit" class="button is-info is-rounded">
-                      <span class="icon">
-                        <span class="fas fa-paper-plane"></span>
-                      </span>
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>          
           </div>
         </div>
       </div>
