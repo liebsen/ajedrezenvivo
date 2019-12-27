@@ -56,6 +56,11 @@
                         <span class="fas fa-flag"></span>
                       </span>
                     </button>
+                    <button @click="showLiveURL()" class="button is-rounded is-success" v-if="pgnIndex.length">
+                      <span class="icon has-text-white">
+                        <span class="fas fa-eye"></span>
+                      </span>
+                    </button>
                     <button @click="showPGN()" class="button is-rounded is-success" v-if="pgnIndex.length">
                       <span>PGN</span>
                     </button>
@@ -318,7 +323,7 @@
         chatbox.innerHTML+= `<div class="box ${cls}">${data.line}</div>`
         chatbox.scrollTop = chatbox.scrollHeight
         if(!owned){
-          snackbar('success', '👤 ' + data.sender + ' : ' + data.line)
+          snackbar('success', '<strong class="has-text-light">👤 ' + data.sender + '</strong> ' + data.line)
         }
         if(data.sender!=this.$root.player.code){
           playSound('chat.mp3')
@@ -778,6 +783,30 @@
           var move = history[history.length-1]
           this.addHightlight(move)
         }
+      },
+      showLiveURL: function(){
+        var url = `${ window.location.protocol }//${ window.location.host }/watch/${this.$route.params.game}`
+        const template = (`
+<div class="content">
+  <div class="columns columns-bottom is-flex has-text-centered">
+    <div class="column">
+      <div class="control">
+        <div class="field">
+          <textarea class="textarea" readonly>${url}</textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`)
+        swal({
+          title: 'URL partida en vivo',
+          content: {
+            element: 'div',
+            attributes: {
+              innerHTML: `${template}`,
+            }
+          }
+        })
       },
       showPGN:function(pgn){
         var pgn = this.game.pgn()
