@@ -121,21 +121,9 @@
   export default {
     name: 'lobby',
     mounted: function(){
-      document.querySelector('body').addEventListener('click', function (event) {
-        var target = event.target
-        if (target.classList.contains('is-toggle')) {
-          target.parentNode.childNodes.forEach((item) => {
-            if (item.classList && item.classList.contains('is-toggle')) {
-              item.classList.remove('has-background-warning')
-            }
-          })
-          target.classList.add('has-background-warning')
-        }
-      })
-
       this.$socket.emit('lobby_chat', { 
         sender: 'chatbot',
-        line: `Bienvenid@ ${this.$root.player.code}, gracias por visitar AjedrezEV`
+        line: `Bienvenid@ ${this.$root.player.code}, gracias por visitar AjedrezEV. Establece tus preferencias <a href="/preferences" class="has-text-warning">aquí</a>`
       })      
     },
     sockets: {
