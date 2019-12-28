@@ -160,7 +160,7 @@
       updateMoves:function(move){
         var t = this
         var sound = 'move.mp3'
-
+        var pgn = t.game.pgn()
         t.uciCmd('position startpos moves' + this.get_moves(), this.evaler);
         t.uciCmd("eval", this.evaler);
 
@@ -194,7 +194,11 @@
 
           t.removeHighlight()
           t.addHightlight(move)
-          t.pgnIndex = this.gamePGNIndex(t.game.pgn())
+
+          if(pgn){
+            t.pgnIndex = this.gamePGNIndex(pgn)
+          }
+          
           playSound(sound)
          
           setTimeout(() => {
@@ -300,7 +304,9 @@
             }
           }
 
-          this.pgnIndex = this.gamePGNIndex(game.pgn)
+          if(game.pgn){
+            this.pgnIndex = this.gamePGNIndex(game.pgn)
+          }
           this.data = game
 
           if(game.wtime){

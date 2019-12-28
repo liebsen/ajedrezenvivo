@@ -105,7 +105,9 @@
       </div>    
     </div>
     
-    <router-view v-show="!$root.loading" />
+    <keep-alive>
+      <router-view :key="$route.fullPath" v-show="!$root.loading" />
+    </keep-alive>
 
     <div class="tosprompt"></div> 
 

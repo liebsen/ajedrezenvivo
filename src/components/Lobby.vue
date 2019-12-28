@@ -29,7 +29,26 @@
               </div>
             </div>
             <div v-show="$root.players.length < 2">
-              <span class="has-text-light">No hay jugadores</span>
+              <span class="has-text-grey">No hay jugadores</span>
+            </div>
+            <hr>
+            <h6>
+              <span class="icon">
+                <span class="fa fa-chess-board"></span>
+              </span>
+              <span>Partidas</span>
+            </h6>
+            <div v-show="matches.length">
+              <div v-for="match in matches">
+                <router-link :to="'/watch/' + match.id" class="button is-text is-rounded">
+                  <span v-html="match.white"></span>
+                  <span>vs</span>
+                  <span v-html="match.black"></span>
+                </router-link>
+              </div>
+            </div>
+            <div v-show="matches.length === 0">
+              <span class="has-text-grey">No hay partidas</span>
             </div>
           </div>
           <div class="column">
@@ -129,6 +148,9 @@
       })      
     },
     sockets: {
+      match_live: function(data){
+        this.matches = data
+      },
       lobby_chat: function(data){
         const chatbox = document.querySelector(".chatbox")
         const owned = this.$root.player.code === data.sender
@@ -238,7 +260,8 @@
     },
     data () {
       return {
-        chat:null
+        chat:null,
+        matches:[],
       }
     }
   }

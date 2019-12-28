@@ -8,8 +8,8 @@ import router from './router'
 import snackbar from './components/Snackbar';
 import playSound from './components/playSound'
 
-const endpoint='https://ajedrezenvivoapi.herokuapp.com'
-//const endpoint='https://ajedrezenvivoapidev.herokuapp.com'
+//const endpoint='https://ajedrezenvivoapi.herokuapp.com'
+const endpoint='https://ajedrezenvivoapidev.herokuapp.com'
 
 require('../assets/css/main.scss')
 require('../assets/css/chessboard.css')
@@ -168,7 +168,7 @@ new Vue({
         swal("Partida declinada", '👤 ' + data.player + ' declinó tu invitación')
       }
     },
-    players: function (data) {
+    players_idle: function (data) {
       if(data.length > 1){
         snackbar('success','Hay ' + (data.length - 1) +  ' jugador' + (data.length > 2 ? 'es' : '') + ' esperando invitación ')
         document.title = '(' + (data.length - 1) + ') ' + this.documentTitle

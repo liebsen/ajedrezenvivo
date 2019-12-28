@@ -56,6 +56,11 @@
                         <span class="fas fa-flag"></span>
                       </span>
                     </button>
+                    <button @click="gameAskForDraw()" class="button is-rounded is-danger" v-if="pgnIndex.length && !announced_game_over" title="Solicitar tablas">
+                      <span class="icon has-text-white">
+                        <span class="fas fa-handshake"></span>
+                      </span>
+                    </button>
                     <button @click="showLiveURL()" class="button is-rounded is-success" v-if="pgnIndex.length">
                       <span class="icon has-text-white">
                         <span class="fas fa-eye"></span>
@@ -173,12 +178,15 @@
       start: function(data){
         var t = this
         setTimeout(() => {
-          if(!t.gameStarted){
+          if(!t.gameStarted && !t.data.result){
             t.gameStarted = true
-            if(!t.data.result){
-              t.boardTaps()
-              t.startClock()
-            }
+            t.boardTaps()
+            t.startClock()
+            this.$socket.emit('match_start', {
+              id:t.data._id,
+              white: t.data.white,
+              black: t.data.black
+            })
           }
         },100)
       },
@@ -210,19 +218,13 @@
           snackbar("error", '👤 ' + data.player + ' abandonó la partida')
         }
       },
-      play: function(data) {
-        if(data.asker === this.$root.player.code){
-          swal.close()
-          this.$router.push(['/play',data.id].join('/'))
-        }
-      },
-      reject: function(data) {
+      reject_rematch: function(data) {
         if(data.asker === this.$root.player.code){
           swal.close()
           swal("Partida declinada", '👤 ' + data.player + ' declinó la revancha')
         }
       },
-      invite: function(data) {
+      invite_rematch: function(data) {
         var t = this
         if(data.player === this.$root.player.code){
           swal.close()
@@ -251,7 +253,7 @@
                 }        
               })
             } else {
-              t.$socket.emit('reject', data)
+              t.$socket.emit('reject_rematch', data)
             }
           })
         }
@@ -280,6 +282,16 @@
         t.tdisplay.w = t.getTimeDisplay(t.timer.w)
         t.tdisplay.b = t.getTimeDisplay(t.timer.b)
       },
+      acceptdraw: function(data){
+        swal.close()
+        swal("Tablas", 'La partida finalizó con un empate', "info")
+      },
+      rejectdraw: function(data){
+        swal.close()
+        if(data.asker === this.$root.player.code){
+          swal("Tablas rechazado", 'El oponente desea continuar jugando', "info")
+        }
+      },
       capitulate: function(data){
         var t = this
         var result = null
@@ -292,7 +304,7 @@
           })
           .then(accept => {
             if (accept) {
-              t.$socket.emit('invite', {
+              t.$socket.emit('invite_rematch', {
                 asker:t.$root.player.code,
                 player:t.opponentName
               })
@@ -303,10 +315,15 @@
         } else {
           result = (t.playerColor==='white'?'1-0':'0-1')
           t.$socket.emit('data',{
-            id:t.$route.params.game,
+            id:t.data._id,
             wtime: t.timer.w,
             wtime: t.timer.b,
             result:result
+          })
+          t.$socket.emit('match_end', {
+            id:t.data._id,
+            white: t.data.white,
+            black: t.data.black
           })
           swal("¡Victoria!", 'Has vencido a ' + t.opponentName, "success")
         }
@@ -315,6 +332,45 @@
         }
         t.announced_game_over = true
         playSound('game-end.mp3')
+      },
+      askfordraw: function(data){
+        var t = this
+        var result = null
+        if(data.player === t.$root.player.code){
+          swal({
+            title: '¿Aceptas tablas?',
+            text: 'Tu oponente ' + t.opponentName + ' solicita tablas',
+            buttons: ["No", "Sí"]
+          })
+          .then(accept => {
+            if (accept) {
+              result = '1/2-1/2'
+
+              t.$socket.emit('data',{
+                id:this.$route.params.game,
+                wtime: t.timer.w,
+                wtime: t.timer.b,
+                result:result
+              })
+
+              this.$socket.emit('match_end', {
+                id:t.data._id,
+                white: t.data.white,
+                black: t.data.black
+              })
+
+              t.$socket.emit('acceptdraw', data)
+              t.data.result = result
+              t.announced_game_over = true
+              playSound('game-end.mp3')
+            } else {
+              t.$socket.emit('rejectdraw', data)
+              console.log('Clicked on cancel')
+            }
+          })
+        } else {
+          swal("Esperando respuesta...", 'Has solicitado tablas a ' + t.opponentName, "info")
+        }
       },
       chat: function(data){
         const chatbox = document.querySelector(".chatbox")
@@ -553,10 +609,15 @@
               } else {
                 result = (t.playerColor==='white'?'1-0':'0-1')
                 t.$socket.emit('data',{
-                  id:this.$route.params.game,
+                  id:t.data._id,
                   wtime: t.timer.w,
                   wtime: t.timer.b,
                   result:result
+                })
+                t.$socket.emit('match_end', {
+                  id:t.data._id,
+                  white: t.data.white,
+                  black: t.data.black
                 })
                 swal("¡Victoria!", 'Has vencido por tiempo a ' + t.opponentName, "success")
               }
@@ -688,7 +749,7 @@
                 })
                 .then(accept => {
                   if (accept) {
-                    this.$socket.emit('invite', {
+                    this.$socket.emit('invite_rematch', {
                       asker:this.$root.player.code,
                       player:t.opponentName
                     })
@@ -698,10 +759,15 @@
                 })
               } else {
                 t.$socket.emit('data',{
-                  id:this.$route.params.game,
+                  id:t.data._id,
                   wtime: t.timer.w,
                   wtime: t.timer.b,
                   result:(t.playerColor==='white'?'1-0':'0-1')
+                })
+                t.$socket.emit('match_end', {
+                  id:t.data._id,
+                  white: t.data.white,
+                  black: t.data.black
                 })
                 swal("¡Victoria!", 'Has vencido a ' + t.opponentName, "success")
               }
