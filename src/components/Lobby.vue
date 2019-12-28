@@ -17,7 +17,7 @@
               <span>Jugadores</span>
             </h6>
             <div v-show="$root.players.length">
-              <div v-for="player in $root.players">
+              <div v-for="player in $root.players" class="field">
                 <a href="#" v-if="player.code != $root.player.code" class="button is-text is-rounded is-info is-outlined" @click="play(player.code)" :title="'Invitar a ' + player.code">
                   <span class="icon">
                     <span class="fas fa-user"></span>
@@ -43,7 +43,7 @@
               <span>Partidas</span>
             </h6>
             <div v-show="matches.length">
-              <div v-for="match in matches">
+              <div v-for="match in matches" class="field">
                 <router-link :to="'/watch/' + match.id" class="button is-text is-rounded is-info is-outlined" :title="'Ver partida entre ' + match.white + ' y ' + match.black">
                   <span class="icon">
                     <span class="fa fa-user"></span>
