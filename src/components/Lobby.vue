@@ -9,7 +9,7 @@
       </h3>
       <div>
         <div class="columns">
-          <div class="column">
+          <div class="column lobby-list">
             <h6>
               <span class="icon">
                 <span class="fa fa-users"></span>
@@ -156,7 +156,7 @@
     mounted: function(){
       this.$socket.emit('lobby_chat', { 
         sender: 'chatbot',
-        line: `Bienvenid@ ${this.$root.player.code}, gracias por visitar AjedrezEV. Establece tus preferencias <a href="/preferences" class="has-text-warning">aquí</a>`
+        line: `Bienvenid@ ${this.$root.player.code}, gracias por visitar AjedrezEV. <a href="/preferences" class="has-text-success">Establece tus preferencias</a>`
       })      
     },
     sockets: {
@@ -166,9 +166,9 @@
       lobby_chat: function(data){
         const chatbox = document.querySelector(".chatbox")
         const owned = this.$root.player.code === data.sender
-        const cls = owned ? 'is-pulled-right has-text-right' : 'is-pulled-left has-text-left has-background-info has-text-white'
+        const cls = owned ? 'is-pulled-right has-text-right has-background-info has-text-white' : 'is-pulled-left has-text-left'
         const sender = data.sender === this.$root.player.code ? '' : data.sender
-        chatbox.innerHTML+= `<div class="box ${cls}"><strong class="has-text-light">${sender}</strong> ${data.line}</div>`
+        chatbox.innerHTML+= `<div class="box ${cls}"><strong class="has-text-info">${sender}</strong> ${data.line}</div>`
         chatbox.scrollTop = chatbox.scrollHeight
         if(data.sender != this.$root.player.code){
           playSound('chat.mp3')

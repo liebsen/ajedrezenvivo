@@ -1,3 +1,29 @@
+
+/* board hacks */
+
+.board-b72b1 {
+  border: none;
+}
+
+.white-1e1d7 {
+  background-color: #eeeed2;
+  color: #769656;
+}
+
+/* black square */
+.black-3c85d {
+  background-color: #769656;
+  color: #eeeed2;
+}
+
+.highlight1-32417, .highlight2-9c5d2 {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  filter: saturate(400%);
+}
+
+
 .status {
     display: inline-block;
     background-color: #fff;
@@ -62,17 +88,6 @@
                 }
             }
         }
-    }
-}
-
-.chatbox {
-    height: 270px;
-    width: 100%;
-    overflow-y: auto;
-    .box {
-        clear: both;
-        padding: 0.25rem 0.5rem;
-        margin-bottom: 0.35rem;
     }
 }
 
