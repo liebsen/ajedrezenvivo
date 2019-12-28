@@ -16,19 +16,23 @@
               </span>
               <span>Jugadores</span>
             </h6>
-            <div v-show="$root.players.length > 1">
+            <div v-show="$root.players.length">
               <div v-for="player in $root.players">
-                <div v-if="player.code != $root.player.code">
-                  <button class="button is-text is-rounded" @click="play(player.code)">
-                    <span class="icon">
-                      <span class="fas fa-user"></span>
-                    </span>
-                    <span v-html="player.code"></span>
-                  </button>
-                </div>
+                <a href="#" v-if="player.code != $root.player.code" class="button is-text is-rounded is-info is-outlined" @click="play(player.code)" :title="'Invitar a ' + player.code">
+                  <span class="icon">
+                    <span class="fas fa-user"></span>
+                  </span>
+                  <span v-html="player.code"></span>
+                </a>
+                <a href="#" v-else class="button is-text is-rounded is-light">
+                  <span class="icon">
+                    <span class="fas fa-user"></span>
+                  </span>
+                  <span v-html="player.code"></span>
+                </a>
               </div>
             </div>
-            <div v-show="$root.players.length < 2">
+            <div v-show="!$root.players.length">
               <span class="has-text-grey">No hay jugadores</span>
             </div>
             <hr>
@@ -40,9 +44,17 @@
             </h6>
             <div v-show="matches.length">
               <div v-for="match in matches">
-                <router-link :to="'/watch/' + match.id" class="button is-text is-rounded">
+                <router-link :to="'/watch/' + match.id" class="button is-text is-rounded is-info is-outlined" :title="'Ver partida entre ' + match.white + ' y ' + match.black">
+                  <span class="icon">
+                    <span class="fa fa-user"></span>
+                  </span>
                   <span v-html="match.white"></span>
-                  <span>vs</span>
+                  <span class="icon">
+                    <span class="fa fa-arrows-alt-h"></span>
+                  </span>
+                  <span class="icon">
+                    <span class="fa fa-user"></span>
+                  </span>
                   <span v-html="match.black"></span>
                 </router-link>
               </div>
