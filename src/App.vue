@@ -105,7 +105,7 @@
       </div>    
     </div>
     
-    <keep-alive>
+    <keep-alive include="lobby">
       <router-view :key="$route.fullPath" v-show="!$root.loading" />
     </keep-alive>
 

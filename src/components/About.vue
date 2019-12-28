@@ -5,7 +5,7 @@
         <span class="icon">
           <span class="fa fa-info"></span>
         </span> 
-        <span>Acerca de</span>
+        <span>Acerca de AjedrezEV</span>
       </h3>
       <h2>¿Qué es?</h2>
       <p>AjedrezEV es una herramienta para seguir en vivo y estudiar el deporte del Ajedrez.</p>
@@ -30,8 +30,10 @@
       <ul>
         <li>Vue JS</li>
         <li>Webpack</li>
-        <li>Chess JS engine (motor de juego)</li>
+        <li>Bulma CSS</li>
+        <li>Chess JS (motor de juego)</li>
         <li>Chessboard JS (renderización de tableros)</li>
+        <li>Stockfish JS (análisis de posiciones)</li>
       </ul>
       <h5>Servidor</h5>
       <ul>
@@ -41,10 +43,10 @@
       </ul>
 
       <h4>Entornos</h4>
-      <p>AjedrezEV, como todo proyecto en constante evolución posee dos entornos. A continuación las urls de cada una de ellas.</p>
+      <p>AjedrezEV actualmente solo cuenta con entorno de desarrollo. Para poder utilizar el entorno de producción es necesario pagar 7USD mensuales, recurso con el que no contamos ctualmente. Si quieres hacer una donación económica para activar el entorno producción <router-link to="/contact">contacta con nosotros</router-link></p>
       <ul>
         <li>
-          <a href="https://ajedrezenvivo.net" target="_blank">AjedrezEV Producción</a>
+          <a href="https://ajedrezenvivo.net" target="_blank">AjedrezEV Producción (inactivo)</a>
         </li>
         <li>  
           <a href="https://ajedrezenvivo.herokuapp.com" target="_blank">AjedrezEV Desarrollo</a>
