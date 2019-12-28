@@ -39,7 +39,7 @@
                 <span class="icon">
                   <span class="fa fa-chess-board"></span>
                 </span>
-                <span>Partidas</span>
+                <span>Jugando ahora</span>
               </h6>
               <div>
                 <div v-for="match in matches" class="field">
