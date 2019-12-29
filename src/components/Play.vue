@@ -382,7 +382,7 @@
           snackbar('success', '<strong class="has-text-light">👤 ' + data.sender + '</strong> ' + data.line)
         }
         if(data.sender!=this.$root.player.code){
-          playSound('chat.mp3')
+          playSound('chat.ogg')
         }
       }
     },

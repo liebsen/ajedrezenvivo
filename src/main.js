@@ -172,7 +172,7 @@ new Vue({
       if(data.length > 1){
         snackbar('success','Hay ' + (data.length - 1) +  ' jugador' + (data.length > 2 ? 'es' : '') + ' esperando invitación ')
         document.title = '(' + (data.length - 1) + ') ' + this.documentTitle
-        var sound = 'chat.mp3'
+        var sound = 'pop.mp3'
         playSound(sound)
       } else {
         snackbar('default','No hay jugadores en este momento')       
@@ -201,7 +201,7 @@ new Vue({
             }        
           })
         } else {
-          playSound('chat.mp3')
+          playSound('pop.mp3')
           const template = (`
   <div class="content">
   <h4>

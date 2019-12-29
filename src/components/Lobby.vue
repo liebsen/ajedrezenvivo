@@ -168,7 +168,7 @@
         chatbox.innerHTML+= `<div class="box ${cls}"><strong class="has-text-info">${sender}</strong> ${data.line}</div>`
         chatbox.scrollTop = chatbox.scrollHeight
         if(data.sender != this.$root.player.code){
-          playSound('chat.mp3')
+          playSound('chat.ogg')
         }
       }
     },
