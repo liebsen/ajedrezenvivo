@@ -44,7 +44,7 @@
           <div class="column">
             <div class="board-container">
               <div :class="boardColor">
-                <h6 class="black has-text-left" @click="gameFlip">
+                <h6 class="black has-text-left is-clickable" @click="gameFlip">
                   <span v-show="data.result==='0-1'">🏆</span>
                   <span v-html="data.black"></span> 
                   <span class="has-text-grey" v-html="data.blackelo"></span>
@@ -55,7 +55,7 @@
                   </div>            
                   <div id="board" @click="gamePause"></div>
                 </div>
-                <h6 class="white has-text-right" @click="gameFlip">
+                <h6 class="white has-text-right is-clickable" @click="gameFlip">
                   <span v-show="data.result==='1-0'">🏆</span>
                   <span v-html="data.white"></span> 
                   <span class="has-text-grey" v-html="data.whiteelo"></span>                  

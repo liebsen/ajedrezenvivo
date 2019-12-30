@@ -153,7 +153,7 @@
     mounted: function(){
       this.$socket.emit('lobby_chat', { 
         sender: 'chatbot',
-        line: `Bienvenid@ ${this.$root.player.code}, gracias por visitar AjedrezEV. <a href="/preferences" class="has-text-success">Establece tus preferencias</a>`
+        line: `Hola ${this.$root.player.code}, gracias por visitar AjedrezEV. Antes de jugar puedes <a href="/preferences" class="has-text-success">establecer tus preferencias</a>`
       })      
     },
     sockets: {
