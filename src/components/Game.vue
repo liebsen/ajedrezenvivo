@@ -71,6 +71,11 @@
                   <span v-html="ecode" class=""></span>&nbsp;
                   <span v-html="opening" class="has-text-black"></span>
                 </div>
+                <div class="column has-text-left">
+                  <button @click="showPGN()" class="button is-small is-rounded is-info" v-if="pgnIndex.length">
+                    <span>PGN</span>
+                  </button>
+                </div>
               </div>  
               <div class="columns gamepgn">
                 <div class="movesTableContainer">
@@ -222,6 +227,43 @@
         }
 
         return moves;
+      },
+      gamePGN:function(pgn){
+        var data = []
+        pgn.split('.').forEach(function(turn){
+          turn.split(' ').forEach(function(move){
+            if(move.length){
+              if(isNaN(move) && move.length > 1){
+                data.push(move)
+              }
+            }
+          })
+        })
+        return data
+      },
+      showPGN:function(pgn){
+        var pgn = this.data.pgn + ' ' + (this.data.result ? this.data.result : '')
+        const template = (`
+<div class="content">
+  <div class="columns columns-bottom is-flex has-text-centered">
+    <div class="column">
+      <div class="control">
+        <div class="field">
+          <textarea class="textarea" readonly>${pgn}</textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`)
+        swal({
+          title: 'Copiar PGN',
+          content: {
+            element: 'div',
+            attributes: {
+              innerHTML: `${template}`,
+            }
+          }
+        })
       },
       gamePGN:function(pgn){
         var data = []

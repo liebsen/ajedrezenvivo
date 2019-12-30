@@ -32,6 +32,11 @@
                   <span v-html="ecode" class=""></span> 
                   <span v-html="opening" class="has-text-black"></span>
                 </div>
+                <div class="column has-text-left">
+                  <button @click="showPGN()" class="button is-small is-rounded is-info" v-if="pgnIndex.length">
+                    <span>PGN</span>
+                  </button>
+                </div>
               </div> 
               <div v-if="Object.keys(data).length">
                 <div class="columns gamepgn">
@@ -270,7 +275,31 @@
       uciCmd: function(cmd, which) {
         //console.log("UCI: " + cmd);
         (which || this.evaler).postMessage(cmd);
-      },    
+      },
+      showPGN:function(pgn){
+        var pgn = this.game.pgn() + ' ' + (this.data.result ? this.data.result : '')
+        const template = (`
+<div class="content">
+  <div class="columns columns-bottom is-flex has-text-centered">
+    <div class="column">
+      <div class="control">
+        <div class="field">
+          <textarea class="textarea" readonly>${pgn}</textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`)
+        swal({
+          title: 'Copiar PGN',
+          content: {
+            element: 'div',
+            attributes: {
+              innerHTML: `${template}`,
+            }
+          }
+        })
+      }, 
       gameStart: function(){
         this.$root.loading = true
         const pref = JSON.parse(localStorage.getItem('player'))||{}

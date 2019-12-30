@@ -30,6 +30,11 @@
                   <span v-html="data.eco" class=""></span>&nbsp;
                   <span v-html="data.name" class="has-text-black"></span>
                 </div>
+                <div class="column has-text-left">
+                  <button @click="showPGN()" class="button is-small is-rounded is-info" v-if="pgnIndex.length">
+                    <span>PGN</span>
+                  </button>
+                </div>
               </div>  
               <div class="columns gamepgn">
                 <div class="movesTableContainer">
@@ -177,7 +182,31 @@
           }
         })
         return data
-      },  
+      },
+      showPGN:function(pgn){
+        var pgn = this.data.pgn + ' ' + (this.data.result ? this.data.result : '')
+        const template = (`
+<div class="content">
+  <div class="columns columns-bottom is-flex has-text-centered">
+    <div class="column">
+      <div class="control">
+        <div class="field">
+          <textarea class="textarea" readonly>${pgn}</textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`)
+        swal({
+          title: 'Copiar PGN',
+          content: {
+            element: 'div',
+            attributes: {
+              innerHTML: `${template}`,
+            }
+          }
+        })
+      },
       gameStart: function(){
         this.$root.loading = true
         axios.get( '/assets/json/eco_es.json').then((res) => {

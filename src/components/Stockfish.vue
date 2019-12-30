@@ -92,20 +92,20 @@
               <span v-html="opening" class="has-text-black"></span> 
             </div>
             <div class="column has-text-left">
-              <button @click="gameRestart()" class="button is-rounded is-danger" v-if="pgnIndex.length > 0 && !announced_game_over" title="Abandonar partida">
+              <button @click="gameRestart()" class="button is-small is-rounded is-danger" v-if="pgnIndex.length > 0 && !announced_game_over" title="Abandonar partida">
                 <span class="icon has-text-white">
                   <span class="fas fa-flag"></span>
                 </span>
               </button>
-              <button @click="showHint()" class="button is-rounded is-success" v-if="pgnIndex.length && !announced_game_over" title="Mostrar pista">
+              <button @click="showHint()" class="button is-small is-rounded is-warning" v-if="pgnIndex.length && !announced_game_over" title="Mostrar pista">
                 <span class="icon has-text-white">
                   <span class="fas fa-question-circle"></span>
                 </span>
               </button>
-              <button @click="gameRestart()" class="button is-rounded is-success" v-if="announced_game_over">
+              <button @click="gameRestart()" class="button is-small is-rounded is-success" v-if="announced_game_over">
                 <span>REMATCH</span>
               </button>
-              <button @click="showPGN()" class="button is-rounded is-success" v-if="pgnIndex.length">
+              <button @click="showPGN()" class="button is-small is-rounded is-info" v-if="pgnIndex.length">
                 <span>PGN</span>
               </button>
             </div>
@@ -182,7 +182,7 @@
         t.gameStart(t.time.level)
       },
       showPGN:function(pgn){
-        var pgn = this.game.pgn()
+        var pgn = this.game.pgn() + ' ' + (this.data.result ? this.data.result : '')
         const template = (`
 <div class="content">
   <div class="columns columns-bottom is-flex has-text-centered">

@@ -70,7 +70,7 @@
           <div class="field">
             <div class="control">
               <label class="label">Nombre</label>
-              <input type="text" v-model="data.code" class="input" required>
+              <input type="text" v-model="data.code" class="input" maxlength="10" required>
             </div>
           </div>
           <div class="field">

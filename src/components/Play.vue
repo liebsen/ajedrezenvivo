@@ -51,22 +51,22 @@
                     <span v-html="opening" class="has-text-black"></span>
                   </div>
                   <div class="column has-text-left">
-                    <button @click="gameCapitulate()" class="button is-rounded is-danger" v-if="pgnIndex.length && !announced_game_over" title="Abandonar partida">
+                    <button @click="gameCapitulate()" class="button is-small is-rounded is-danger" v-if="pgnIndex.length && !announced_game_over" title="Abandonar partida">
                       <span class="icon has-text-white">
                         <span class="fas fa-flag"></span>
                       </span>
                     </button>
-                    <button @click="gameAskForDraw()" class="button is-rounded is-danger" v-if="pgnIndex.length && !announced_game_over" title="Solicitar tablas">
+                    <button @click="gameAskForDraw()" class="button is-small is-rounded is-success" v-if="pgnIndex.length && !announced_game_over" title="Solicitar tablas">
                       <span class="icon has-text-white">
                         <span class="fas fa-handshake"></span>
                       </span>
                     </button>
-                    <button @click="showLiveURL()" class="button is-rounded is-success" v-if="pgnIndex.length">
+                    <button @click="showLiveURL()" class="button is-small is-rounded is-info" v-if="pgnIndex.length">
                       <span class="icon has-text-white">
                         <span class="fas fa-eye"></span>
                       </span>
                     </button>
-                    <button @click="showPGN()" class="button is-rounded is-success" v-if="pgnIndex.length">
+                    <button @click="showPGN()" class="button is-small is-rounded is-info" v-if="pgnIndex.length">
                       <span>PGN</span>
                     </button>
                   </div>
@@ -875,7 +875,7 @@
         })
       },
       showPGN:function(pgn){
-        var pgn = this.game.pgn()
+        var pgn = this.game.pgn() + ' ' + (this.data.result ? this.data.result : '')
         const template = (`
 <div class="content">
   <div class="columns columns-bottom is-flex has-text-centered">
