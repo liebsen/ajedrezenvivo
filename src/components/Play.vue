@@ -179,13 +179,16 @@
         var t = this
         setTimeout(() => {
           if(!t.gameStarted && !t.data.result){
+            var secs = t.data.minutes * 60
             t.gameStarted = true
             t.boardTaps()
             t.startClock()
             this.$socket.emit('match_start', {
               id:t.data._id,
               white: t.data.white,
-              black: t.data.black
+              black: t.data.black,
+              wtime: secs,
+              btime: secs
             })
           }
         },100)
@@ -279,8 +282,8 @@
         }
         t.timer.w = parseInt(data.wtime)
         t.timer.b = parseInt(data.btime)
-        t.tdisplay.w = t.getTimeDisplay(t.timer.w)
-        t.tdisplay.b = t.getTimeDisplay(t.timer.b)
+        t.tdisplay.w = t.$root.getTimeDisplay(t.timer.w)
+        t.tdisplay.b = t.$root.getTimeDisplay(t.timer.b)
       },
       acceptdraw: function(data){
         swal.close()
@@ -320,11 +323,6 @@
             wtime: t.timer.b,
             result:result
           })
-          t.$socket.emit('match_end', {
-            id:t.data._id,
-            white: t.data.white,
-            black: t.data.black
-          })
           swal("¡Victoria!", 'Has vencido a ' + t.opponentName, "success")
         }
         if(result){
@@ -351,12 +349,6 @@
                 wtime: t.timer.w,
                 wtime: t.timer.b,
                 result:result
-              })
-
-              this.$socket.emit('match_end', {
-                id:t.data._id,
-                white: t.data.white,
-                black: t.data.black
               })
 
               t.$socket.emit('acceptdraw', data)
@@ -531,7 +523,7 @@
             t.timer.w = parseInt(game.minutes * 60)
           }
 
-          t.tdisplay.w = t.getTimeDisplay(t.timer.w)
+          t.tdisplay.w = t.$root.getTimeDisplay(t.timer.w)
 
           if(game.btime){
             t.timer.b = parseInt(game.btime)
@@ -539,7 +531,7 @@
             t.timer.b = parseInt(game.minutes * 60)
           }
 
-          t.tdisplay.b = t.getTimeDisplay(t.timer.b)
+          t.tdisplay.b = t.$root.getTimeDisplay(t.timer.b)
           t.gameStart()
           t.$socket.emit('resume',this.$root.player)
 
@@ -614,11 +606,6 @@
                   wtime: t.timer.b,
                   result:result
                 })
-                t.$socket.emit('match_end', {
-                  id:t.data._id,
-                  white: t.data.white,
-                  black: t.data.black
-                })
                 swal("¡Victoria!", 'Has vencido por tiempo a ' + t.opponentName, "success")
               }
               if(result){
@@ -626,7 +613,7 @@
               }
               t.announced_game_over = true
             } else {
-              t.tdisplay[turn] = t.getTimeDisplay(t.timer[turn]) 
+              t.tdisplay[turn] = t.$root.getTimeDisplay(t.timer[turn]) 
             }
           }
         },1000)
@@ -714,6 +701,7 @@
       emitMove: function(move){
         var t = this
         move.id = t.$route.params.game
+        move.vscore = t.vscore
         move.fen = t.game.fen()
         move.pgn = t.game.pgn()
         move.turn = t.game.turn()
@@ -763,11 +751,6 @@
                   wtime: t.timer.w,
                   wtime: t.timer.b,
                   result:(t.playerColor==='white'?'1-0':'0-1')
-                })
-                t.$socket.emit('match_end', {
-                  id:t.data._id,
-                  white: t.data.white,
-                  black: t.data.black
                 })
                 swal("¡Victoria!", 'Has vencido a ' + t.opponentName, "success")
               }

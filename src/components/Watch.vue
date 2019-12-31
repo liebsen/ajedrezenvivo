@@ -115,20 +115,11 @@
         t.updateMoves(move)
         t.timer.w = parseInt(data.wtime)
         t.timer.b = parseInt(data.btime)
-        t.tdisplay.w = t.getTimeDisplay(t.timer.w)
-        t.tdisplay.b = t.getTimeDisplay(t.timer.b)  
+        t.tdisplay.w = t.$root.getTimeDisplay(t.timer.w)
+        t.tdisplay.b = t.$root.getTimeDisplay(t.timer.b)  
       }
     },
     methods: {
-      getTimeDisplay: function(time){
-        var min = parseInt(time / 60, 10)
-        var sec = parseInt(time % 60, 10)
-
-        min = min < 10 ? "0" + min : min
-        sec = sec < 10 ? "0" + sec : sec
-
-        return min + ":" + sec
-      },
       startClock: function(){
         var t = this
         t.clock = setInterval(() => {
@@ -144,7 +135,7 @@
               }
               t.announced_game_over = true
             } else {
-              t.tdisplay[turn] = t.getTimeDisplay(t.timer[turn]) 
+              t.tdisplay[turn] = t.$root.getTimeDisplay(t.timer[turn]) 
             }
           }
         },1000)
@@ -344,7 +335,7 @@
             this.timer.w = parseInt(game.minutes * 60)
           }
 
-          this.tdisplay.w = this.getTimeDisplay(this.timer.w)
+          this.tdisplay.w = this.$root.getTimeDisplay(this.timer.w)
 
           if(game.btime){
             this.timer.b = parseInt(game.btime)
@@ -352,7 +343,7 @@
             this.timer.b = parseInt(game.minutes * 60)
           }
 
-          this.tdisplay.b = this.getTimeDisplay(this.timer.b)
+          this.tdisplay.b = this.$root.getTimeDisplay(this.timer.b)
           this.startClock()
 
           this.$root.loading = false

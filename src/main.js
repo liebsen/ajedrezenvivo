@@ -5,6 +5,8 @@ import axios from 'axios'
 import swal from 'sweetalert'
 import App from './App.vue'
 import router from './router'
+import Chess from 'chess.js'
+import Chessboard from '../assets/js/chessboard'
 import snackbar from './components/Snackbar';
 import playSound from './components/playSound'
 
@@ -29,17 +31,18 @@ const generateRandomCode = (() => {
   }
 })()
 
-
 new Vue({
   el: '#app',
   router,
   watch: {
     '$route' (to, from) {
       if(from.name === 'play'){
-        this.$socket.emit('lobby_join', this.player)
+        this.$socket.emit('match_end', from.params.game)
       }
       if(to.name === 'play'){
         this.$socket.emit('lobby_leave', this.player) 
+      } else {
+        this.$socket.emit('lobby_join', this.player)
       }
     }
   },
@@ -252,9 +255,199 @@ new Vue({
           })
         }
       }
+    },
+    matches_live: function(data){
+      this.matches = data
+      var gamesContainer = document.querySelector('.live-games')
+      if(gamesContainer){
+        for(var i in data){
+          if(!this.games[data[i].id]){
+            this.gameStart(data[i])
+          }
+        }
+      }
+    },
+    match_live: function(data){
+      var t = this
+      var gamesContainer = document.querySelector('.live-games')
+      if(gamesContainer){
+        var exists = false 
+        for(var i in t.matches){
+          if(t.matches[i].id === data.id){
+            exists = true
+          }
+        }
+
+        if(exists === false){
+          t.matches.push(data)
+        }
+
+        setTimeout(() => {
+          t.gameMove(data)  
+        },500)        
+      }
     }
   },
   methods: {
+    gameStart: function(data){
+      var t = this
+      return new Promise(function(resolve,reject){
+
+        var pos = 'start'
+        var pieces = '/assets/img/chesspieces/classic/{piece}.png'
+
+        if(data.fen){
+          pos = data.fen
+        }
+
+        if(t.player.pieces){
+          pieces = '/assets/img/chesspieces/' + t.player.pieces + '/{piece}.png'
+          t.boardColor = t.player.board
+        }
+
+        var cfg = {
+          draggable: false,
+          position: pos,
+          pieceTheme:pieces
+        }
+
+        setTimeout(() => {
+          t.games[data.id] = new Chess
+          t.boards[data.id] = new Chessboard('board' + data.id,cfg)
+
+          if(data.pgn){
+            t.games[data.id].load_pgn(data.pgn)
+          }
+          resolve()
+        },500)        
+      })
+    },
+    gameMove: function(data){
+      var t = this
+      if(!t.games[data.id]){
+        t.gameStart(data).then(() => {
+          t.makeMove(data)
+        })        
+      } else {
+        t.makeMove(data)
+      }
+    },
+    makeMove: function(data){
+      var t = this
+      setTimeout(() => {
+        var moveObj = ({
+          from: data.from,
+          to: data.to,
+          promotion: 'q' // NOTE: always promote to a queen for example simplicity
+        });
+        // see if the move is legal
+        var move = t.games[data.id].move(moveObj)
+
+        if (move === null) {
+          return 'snapback'
+        }
+
+        for(var i in t.matches){
+          if(t.matches[i].id === data.id){
+            t.matches[i].wtime = data.wtime
+            t.matches[i].btime = data.btime
+          }
+        }
+
+        t.boards[data.id].position(data.fen)
+        t.updateMoves(data.id,move)
+      },500)
+    },
+    gameFlip: function(id){
+      this.boards[id].flip()
+      const white = document.querySelector('.board-container.b' + id + ' .white').innerHTML
+      const black = document.querySelector('.board-container.b' + id + ' .black').innerHTML
+      document.querySelector('.board-container.b' + id + ' .white').innerHTML = black
+      document.querySelector('.board-container.b' + id + ' .black').innerHTML = white
+      this.highlightLastMove(id)
+    },
+    getTimeDisplay: function(time){
+      var min = parseInt(time / 60, 10)
+      var sec = parseInt(time % 60, 10)
+
+      min = min < 10 ? "0" + min : min
+      sec = sec < 10 ? "0" + sec : sec
+
+      return min + ":" + sec
+    },
+    updateMoves:function(id,move){
+      var t = this
+      var sound = 'move.mp3'
+      var game = t.games[id] 
+      var data = {}
+
+      for(var i in t.matches){
+        if(t.matches[i].id === id){
+          data = t.matches[i]
+        }
+      }
+
+      if(game.game_over()){
+        if(game.in_draw() || game.in_stalemate() || game.in_threefold_repetition()) {
+          document.querySelector('.board-container.b' + id + ' .match-status').innerHTML = 'La partida finalizó con un empate'
+        } else {          
+          const winner = game.turn() === 'w' ? data.black : data.white
+          document.querySelector('.board-container.b' + id + ' .match-status').innerHTML = winner + ' ganó la partida'
+        }
+        
+        sound = 'game-end.mp3'
+        game.announced_game_over = true
+      } else {
+
+        if(move.flags === 'c'){
+          sound = 'capture.mp3'        
+        }
+
+        if(move.flags === 'k'){
+          sound = 'castle.mp3'
+        }
+
+        if(move.flags === 'q'){
+          sound = 'castle.mp3'
+        }
+
+        if (game.in_check() === true) {
+          sound = 'check.mp3'
+        }
+
+        t.removeHighlight(id)
+        t.addHightlight(id,move)
+        playSound(sound)
+      }
+    },
+    removeHighlight : function(id) {
+      document.getElementById('board' + id).querySelectorAll('.square-55d63').forEach((item) => {
+        item.classList.remove('highlight-move')
+        item.classList.remove('in-check')
+      })
+    },
+    addHightlight : function(id,move){
+      var t = this
+      var game = t.games[id]
+      t.removeHighlight(id);
+      if(move){
+        if (game.in_check() === true) {
+          document.getElementById('board' + id).querySelector('img[data-piece="' + game.turn() + 'K"]').parentNode.classList.add('in-check')
+        }
+        setTimeout(function(){
+          document.getElementById('board' + id).querySelector('.square-' + move.from).classList.add('highlight-move');
+          document.getElementById('board' + id).querySelector('.square-' + move.to).classList.add('highlight-move');   
+        },200)
+      }
+    },
+    highlightLastMove: function(id){
+      var history = this.games[id].history({verbose:true})
+      if(history.length){
+        var move = history[history.length-1]
+        document.getElementById('board' + id).querySelector('.square-' + move.from).classList.add('highlight-move')
+        document.getElementById('board' + id).querySelector('.square-' + move.to).classList.add('highlight-move')
+      }
+    },
   	countMoves: (pgn) => {
 	    if(pgn && pgn.indexOf('.')){
 	      return pgn.split('.').length - 1
@@ -285,7 +478,11 @@ new Vue({
     saving:true,
     player:{},
     players: [],
+    matches:[],
+    games:[],
+    boards:[],
     documentTitle:null,
+    boardColor:null,
     code:generateRandomCode(6)
   },
   render: h => h(App)
