@@ -1,44 +1,16 @@
-@-webkit-keyframes snackbar-show {
- 0% {
-  opacity:0;
-  -webkit-transform:translate3d(-50%,140%,0);
-  transform:translate3d(-50%,140%,0)
- }
- to {
-  opacity:1;
-  -webkit-transform:translate3d(-50%,0,0);
-  transform:translate3d(-50%,0,0)
- }
-}
 @keyframes snackbar-show {
  0% {
   opacity:0;
-  -webkit-transform:translate3d(-50%,140%,0);
-  transform:translate3d(-50%,140%,0)
+  transform:translate3d(-50%,-200%,0)
  }
  to {
   opacity:1;
-  -webkit-transform:translate3d(-50%,0,0);
   transform:translate3d(-50%,0,0)
  }
 }
-@-webkit-keyframes snackbar-hide {
- 0% {
-  -webkit-transform:translate3d(-50%,0,0);
-  transform:translate3d(-50%,0,0)
- }
- 50% {
-  opacity:1
- }
- to {
-  opacity:0;
-  -webkit-transform:translate3d(-50%,140%,0);
-  transform:translate3d(-50%,140%,0)
- }
-}
+
 @keyframes snackbar-hide {
  0% {
-  -webkit-transform:translate3d(-50%,0,0);
   transform:translate3d(-50%,0,0)
  }
  50% {
@@ -46,8 +18,7 @@
  }
  to {
   opacity:0;
-  -webkit-transform:translate3d(-50%,140%,0);
-  transform:translate3d(-50%,140%,0)
+  transform:translate3d(-50%,-200%,0)
  }
 }
 .no-js .ui-snackbar,
@@ -69,7 +40,7 @@
  font-size:14px;
  line-height:1.25;
  color:#fff;
- bottom:0;
+ top:4rem;
  display:table;
  border-spacing:20px;
  border-collapse:separate;

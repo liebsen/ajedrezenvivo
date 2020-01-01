@@ -194,7 +194,7 @@ new Vue({
         var sound = 'pop.mp3'
         playSound(sound)
       } else {
-        snackbar('default','No hay jugadores en este momento')       
+        //snackbar('default','No hay jugadores en este momento')       
         document.title = this.documentTitle
       }        
       this.players = data

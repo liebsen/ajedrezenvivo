@@ -9,7 +9,7 @@ module.exports = function (type, message, options) {
   } 
 
   if(options===undefined) {
-    options = 8000
+    options = 3000
   }
 
   if (!message) return;

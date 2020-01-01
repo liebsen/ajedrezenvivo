@@ -10,7 +10,7 @@
       <div class="columns">
         <div class="column">
           <div class="field is-horizontal">
-            <div class="field-body">
+            <div class="field-body is-pulled-right">
               <div class="field">
                 <div class="select">
                   <select v-model="data.board" id="tablero">
@@ -34,7 +34,7 @@
                 </div>
               </div>
             </div>
-            <div class="field-body">
+            <div class="field-body is-pulled-left">
               <div class="field">
                 <div class="select">
                   <select v-model="data.pieces" id="piezas">
@@ -73,21 +73,29 @@
               <input type="text" v-model="data.code" class="input" maxlength="10" required>
             </div>
           </div>
-          <div class="field">
+          <div class="field ">
             <div class="field-group">
               <label class="label">General</label>
-              <div class="control">
-                <input v-model="data.observe" class="is-checkradio has-background-color is-success" id="observe" type="checkbox">
-                <label class="label" for="observe">Observador</label>
-                <small>Si Modo Observador está activado significa que no <strong>quieres jugar en línea</strong>, solo observar partidas, jugar contra Stockfish o estudiar partidas.</small>
+              <div class="field-body">
+                <div class="control">
+                  <input v-model="data.observe" class="is-checkradio" id="observe" type="checkbox">
+                  <label class="label" for="observe">Observador</label>
+                  <p class="notification is-warning">
+                    <small>Cuando <em>Modo Observador</em> está activado significa no <strong>podrás jugar en línea</strong> como tampoco podrás <strong>ser visto en línea en Salón</strong> para ser invitado. Solo podrás observar partidas en línea, jugar contra Stockfish o estudiar partidas guardadas.</small>
+                  </p>
+                </div>
               </div>
-              <div class="control">
-                <input v-model="data.sound" class="is-checkradio has-background-color is-success" id="sound" type="checkbox">
-                <label class="label" for="sound">Sonido</label>
+              <div class="field-body">
+                <div class="control">
+                  <input v-model="data.sound" class="is-checkradio" id="sound" type="checkbox">
+                  <label class="label" for="sound">Sonido</label>
+                </div>
               </div>
-              <div class="control">
-                <input v-model="data.autoaccept" class="is-checkradio has-background-color is-success" id="autoaccept" type="checkbox">
-                <label class="label" for="autoaccept">Auto-aceptar invitaciones</label>
+              <div class="field-body">
+                <div class="control">
+                  <input v-model="data.autoaccept" class="is-checkradio" id="autoaccept" type="checkbox">
+                  <label class="label" for="autoaccept">Auto-aceptar invitaciones</label>
+                </div>
               </div>
             </div>
           </div>
@@ -150,7 +158,8 @@
         this.$socket.emit('lobby_leave', this.data) 
         this.$root.saving = true
         this.$root.player = this.data
-        this.$socket.emit('preferences',this.data)
+        this.$socket.emit('preferences',this.data)  
+        snackbar('success','Tus preferencias fueron actualizadas correctamente.')
       }
     },
     data () {

@@ -51,13 +51,13 @@
             </h6>
             <div>
               <div v-for="player in $root.players" class="field">
-                <a href="#" v-if="player.code != $root.player.code" class="button is-text is-rounded is-info is-outlined" @click="play(player.code)" :title="'Invitar a ' + player.code">
+                <a v-if="player.code != $root.player.code && !$root.player.observe" class="button is-text is-rounded is-info is-outlined" @click="play(player.code)" :title="'Invitar a ' + player.code">
                   <span class="icon">
                     <span class="fas fa-user"></span>
                   </span>
                   <span v-html="player.code"></span>
                 </a>
-                <a href="#" v-else class="button is-text is-rounded is-light">
+                <a @click="clickObserve(player.code)" v-else class="button is-text is-rounded is-light">
                   <span class="icon">
                     <span class="fas fa-user"></span>
                   </span>
@@ -178,14 +178,21 @@
       }
     },
     methods: {
-      sendChat: function(){
+      sendChat: function() {
         this.$socket.emit('lobby_chat', { 
           sender: this.$root.player.code,
           line: this.chat
         })
         this.chat = ''
       },
-      play: function(player){
+      clickObserve: function(data) { 
+        if(data === this.$root.player.code){
+          snackbar('default','Eres tu')   
+        } else {
+          snackbar('error','Estás en modo Observador. Para cambiarlo ve a tus Preferencias.') 
+        }        
+      },
+      play: function(player) {
         var t = this
         const template = (`
 <div class="content">
