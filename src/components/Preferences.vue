@@ -10,8 +10,8 @@
       <div class="columns">
         <div class="column">
           <div class="field is-horizontal">
-            <div class="field-body is-pulled-right">
-              <div class="field">
+            <div class="field-body">
+              <div class="field has-text-right">
                 <div class="select">
                   <select v-model="data.board" id="tablero">
                     <option value="classic">[Tablero]</option>
@@ -34,8 +34,8 @@
                 </div>
               </div>
             </div>
-            <div class="field-body is-pulled-left">
-              <div class="field">
+            <div class="field-body">
+              <div class="field has-text-left">
                 <div class="select">
                   <select v-model="data.pieces" id="piezas">
                     <option value="classic">[Piezas]</option>
