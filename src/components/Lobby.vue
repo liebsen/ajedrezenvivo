@@ -159,7 +159,7 @@
     mounted: function(){
       this.$socket.emit('lobby_chat', { 
         sender: 'chatbot',
-        line: `Hola ${this.$root.player.code}, gracias por visitar AjedrezEV.` + (this.$root.player.observe ? `Estas en modo observador. Para cambiarlo puedes ` : `Antes de jugar puedes `) +  `<a href="/preferences" class="has-text-success">establecer tus preferencias</a>`
+        line: `Hola ${this.$root.player.code}, gracias por visitar AjedrezEV.` + (this.$root.player.observe ? ` Estas en modo observador. Para cambiarlo puedes ` : ` Antes de jugar puedes `) +  `<a href="/preferences" class="has-text-success">establecer tus preferencias</a>`
       })      
     },
     sockets: {
