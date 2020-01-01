@@ -77,8 +77,9 @@
             <div class="field-group">
               <label class="label">General</label>
               <div class="control">
-                <input v-model="data.available" class="is-checkradio has-background-color is-success" id="available" type="checkbox">
-                <label class="label" for="available">Disponible</label>
+                <input v-model="data.observe" class="is-checkradio has-background-color is-success" id="observe" type="checkbox">
+                <label class="label" for="observe">Observador</label>
+                <small>Si Modo Observador está activado significa que no <strong>quieres jugar en línea</strong>, solo observar partidas, jugar contra Stockfish o estudiar partidas.</small>
               </div>
               <div class="control">
                 <input v-model="data.sound" class="is-checkradio has-background-color is-success" id="sound" type="checkbox">

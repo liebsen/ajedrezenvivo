@@ -10,8 +10,8 @@ import Chessboard from '../assets/js/chessboard'
 import snackbar from './components/Snackbar';
 import playSound from './components/playSound'
 
-const endpoint='https://ajedrezenvivoapi.herokuapp.com'
-//const endpoint='https://ajedrezenvivoapidev.herokuapp.com'
+//const endpoint='https://ajedrezenvivoapi.herokuapp.com'
+const endpoint='https://ajedrezenvivoapidev.herokuapp.com'
 
 require('../assets/css/main.scss')
 require('../assets/css/chessboard.css')
@@ -47,6 +47,9 @@ new Vue({
     }
   },
   mounted () {
+
+    this.isOnline = window.navigator.onLine
+
     document.querySelector('body').addEventListener('click', function (event) {
       var target = event.target
       if (target.classList.contains('is-toggle')) {
@@ -121,12 +124,21 @@ new Vue({
         }
       }
     })
+
+    if (this.isOnline) {
+      var observe  = this.player.observe
+      snackbar('success',"Estas conectado" +(this.player.observe ? ' en modo Observador.' : ' y disponible para jugar'))
+    } else {
+      snackbar('error',"Te desconectaste. Verifica tu conexión a internet.")
+    }
   },
   created: function() {
-    const saved = localStorage.getItem('player')
+    const savedd = localStorage.getItem('player')
+    const saved = JSON.parse(savedd)
+
     var preferences = { 
       code: generateRandomCode(6), 
-      available: true,
+      observe: false,
       autoaccept: false,
       sound: true,
       pieces: 'classic',
@@ -134,7 +146,10 @@ new Vue({
     }
 
     if(saved){
-      preferences = JSON.parse(saved)
+      if(!saved.observe){
+        saved.observe = preferences.observe
+      }
+      preferences = saved
     } else {
       localStorage.setItem('player',JSON.stringify(preferences))
     }
@@ -172,6 +187,7 @@ new Vue({
       }
     },
     players_idle: function (data) {
+      if(this.$route.name === 'play') return
       if(data.length > 1){
         snackbar('success','Hay ' + (data.length - 1) +  ' jugador' + (data.length > 2 ? 'es' : '') + ' esperando invitación ')
         document.title = '(' + (data.length - 1) + ') ' + this.documentTitle
@@ -474,6 +490,7 @@ new Vue({
   },
   data:{
     endpoint:endpoint,
+    isOnline:true,
     loading:true,
     saving:true,
     player:{},
