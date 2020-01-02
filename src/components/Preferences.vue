@@ -9,12 +9,24 @@
       </h3>
       <div class="columns">
         <div class="column">
+          <div class="board-container">
+            <div id="board" :class="boardColor"></div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="field">
+            <div class="control">
+              <label class="label">Nombre</label>
+              <input type="text" v-model="data.code" class="input" maxlength="10" required>
+            </div>
+          </div>
           <div class="field is-horizontal">
             <div class="field-body">
-              <div class="field has-text-right">
-                <div class="select">
+              <div class="field">
+                <label class="label">Tablero</label>
+                <div class="select is-fullwidth">
                   <select v-model="data.board" id="tablero">
-                    <option value="classic">[Tablero]</option>
+                    <option value="classic">Clásico</option>
                     <option value="green">Verde</option>
                     <option value="light-green">Verde claro</option>
                     <option value="tournament">Campaña</option>
@@ -35,10 +47,11 @@
               </div>
             </div>
             <div class="field-body">
-              <div class="field has-text-left">
-                <div class="select">
+              <div class="field">
+                <label class="label">Piezas</label>
+                <div class="select is-fullwidth">
                   <select v-model="data.pieces" id="piezas">
-                    <option value="classic">[Piezas]</option>
+                    <option value="classic">Clásico</option>
                     <option value="neo">Neo</option>
                     <option value="neo_wood">Neo Wood</option>
                     <option value="wood">Wood</option>
@@ -62,18 +75,7 @@
               </div>
             </div>
           </div>
-          <div class="board-container">
-            <div id="board" :class="boardColor"></div>
-          </div>
-        </div>
-        <div class="column">
           <div class="field">
-            <div class="control">
-              <label class="label">Nombre</label>
-              <input type="text" v-model="data.code" class="input" maxlength="10" required>
-            </div>
-          </div>
-          <div class="field ">
             <div class="field-group">
               <label class="label">General</label>
               <div class="field-body">
