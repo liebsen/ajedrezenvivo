@@ -147,7 +147,7 @@ a.ui-snackbar__action:visited {
 @media (min-width:768px) {
  .ui-snackbar {
   max-width:600px;
-  top:0.25rem;
+  top:1.25rem;
   font-size:16px;
   -webkit-border-radius:4px;
   border-radius:4px;
