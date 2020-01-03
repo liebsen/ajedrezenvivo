@@ -531,8 +531,8 @@
         .then((speed) => {
           if(speed){
             speed = parseInt(speed)
-            if(speed > 60000 || speed < 1000){
-              swal('El valor debe ser entre 1000 / 60000')
+            if(speed > 5000 || speed < 500){
+              swal('El valor debe ser entre 500 / 5000')
             } else {
               this.speed = speed
               localStorage.setItem('speed',speed)
@@ -572,7 +572,7 @@
         boardEl:null,
         index:0,
         paused:false,
-        speed:3000
+        speed:1000
       }
     }
   }
