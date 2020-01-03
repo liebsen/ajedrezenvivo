@@ -62,7 +62,7 @@
               </div>
               <hr>
               <div v-for="player in $root.players" class="field">
-                <a v-show="player.observe" @click="clickObserve(player.code)" :title="'Invitar a ' + player.code">
+                <a v-show="player.observe" @click="clickObserve(player.code)" title="Modo observador">
                   <span class="button is-text is-rounded is-grey is-outlined">
                     <span class="icon">
                       <span class="fas fa-eye"></span>
