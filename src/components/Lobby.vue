@@ -51,17 +51,24 @@
             </h6>
             <div>
               <div v-for="player in $root.players" class="field">
-                <a v-if="player.code != $root.player.code && !$root.player.observe" class="button is-text is-rounded is-info is-outlined" @click="play(player.code)" :title="'Invitar a ' + player.code">
-                  <span class="icon">
-                    <span class="fas fa-user"></span>
+                <a v-show="!player.observe" @click="play(player.code)" :title="'Invitar a ' + player.code">
+                  <span class="button is-text is-rounded is-info is-outlined">
+                    <span class="icon">
+                      <span class="fas fa-user"></span>
+                    </span>
+                    <span v-html="player.code"></span>
                   </span>
-                  <span v-html="player.code"></span>
                 </a>
-                <a @click="clickObserve(player.code)" v-else class="button is-text is-rounded is-light">
-                  <span class="icon">
-                    <span class="fas fa-user"></span>
+              </div>
+              <hr>
+              <div v-for="player in $root.players" class="field">
+                <a v-show="player.observe" @click="clickObserve(player.code)" :title="'Invitar a ' + player.code">
+                  <span class="button is-text is-rounded is-grey is-outlined">
+                    <span class="icon">
+                      <span class="fas fa-eye"></span>
+                    </span>
+                    <span v-html="player.code"></span>
                   </span>
-                  <span v-html="player.code"></span>
                 </a>
               </div>
             </div>
@@ -189,10 +196,15 @@
         if(data === this.$root.player.code){
           snackbar('default','Eres tu')   
         } else {
-          snackbar('error','Estás en modo Observador. Para cambiarlo ve a tus Preferencias.') 
+          snackbar('default', data + ' Está en modo Observador y no acepta invitaciones') 
         }        
       },
       play: function(player) {
+        if(player === this.$root.player.code)
+        return snackbar('default','Eres tu')   
+        if(this.$root.player.observe)
+        return snackbar('default','Estás en modo Observador y no puedes invitar')   
+
         var t = this
         const template = (`
 <div class="content">

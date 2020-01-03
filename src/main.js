@@ -127,9 +127,9 @@ new Vue({
 
     if (this.isOnline) {
       var observe  = this.player.observe
-      snackbar('success',"Estas conectado" +(this.player.observe ? ' en modo Observador.' : ' y disponible para jugar'))
+      snackbar('success', (this.player.observe ? "👁️" : "👤") + " Estas conectado" +(this.player.observe ? ' en modo Observador' : ' y disponible para jugar'))
     } else {
-      snackbar('error',"Te desconectaste. Verifica tu conexión a internet.")
+      snackbar('error',"📶 Te desconectaste. Verifica tu conexión a internet ")
     }
   },
   created: function() {
