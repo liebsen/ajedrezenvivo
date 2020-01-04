@@ -8,6 +8,10 @@ body > div {
   height: 100%;
 }
 
+hr {
+  margin-bottom: 0.75rem;
+}
+
 .is-checkradio[type="checkbox"] + label::after, .is-checkradio[type="checkbox"] + label::after  {
   border-width: 0.25rem!important;
 }
@@ -482,6 +486,7 @@ table {
     }
   }
 }
+
 
 /*
 .field-body {
