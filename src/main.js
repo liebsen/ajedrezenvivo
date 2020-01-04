@@ -41,15 +41,17 @@ new Vue({
       }
       if(to.name === 'play'){
         this.$socket.emit('lobby_leave', this.player) 
-      } else {
-        this.$socket.emit('lobby_join', this.player)
       }
+
+      if(!this.player.observe) {
+        setTimeout(() => {
+          this.$socket.emit('lobby_join', this.player)
+        },500)
+      }        
     }
   },
   mounted () {
-
     this.isOnline = window.navigator.onLine
-
     document.querySelector('body').addEventListener('click', function (event) {
       var target = event.target
       if (target.classList.contains('is-toggle')) {
@@ -127,6 +129,9 @@ new Vue({
 
     if (this.isOnline) {
       var observe  = this.player.observe
+      if(!observe){
+        this.$socket.emit('lobby_join', this.player)
+      }        
       snackbar('success', (this.player.observe ? "👁️" : "👤") + " Estas conectado" +(this.player.observe ? ' en modo Observador' : ' y disponible para jugar'))
     } else {
       snackbar('error',"📶 Te desconectaste. Verifica tu conexión a internet ")
@@ -189,10 +194,10 @@ new Vue({
     players_idle: function (data) {
       if(this.$route.name === 'play') return
       if(data.length > 1){
-        snackbar('success','Hay ' + (data.length - 1) +  ' jugador' + (data.length > 2 ? 'es' : '') + ' esperando invitación ')
+        //snackbar('default','Hay ' + (data.length - 1) +  ' jugador' + (data.length > 2 ? 'es' : '') + ' esperando invitación ')
         document.title = '(' + (data.length - 1) + ') ' + this.documentTitle
-        var sound = 'pop.mp3'
-        playSound(sound)
+        //var sound = 'pop.mp3'
+        //playSound(sound)
       } else {
         //snackbar('default','No hay jugadores en este momento')       
         document.title = this.documentTitle
