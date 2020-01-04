@@ -63,7 +63,7 @@
                     </button>
                     <button @click="showLiveURL()" class="button is-small is-rounded is-info" v-if="pgnIndex.length">
                       <span class="icon has-text-white">
-                        <span class="fas fa-eye"></span>
+                        <span class="fas fa-user-astronaut"></span>
                       </span>
                     </button>
                     <button @click="showPGN()" class="button is-small is-rounded is-info" v-if="pgnIndex.length">

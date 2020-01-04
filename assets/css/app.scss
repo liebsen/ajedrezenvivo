@@ -855,6 +855,9 @@ table {
 /* bulma hacks */
 
 @media screen and (min-width: 1440px), print {
+  .chatbox {
+    min-height: 70vh;
+  }
   .container.is-widescreen {
     max-width: 90%;
   }
