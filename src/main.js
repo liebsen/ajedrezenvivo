@@ -132,7 +132,7 @@ new Vue({
       if(!observe){
         this.$socket.emit('lobby_join', this.player)
       }        
-      snackbar('success', (this.player.observe ? "👁️" : "👤") + " Estas conectado" +(this.player.observe ? ' en modo Observador' : ' y disponible para jugar'))
+      snackbar('success', (this.player.observe ? "👁️" : "👨") + " Estas conectado" +(this.player.observe ? ' en modo Observador' : ' y disponible para jugar'))
     } else {
       snackbar('error',"📶 Te desconectaste. Verifica tu conexión a internet ")
     }

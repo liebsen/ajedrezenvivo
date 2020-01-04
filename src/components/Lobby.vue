@@ -65,7 +65,7 @@
                   <hr>
                   <h6 v-show="$root.players.length">
                     <span class="icon">
-                      <span class="fa fa-user-astronaut"></span>
+                      <span class="fa fa-user-eye"></span>
                     </span>
                     <span>Observadores</span>
                   </h6>
