@@ -20,37 +20,37 @@
             <div class="control has-text-centered column">
               <div class="buttons levels has-addons">
                 <button class="button is-rounded" @click="gameStart(0)">
-                  <span>0</span>
-                </button>
-                <button class="button" @click="gameStart(2)">
-                  <span>1</span>
+                  <span>Fácil</span>
                 </button>
                 <button class="button" @click="gameStart(4)">
+                  <span>Novato</span>
+                </button>
+                <!--button class="button" @click="gameStart(4)">
                   <span>2</span>
-                </button>
+                </button-->
                 <button class="button" @click="gameStart(6)">
-                  <span>3</span>
+                  <span>Principiante</span>
                 </button>
-                <button class="button" @click="gameStart(8)">
+                <!--button class="button" @click="gameStart(8)">
                   <span>4</span>
                 </button>
                 <button class="button" @click="gameStart(10)">
                   <span>5</span>
-                </button>
-                <button class="button" @click="gameStart(12)">
+                </button-->
+                <!--button class="button" @click="gameStart(12)">
                   <span>6</span>
-                </button>
+                </button-->
                 <button class="button" @click="gameStart(14)">
-                  <span>7</span>
+                  <span>Intermedio</span>
                 </button>
-                <button class="button" @click="gameStart(16)">
+                <!--button class="button" @click="gameStart(16)">
                   <span>8</span>
-                </button>
+                </button-->
                 <button class="button" @click="gameStart(18)">
-                  <span>9</span>
+                  <span>Avanzado</span>
                 </button>
                 <button class="button is-rounded" @click="gameStart(20)">
-                  <span>10</span>
+                  <span>Gran maestro</span>
                 </button>
               </div>
             </div>
