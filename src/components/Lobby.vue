@@ -43,12 +43,6 @@
       <div class="columns">
         <div class="column lobby-list is-3">
           <div v-show="$root.players.length">
-            <h6>
-              <span class="icon">
-                <span class="fa fa-users"></span>
-              </span>
-              <span>Jugadores disponibles</span>
-            </h6>
             <div>
               <div v-for="player in $root.players" class="field">
                 <a v-show="!player.observe" @click="play(player.code)" :title="'Invitar a ' + player.code">
@@ -60,29 +54,17 @@
                   </span>
                 </a>
               </div>
-              <div v-for="player,i in $root.players" v-show="player.observe">
-                <div v-if="i===1">
-                  <hr>
-                  <h6 v-show="$root.players.length">
+              <div v-for="player in $root.players" v-show="player.observe" class="field">
+                <a @click="clickObserve(player.code)" title="Modo observador">
+                  <span class="button is-text is-rounded is-grey is-outlined">
                     <span class="icon">
-                      <span class="fa fa-user-eye"></span>
+                      <span class="fas fa-user-astronaut"></span>
                     </span>
-                    <span>Observadores</span>
-                  </h6>
-                </div>
-                <div class="field">
-                  <a @click="clickObserve(player.code)" title="Modo observador">
-                    <span class="button is-text is-rounded is-grey is-outlined">
-                      <span class="icon">
-                        <span class="fas fa-user-astronaut"></span>
-                      </span>
-                      <span v-html="player.code"></span>
-                    </span>
-                  </a>
-                </div>
+                    <span v-html="player.code"></span>
+                  </span>
+                </a>
               </div>
             </div>
-
             <hr>
             <h6>
               <span class="icon">
@@ -142,12 +124,6 @@
           </div>
         </div>
         <div class="column">
-          <h6>
-            <span class="icon">
-              <span class="fa fa-comments"></span>
-            </span>
-            <span>Chat</span>
-          </h6>
           <div class="column has-text-left has-background-light">
             <div class="columns">
               <div class="column chatbox"></div>
