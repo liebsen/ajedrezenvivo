@@ -10,7 +10,6 @@
           <router-link class="menu-logo" to="/">
             <img src="/assets/img/logo.png" alt="AjedrezEV">
           </router-link>
-          <pre v-html="$root.player.observe"></pre>
         </div>
         <div class="column menu-primary has-text-right">
           <div class="is-hidden-mobile">
