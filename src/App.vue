@@ -10,23 +10,26 @@
           <router-link class="menu-logo" to="/">
             <img src="/assets/img/logo.png" alt="AjedrezEV">
           </router-link>
+          <pre v-html="$root.player.observe"></pre>
         </div>
         <div class="column menu-primary has-text-right">
           <div class="is-hidden-mobile">
             <router-link to="/preferences" class="button is-rounded is-white is-outlined" title="Establece tus preferencias">
               <span class="icon">
-                <span class="fas fa-user"></span>
+                <span v-if="$root.player.observe" class="fas fa-user-astronaut"></span>
+                <span v-else class="fas fa-user"></span>
               </span>
               <span v-html="$root.player.code"></span>
             </router-link>
-            <router-link v-show="$root.players.length > 1" to="/lobby" class="button is-white is-outlined is-rounded fadeIn" title="Jugadores esperando invitación">
+            <!--router-link v-show="$root.players.length > 1" to="/lobby" class="button is-white is-outlined is-rounded fadeIn" title="Jugadores esperando invitación">
               <span v-html="$root.players.length - 1"></span>
-            </router-link>
+            </router-link-->
           </div>
           <div class="is-hidden-tablet">
             <router-link to="/preferences" class="button is-small is-rounded">
               <span class="icon">
-                <span class="fas fa-user"></span>
+                <span v-if="$root.player.observe" class="fas fa-user-astronaut"></span>
+                <span v-else class="fas fa-user"></span>
               </span>
               <span v-html="$root.player.code"></span>
             </router-link>
@@ -103,8 +106,8 @@
           </div>
         </div>
       </div>    
-    </div>
-    
+    </div>  
+
     <keep-alive include="lobby">
       <router-view :key="$route.fullPath" v-show="!$root.loading" />
     </keep-alive>

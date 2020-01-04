@@ -110,11 +110,12 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="columns has-text-centered">
-        <div class="column">
-          <input type="button" @click="submit" class="button is-rounded is-success" :class="{ 'is-loading' : $root.saving }" value="Actualizar preferencias">
+
+          <div class="field has-text-centered">
+            <div class="column">
+              <input type="button" @click="submit" class="button is-rounded is-success" :class="{ 'is-loading' : $root.saving }" value="Actualizar preferencias">
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -168,7 +169,7 @@
         this.$socket.emit('lobby_leave', this.saved) 
         this.$socket.emit('lobby_leave', this.data) 
         this.$root.saving = true
-        this.$root.player = this.data
+        //this.$root.player = this.data
         this.$socket.emit('preferences',this.data)  
         snackbar('success','Tus preferencias fueron actualizadas correctamente.')
       }

@@ -175,6 +175,7 @@ new Vue({
             this.$socket.emit('lobby_join', data)
           }        
           this.player = data
+          document.querySelector('.menu-primary .icon').innerHTML = '<span v-if="$root.player.observe" class="fas fa-user' + (this.player.observe ? '-astronaut' : '') +'"></span>'
           localStorage.setItem('player',JSON.stringify(data))
         }
         this.saving = false
@@ -194,10 +195,16 @@ new Vue({
     },
     players_idle: function (data) {
       if(this.$route.name === 'play') return
-      if(data.length > 1){
-        document.title = '(' + (data.length - 1) + ') ' + this.documentTitle
+      var available = 0
+      for(var i in data){
+        if(!data[i].observe){
+          available++
+        }
+      }
+      if(available > 1){
+        document.title = '(' + (available - 1) + ') ' + this.documentTitle
         if(this.$route.name === 'lobby'){
-          snackbar('default','Hay ' + (data.length - 1) +  ' jugador' + (data.length > 2 ? 'es' : '') + ' esperando invitación ')
+          snackbar('default','Hay ' + (available - 1) +  ' jugador' + (available > 2 ? 'es' : '') + ' esperando invitación ')
           playSound('pop.mp3')
         }
       } else {
