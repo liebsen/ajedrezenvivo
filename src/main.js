@@ -145,6 +145,7 @@ new Vue({
       code: generateRandomCode(6), 
       observe: false,
       autoaccept: false,
+      strongnotification: false,
       sound: true,
       pieces: 'classic',
       board:'classic'
@@ -194,10 +195,11 @@ new Vue({
     players_idle: function (data) {
       if(this.$route.name === 'play') return
       if(data.length > 1){
-        //snackbar('default','Hay ' + (data.length - 1) +  ' jugador' + (data.length > 2 ? 'es' : '') + ' esperando invitación ')
         document.title = '(' + (data.length - 1) + ') ' + this.documentTitle
-        //var sound = 'pop.mp3'
-        //playSound(sound)
+        if(this.$route.name === 'lobby'){
+          snackbar('default','Hay ' + (data.length - 1) +  ' jugador' + (data.length > 2 ? 'es' : '') + ' esperando invitación ')
+          playSound('pop.mp3')
+        }
       } else {
         //snackbar('default','No hay jugadores en este momento')       
         document.title = this.documentTitle

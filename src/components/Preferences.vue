@@ -14,12 +14,6 @@
           </div>
         </div>
         <div class="column">
-          <div class="field">
-            <div class="control">
-              <label class="label">Nombre</label>
-              <input type="text" v-model="data.code" class="input" maxlength="10" required>
-            </div>
-          </div>
           <div class="field is-horizontal">
             <div class="field-body">
               <div class="field">
@@ -76,27 +70,42 @@
             </div>
           </div>
           <div class="field">
+            <div class="control">
+              <label class="label">Nombre</label>
+              <input type="text" v-model="data.code" class="input" maxlength="10" required>
+            </div>
+          </div>
+          <div class="field">
             <div class="field-group">
               <label class="label">General</label>
               <div class="field-body">
-                <div class="control">
-                  <input v-model="data.observe" class="is-checkradio" id="observe" type="checkbox">
+                <div class="control has-checkradio">
+                  <input v-model="data.observe" class="is-checkradio has-background-color is-success" id="observe" type="checkbox">
                   <label class="label" for="observe">Observador</label>
                   <p class="notification is-warning">
-                    <small>Cuando <em>Modo Observador</em> está activado significa no <strong>podrás jugar en línea</strong> como tampoco podrás <strong>ser visto en línea en Salón</strong> para ser invitado. Solo podrás observar partidas en línea, jugar contra Stockfish o estudiar partidas guardadas.</small>
+                    <small>Cuando <em>Modo Observador</em> está activado significa no <strong>podrás jugar en línea</strong> aunque <strong>podrás usar el resto de la aplicación sin problemas</strong>.</small>
                   </p>
                 </div>
               </div>
               <div class="field-body">
-                <div class="control">
-                  <input v-model="data.sound" class="is-checkradio" id="sound" type="checkbox">
+                <div class="control has-checkradio">
+                  <input v-model="data.sound" class="is-checkradio has-background-color is-success" id="sound" type="checkbox">
                   <label class="label" for="sound">Sonido</label>
                 </div>
               </div>
               <div class="field-body">
-                <div class="control">
-                  <input v-model="data.autoaccept" class="is-checkradio" id="autoaccept" type="checkbox">
+                <div class="control has-checkradio">
+                  <input v-model="data.strongnotification" class="is-checkradio has-background-color is-success" id="strongnotification" type="checkbox">
+                  <label class="label" for="strongnotification">Notificaciones gigantes</label>
+                </div>
+              </div>
+              <div class="field-body">
+                <div class="control has-checkradio">
+                  <input v-model="data.autoaccept" class="is-checkradio has-background-color is-success" id="autoaccept" type="checkbox">
                   <label class="label" for="autoaccept">Auto-aceptar invitaciones</label>
+                  <p class="notification is-warning">
+                    <small>Cuando <em>Auto-aceptar invitaciones</em> está activado significa que <strong>todas las invitaciones</strong> que recibas serán autocontestadas como aceptadas. Si usas este modo asegúrate de estar preparado para una partida en cualquier momento. Si no lo estas <strong>puedes perder la pertida por inasistencia</strong>.</small>
+                  </p>
                 </div>
               </div>
             </div>

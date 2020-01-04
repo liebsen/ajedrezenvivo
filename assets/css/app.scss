@@ -8,11 +8,19 @@ body > div {
   height: 100%;
 }
 
+.is-checkradio[type="checkbox"] + label::after, .is-checkradio[type="checkbox"] + label::after  {
+  border-width: 0.25rem!important;
+}
+
 .buttons.has-addons {
   justify-content: center;
   .button:not(:last-child) {
     margin-right: -2px;
   }
+}
+
+.has-checkradio {
+  padding-bottom: 0.5rem;
 }
 
 .is-flex-centered {
@@ -464,6 +472,14 @@ table {
 .lobby-list {
   .field {
     margin-bottom: 0.25rem;
+  }
+}
+
+.is-horizontal {
+  .field-body {
+    &:not(:first-child) {
+      padding-left: 0.5rem;
+    }
   }
 }
 

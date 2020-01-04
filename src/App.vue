@@ -111,7 +111,7 @@
 
     <div class="tosprompt"></div> 
 
-    <div class="ui-snackbar ui-snackbar--is-inactive">
+    <div class="ui-snackbar ui-snackbar--is-inactive" :class="{ 'is-strong' : $root.player.strongnotification }">
       <p class="ui-snackbar__message"></p>
     </div>
 

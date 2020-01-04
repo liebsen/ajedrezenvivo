@@ -68,6 +68,8 @@
  top:0;
  display:table;
  border-spacing:10px;
+ padding-left: 0.75rem;
+ padding-right: 0.75rem;
  border-collapse:separate;
  -webkit-animation-duration:.5s;
  animation-duration:.5s;
@@ -78,6 +80,9 @@
  -ms-transform:translateX(-50%);
  transform:translateX(-50%)
 }
+.ui-snackbar.is-strong {
+  font-size: 200%;
+} 
 .ui-snackbar,
 .ui-snackbar--default {
  background-color:#333

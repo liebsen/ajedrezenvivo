@@ -3,7 +3,6 @@ var snackbarClock = null;
 module.exports = function (type, message, options) {
 
   var snackBarElement = document.querySelector('.ui-snackbar');
-
   if(snackbarClock){
     clearInterval(snackbarClock)
   } 
