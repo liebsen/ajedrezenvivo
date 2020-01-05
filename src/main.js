@@ -166,7 +166,7 @@ new Vue({
   },
   sockets: {
     player: function (data) {
-      if(data.code === this.player.code){
+      if(data.ref === this.player.code){
         if(data.exists){
           snackbar('error','El nombre ' + data.code + ' ya está en uso, por favor elige otro')
           this.$router.push('/preferences')
@@ -177,6 +177,7 @@ new Vue({
           this.player = data
           document.querySelector('.menu-primary .icon').innerHTML = '<span v-if="$root.player.observe" class="fas fa-user' + (this.player.observe ? '-astronaut' : '') +'"></span>'
           localStorage.setItem('player',JSON.stringify(data))
+          snackbar('success','Tus preferencias fueron actualizadas correctamente.')
         }
         this.saving = false
       }
@@ -506,7 +507,7 @@ new Vue({
     endpoint:endpoint,
     isOnline:true,
     loading:true,
-    saving:true,
+    saving:false,
     player:{},
     players: [],
     matches:[],
