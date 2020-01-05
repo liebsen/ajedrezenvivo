@@ -85,8 +85,8 @@
             </div>
           </div>
         </div>
-        <div class="column datospartida">
-          <div class="columns acciones">
+        <div class="column">
+          <div class="columns">
             <div class="column">
               <span v-html="ecode" class=""></span> 
               <span v-html="opening" class="has-text-black"></span> 
@@ -110,7 +110,12 @@
               </button>
             </div>
           </div>  
-          <div class="columns gamepgn is-hidden-mobile">
+          <div class="columns is-hidden-mobile">
+            <div class="chart-container">
+              <div class="chart" :class="playerColor"></div>
+            </div>
+          </div>
+          <div class="columns is-hidden-mobile">
             <div class="movesTableContainer">
               <div class="movesTable">
                 <div class="moveRow" v-for="(move,index) in pgnIndex">
@@ -153,8 +158,6 @@
     mounted: function(){
       //this.$root.loading = true
       window.app = this
-
-
       if (!Worker || (location && location.protocol === "file:")) {
         var script_tag  = document.createElement("script");
         script_tag.type ="text/javascript";
@@ -269,7 +272,7 @@
             
             /// Is it sending feed back with a score?
             if(match = line.match(/^info .*\bscore (\w+) (-?\d+)/)) {
-              var score = parseInt(match[2]) * (t.game.turn() == 'w' ? 1 : -1);
+              var score = parseFloat(match[2]) * (t.game.turn() == 'w' ? 1 : -1);
               /// Is it measuring in centipawns?
               if(match[1] == 'cp') {
                 t.engineStatus.score = (score / 100.0).toFixed(2);
@@ -383,6 +386,7 @@
 
                 setTimeout(() => {
                   this.prepareMove()
+                  this.drawChart()
                 },this.ucitime)                
               }
             })
@@ -417,6 +421,81 @@
         this.uciCmd('position startpos moves' + this.get_moves());
         this.uciCmd("go " + (this.time.depth ? "depth " + this.time.depth : ""));
       },
+      calcMaxValue : function(){
+        this.chart.maxValue = 0;
+        for(var x=0; x < this.chart.values.length; x++){
+          if(this.chart.values[x] > this.chart.maxValue){
+            this.chart.maxValue = this.chart.values[x];
+          }
+        }
+        this.chart.maxValue*= 2
+        this.chart.maxValue = Math.ceil(this.chart.maxValue);
+      },
+      calcPoints : function(){
+        this.chart.points = [];
+        if(this.chart.values.length > 1){
+          var points = "0," + this.chart.height + " ";
+          for(var x=0; x < this.chart.values.length; x++){
+            var perc  = this.chart.values[x] / this.chart.maxValue;
+            var steps = 100 / ( this.chart.values.length - 1 );
+            var point = (steps * (x )).toFixed(2) + "," + (this.chart.height - (this.chart.height * perc)).toFixed(2) + " ";
+            points += point;
+          }
+          points += "100," + this.chart.height
+          this.chart.points = points                  
+        }
+      },
+      calcMeasure : function(){
+        this.chart.measurements = [];
+          for(var x=0; x < this.chart.vSteps; x++){
+            var measurement = Math.ceil((this.chart.maxValue / this.chart.vSteps) * (x +1));
+            this.chart.measurements.push(measurement);
+          }
+        
+        this.chart.measurements.reverse();
+      },
+      drawChart: function(){
+        var score = parseInt(this.vscore)
+        if(this.playerColor === 'white'){
+          score = 100 - score;
+        }
+
+        console.log(score)
+        this.chart.values.push(score)
+        this.updateChart()
+      },
+      updateChart: function(){
+
+        this.calcMaxValue()
+        this.calcPoints()
+        this.calcMeasure()
+
+        var element = document.getElementsByClassName("chart")[0]
+        element.innerHTML = "";
+
+        var chart = document.createElementNS("http://www.w3.org/2000/svg", "svg")
+        chart.setAttribute("width", "100%")
+        chart.setAttribute("height", "100%")
+        chart.setAttribute("viewBox", "0 0 " + this.chart.width + " " + this.chart.height)
+
+        var polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
+        polygon.setAttribute("points", this.chart.points);
+        polygon.setAttribute("class", "line");
+      
+        if(this.chart.values.length > 1){
+          var measurements = document.createElement("div");
+          measurements.setAttribute("class", "chartMeasurements");
+          for(var x=0; x < this.chart.measurements.length; x++){
+            var measurement = document.createElement("div");
+            measurement.setAttribute("class", "chartMeasurement");
+            measurement.innerHTML = this.chart.measurements[x];
+            measurements.appendChild(measurement);
+          }
+          //element.appendChild(measurements);
+          element.appendChild(chart);
+          chart.appendChild(polygon);
+        }
+      },
       moveSound: function(move){
         var sound = 'move.mp3'
 
@@ -443,7 +522,7 @@
         playSound(sound)
       },
       removeHighlight: function(){
-        this.boardEl.querySelectorAll('.square-55d63').forEach((item) => {
+        document.getElementById('board').querySelectorAll('.square-55d63').forEach((item) => {
           item.classList.remove('highlight-move')
           item.classList.remove('in-check')
         })
@@ -454,11 +533,11 @@
         if(move){
           if (t.game.in_check() === true) {
             setTimeout(() => {
-              t.boardEl.querySelector('img[data-piece="' + t.game.turn() + 'K"]').parentNode.classList.add('in-check')
+              document.getElementById('board').querySelector('img[data-piece="' + t.game.turn() + 'K"]').parentNode.classList.add('in-check')
             },200)
           }
-          t.boardEl.querySelector('.square-' + move.from).classList.add('highlight-move');
-          t.boardEl.querySelector('.square-' + move.to).classList.add('highlight-move');   
+          document.getElementById('board').querySelector('.square-' + move.from).classList.add('highlight-move');
+          document.getElementById('board').querySelector('.square-' + move.to).classList.add('highlight-move');   
         }
       },
       highlightLastMove: function(){
@@ -519,7 +598,6 @@
         const game_pgn = t.game.pgn()
         t.pgnIndex = this.gamePGNIndex(game_pgn)
 
-        
         setTimeout(() => {
           this.addHightlight(move)
           this.moveSound(move)
@@ -656,6 +734,7 @@
 
         setTimeout(() => {
           this.prepareMove()
+          this.drawChart()
         },this.ucitime)
       },
       onSnapEnd: function() {
@@ -684,6 +763,15 @@
         thinking: false,
         isEngineRunning: false,
         engineStatus:{},
+        chart:{
+          width: 100,
+          height: 50,
+          maxValue: 0,
+          vSteps: 3,
+          points:[],
+          values:[],
+          measurements:[]
+        },
         announced_game_over:false,
         playerColor:'white',
         selectedColor:'white',

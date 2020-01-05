@@ -1,3 +1,4 @@
+$blue: #4183d7;
 
 /* board hacks */
 
@@ -21,6 +22,52 @@
   -moz-box-shadow: none;
   box-shadow: none;
   filter: saturate(400%);
+}
+
+
+.chart-container {
+    background-color: #f1f1f1;  
+    .chart {
+      width:100%;
+      height:50px;
+      margin:auto;
+      position: relative;
+      display:flex;
+      
+      justify-content: space-between;
+
+      .chartMeasurements {
+        position: absolute;
+        top: 0;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        display:flex;
+        justify-content: space-between;
+        flex-direction:column;
+        text-align:left;
+        z-index:1;
+        .chartMeasurement {
+          width:100%;
+          flex-grow:1;
+        }
+      }
+      
+      svg {
+        position: relative;
+        z-index:2;
+        polygon {
+          fill:rgba(255,255,255,.75);
+        }
+      }  
+    }
+    .chart.black {
+      svg {
+        polygon {
+          fill:rgba(50,50,50,.75);
+        }
+      }  
+    }
 }
 
 
