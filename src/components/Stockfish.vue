@@ -86,13 +86,13 @@
           </div>
         </div>
         <div class="column">
-          <div class="columns">
+          <div class="columns" v-if="pgnIndex.length > 0">
             <div class="column">
-              <span v-html="ecode" class=""></span> 
+              <span><strong v-html="ecode"></strong></span> 
               <span v-html="opening" class="has-text-black"></span> 
             </div>
             <div class="column has-text-left">
-              <button @click="gameRestart()" class="button is-small is-rounded is-danger" v-if="pgnIndex.length > 0 && !announced_game_over" title="Abandonar partida">
+              <button @click="gameRestart()" class="button is-small is-rounded is-danger" v-if="!announced_game_over" title="Abandonar partida">
                 <span class="icon has-text-white">
                   <span class="fas fa-flag"></span>
                 </span>
@@ -110,9 +110,9 @@
               </button>
             </div>
           </div>  
-          <div class="columns is-hidden-mobile">
-            <div class="chart-container">
-              <div class="chart" :class="playerColor"></div>
+          <div class="columns is-hidden-mobile chart-container" v-if="pgnIndex.length > 1">
+            <div :class="playerColor">
+              <div class="chart"></div>
             </div>
           </div>
           <div class="columns is-hidden-mobile">
@@ -428,7 +428,6 @@
             this.chart.maxValue = this.chart.values[x];
           }
         }
-        this.chart.maxValue*= 2
         this.chart.maxValue = Math.ceil(this.chart.maxValue);
       },
       calcPoints : function(){
@@ -456,17 +455,18 @@
       },
       drawChart: function(){
         var score = parseInt(this.vscore)
+
         if(this.playerColor === 'white'){
           score = 100 - score;
         }
-
-        console.log(score)
-        this.chart.values.push(score)
-        this.updateChart()
+        if(!isNaN(score)){
+          this.chart.values.push(score)
+          this.updateChart()
+        }        
       },
       updateChart: function(){
 
-        this.calcMaxValue()
+        //this.calcMaxValue()
         this.calcPoints()
         this.calcMeasure()
 
@@ -766,7 +766,7 @@
         chart:{
           width: 100,
           height: 50,
-          maxValue: 0,
+          maxValue: 100,
           vSteps: 3,
           points:[],
           values:[],
