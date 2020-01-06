@@ -17,6 +17,7 @@
           <form @submit.prevent="submit"> 
             <div class="field is-horizontal">
               <div class="field-body">
+
                 <div class="field">
                   <label class="label">Tablero</label>
                   <div class="select is-fullwidth">
@@ -40,6 +41,7 @@
                     </select>
                   </div>
                 </div>
+                <span></span>
               </div>
               <div class="field-body">
                 <div class="field">
