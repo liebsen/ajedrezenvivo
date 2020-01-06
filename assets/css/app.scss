@@ -283,8 +283,8 @@ hr {
 .menu.fs .menu-bg {
   -webkit-transform: translate3d(50%, -50%, 0);
           transform: translate3d(50%, -50%, 0);
-  width: 200vh;
-  height: 200vh;
+  width: 200vw;
+  height: 200vw;
 }
 
 .menu-burger {
@@ -305,7 +305,6 @@ hr {
 .menu-items {
   > div {
     margin: auto;
-    margin-right: 1rem;
   }
   display: flex;
   align-items: center;
@@ -843,6 +842,12 @@ table {
 
 /* bulma hacks */
 
+@media screen and (max-width: 440px) {
+ .menu.fs .menu-bg {
+   width: 200vh;
+   height: 200vh;
+ }
+}
 
 @media screen and (min-width: 759px) {
  .is-horizontal {
