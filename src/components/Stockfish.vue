@@ -59,36 +59,34 @@
       </div>
     </div>
     <div class="content column" v-else>
-      <div class="columns">
+      <div class="columns" :class="boardColor">
         <div class="column">
           <div class="board-container">
-            <div :class="boardColor">
-              <h6 class="has-text-left black">
-                <span v-show="data.result==='0-1'">🏆</span>
-                <span>Stockfish</span> 
-                <span>
-                  <span>nivel</span> 
-                  <span v-html="time.level / 2"></span>
-                </span>
-                <span class="button is-small thinking" :class="{'is-loading' : thinking}"></span>
-              </h6>
-              <div class="board" :class="{ 'black' : playerColor==='black' }">
-                <div class="score-container">
-                  <div class="score" :style="'max-height:' + vscore + '%'"></div>
-                </div>            
-                <div id="board"></div>
-              </div>
-              <h6 class="has-text-right white">
-                <span v-show="data.result==='1-0'">🏆</span>
-                <span v-html="$root.player.code"></span> 
-              </h6>
+            <h6 class="has-text-left black">
+              <span v-show="data.result==='0-1'">🏆</span>
+              <span>Stockfish</span> 
+              <span>
+                <span>nivel</span> 
+                <span v-html="time.level / 2"></span>
+              </span>
+              <span class="button is-small thinking" :class="{'is-loading' : thinking}"></span>
+            </h6>
+            <div class="board" :class="{ 'black' : playerColor==='black' }">
+              <div class="score-container">
+                <div class="score" :style="'max-height:' + vscore + '%'"></div>
+              </div>            
+              <div id="board"></div>
             </div>
+            <h6 class="has-text-right white">
+              <span v-show="data.result==='1-0'">🏆</span>
+              <span v-html="$root.player.code"></span> 
+            </h6>
           </div>
         </div>
         <div class="column">
           <div class="columns" v-if="pgnIndex.length > 0">
             <div class="column">
-              <span><strong v-html="ecode"></strong></span> 
+              <strong v-html="ecode"></strong> 
               <span v-html="opening" class="has-text-black"></span> 
             </div>
             <div class="column has-text-left">
@@ -103,16 +101,18 @@
                 </span>
               </button>
               <button @click="gameRestart()" class="button is-small is-rounded is-success" v-if="announced_game_over">
-                <span>REMATCH</span>
+                <strong>REMATCH</strong>
               </button>
               <button @click="showPGN()" class="button is-small is-rounded is-info" v-if="pgnIndex.length">
-                <span>PGN</span>
+                <strong>PGN</strong>
               </button>
             </div>
           </div>  
-          <div class="columns is-hidden-mobile chart-container" v-if="pgnIndex.length > 1">
-            <div :class="playerColor">
-              <div class="chart"></div>
+          <div class="columns is-hidden-mobile">
+            <div class="chart-container">
+              <div :class="playerColor">
+                <div class="chart" v-show="pgnIndex.length"></div>
+              </div>
             </div>
           </div>
           <div class="columns is-hidden-mobile">
@@ -421,15 +421,6 @@
         this.uciCmd('position startpos moves' + this.get_moves());
         this.uciCmd("go " + (this.time.depth ? "depth " + this.time.depth : ""));
       },
-      calcMaxValue : function(){
-        this.chart.maxValue = 0;
-        for(var x=0; x < this.chart.values.length; x++){
-          if(this.chart.values[x] > this.chart.maxValue){
-            this.chart.maxValue = this.chart.values[x];
-          }
-        }
-        this.chart.maxValue = Math.ceil(this.chart.maxValue);
-      },
       calcPoints : function(){
         this.chart.points = [];
         if(this.chart.values.length > 1){
@@ -444,15 +435,6 @@
           this.chart.points = points                  
         }
       },
-      calcMeasure : function(){
-        this.chart.measurements = [];
-          for(var x=0; x < this.chart.vSteps; x++){
-            var measurement = Math.ceil((this.chart.maxValue / this.chart.vSteps) * (x +1));
-            this.chart.measurements.push(measurement);
-          }
-        
-        this.chart.measurements.reverse();
-      },
       drawChart: function(){
         var score = parseInt(this.vscore)
 
@@ -466,32 +448,23 @@
       },
       updateChart: function(){
 
-        //this.calcMaxValue()
         this.calcPoints()
-        this.calcMeasure()
 
         var element = document.getElementsByClassName("chart")[0]
         element.innerHTML = "";
 
+        var width = document.querySelector(".movesTableContainer").clientWidth + 'px'
         var chart = document.createElementNS("http://www.w3.org/2000/svg", "svg")
         chart.setAttribute("width", "100%")
         chart.setAttribute("height", "100%")
+        chart.setAttribute("preserveAspectRatio", "none")
         chart.setAttribute("viewBox", "0 0 " + this.chart.width + " " + this.chart.height)
 
         var polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
         polygon.setAttribute("points", this.chart.points);
-        polygon.setAttribute("class", "line");
-      
+
         if(this.chart.values.length > 1){
-          var measurements = document.createElement("div");
-          measurements.setAttribute("class", "chartMeasurements");
-          for(var x=0; x < this.chart.measurements.length; x++){
-            var measurement = document.createElement("div");
-            measurement.setAttribute("class", "chartMeasurement");
-            measurement.innerHTML = this.chart.measurements[x];
-            measurements.appendChild(measurement);
-          }
-          //element.appendChild(measurements);
+          element.style.width = width
           element.appendChild(chart);
           chart.appendChild(polygon);
         }
@@ -752,6 +725,15 @@
           onSnapEnd: this.onSnapEnd,
           pieceTheme:'/assets/img/chesspieces/classic/{piece}.png'
         },
+        chart:{
+          width: 100,
+          height: 50,
+          maxValue: 100,
+          vSteps: 3,
+          points:[],
+          values:[],
+          measurements:[]
+        },
         time: {
           level: -1
         },
@@ -763,15 +745,6 @@
         thinking: false,
         isEngineRunning: false,
         engineStatus:{},
-        chart:{
-          width: 100,
-          height: 50,
-          maxValue: 100,
-          vSteps: 3,
-          points:[],
-          values:[],
-          measurements:[]
-        },
         announced_game_over:false,
         playerColor:'white',
         selectedColor:'white',

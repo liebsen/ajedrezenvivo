@@ -12,31 +12,39 @@
     </div>  
     <div class="container is-widescreen">
       <div class="content column">
-        <div class="columns">
+        <div class="columns" :class="boardColor">
           <div class="column">
             <div class="board-container">
-              <div :class="boardColor">
-                <div class="board">
-                  <div id="board" @click="gamePause"></div>
-                </div>
+              <div class="board">
+                <div class="score-container">
+                  <div class="score" :style="'max-height:' + vscore + '%'"></div>
+                </div>            
+                <div id="board" @click="gamePause"></div>
               </div>
             </div>
           </div>
-          <div class="column datospartida">
+          <div class="column">
             <!--h5 class="has-text-black">♛ Datos de la partida</h5-->
             <div v-if="Object.keys(data).length">
               <div class="columns">
                 <div class="column">
-                  <span v-html="data.eco" class=""></span>&nbsp;
+                  <strong v-html="data.eco" class=""></strong>&nbsp;
                   <span v-html="data.name" class="has-text-black"></span>
                 </div>
                 <div class="column has-text-left">
                   <button @click="showPGN()" class="button is-small is-rounded is-info" v-if="pgnIndex.length">
-                    <span>PGN</span>
+                    <strong>PGN</strong>
                   </button>
                 </div>
               </div>  
-              <div class="columns gamepgn">
+              <div class="columns is-hidden-mobile">
+                <div class="chart-container">
+                  <div :class="orientation">
+                    <div class="chart" v-show="pgnIndex.length"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="columns">
                 <div class="movesTableContainer">
                   <div class="movesTable">
                     <div class="moveRow" v-for="(move,index) in pgnIndex">
@@ -79,6 +87,7 @@
   export default {
     name: 'playeco',
     mounted: function(){
+      window.app = this
       if(localStorage.getItem('speed')){
         this.speed = parseInt(localStorage.getItem('speed'))
       }
@@ -115,7 +124,6 @@
           const moved = this.game.move(move)
           this.board.position(this.game.fen())
 
-
           if(this.index === this.gameMoves.length){
             this.gamePause()
           }
@@ -125,7 +133,58 @@
             this.addHightlight(moved)
           },250)
 
+          this.uciCmd('position startpos moves' + this.get_moves(), this.evaler);
+          this.uciCmd("eval", this.evaler);
+
           setTimeout(this.gameMove, this.speed)
+        }
+      },
+      calcPoints : function(){
+        this.chart.points = [];
+        if(this.chart.values.length > 1){
+          var points = "0," + this.chart.height + " ";
+          for(var x=0; x < this.chart.values.length; x++){
+            var perc  = this.chart.values[x] / this.chart.maxValue;
+            var steps = 100 / ( this.chart.values.length - 1 );
+            var point = (steps * (x )).toFixed(2) + "," + (this.chart.height - (this.chart.height * perc)).toFixed(2) + " ";
+            points += point;
+          }
+          points += "100," + this.chart.height
+          this.chart.points = points                  
+        }
+      },
+      drawChart: function(){
+        var score = parseInt(this.vscore)
+
+        if(this.orientation === 'white'){
+          score = 100 - score;
+        }
+        if(!isNaN(score)){
+          this.chart.values.push(score)
+          this.updateChart()
+        }        
+      },
+      updateChart: function(){
+
+        this.calcPoints()
+
+        var element = document.getElementsByClassName("chart")[0]
+        element.innerHTML = "";
+
+        var width = document.querySelector(".movesTableContainer").clientWidth + 'px'
+        var chart = document.createElementNS("http://www.w3.org/2000/svg", "svg")
+        chart.setAttribute("width", "100%")
+        chart.setAttribute("height", "100%")
+        chart.setAttribute("preserveAspectRatio", "none")
+        chart.setAttribute("viewBox", "0 0 " + this.chart.width + " " + this.chart.height)
+
+        var polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
+        polygon.setAttribute("points", this.chart.points);
+
+        if(this.chart.values.length > 1){
+          element.style.width = width
+          element.appendChild(chart);
+          chart.appendChild(polygon);
         }
       },
       moveSound: function(move){
@@ -148,6 +207,19 @@
         }
 
         playSound(sound)
+      },
+      get_moves: function()
+      {
+        var moves = '';
+        var pgn = []
+        var history = this.game.history({verbose: true});
+        
+        for(var i = 0; i < history.length; ++i) {
+            var move = history[i];
+            moves += ' ' + move.from + move.to + (move.promotion ? move.promotion : '');
+        }
+
+        return moves;
       },
       gamePGN:function(pgn){
         var data = []
@@ -207,6 +279,10 @@
           }
         })
       },
+      uciCmd: function(cmd, which) {
+        //console.log("UCI: " + cmd);
+        (which || this.evaler).postMessage(cmd);
+      },    
       gameStart: function(){
         this.$root.loading = true
         axios.get( '/assets/json/eco_es.json').then((res) => {
@@ -237,6 +313,7 @@
             }
 
             this.board = Chessboard('board', this.boardCfg)      
+            this.orientation = this.board.orientation()
 
             $(window).resize(() => {
               this.board.resize()
@@ -256,10 +333,38 @@
               }, 1000)
             }, 500)
           },2000)
+
+
+          this.evaler = typeof STOCKFISH === "function" ? STOCKFISH() : new Worker('/assets/js/stockfish.js')
+
+          this.evaler.onmessage = function(event) {
+            var t = window.app
+            var line;
+            
+            if (event && typeof event === "object") {
+              line = event.data;
+            } else {
+              line = event;
+            }
+            
+            //console.log("evaler: " + line);
+
+            var match = null
+            if(match = line.match(/^Total evaluation: (\-?\d+\.\d+)/)) {
+              t.score = parseFloat(match[1]);
+              t.vscore = 50 - (t.score / 20 * 100)
+              t.drawChart()
+            }
+
+            /// Ignore some output.
+            if (line === "uciok" || line === "readyok" || line.substr(0, 11) === "option name") {
+              return;
+            }
+          }
         })
       },
       removeHighlight: function(){
-        this.boardEl.querySelectorAll('.square-55d63').forEach((item) => {
+        document.getElementById('board').querySelectorAll('.square-55d63').forEach((item) => {
           item.classList.remove('highlight-move')
           item.classList.remove('in-check')
         })
@@ -268,10 +373,10 @@
         this.removeHighlight()
         if(move){
           if (this.game.in_check() === true) {
-            this.boardEl.querySelector('img[data-piece="' + this.game.turn() + 'K"]').classList.add('in-check')
+            document.getElementById('board').querySelector('img[data-piece="' + this.game.turn() + 'K"]').classList.add('in-check')
           }
-          this.boardEl.querySelector('.square-' + move.from).classList.add('highlight-move');
-          this.boardEl.querySelector('.square-' + move.to).classList.add('highlight-move');   
+          document.getElementById('board').querySelector('.square-' + move.from).classList.add('highlight-move');
+          document.getElementById('board').querySelector('.square-' + move.to).classList.add('highlight-move');   
         }
       },
       highlightLastMove: function(){
@@ -383,6 +488,13 @@
     },
     data () {
       return {
+        chart:{
+          width: 100,
+          height: 50,
+          maxValue: 100,
+          points:[],
+          values:[],
+        },
         boardCfg: {
           showErrors:true,
           position: 'start',
@@ -390,9 +502,12 @@
           moveSpeed:250,
           pieceTheme:'/assets/img/chesspieces/wikipedia/{piece}.png'
         },
-        boardColor:'',
+        boardColor:'classic',
+        orientation:null,
         data:{},
         eco:{},
+        score:0.10,
+        vscore: 49,
         duration:0,
         ecode:'',
         opening:'',

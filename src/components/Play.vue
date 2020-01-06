@@ -1,53 +1,51 @@
 <template>
   <div>
     <div class="status" v-show="!gameStarted">
-      <span class="button is-rounded is-info is-small">Esperando jugadores...</span>
+      <span class="button is-rounded is-info is-small"><strong>Esperando jugadores...</strong></span>
     </div>  
     <div class="game-container" v-show="!$root.loading">
       <div class="container is-widescreen">
         <div class="content column">
-          <div class="columns">
+          <div class="columns" :class="boardColor">
             <div class="column">
               <div class="board-container">
-                <div :class="boardColor">
-                  <h6 class="has-text-left black">
-                    <span v-show="data.black === $root.player.code">
-                      <span class="button is-rounded is-small" v-html="tdisplay.w" :class="{ 'has-background-white has-text-black' : timer.w > 10, 'has-background-danger has-text-white' : timer.w <= 10}"></span>
-                      <span v-html="data.white" class="has-timer"></span>
-                      <span v-show="data.result==='1-0'">🏆</span>
-                    </span> 
-                    <span v-show="data.white === $root.player.code">
-                      <span class="button is-rounded is-small" v-html="tdisplay.b" :class="{ 'has-background-grey has-text-white' : timer.b > 10, 'has-background-danger has-text-white' : timer.b <= 10}"></span>
-                      <span v-html="data.black" class="has-timer"></span>
-                      <span v-show="data.result==='0-1'">🏆</span>
-                    </span> 
-                  </h6>
-                  <div class="board" :class="{ 'black' : playerColor === 'black' }">
-                    <div class="score-container">
-                      <div class="score" :style="'max-height:' + vscore + '%'"></div>
-                    </div>            
-                    <div id="board"></div>
-                  </div>
-                  <h6 class="has-text-right white">
-                    <span v-show="data.black === $root.player.code">
-                      <span v-show="data.result==='0-1'">🏆</span>
-                      <span v-html="data.black" class="has-timer"></span>
-                      <span class="button is-rounded is-small" v-html="tdisplay.b" :class="{ 'has-background-grey has-text-white' : timer.b > 10, 'has-background-danger has-text-white' : timer.b <= 10}"></span>
-                    </span> 
-                    <span v-show="data.white === $root.player.code">
-                      <span v-show="data.result==='1-0'">🏆</span>
-                      <span v-html="data.white" class="has-timer"></span>
-                      <span class="button is-rounded is-small" v-html="tdisplay.w" :class="{ 'has-background-white has-text-black' : timer.w > 10, 'has-background-danger has-text-white' : timer.w <= 10}"></span>
-                    </span> 
-                  </h6>
+                <h6 class="has-text-left black">
+                  <span v-show="data.black === $root.player.code">
+                    <span class="button is-rounded is-small" v-html="tdisplay.w" :class="{ 'has-background-white has-text-black' : timer.w > 10, 'has-background-danger has-text-white' : timer.w <= 10}"></span>
+                    <span v-html="data.white" class="has-timer"></span>
+                    <span v-show="data.result==='1-0'">🏆</span>
+                  </span> 
+                  <span v-show="data.white === $root.player.code">
+                    <span class="button is-rounded is-small" v-html="tdisplay.b" :class="{ 'has-background-grey has-text-white' : timer.b > 10, 'has-background-danger has-text-white' : timer.b <= 10}"></span>
+                    <span v-html="data.black" class="has-timer"></span>
+                    <span v-show="data.result==='0-1'">🏆</span>
+                  </span> 
+                </h6>
+                <div class="board" :class="{ 'black' : playerColor === 'black' }">
+                  <div class="score-container">
+                    <div class="score" :style="'max-height:' + vscore + '%'"></div>
+                  </div>            
+                  <div id="board"></div>
                 </div>
+                <h6 class="has-text-right white">
+                  <span v-show="data.black === $root.player.code">
+                    <span v-show="data.result==='0-1'">🏆</span>
+                    <span v-html="data.black" class="has-timer"></span>
+                    <span class="button is-rounded is-small" v-html="tdisplay.b" :class="{ 'has-background-grey has-text-white' : timer.b > 10, 'has-background-danger has-text-white' : timer.b <= 10}"></span>
+                  </span> 
+                  <span v-show="data.white === $root.player.code">
+                    <span v-show="data.result==='1-0'">🏆</span>
+                    <span v-html="data.white" class="has-timer"></span>
+                    <span class="button is-rounded is-small" v-html="tdisplay.w" :class="{ 'has-background-white has-text-black' : timer.w > 10, 'has-background-danger has-text-white' : timer.w <= 10}"></span>
+                  </span> 
+                </h6>
               </div>
             </div>
-            <div class="column datospartida">
+            <div class="column">
               <div>
                 <div class="columns">
                   <div class="column">
-                    <span v-html="ecode" class=""></span> 
+                    <strong v-html="ecode" class=""></strong> 
                     <span v-html="opening" class="has-text-black"></span>
                   </div>
                   <div class="column has-text-left">
@@ -67,25 +65,55 @@
                       </span>
                     </button>
                     <button @click="showPGN()" class="button is-small is-rounded is-info" v-if="pgnIndex.length">
-                      <span>PGN</span>
+                      <strong>PGN</strong>
                     </button>
                   </div>
                 </div> 
                 <div class="tabs is-centered is-boxed">
                   <ul>
-                    <li :class="{ 'is-active' : tab === 'chat' }">
-                      <a @click="tab = 'chat'">
-                        <span class="icon is-small"><i class="fas fa-comments" aria-hidden="true"></i></span>
-                        <span>Chat</span>
-                      </a>
-                    </li>
                     <li :class="{ 'is-active' : tab === 'pgn' }">
                       <a @click="tab = 'pgn'">
                         <span class="icon is-small"><i class="fas fa-chess-board" aria-hidden="true"></i></span>
-                        <span>Movimientos</span>
+                        <strong>Movimientos</strong>
+                      </a>
+                    </li>
+                    <li :class="{ 'is-active' : tab === 'chat' }">
+                      <a @click="tab = 'chat'">
+                        <span class="icon is-small"><i class="fas fa-comments" aria-hidden="true"></i></span>
+                        <strong>Chat</strong>
                       </a>
                     </li>
                   </ul>
+                </div>
+                <div v-show="tab === 'pgn'">
+                  <div class="columns is-hidden-mobile">
+                    <div class="chart-container">
+                      <div :class="playerColor">
+                        <div class="chart" v-show="pgnIndex.length"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="columns">
+                    <div class="movesTableContainer">
+                      <div class="movesTable">
+                        <div class="moveRow" v-for="(move,index) in pgnIndex">
+                          <div class="moveNumCell" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
+                            <span v-html="(index+1)"></span>
+                          </div>
+                          <div class="moveCell moveSAN movew" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
+                            <a class="moveindex">
+                              <span v-html="move.white"></span>
+                            </a>
+                          </div>
+                          <div class="moveCell moveSAN moveb" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
+                            <a class="moveindex">
+                              <span v-html="move.black"></span>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div v-show="tab === 'chat'">
                   <div class="has-text-centered">
@@ -106,29 +134,6 @@
                         </div>
                       </div>
                     </form>
-                  </div>
-                </div>
-                <div v-if="Object.keys(data).length" v-show="tab === 'pgn'">
-                  <div class="columns gamepgn">
-                    <div class="movesTableContainer">
-                      <div class="movesTable">
-                        <div class="moveRow" v-for="(move,index) in pgnIndex">
-                          <div class="moveNumCell" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
-                            <span v-html="(index+1)"></span>
-                          </div>
-                          <div class="moveCell moveSAN movew" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
-                            <a class="moveindex">
-                              <span v-html="move.white"></span>
-                            </a>
-                          </div>
-                          <div class="moveCell moveSAN moveb" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
-                            <a class="moveindex">
-                              <span v-html="move.black"></span>
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -553,6 +558,7 @@
             if(match = line.match(/^Total evaluation: (\-?\d+\.\d+)/)) {
               t.score = parseFloat(match[1]);
               t.vscore = 50 - (t.score / 20 * 100)
+              t.drawChart()
             }
 
             /// Ignore some output.
@@ -781,6 +787,54 @@
           },1000)
         }
       },
+      calcPoints : function(){
+        this.chart.points = [];
+        if(this.chart.values.length > 1){
+          var points = "0," + this.chart.height + " ";
+          for(var x=0; x < this.chart.values.length; x++){
+            var perc  = this.chart.values[x] / this.chart.maxValue;
+            var steps = 100 / ( this.chart.values.length - 1 );
+            var point = (steps * (x )).toFixed(2) + "," + (this.chart.height - (this.chart.height * perc)).toFixed(2) + " ";
+            points += point;
+          }
+          points += "100," + this.chart.height
+          this.chart.points = points                  
+        }
+      },
+      drawChart: function(){
+        var score = parseInt(this.vscore)
+
+        if(this.orientation === 'white'){
+          score = 100 - score;
+        }
+        if(!isNaN(score)){
+          this.chart.values.push(score)
+          this.updateChart()
+        }        
+      },
+      updateChart: function(){
+
+        this.calcPoints()
+
+        var element = document.getElementsByClassName("chart")[0]
+        element.innerHTML = "";
+
+        var width = document.querySelector(".movesTableContainer").clientWidth + 'px'
+        var chart = document.createElementNS("http://www.w3.org/2000/svg", "svg")
+        chart.setAttribute("width", "100%")
+        chart.setAttribute("height", "100%")
+        chart.setAttribute("preserveAspectRatio", "none")
+        chart.setAttribute("viewBox", "0 0 " + this.chart.width + " " + this.chart.height)
+
+        var polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
+        polygon.setAttribute("points", this.chart.points);
+
+        if(this.chart.values.length > 1){
+          element.style.width = width
+          element.appendChild(chart);
+          chart.appendChild(polygon);
+        }
+      },
       moveSound: function(move){
         var sound = 'move.mp3'
 
@@ -807,7 +861,7 @@
         playSound(sound)
       },
       removeHighlight : function() {
-        this.boardEl.querySelectorAll('.square-55d63').forEach((item) => {
+        document.getElementById('board').querySelectorAll('.square-55d63').forEach((item) => {
           item.classList.remove('highlight-move')
           item.classList.remove('in-check')
         })
@@ -819,11 +873,11 @@
         if(move){
           if (t.game.in_check() === true) {
             setTimeout(() => {
-              t.boardEl.querySelector('img[data-piece="' + t.game.turn() + 'K"]').parentNode.classList.add('in-check')
+              document.getElementById('board').querySelector('img[data-piece="' + t.game.turn() + 'K"]').parentNode.classList.add('in-check')
             },200)      
           }
-          t.boardEl.querySelector('.square-' + move.from).classList.add('highlight-move');
-          t.boardEl.querySelector('.square-' + move.to).classList.add('highlight-move');   
+          document.getElementById('board').querySelector('.square-' + move.from).classList.add('highlight-move');
+          document.getElementById('board').querySelector('.square-' + move.to).classList.add('highlight-move');   
         }      
       },
       highlightLastMove: function(){
@@ -906,9 +960,18 @@
     },
     data () {
       return {
+        chart:{
+          width: 100,
+          height: 50,
+          maxValue: 100,
+          vSteps: 3,
+          points:[],
+          values:[],
+          measurements:[]
+        },
         data:{},
         eco:{},
-        tab:'chat',
+        tab:'pgn',
         chat:null,
         clock:null,
         timer:{w:null,b:null},
@@ -921,7 +984,7 @@
         ecode:null,
         board:null,
         boardEl:null,
-        boardColor:'',
+        boardColor:'classic',
         game:null,
         gameStarted:false,
         usersJoined:[],

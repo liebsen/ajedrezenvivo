@@ -40,44 +40,49 @@
     </div>  
     <div class="container is-widescreen">
       <div class="content column">
-        <div class="columns">
+        <div class="columns" :class="boardColor">
           <div class="column">
             <div class="board-container">
-              <div :class="boardColor">
-                <h6 class="black has-text-left is-clickable" @click="gameFlip">
-                  <span v-show="data.result==='0-1'">🏆</span>
-                  <span v-html="data.black"></span> 
-                  <span class="has-text-grey" v-html="data.blackelo"></span>
-                </h6>
-                <div class="board" :class="{ 'black' : orientation==='black' }">
-                  <div class="score-container">
-                    <div class="score" :style="'max-height:' + vscore + '%'"></div>
-                  </div>            
-                  <div id="board" @click="gamePause"></div>
-                </div>
-                <h6 class="white has-text-right is-clickable" @click="gameFlip">
-                  <span v-show="data.result==='1-0'">🏆</span>
-                  <span v-html="data.white"></span> 
-                  <span class="has-text-grey" v-html="data.whiteelo"></span>                  
-                </h6>
+              <h6 class="black has-text-left is-clickable" @click="gameFlip">
+                <span v-show="data.result==='0-1'">🏆</span>
+                <span v-html="data.black"></span> 
+                <span class="has-text-grey" v-html="data.blackelo"></span>
+              </h6>
+              <div class="board" :class="{ 'black' : orientation==='black' }">
+                <div class="score-container">
+                  <div class="score" :style="'max-height:' + vscore + '%'"></div>
+                </div>            
+                <div id="board" @click="gamePause"></div>
               </div>
+              <h6 class="white has-text-right is-clickable" @click="gameFlip">
+                <span v-show="data.result==='1-0'">🏆</span>
+                <span v-html="data.white"></span> 
+                <span class="has-text-grey" v-html="data.whiteelo"></span>                  
+              </h6>
             </div>
           </div>
-          <div class="column datospartida">
+          <div class="column">
             <!--h5 class="has-text-black">♛ Datos de la partida</h5-->
             <div v-if="Object.keys(data).length">
               <div class="columns">
                 <div class="column">
-                  <span v-html="ecode" class=""></span>&nbsp;
+                  <strong v-html="ecode" class=""></strong>&nbsp;
                   <span v-html="opening" class="has-text-black"></span>
                 </div>
                 <div class="column has-text-left">
                   <button @click="showPGN()" class="button is-small is-rounded is-info" v-if="pgnIndex.length">
-                    <span>PGN</span>
+                    <strong>PGN</strong>
                   </button>
                 </div>
               </div>  
-              <div class="columns gamepgn">
+              <div class="columns is-hidden-mobile">
+                <div class="chart-container">
+                  <div :class="orientation">
+                    <div class="chart" v-show="pgnIndex.length"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="columns">
                 <div class="movesTableContainer">
                   <div class="movesTable">
                     <div class="moveRow" v-for="(move,index) in pgnIndex">
@@ -375,6 +380,7 @@
             if(match = line.match(/^Total evaluation: (\-?\d+\.\d+)/)) {
               t.score = parseFloat(match[1]);
               t.vscore = 50 - (t.score / 20 * 100)
+              t.drawChart()
             }
 
             /// Ignore some output.
@@ -383,6 +389,54 @@
             }
           }
         })
+      },
+      calcPoints : function(){
+        this.chart.points = [];
+        if(this.chart.values.length > 1){
+          var points = "0," + this.chart.height + " ";
+          for(var x=0; x < this.chart.values.length; x++){
+            var perc  = this.chart.values[x] / this.chart.maxValue;
+            var steps = 100 / ( this.chart.values.length - 1 );
+            var point = (steps * (x )).toFixed(2) + "," + (this.chart.height - (this.chart.height * perc)).toFixed(2) + " ";
+            points += point;
+          }
+          points += "100," + this.chart.height
+          this.chart.points = points                  
+        }
+      },
+      drawChart: function(){
+        var score = parseInt(this.vscore)
+
+        if(this.orientation === 'white'){
+          score = 100 - score;
+        }
+        if(!isNaN(score)){
+          this.chart.values.push(score)
+          this.updateChart()
+        }        
+      },
+      updateChart: function(){
+
+        this.calcPoints()
+
+        var element = document.getElementsByClassName("chart")[0]
+        element.innerHTML = "";
+
+        var width = document.querySelector(".movesTableContainer").clientWidth + 'px'
+        var chart = document.createElementNS("http://www.w3.org/2000/svg", "svg")
+        chart.setAttribute("width", "100%")
+        chart.setAttribute("height", "100%")
+        chart.setAttribute("preserveAspectRatio", "none")
+        chart.setAttribute("viewBox", "0 0 " + this.chart.width + " " + this.chart.height)
+
+        var polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
+        polygon.setAttribute("points", this.chart.points);
+
+        if(this.chart.values.length > 1){
+          element.style.width = width
+          element.appendChild(chart);
+          chart.appendChild(polygon);
+        }
       },
       moveSound: function(move){
         var sound = 'move.mp3'
@@ -556,7 +610,16 @@
           moveSpeed:250,
           pieceTheme:'/assets/img/chesspieces/wikipedia/{piece}.png'
         },
-        boardColor:'',
+        chart:{
+          width: 100,
+          height: 50,
+          maxValue: 100,
+          vSteps: 3,
+          points:[],
+          values:[],
+          measurements:[]
+        },
+        boardColor:'classic',
         data:{},
         eco:{},
         duration:0,
