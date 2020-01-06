@@ -49,7 +49,9 @@
 
       <div class="menu-items">
         <div>
-          <router-link to="/"><img src="/assets/img/logo.png"></router-link>
+          <router-link class="has-text-centered" to="/">
+            <img src="/assets/img/logo.png">
+          </router-link>
           <div class="menu-links has-text-left">
             <router-link to="/eco">
               <span class="icon">
