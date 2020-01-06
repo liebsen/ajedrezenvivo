@@ -1,5 +1,5 @@
 <template>
-  <div class="game-container" v-show="!$root.loading">
+  <div class="game-container" :class="boardColor" v-show="!$root.loading">
     <div class="status">
       <span class="has-text-weight-semibold">
         <a href="#" @click="setClock">
@@ -12,7 +12,7 @@
     </div>  
     <div class="container is-widescreen">
       <div class="content column">
-        <div class="columns" :class="boardColor">
+        <div class="columns">
           <div class="column">
             <div class="board-container">
               <div class="board">
@@ -319,7 +319,6 @@
               this.board.resize()
               this.highlightLastMove()
             })
-
 
             playSound('game-start.mp3')
 

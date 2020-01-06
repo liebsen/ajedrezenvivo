@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div :class="boardColor">
     <div class="status" v-show="!gameStarted">
       <span class="button is-rounded is-info is-small"><strong>Esperando jugadores...</strong></span>
     </div>  
     <div class="game-container" v-show="!$root.loading">
       <div class="container is-widescreen">
         <div class="content column">
-          <div class="columns" :class="boardColor">
+          <div class="columns">
             <div class="column">
               <div class="board-container">
                 <h6 class="has-text-left black">

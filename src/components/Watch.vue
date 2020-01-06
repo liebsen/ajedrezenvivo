@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div :class="boardColor">
     <div class="container is-widescreen">
       <div class="content column">
-        <div class="columns" :class="boardColor">
+        <div class="columns">
           <div class="column">
             <div class="board-container">
               <h6 class="has-text-left black is-clickable" @click="gameFlip">
