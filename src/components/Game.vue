@@ -1,5 +1,5 @@
 <template>
-  <div class="game-container" v-show="!$root.loading">
+  <div class="game-container" :class="boardColor" v-show="!$root.loading">
     <!--div class="playlist-container">
       <div class="pietimer">
         <div class="pie spinner"></div>
@@ -40,7 +40,7 @@
     </div>  
     <div class="container is-widescreen">
       <div class="content column">
-        <div class="columns" :class="boardColor">
+        <div class="columns">
           <div class="column">
             <div class="board-container">
               <h6 class="black has-text-left is-clickable" @click="gameFlip">

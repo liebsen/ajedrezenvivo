@@ -137,24 +137,20 @@ $blue: #4183d7;
     }
 }
 
-
-
 .bar {
     position: relative;
     z-index: 99;
-    background-color: rgba(0,0,0,0.1);
     border-radius: 5px;
     cursor: pointer;
+    .bar-progress {
+        height: 6px;
+        border-radius: 5px;
+        width: 0;
+    }  
+    .bar-progress.paused {
+        opacity: 0.5;
+    } 
 }
-.bar-progress {
-    height: 6px;
-    background-color: red;
-    border-radius: 5px;
-    width: 0;
-}  
-.bar-progress.paused {
-    background-color: grey;
-} 
 
 .highlight-move {
   filter: saturate(400%) brightness(120%);
