@@ -305,12 +305,12 @@ hr {
 .menu-items {
   > div {
     margin: auto;
+    margin-right: 1rem;
   }
   display: flex;
   align-items: center;
   flex-direction: column;
   height: calc(100vh - 60px);
-  text-align: center;
   opacity: 0;
   -webkit-transition: .4s;
   transition: .4s;
@@ -848,7 +848,7 @@ table {
  .is-horizontal {
   .field-body {
     &:not(:first-child) {
-      padding-left: 0.5rem;
+       padding-left: 0.5rem;
     }
   }
  }
