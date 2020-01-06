@@ -16,10 +16,10 @@
             <form id="search" class="has-text-centered" @submit.prevent="submit">
               <div class="field has-addons is-hidden-mobile is-flex-centered">
                 <div class="control">
-                  <input v-model="query" class="input is-medium is-primary is-rounded" name="query" type="text" placeholder="Evento, jugador o PGN" autofocus>
+                  <input v-model="query" class="input is-medium is-info is-rounded" name="query" type="text" placeholder="Evento, jugador o PGN" autofocus>
                 </div>
                 <div class="control">
-                  <button type="submit" id="searchbtn" class="button is-medium is-rounded is-primary">
+                  <button type="submit" id="searchbtn" class="button is-medium is-rounded is-info">
                     <span class="icon">
                       <span class="fas fa-search"></span>
                     </span>
@@ -31,7 +31,7 @@
                   <input v-model="query" class="input is-rounded" name="query" type="text" placeholder="Evento, jugador o PGN" autofocus>
                 </div>
                 <div class="control">
-                  <button type="submit" id="searchbtn" class="button is-rounded is-primary">
+                  <button type="submit" id="searchbtn" class="button is-rounded is-info">
                     <span class="icon">
                       <span class="fas fa-search"></span>
                     </span>
@@ -130,7 +130,7 @@ export default {
   right: 0;
   top: 60px;
   padding: 0 2rem;
-  background-color: #FF4136;
+  background-color: #9C27B0;
   min-height: 100%;
 }
 

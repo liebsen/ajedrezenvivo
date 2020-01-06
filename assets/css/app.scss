@@ -105,7 +105,7 @@ hr {
   right: 0;
   z-index: 90;
   height: 60px;
-  background-color: #FF4136;
+  background-color: #9C27B0;
   transition: background-color 0.25 linear;
 }
 
@@ -268,7 +268,7 @@ hr {
 }
 
 .menu-bg {
-  background-color: #FF4136;
+  background-color: #9C27B0;
   pointer-events: none;
   -webkit-transition: .3s;
   transition: .3s;
@@ -303,15 +303,13 @@ hr {
 }*/
 
 .menu-items {
+  > div {
+    margin: auto;
+  }
   display: flex;
   align-items: center;
   flex-direction: column;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  padding-top: 1rem;
+  height: calc(100vh - 60px);
   text-align: center;
   opacity: 0;
   -webkit-transition: .4s;

@@ -48,60 +48,62 @@
       </div>       
 
       <div class="menu-items">
-        <router-link to="/"><img src="/assets/img/logo.png"></router-link>
-        <div class="menu-links has-text-left">
-          <router-link to="/eco">
-            <span class="icon">
-              <span class="fas fa-book"></span>
-            </span> 
-            <span>Aperturas</span>
-          </router-link>
-          <router-link to="/live">
-            <span class="icon">
-              <span class="fas fa-fire"></span> 
-            </span>
-            <span>En vivo</span>
-          </router-link>
-          <router-link to="/results">
-            <span class="icon">
-              <span class="fas fa-list"></span>
-            </span> 
-            <span>Resultados</span>
-          </router-link>
-          <!--router-link to="/puzzles"><span class="aev-icon">🔖</span> Puzzles</router-link-->
-          <router-link to="/about">
-            <span class="icon">
-              <span class="fa fa-info"></span>
-            </span> 
-            <span>Acerca de</span>
-          </router-link>
-          <router-link to="/contact">
-            <span class="icon">
-              <span class="fas fa-envelope"></span>
-            </span> 
-            <span>Contacto</span>
-          </router-link>
-          <router-link to="/preferences">
-            <span class="icon">
-              <span class="fas fa-sliders-h"></span>
-            </span> 
-            <span>Preferencias</span>
-          </router-link>
-        </div>
-        <div class="column">
-          <div class="has-text-centered">
-            <router-link to="/lobby" class="button is-rounded is-success">
+        <div>
+          <router-link to="/"><img src="/assets/img/logo.png"></router-link>
+          <div class="menu-links has-text-left">
+            <router-link to="/eco">
               <span class="icon">
-                <span class="fas fa-user"></span>
-              </span>
-              <span>Humano</span>
-            </router-link>
-            <router-link class="button is-rounded is-info" to="/stockfish">
-              <span class="icon">
-                <span class="fas fa-server"></span>
+                <span class="fas fa-book"></span>
               </span> 
-              <span>Stockfish</span>
+              <span>Aperturas</span>
             </router-link>
+            <router-link to="/live">
+              <span class="icon">
+                <span class="fas fa-fire"></span> 
+              </span>
+              <span>En vivo</span>
+            </router-link>
+            <router-link to="/results">
+              <span class="icon">
+                <span class="fas fa-list"></span>
+              </span> 
+              <span>Resultados</span>
+            </router-link>
+            <!--router-link to="/puzzles"><span class="aev-icon">🔖</span> Puzzles</router-link-->
+            <router-link to="/about">
+              <span class="icon">
+                <span class="fa fa-info"></span>
+              </span> 
+              <span>Acerca de</span>
+            </router-link>
+            <router-link to="/contact">
+              <span class="icon">
+                <span class="fas fa-envelope"></span>
+              </span> 
+              <span>Contacto</span>
+            </router-link>
+            <router-link to="/preferences">
+              <span class="icon">
+                <span class="fas fa-sliders-h"></span>
+              </span> 
+              <span>Preferencias</span>
+            </router-link>
+          </div>
+          <div class="column">
+            <div class="has-text-centered">
+              <router-link to="/lobby" class="button is-rounded is-success">
+                <span class="icon">
+                  <span class="fas fa-user"></span>
+                </span>
+                <span>Humano</span>
+              </router-link>
+              <router-link class="button is-rounded is-info" to="/stockfish">
+                <span class="icon">
+                  <span class="fas fa-server"></span>
+                </span> 
+                <span>Stockfish</span>
+              </router-link>
+            </div>
           </div>
         </div>
       </div>    

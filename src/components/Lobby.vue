@@ -46,7 +46,7 @@
             <div>
               <div v-for="player in $root.players" class="field">
                 <a v-show="!player.observe" @click="play(player.code)" :title="'Invitar a ' + player.code">
-                  <span class="button is-text is-rounded is-info is-outlined">
+                  <span class="button is-text is-rounded is-danger">
                     <span class="icon">
                       <span class="fas fa-user"></span>
                     </span>

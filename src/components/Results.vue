@@ -13,7 +13,7 @@
             <input ref="input" v-model="query" class="input is-rounded" type="text" placeholder="Evento, lugar, fecha, jugador o PGN" autofocus>
           </div>
           <div class="control">
-            <button type="submit" id="searchbtn" class="button is-rounded is-success">
+            <button type="submit" id="searchbtn" class="button is-rounded is-info">
               <span class="icon">
                 <span class="fas fa-search"></span>
               </span>
