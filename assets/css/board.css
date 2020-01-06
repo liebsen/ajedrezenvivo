@@ -191,38 +191,23 @@ $blue: #4183d7;
     animation:.25s ease;
     filter: saturate(400%) brightness(120%);
 }
-.clickableCell {
-    cursor: pointer;
-}
+
 .moveNumCell {
     display: table-cell;
     width: 1%;
-    /*color: #888;
-    border-right: 1px solid #aaa;*/
-
     text-align: center;
     padding: 4px 0;
     font-size: 13px;
     vertical-align: middle;
 }
-.moveSAN {
-    font-size: 15px;
-}
 .moveb {
     text-shadow: 0 0 1px rgba(0,0,0,0.4);
 }
-
 .movew {
     text-shadow: 0 0 1px rgba(255,255,255,0.4);   
 }
-
-.plyNotation {
-    width: 50%;
-    display: inline-block;
-}
-
-.selectedCell {
-    background: rgb(89, 142, 222)!important;
+.moveSAN {
+    font-weight: 600;
 }
 
 @media screen and (max-width: 769px) {
