@@ -1,7 +1,7 @@
 <template>
   <div class="container is-widescreen">
     <div class="area has-text-centered fadeIn">
-      <div class="columns is-flex is-vcentered">
+      <div class="columns is-flex is-vcentered slideIn">
         <div class="column is-hidden-mobile"></div>
         <div class="column is-8 has-text-centered">
           <div class="content is-hidden-mobile">
@@ -16,10 +16,10 @@
             <form id="search" class="has-text-centered" @submit.prevent="submit">
               <div class="field has-addons is-hidden-mobile is-flex-centered">
                 <div class="control">
-                  <input v-model="query" class="input is-medium is-info is-rounded" name="query" type="text" placeholder="Evento, jugador o PGN" autofocus>
+                  <input v-model="query" class="input is-medium is-white is-rounded" name="query" type="text" placeholder="Evento, jugador o PGN" autofocus>
                 </div>
                 <div class="control">
-                  <button type="submit" id="searchbtn" class="button is-medium is-rounded is-info">
+                  <button type="submit" id="searchbtn" class="button is-medium is-rounded is-white">
                     <span class="icon">
                       <span class="fas fa-search"></span>
                     </span>
@@ -31,7 +31,7 @@
                   <input v-model="query" class="input is-rounded" name="query" type="text" placeholder="Evento, jugador o PGN" autofocus>
                 </div>
                 <div class="control">
-                  <button type="submit" id="searchbtn" class="button is-rounded is-info">
+                  <button type="submit" id="searchbtn" class="button is-rounded is-white">
                     <span class="icon">
                       <span class="fas fa-search"></span>
                     </span>
@@ -46,7 +46,7 @@
           </div>
           <div class="columns is-vcentered has-text-centered is-hidden-mobile">
             <div class="column has-text-right">
-              <router-link class="button is-rounded is-medium is-success" to="/lobby">
+              <router-link class="button is-rounded is-outlined is-medium is-white" to="/lobby">
                 <span class="icon">
                   <span class="fas fa-user"></span>
                 </span> 
@@ -54,7 +54,7 @@
               </router-link>    
             </div>
             <div class="column has-text-left">
-              <router-link class="button is-rounded is-medium is-info" to="/stockfish">
+              <router-link class="button is-rounded is-outlined is-medium is-white" to="/stockfish">
                 <span class="icon">
                   <span class="fas fa-server"></span>
                 </span> 
@@ -64,7 +64,7 @@
           </div>
           <div class="columns is-vcentered has-text-centered is-hidden-tablet">
             <div class="column">
-              <router-link class="button is-rounded is-fullwidth is-success" to="/lobby">
+              <router-link class="button is-rounded is-outlined is-fullwidth is-white" to="/lobby">
                 <span class="icon">
                   <span class="fas fa-user"></span>
                 </span> 
@@ -72,7 +72,7 @@
               </router-link>    
             </div>
             <div class="column">
-              <router-link class="button is-rounded is-fullwidth is-info" to="/stockfish">
+              <router-link class="button is-rounded is-outlined is-fullwidth is-white" to="/stockfish">
                 <span class="icon">
                   <span class="fas fa-server"></span>
                 </span> 
@@ -83,7 +83,7 @@
         </div>
         <div class="column is-hidden-mobile"></div>
       </div>
-      <ul class="circles">
+      <!--ul class="circles">
         <li class="black"></li>
         <li class="black"></li>
         <li class="black"></li>
@@ -96,7 +96,7 @@
         <li class="white"></li>
         <li class="white"></li>
         <li class="white"></li>
-      </ul>
+      </ul-->
     </div>
   </div>
 </template>
@@ -131,6 +131,10 @@ export default {
   top: 60px;
   padding: 0 2rem;
   background-color: #9C27B0;
+  background-image: url(/assets/img/photo/cube-402231_960_720.webp);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;  
   min-height: 100%;
 }
 
