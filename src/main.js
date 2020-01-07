@@ -181,7 +181,7 @@ new Vue({
             this.$socket.emit('lobby_join', data)
           }        
           this.player = data
-          document.querySelector('.menu-primary .icon').innerHTML = '<span v-if="$root.player.observe" class="fas fa-user' + (this.player.observe ? '-astronaut' : '') +'"></span>'
+          document.querySelector('.menu-primary .icon').innerHTML = '<span v-if="$root.player.observe" class="fas fa-user' + (this.player.observe ? '-astronaut' : '-circle') +'"></span>'
           localStorage.setItem('player',JSON.stringify(data))
           snackbar('success','Tus preferencias fueron actualizadas correctamente.')
         }

@@ -16,7 +16,7 @@
             <router-link to="/preferences" class="button is-rounded is-white is-outlined" title="Establece tus preferencias">
               <span class="icon">
                 <span v-if="$root.player.observe" class="fas fa-user-astronaut"></span>
-                <span v-else class="fas fa-user"></span>
+                <span v-else class="fas fa-user-circle"></span>
               </span>
               <span v-html="$root.player.code"></span>
             </router-link>
