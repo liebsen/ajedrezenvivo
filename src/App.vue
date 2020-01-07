@@ -32,12 +32,11 @@
               </span>
               <span v-html="$root.player.code"></span>
             </router-link>
-            <router-link v-show="$root.players.length > 1" to="/lobby" class="button is-small is-warning is-rounded fadeIn">
+            <!--router-link v-show="$root.players.length > 1" to="/lobby" class="button is-small is-warning is-rounded fadeIn">
               <span v-html="$root.players.length - 1"></span>
-            </router-link>
+            </router-link-->
           </div>
         </div>
-        <div class="menu-bg"></div>
         <div class="menu-burger">
           <svg viewBox="0 0 800 600">
             <path d="M300,220 C300,220 520,220 540,220 C740,220 640,540 520,420 C440,340 300,200 300,200" id="top"></path>
@@ -46,7 +45,7 @@
           </svg>
         </div>
       </div>       
-
+      <div class="menu-bg"></div>
       <div class="menu-items">
         <div>
           <router-link class="has-text-centered" to="/">

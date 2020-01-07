@@ -316,7 +316,8 @@ hr {
   -webkit-transform: translateY(-200%);
           transform: translateY(-200%);
   pointer-events: none;
-  z-index: 99;
+  position: relative;
+  z-index: 100;
 }
 
 .menu-items img {
@@ -325,7 +326,7 @@ hr {
 }
 
 .menu-links {
-  padding: 1.5rem;
+  padding: 0.25rem 1.5rem;
 }
 
 .menu-items a:not(.button) {
