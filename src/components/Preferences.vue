@@ -83,19 +83,19 @@
                 <label class="label">General</label>
                 <div class="field-body">
                   <div class="control has-checkradio">
-                    <input v-model="data.sound" class="is-checkradio has-background-color is-success" id="sound" type="checkbox">
+                    <input v-model="data.sound" class="is-checkradio has-background-color is-success" id="sound" type="checkbox" @click="previewSound">
                     <label class="label" for="sound">Sonido</label>
                   </div>
                 </div>
                 <div class="field-body">
                   <div class="control has-checkradio">
-                    <input v-model="data.strongnotification" class="is-checkradio has-background-color is-success" id="strongnotification" type="checkbox">
+                    <input v-model="data.strongnotification" class="is-checkradio has-background-color is-success" id="strongnotification" type="checkbox" @click="previewStrongNotification">
                     <label class="label" for="strongnotification">Notificaciones gigantes</label>
                   </div>
                 </div>
                 <div class="field-body">
                   <div class="control has-checkradio">
-                    <input v-model="data.darkmode" class="is-checkradio has-background-color is-success" id="darkmode" type="checkbox" @click="applyDarkmode">
+                    <input v-model="data.darkmode" class="is-checkradio has-background-color is-success" id="darkmode" type="checkbox" @click="previewDarkmode">
                     <label class="label" for="darkmode">Modo oscuro</label>
                   </div>
                 </div>
@@ -137,6 +137,7 @@
   import Chess from 'chess.js'
   import Chessboard from '../../assets/js/chessboard'
   import snackbar from '../components/Snackbar'
+  import playSound from '../components/playSound'
 
   export default {
     name: 'preferences',
@@ -159,7 +160,34 @@
       this.drawBoard()
     },
     methods: {
-      applyDarkmode: function(){
+      previewSound: function(){
+        setTimeout(() => {
+          if(this.data.sound){
+            playSound('check.mp3')
+          }
+        },100)
+      },
+      previewStrongNotification: function(){
+        var contains = document.querySelector('.ui-snackbar').classList.contains('is-strong')
+        var snackbarBar = document.querySelector('.ui-snackbar')
+        setTimeout(() => {
+         
+          if(this.data.strongnotification){
+            snackbarBar.classList.add('is-strong')
+            snackbar('default','Notificación gigante',3000)
+          } else {
+            snackbarBar.classList.remove('is-strong')
+            snackbar('default','Notificación normal',3000)
+          }
+        },100)
+
+        setTimeout(() => {
+          if(contains){
+            snackbarBar.classList.add('is-strong')
+          }
+        },3500)
+      },
+      previewDarkmode: function(){
         setTimeout(() => {
           if(this.data.darkmode){
             document.documentElement.classList.add('dark-mode')
