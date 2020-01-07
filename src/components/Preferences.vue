@@ -104,7 +104,7 @@
                     <input v-model="data.observe" class="is-checkradio has-background-color is-success" id="observe" type="checkbox">
                     <label class="label" for="observe">Observador</label>
                     <p class="notification is-warning">
-                      <small>No quiero jugar en línea aunque quiero usar el resto de la aplicación sin restricciones.</small>
+                      <small>No disponible para jugar en línea.</small>
                     </p>
                   </div>
                 </div>
@@ -113,7 +113,7 @@
                     <input v-model="data.autoaccept" class="is-checkradio has-background-color is-success" id="autoaccept" type="checkbox">
                     <label class="label" for="autoaccept">Auto-aceptar invitaciones</label>
                     <p class="notification is-warning">
-                      <small>Quierp aceptar automáticamente todas las invitaciones para jugar en línea que reciba. Si no estás presente al momento de las partidas <strong>puedes perderlas por inasistencia</strong>.</small>
+                      <small>Aceptar automáticamente todas las invitaciones que reciba para jugar en línea.</small>
                     </p>
                   </div>
                 </div>
