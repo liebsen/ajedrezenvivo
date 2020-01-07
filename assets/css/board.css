@@ -111,6 +111,10 @@ $blue: #4183d7;
 
     .board {
         position: relative;
+                filter: revert(1);
+        * {
+            filter: revert(1);
+        }
 
         .score-container {
             position: absolute;

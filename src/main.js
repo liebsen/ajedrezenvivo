@@ -146,6 +146,7 @@ new Vue({
       observe: false,
       autoaccept: false,
       strongnotification: false,
+      darkmode: false,
       sound: true,
       pieces: 'classic',
       board:'classic'
@@ -159,6 +160,11 @@ new Vue({
     } else {
       localStorage.setItem('player',JSON.stringify(preferences))
     }
+
+    if(preferences.darkmode){
+      document.documentElement.classList.add('dark-mode')
+    }
+    
     this.player = preferences
     this.$socket.emit('preferences', preferences)
     this.documentTitle = document.title 

@@ -1,6 +1,19 @@
 html, body {
   height: 100%;
   overflow-x: hidden;
+  background-color: white;
+}
+
+html.dark-mode {
+  filter: invert(100%);
+}
+
+html.dark-mode .menu,
+html.dark-mode .area,
+html.dark-mode .chart-container,
+html.dark-mode .movesTableContainer,
+html.dark-mode .board   {
+  filter: invert(100%);
 }
 
 body > div {

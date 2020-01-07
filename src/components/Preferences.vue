@@ -83,15 +83,6 @@
                 <label class="label">General</label>
                 <div class="field-body">
                   <div class="control has-checkradio">
-                    <input v-model="data.observe" class="is-checkradio has-background-color is-success" id="observe" type="checkbox">
-                    <label class="label" for="observe">Observador</label>
-                    <p class="notification is-warning">
-                      <small>Cuando <em>Modo Observador</em> está activado significa no <strong>podrás jugar en línea</strong> aunque <strong>podrás usar el resto de la aplicación sin problemas</strong>.</small>
-                    </p>
-                  </div>
-                </div>
-                <div class="field-body">
-                  <div class="control has-checkradio">
                     <input v-model="data.sound" class="is-checkradio has-background-color is-success" id="sound" type="checkbox">
                     <label class="label" for="sound">Sonido</label>
                   </div>
@@ -104,10 +95,25 @@
                 </div>
                 <div class="field-body">
                   <div class="control has-checkradio">
+                    <input v-model="data.darkmode" class="is-checkradio has-background-color is-success" id="darkmode" type="checkbox" @click="applyDarkmode">
+                    <label class="label" for="darkmode">Modo oscuro</label>
+                  </div>
+                </div>
+                <div class="field-body">
+                  <div class="control has-checkradio">
+                    <input v-model="data.observe" class="is-checkradio has-background-color is-success" id="observe" type="checkbox">
+                    <label class="label" for="observe">Observador</label>
+                    <p class="notification is-warning">
+                      <small>No quiero jugar en línea aunque quiero usar el resto de la aplicación sin restricciones.</small>
+                    </p>
+                  </div>
+                </div>
+                <div class="field-body">
+                  <div class="control has-checkradio">
                     <input v-model="data.autoaccept" class="is-checkradio has-background-color is-success" id="autoaccept" type="checkbox">
                     <label class="label" for="autoaccept">Auto-aceptar invitaciones</label>
                     <p class="notification is-warning">
-                      <small>Cuando <em>Auto-aceptar invitaciones</em> está activado significa que <strong>todas las invitaciones</strong> que recibas serán autocontestadas como aceptadas. Si usas este modo asegúrate de estar preparado para una partida en cualquier momento. Si no lo estas <strong>puedes perder la pertida por inasistencia</strong>.</small>
+                      <small>Quierp aceptar automáticamente todas las invitaciones para jugar en línea que reciba. Si no estás presente al momento de las partidas <strong>puedes perderlas por inasistencia</strong>.</small>
                     </p>
                   </div>
                 </div>
@@ -153,6 +159,15 @@
       this.drawBoard()
     },
     methods: {
+      applyDarkmode: function(){
+        setTimeout(() => {
+          if(this.data.darkmode){
+            document.documentElement.classList.add('dark-mode')
+          } else {
+            document.documentElement.classList.remove('dark-mode')
+          }
+        },100)
+      },
       drawBoard:function(){
         this.boardEl = document.getElementById('board')
         this.game = new Chess()
@@ -170,6 +185,12 @@
         })
       },
       submit: function(){
+        if(this.data.darkmode){
+          document.getElementsByTagName('body')[0].classList.add('darkmode');
+        } else {
+          document.getElementsByTagName('body')[0].classList.remove('darkmode');
+        }
+
         this.$socket.emit('lobby_leave', this.$root.player) 
         this.$socket.emit('lobby_leave', this.data) 
         this.$root.saving = true
