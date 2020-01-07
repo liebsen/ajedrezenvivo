@@ -9,7 +9,7 @@
       </h3>
       <div class="columns">
         <div class="column">
-          <div class="board-container">
+          <div class="board-container preservefilter">
             <div id="board" :class="boardColor"></div>
           </div>
         </div>

@@ -21,7 +21,7 @@
                     <span v-show="data.result==='0-1'">🏆</span>
                   </span> 
                 </h6>
-                <div class="board" :class="{ 'black' : playerColor === 'black' }">
+                <div class="board preservefilter" :class="{ 'black' : playerColor === 'black' }">
                   <div class="score-container">
                     <div class="score" :style="'max-height:' + vscore + '%'"></div>
                   </div>            
@@ -48,7 +48,7 @@
                     <strong v-html="ecode" class=""></strong> 
                     <span v-html="opening" class="has-text-black"></span>
                   </div>
-                  <div class="column has-text-left">
+                  <div class="column has-text-left preservefilter">
                     <button @click="gameCapitulate()" class="button is-small is-rounded is-danger" v-if="pgnIndex.length && !announced_game_over" title="Abandonar partida">
                       <span class="icon has-text-white">
                         <span class="fas fa-flag"></span>
@@ -87,14 +87,14 @@
                 </div>
                 <div v-show="tab === 'pgn'">
                   <div class="columns is-hidden-mobile">
-                    <div class="chart-container">
+                    <div class="chart-container preservefilter">
                       <div :class="playerColor">
                         <div class="chart" v-show="pgnIndex.length"></div>
                       </div>
                     </div>
                   </div>
                   <div class="columns">
-                    <div class="movesTableContainer">
+                    <div class="movesTableContainer preservefilter">
                       <div class="movesTable">
                         <div class="moveRow" v-for="(move,index) in pgnIndex">
                           <div class="moveNumCell" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">

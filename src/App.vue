@@ -4,7 +4,7 @@
         <circle class="path" cx="22" cy="22" r="20" fill="none" stroke-width="4"></circle>
     </svg>
   
-    <div class="menu hidden-loading slideDown">
+    <div class="menu hidden-loading slideDown preservefilter">
       <div class="menu-container is-flex columns is-vcentered">
         <div class="column has-text-left">
           <router-link class="menu-logo" to="/">
@@ -114,9 +114,9 @@
       <router-view :key="$route.fullPath" v-show="!$root.loading" />
     </keep-alive>
 
-    <div class="tosprompt"></div> 
+    <div class="tosprompt preservefilter"></div> 
 
-    <div class="ui-snackbar ui-snackbar--is-inactive" :class="{ 'is-strong' : $root.player.strongnotification }">
+    <div class="ui-snackbar ui-snackbar--is-inactive preservefilter" :class="{ 'is-strong' : $root.player.strongnotification }">
       <p class="ui-snackbar__message"></p>
     </div>
 

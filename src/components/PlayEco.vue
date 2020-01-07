@@ -15,7 +15,7 @@
         <div class="columns">
           <div class="column">
             <div class="board-container">
-              <div class="board">
+              <div class="board preservefilter">
                 <div class="score-container">
                   <div class="score" :style="'max-height:' + vscore + '%'"></div>
                 </div>            
@@ -31,21 +31,21 @@
                   <strong v-html="data.eco" class=""></strong>&nbsp;
                   <span v-html="data.name" class="has-text-black"></span>
                 </div>
-                <div class="column has-text-left">
+                <div class="column has-text-left preservefilter">
                   <button @click="showPGN()" class="button is-small is-rounded is-info" v-if="pgnIndex.length">
                     <strong>PGN</strong>
                   </button>
                 </div>
               </div>  
               <div class="columns is-hidden-mobile">
-                <div class="chart-container">
+                <div class="chart-container preservefilter">
                   <div :class="orientation">
                     <div class="chart" v-show="pgnIndex.length"></div>
                   </div>
                 </div>
               </div>
               <div class="columns">
-                <div class="movesTableContainer">
+                <div class="movesTableContainer preservefilter">
                   <div class="movesTable">
                     <div class="moveRow" v-for="(move,index) in pgnIndex">
                       <div class="moveNumCell" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">

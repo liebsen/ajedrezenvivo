@@ -6,7 +6,7 @@
           <div class="column">
             <h3>Jugar contra Stockfish</h3>
             <div class="control">
-              <div class="buttons levels has-addons">
+              <div class="buttons levels has-addons preservefilter">
                 <button class="button is-rounded is-large is-white-pieces" @click="setPlayerColor('white')" :class="{'has-background-warning' : selectedColor==='white'}"></button>
                 <button class="button is-large is-random-pieces" @click="setPlayerColor('random')" :class="{'has-background-warning' : selectedColor==='random'}"></button>
                 <button class="button is-large is-rounded is-black-pieces" @click="setPlayerColor('black')" :class="{'has-background-warning' : selectedColor==='black'}"></button>
@@ -71,7 +71,7 @@
               </span>
               <span class="button is-small thinking" :class="{'is-loading' : thinking}"></span>
             </h6>
-            <div class="board" :class="{ 'black' : playerColor==='black' }">
+            <div class="board preservefilter" :class="{ 'black' : playerColor==='black' }">
               <div class="score-container">
                 <div class="score" :style="'max-height:' + vscore + '%'"></div>
               </div>            
@@ -89,7 +89,7 @@
               <strong v-html="ecode"></strong> 
               <span v-html="opening" class="has-text-black"></span> 
             </div>
-            <div class="column has-text-left">
+            <div class="column has-text-left preservefilter">
               <button @click="gameRestart()" class="button is-small is-rounded is-danger" v-if="!announced_game_over" title="Abandonar partida">
                 <span class="icon has-text-white">
                   <span class="fas fa-flag"></span>
@@ -109,14 +109,14 @@
             </div>
           </div>  
           <div class="columns is-hidden-mobile">
-            <div class="chart-container">
+            <div class="chart-container preservefilter">
               <div :class="playerColor">
                 <div class="chart" v-show="pgnIndex.length"></div>
               </div>
             </div>
           </div>
           <div class="columns is-hidden-mobile">
-            <div class="movesTableContainer">
+            <div class="movesTableContainer preservefilter">
               <div class="movesTable">
                 <div class="moveRow" v-for="(move,index) in pgnIndex">
                   <div class="moveNumCell" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">

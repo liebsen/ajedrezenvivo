@@ -8,11 +8,7 @@ html.dark-mode {
   filter: invert(100%);
 }
 
-html.dark-mode .menu,
-html.dark-mode .area,
-html.dark-mode .chart-container,
-html.dark-mode .movesTableContainer,
-html.dark-mode .board   {
+html.dark-mode .preservefilter {
   filter: invert(100%);
 }
 
@@ -145,7 +141,7 @@ hr {
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 1rem;
 }
 
 .columns-bottom {

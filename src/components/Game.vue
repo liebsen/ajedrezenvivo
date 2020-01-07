@@ -48,7 +48,7 @@
                 <span v-html="data.black"></span> 
                 <span class="has-text-grey" v-html="data.blackelo"></span>
               </h6>
-              <div class="board" :class="{ 'black' : orientation==='black' }">
+              <div class="board preservefilter" :class="{ 'black' : orientation==='black' }">
                 <div class="score-container">
                   <div class="score" :style="'max-height:' + vscore + '%'"></div>
                 </div>            
@@ -76,14 +76,14 @@
                 </div>
               </div>  
               <div class="columns is-hidden-mobile">
-                <div class="chart-container">
+                <div class="chart-container preservefilter">
                   <div :class="orientation">
                     <div class="chart" v-show="pgnIndex.length"></div>
                   </div>
                 </div>
               </div>
               <div class="columns">
-                <div class="movesTableContainer">
+                <div class="movesTableContainer preservefilter">
                   <div class="movesTable">
                     <div class="moveRow" v-for="(move,index) in pgnIndex">
                       <div class="moveNumCell" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">

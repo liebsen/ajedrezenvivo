@@ -1,6 +1,6 @@
 <template>
   <div class="container is-widescreen">
-    <div class="area has-text-centered fadeIn">
+    <div class="area has-text-centered fadeIn preservefilter">
       <div class="columns is-flex is-vcentered slideIn">
         <div class="column is-hidden-mobile"></div>
         <div class="column is-8 has-text-centered">

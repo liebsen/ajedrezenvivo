@@ -23,7 +23,7 @@
                 <span class="button is-rounded is-small" v-html="$root.getTimeDisplay(match.btime)" :class="{ 'has-background-grey has-text-white' : match.btime > 10, 'has-background-danger has-text-white' : match.btime <= 10}"></span>
               </h6>
               <router-link :to="'/watch/' + match.id">
-                <div class="board">
+                <div class="board preservefilter">
                   <div class="score-container">
                     <div class="score" :style="'max-height:' + match.vscore + '%'"></div>
                   </div>            
@@ -206,7 +206,7 @@
   <div class="columns columns-bottom is-flex has-text-centered">
     <div class="column">
       <div class="control">
-        <div class="buttons levels has-addons playercolor">
+        <div class="buttons levels has-addons playercolor preservefilter">
           <button class="button is-toggle is-large is-rounded has-background-warning is-white-pieces">
           </button>
           <button class="button is-toggle is-large is-random-pieces">
