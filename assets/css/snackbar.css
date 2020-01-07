@@ -46,15 +46,65 @@
   transform:translate3d(-50%,-200%,0)
  }
 }
+
+@-webkit-keyframes snackbar-show-mobile {
+ 0% {
+  opacity:0;
+  -webkit-transform:translate3d(-50%,200%,0);
+  transform:translate3d(-50%,-200%,0)
+ }
+ to {
+  opacity:1;
+  -webkit-transform:translate3d(-50%,0,0);
+  transform:translate3d(-50%,0,0)
+ }
+}
+@keyframes snackbar-show-mobile {
+ 0% {
+  opacity:0;
+  transform:translate3d(-50%,200%,0)
+ }
+ to {
+  opacity:1;
+  transform:translate3d(-50%,0,0)
+ }
+}
+@-webkit-keyframes snackbar-hide-mobile {
+ 0% {
+  -webkit-transform:translate3d(-50%,0,0);
+  transform:translate3d(-50%,0,0)
+ }
+ 50% {
+  opacity:1
+ }
+ to {
+  opacity:0;
+  -webkit-transform:translate3d(-50%,200%,0);
+  transform:translate3d(-50%,200%,0)
+ }
+}
+@keyframes snackbar-hide-mobile {
+ 0% {
+  transform:translate3d(-50%,0,0)
+ }
+ 50% {
+  opacity:1
+ }
+ to {
+  opacity:0;
+  transform:translate3d(-50%,200%,0)
+ }
+}
+
 .no-js .ui-snackbar,
 .ui-snackbar--is-active {
- -webkit-animation-name:snackbar-show;
- animation-name:snackbar-show
+ -webkit-animation-name:snackbar-show-mobile;
+ animation-name:snackbar-show-mobile
 }
 .no-js .ui-snackbar__close:checked+.ui-snackbar,
 .ui-snackbar--is-inactive {
- -webkit-animation-name:snackbar-hide;
- animation-name:snackbar-hide;
+ -webkit-animation-name:snackbar-hide-mobile;
+ animation-name:snackbar-hide-mobile;
  -webkit-animation-fill-mode:forwards;
  animation-fill-mode:forwards
 }
@@ -65,7 +115,7 @@
  font-size:14px;
  line-height:1.25;
  color:#fff;
- top:0;
+ bottom: 0;
  display:table;
  border-spacing:10px;
  padding-left: 0.75rem;
@@ -150,9 +200,22 @@ a.ui-snackbar__action:visited {
  transform:rotate(-45deg)
 }
 @media (min-width:768px) {
+.no-js .ui-snackbar,
+ .ui-snackbar--is-active {
+  -webkit-animation-name:snackbar-show;
+  animation-name:snackbar-show
+ }
+ .no-js .ui-snackbar__close:checked+.ui-snackbar,
+ .ui-snackbar--is-inactive {
+  -webkit-animation-name:snackbar-hide;
+  animation-name:snackbar-hide;
+  -webkit-animation-fill-mode:forwards;
+  animation-fill-mode:forwards
+ }
  .ui-snackbar {
   max-width:600px;
   top:10px;
+  bottom: auto;
   font-size:16px;
   -webkit-border-radius:30px;
   border-radius:30px;
@@ -162,4 +225,5 @@ a.ui-snackbar__action:visited {
  .ui-snackbar__action {
   font-size:14px
  }
+
 }

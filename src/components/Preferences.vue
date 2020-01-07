@@ -159,6 +159,19 @@
       }
       this.drawBoard()
     },
+    beforeDestroy: function() {
+      const player = JSON.parse(localStorage.getItem('player'))
+      if(player.strongnotification){
+        document.querySelector('.ui-snackbar').classList.add('is-strong')
+      } else {
+        document.querySelector('.ui-snackbar').classList.remove('is-strong')
+      }
+      if(player.darkmode){
+        document.documentElement.classList.add('dark-mode')
+      } else {
+        document.documentElement.classList.remove('dark-mode')
+      }
+    },
     methods: {
       previewSound: function(){
         setTimeout(() => {
@@ -170,6 +183,8 @@
       previewStrongNotification: function(){
         var contains = document.querySelector('.ui-snackbar').classList.contains('is-strong')
         var snackbarBar = document.querySelector('.ui-snackbar')
+        snackbarBar.classList.remove('ui-snackbar--is-active')
+        snackbarBar.classList.add('ui-snackbar--is-inactive')
         setTimeout(() => {
          
           if(this.data.strongnotification){
@@ -180,12 +195,6 @@
             snackbar('default','Notificación normal',3000)
           }
         },100)
-
-        setTimeout(() => {
-          if(contains){
-            snackbarBar.classList.add('is-strong')
-          }
-        },3500)
       },
       previewDarkmode: function(){
         setTimeout(() => {
