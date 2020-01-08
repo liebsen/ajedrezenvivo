@@ -19,9 +19,16 @@
             <div :class="'board-container b' + match.id">
               <div :class="$root.boardColor">
                 <h6 class="has-text-left black is-clickable" @click="$root.gameFlip(match.id)">
-                  <span class="button is-small" v-html="$root.getTimeDisplay(match.btime)" :class="{ 'has-background-grey has-text-white' : match.btime > 10, 'has-background-danger has-text-white' : match.btime <= 10}"></span>
-                  <span v-html="match.black" class="has-timer"></span>
-                  <span v-show="match.result==='0-1'">🏆</span>
+                  <span class="button is-small" :class="{ 'has-background-grey has-text-white' : match.btime > 10, 'has-background-danger has-text-white' : match.btime <= 10}">
+                    <span class="icon">
+                      <span class="fa fa-clock"></span>
+                    </span>
+                    <span v-html="$root.getTimeDisplay(match.btime)"></span>
+                  </span>
+                  <span class="button is-small is-text">
+                    <span v-html="match.black"></span>
+                    <span v-show="match.result==='0-1'">🏆</span>
+                  </span>
                 </h6>
                 <router-link :to="'/watch/' + match.id">
                   <div class="board preservefilter">
@@ -29,9 +36,16 @@
                   </div> 
                 </router-link>
                 <h6 class="has-text-right white is-clickable" @click="$root.gameFlip">
-                  <span v-show="match.result==='1-0'">🏆</span>
-                  <span v-html="match.white" class="has-timer"></span>
-                  <span class="button is-small" v-html="$root.getTimeDisplay(match.wtime)" :class="{ 'has-background-white has-text-black' : match.wtime > 10, 'has-background-danger has-text-white' : match.wtime <= 10}"></span>
+                  <span class="button is-small is-text">
+                    <span v-show="match.result==='1-0'">🏆</span>
+                    <span v-html="match.white"></span>
+                  </span>
+                  <span class="button is-small" :class="{ 'has-background-white has-text-black' : match.wtime > 10, 'has-background-danger has-text-white' : match.wtime <= 10}">
+                    <span class="icon">
+                      <span class="fa fa-clock"></span>
+                    </span>
+                    <span v-html="$root.getTimeDisplay(match.wtime)"></span>
+                  </span>
                 </h6>
               </div>
               <div class="match-status has-text-info"></div>

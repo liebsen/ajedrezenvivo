@@ -44,9 +44,17 @@
           <div class="column">
             <div class="board-container">
               <h6 class="black has-text-left is-clickable" @click="gameFlip">
-                <span v-show="data.result==='0-1'">🏆</span>
-                <span v-html="data.black"></span> 
-                <span class="has-text-grey" v-html="data.blackelo"></span>
+                <span class="button is-small is-text">
+                  <span v-show="data.result==='0-1'">
+                    <span class="icon">
+                      <span class="fa fa-trophy"></span>
+                    </span>
+                  </span>
+                  <span class="is-size-6">
+                    <span v-html="data.black"></span> 
+                    <span class="has-text-grey" v-html="data.blackelo"></span>
+                  </span>
+                </span>
               </h6>
               <div class="board preservefilter" :class="{ 'black' : orientation==='black' }">
                 <div class="score-container">
@@ -55,9 +63,17 @@
                 <div id="board" @click="gamePause"></div>
               </div>
               <h6 class="white has-text-right is-clickable" @click="gameFlip">
-                <span v-show="data.result==='1-0'">🏆</span>
-                <span v-html="data.white"></span> 
-                <span class="has-text-grey" v-html="data.whiteelo"></span>                  
+                <span class="button is-small is-text">
+                  <span v-show="data.result==='1-0'">
+                    <span class="icon">
+                      <span class="fa fa-trophy"></span>
+                    </span>
+                  </span>
+                  <span class="is-size-6">
+                    <span v-html="data.white"></span> 
+                    <span class="has-text-grey" v-html="data.whiteelo"></span>
+                  </span>
+                </span>
               </h6>
             </div>
           </div>

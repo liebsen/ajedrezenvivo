@@ -104,11 +104,6 @@ $blue: #4183d7;
         margin-bottom: 0.25rem; 
     }
     
-    .has-timer {
-        display: inline-block;
-        margin-top: 4px;
-    }
-
     .board {
         position: relative;
         .score-container {
