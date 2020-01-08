@@ -180,7 +180,7 @@ new Vue({
         chatbox.innerHTML+= `<div class="box ${cls}"><strong class="has-text-info">${sender}</strong> ${data.line}</div>`
         chatbox.scrollTop = chatbox.scrollHeight
         if(data.sender != this.$root.player.code){
-          playSound('chat.ogg')
+          playSound('pop.mp3')
         }
       }
     },
@@ -196,7 +196,7 @@ new Vue({
         document.title = '(' + (available - 1) + ') ' + this.documentTitle
         if(this.$route.name === 'lobby'){
           snackbar('default','Hay ' + (available - 1) +  ' jugador' + (available > 2 ? 'es' : '') + ' esperando invitación ')
-          playSound('pop.mp3')
+          //playSound('pop.mp3')
         }
       } else {
         //snackbar('default','No hay jugadores en este momento')       
