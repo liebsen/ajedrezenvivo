@@ -7,36 +7,38 @@
         </span>
         <span>Salón</span>
       </h3-->
-      <div class="columns is-multiline live-games" v-show="$root.matches.length">
+      <div class="live-games" v-show="$root.matches.length">
         <h6>
           <span class="icon">
             <span class="fa fa-chess-board"></span>
           </span>
           <span>Jugando ahora</span>
         </h6>
-        <div v-for="match in $root.matches" class="column is-3">
-          <div :class="'board-container b' + match.id">
-            <div :class="$root.boardColor">
-              <h6 class="has-text-left black is-clickable" @click="$root.gameFlip(match.id)">
-                <span v-show="match.result==='0-1'">🏆</span>
-                <span v-html="match.black" class="has-timer"></span>
-                <span class="button is-rounded is-small" v-html="$root.getTimeDisplay(match.btime)" :class="{ 'has-background-grey has-text-white' : match.btime > 10, 'has-background-danger has-text-white' : match.btime <= 10}"></span>
-              </h6>
-              <router-link :to="'/watch/' + match.id">
-                <div class="board preservefilter">
-                  <div class="score-container">
-                    <div class="score" :style="'max-height:' + match.vscore + '%'"></div>
-                  </div>            
-                  <div :id="'board' + match.id"></div>
-                </div> 
-              </router-link>
-              <h6 class="has-text-right white is-clickable" @click="$root.gameFlip">
-                <span class="button is-rounded is-small" v-html="$root.getTimeDisplay(match.wtime)" :class="{ 'has-background-white has-text-black' : match.wtime > 10, 'has-background-danger has-text-white' : match.wtime <= 10}"></span>
-                <span v-html="match.white" class="has-timer"></span>
-                <span v-show="match.result==='1-0'">🏆</span>
-              </h6>
+        <div class="columns is-multiline">
+          <div v-for="match in $root.matches" class="column is-3">
+            <div :class="'board-container b' + match.id">
+              <div :class="$root.boardColor">
+                <h6 class="has-text-left black is-clickable" @click="$root.gameFlip(match.id)">
+                  <span v-show="match.result==='0-1'">🏆</span>
+                  <span v-html="match.black" class="has-timer"></span>
+                  <span class="button is-rounded is-small" v-html="$root.getTimeDisplay(match.btime)" :class="{ 'has-background-grey has-text-white' : match.btime > 10, 'has-background-danger has-text-white' : match.btime <= 10}"></span>
+                </h6>
+                <router-link :to="'/watch/' + match.id">
+                  <div class="board preservefilter">
+                    <div class="score-container">
+                      <div class="score" :style="'max-height:' + match.vscore + '%'"></div>
+                    </div>            
+                    <div :id="'board' + match.id"></div>
+                  </div> 
+                </router-link>
+                <h6 class="has-text-right white is-clickable" @click="$root.gameFlip">
+                  <span class="button is-rounded is-small" v-html="$root.getTimeDisplay(match.wtime)" :class="{ 'has-background-white has-text-black' : match.wtime > 10, 'has-background-danger has-text-white' : match.wtime <= 10}"></span>
+                  <span v-html="match.white" class="has-timer"></span>
+                  <span v-show="match.result==='1-0'">🏆</span>
+                </h6>
+              </div>
+              <div class="match-status has-text-info"></div>
             </div>
-            <div class="match-status has-text-info"></div>
           </div>
         </div>
       </div>
@@ -46,7 +48,7 @@
             <div>
               <div v-for="player in $root.players" class="field">
                 <a v-show="!player.observe" @click="play(player.code)" :title="'Invitar a ' + player.code">
-                  <span class="button is-text is-rounded is-danger">
+                  <span class="button is-text is-rounded is-danger" :class="{ 'is-outlined' : player.code != $root.player.code }">
                     <span class="icon">
                       <span class="fas fa-user"></span>
                     </span>
@@ -56,7 +58,7 @@
               </div>
               <div v-for="player in $root.players" v-show="player.observe" class="field">
                 <a @click="clickObserve(player.code)" title="Modo observador">
-                  <span class="button is-text is-rounded is-grey is-outlined">
+                  <span class="button is-text is-rounded is-grey is-outlined" :class="{ 'is-outlined' : player.code != $root.player.code }">
                     <span class="icon">
                       <span class="fas fa-user-astronaut"></span>
                     </span>
@@ -126,7 +128,7 @@
         <div class="column">
           <div class="column has-text-left has-background-light">
             <div class="columns">
-              <div class="column chatbox"></div>
+              <div class="column chatbox lobby_chat"></div>
             </div>
             <form @submit.prevent="sendChat">
               <div class="field has-addons">
@@ -163,21 +165,6 @@
         sender: 'chatbot',
         line: `Hola ${this.$root.player.code}, gracias por visitar AjedrezEV.` + (this.$root.player.observe ? ` Estas en modo observador. Para cambiarlo puedes ` : ` Antes de jugar puedes `) +  `<a href="/preferences" class="has-text-success">establecer tus preferencias</a>`
       })      
-    },
-    sockets: {
-      lobby_chat: function(data){
-        const chatbox = document.querySelector(".chatbox")
-        if(chatbox){
-          const owned = this.$root.player.code === data.sender
-          const cls = owned ? 'is-pulled-right has-text-right has-background-info has-text-white' : 'is-pulled-left has-text-left'
-          const sender = data.sender === this.$root.player.code ? '' : data.sender
-          chatbox.innerHTML+= `<div class="box ${cls}"><strong class="has-text-info">${sender}</strong> ${data.line}</div>`
-          chatbox.scrollTop = chatbox.scrollHeight
-          if(data.sender != this.$root.player.code){
-            playSound('chat.ogg')
-          }
-        }
-      }
     },
     methods: {
       sendChat: function() {

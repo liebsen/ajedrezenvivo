@@ -10,8 +10,8 @@ import Chessboard from '../assets/js/chessboard'
 import snackbar from './components/Snackbar';
 import playSound from './components/playSound'
 
-const endpoint='https://ajedrezenvivoapi.herokuapp.com'
-//const endpoint='https://ajedrezenvivoapidev.herokuapp.com'
+//const endpoint='https://ajedrezenvivoapi.herokuapp.com'
+const endpoint='https://ajedrezenvivoapidev.herokuapp.com'
 
 require('../assets/css/main.scss')
 require('../assets/css/chessboard.css')
@@ -41,13 +41,13 @@ new Vue({
       }
       if(to.name === 'play'){
         this.$socket.emit('lobby_leave', this.player) 
+      } else {
+        if(!this.player.observe) {
+          setTimeout(() => {
+            this.$socket.emit('lobby_join', this.player)
+          },500)
+        }        
       }
-
-      if(!this.player.observe) {
-        setTimeout(() => {
-          this.$socket.emit('lobby_join', this.player)
-        },500)
-      }        
     }
   },
   mounted () {
@@ -171,6 +171,39 @@ new Vue({
     this.loading = false
   },
   sockets: {
+    lobby_chat: function(data){
+      const chatbox = document.querySelector(".lobby_chat")
+      if(chatbox){
+        const owned = this.$root.player.code === data.sender
+        const cls = owned ? 'is-pulled-right has-text-right has-background-info has-text-white' : 'is-pulled-left has-text-left'
+        const sender = data.sender === this.$root.player.code ? '' : data.sender
+        chatbox.innerHTML+= `<div class="box ${cls}"><strong class="has-text-info">${sender}</strong> ${data.line}</div>`
+        chatbox.scrollTop = chatbox.scrollHeight
+        if(data.sender != this.$root.player.code){
+          playSound('chat.ogg')
+        }
+      }
+    },
+    players: function (data) {
+      if(this.$route.name === 'play') return
+      var available = 0
+      for(var i in data){
+        if(!data[i].observe){
+          available++
+        }
+      }
+      if(available > 1){
+        document.title = '(' + (available - 1) + ') ' + this.documentTitle
+        if(this.$route.name === 'lobby'){
+          snackbar('default','Hay ' + (available - 1) +  ' jugador' + (available > 2 ? 'es' : '') + ' esperando invitación ')
+          playSound('pop.mp3')
+        }
+      } else {
+        //snackbar('default','No hay jugadores en este momento')       
+        document.title = this.documentTitle
+      }        
+      this.players = JSON.parse(JSON.stringify(data))
+    },
     player: function (data) {
       if(data.ref === this.player.code){
         if(data.exists){
@@ -199,26 +232,6 @@ new Vue({
         swal.close()
         swal("Partida declinada", '👤 ' + data.player + ' declinó tu invitación')
       }
-    },
-    players_idle: function (data) {
-      if(this.$route.name === 'play') return
-      var available = 0
-      for(var i in data){
-        if(!data[i].observe){
-          available++
-        }
-      }
-      if(available > 1){
-        document.title = '(' + (available - 1) + ') ' + this.documentTitle
-        if(this.$route.name === 'lobby'){
-          snackbar('default','Hay ' + (available - 1) +  ' jugador' + (available > 2 ? 'es' : '') + ' esperando invitación ')
-          playSound('pop.mp3')
-        }
-      } else {
-        //snackbar('default','No hay jugadores en este momento')       
-        document.title = this.documentTitle
-      }        
-      this.players = data
     },
     invite: function(data) {
       var t = this

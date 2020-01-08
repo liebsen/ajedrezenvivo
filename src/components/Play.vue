@@ -178,6 +178,9 @@
         id:this.data._id
       })
       this.$socket.emit('leave',this.data._id)
+      this.$socket.emit('match_end', {
+        id:this.data._id
+      })
     },
     sockets: {
       start: function(data){
@@ -224,6 +227,11 @@
       gone: function(data) {
         if(data.player != this.$root.player.code){
           snackbar("error", '👤 ' + data.player + ' abandonó la partida')
+        }
+        for(var i in this.usersJoined){
+          if(this.usersJoined[i] === data.player){
+            this.usersJoined.splice(i,1)
+          }
         }
       },
       reject_rematch: function(data) {
