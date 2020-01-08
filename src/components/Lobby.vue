@@ -1,12 +1,12 @@
 <template>
   <div class="container is-widescreen">
     <div class="content column">
-      <h3>
+      <!--h3>
         <span class="icon">
           <span class="fas fa-traffic-light"></span> 
         </span>
         <span>Salón</span>
-      </h3>
+      </h3-->
       <div class="columns is-multiline live-games" v-show="$root.matches.length">
         <h6>
           <span class="icon">
