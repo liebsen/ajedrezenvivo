@@ -7,10 +7,8 @@
             <div class="board-container">
               <h6 class="has-text-left black is-clickable" @click="gameFlip">
                 <span class="button is-small is-text">
-                  <span v-show="data.result==='0-1'">
-                    <span class="icon">
-                      <span class="fa fa-trophy"></span>
-                    </span>
+                  <span v-show="data.result==='0-1'" class="icon">
+                    <span class="fa fa-trophy has-text-warning"></span>
                   </span>
                   <span v-html="data.black" class="is-size-6"></span>
                 </span>
@@ -36,10 +34,8 @@
                 </span>
                 <span class="button is-small is-text">
                   <span v-html="data.white" class="is-size-6"></span>
-                  <span v-show="data.result==='1-0'">
-                    <span class="icon">
-                      <span class="fa fa-trophy"></span>
-                    </span>
+                  <span v-show="data.result==='1-0'" class="icon">
+                    <span class="fa fa-trophy has-text-warning"></span>
                   </span>
                 </span>
               </h6>

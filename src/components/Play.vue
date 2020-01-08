@@ -19,10 +19,8 @@
                     </span>
                     <span class="button is-small is-text">
                       <span v-html="data.white" class="is-size-6"></span>
-                      <span v-show="data.result==='1-0'">
-                        <span class="icon">
-                          <span class="fa fa-trophy"></span>
-                        </span>
+                      <span v-show="data.result==='1-0'" class="icon">
+                        <span class="fa fa-trophy has-text-warning"></span>
                       </span>
                     </span>
                   </span> 
@@ -34,10 +32,8 @@
                       <span v-html="tdisplay.b"></span>
                     </span>
                     <span v-html="data.black" class="is-size-6"></span>
-                    <span v-show="data.result==='0-1'">
-                      <span class="icon">
-                          <span class="fa fa-trophy"></span>
-                      </span>
+                    <span v-show="data.result==='0-1'" class="icon">
+                      <span class="fa fa-trophy has-text-warning"></span>
                     </span>
                   </span> 
                 </h6>
@@ -50,10 +46,8 @@
                 <h6 class="has-text-right white">
                   <span v-show="data.black === $root.player.code">
                     <span class="button is-small is-text">
-                      <span v-show="data.result==='0-1'">
-                        <span class="icon">
-                          <span class="fa fa-trophy"></span>
-                        </span>
+                      <span v-show="data.result==='0-1'" class="icon">
+                        <span class="fa fa-trophy has-text-warning"></span>
                       </span>
                       <span v-html="data.black" class="is-size-6"></span>
                     </span>
@@ -65,10 +59,8 @@
                     </span>
                   </span> 
                   <span v-show="data.white === $root.player.code">
-                    <span v-show="data.result==='1-0'">
-                      <span class="icon">
-                        <span class="fa fa-trophy"></span>
-                      </span>
+                    <span v-show="data.result==='1-0'" class="icon">
+                      <span class="fa fa-trophy has-text-warning"></span>
                     </span>
                     <span v-html="data.white" class="is-size-6"></span>
                     <span class="button is-small" :class="{ 'has-background-white has-text-black' : timer.w > 10, 'has-background-danger has-text-white' : timer.w <= 10}">
@@ -113,7 +105,7 @@
                   <ul>
                     <li :class="{ 'is-active' : tab === 'pgn' }">
                       <a @click="tab = 'pgn'">
-                        <span class="icon is-small"><i class="fas fa-chess-board" aria-hidden="true"></i></span>
+                        <span class="icon is-small"><i class="fas fa-chess" aria-hidden="true"></i></span>
                         <strong>Movimientos</strong>
                       </a>
                     </li>

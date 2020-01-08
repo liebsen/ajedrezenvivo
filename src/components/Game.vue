@@ -45,10 +45,8 @@
             <div class="board-container">
               <h6 class="black has-text-left is-clickable" @click="gameFlip">
                 <span class="button is-small is-text">
-                  <span v-show="data.result==='0-1'">
-                    <span class="icon">
-                      <span class="fa fa-trophy"></span>
-                    </span>
+                  <span v-show="data.result==='0-1'" class="icon">
+                    <span class="fa fa-trophy has-text-warning"></span>
                   </span>
                   <span class="is-size-6">
                     <span v-html="data.black"></span> 
@@ -64,10 +62,8 @@
               </div>
               <h6 class="white has-text-right is-clickable" @click="gameFlip">
                 <span class="button is-small is-text">
-                  <span v-show="data.result==='1-0'">
-                    <span class="icon">
-                      <span class="fa fa-trophy"></span>
-                    </span>
+                  <span v-show="data.result==='1-0'" class="icon">
+                    <span class="fa fa-trophy has-text-warning"></span>
                   </span>
                   <span class="is-size-6">
                     <span v-html="data.white"></span> 

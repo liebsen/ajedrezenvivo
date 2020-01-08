@@ -10,7 +10,7 @@
       <div class="live-games" v-show="$root.matches.length">
         <h6>
           <span class="icon">
-            <span class="fa fa-chess-board"></span>
+            <span class="fa fa-chess"></span>
           </span>
           <span>Jugando ahora</span>
         </h6>
@@ -27,7 +27,9 @@
                   </span>
                   <span class="button is-small is-text">
                     <span v-html="match.black"></span>
-                    <span v-show="match.result==='0-1'">🏆</span>
+                    <span v-show="match.result==='0-1'" class="icon">
+                      <span class="fa fa-trophy has-text-warning"></span>
+                    </span>
                   </span>
                 </h6>
                 <router-link :to="'/watch/' + match.id">
@@ -37,7 +39,9 @@
                 </router-link>
                 <h6 class="has-text-right white is-clickable" @click="$root.gameFlip">
                   <span class="button is-small is-text">
-                    <span v-show="match.result==='1-0'">🏆</span>
+                    <span v-show="match.result==='1-0'" class="icon">
+                      <span class="fa fa-trophy has-text-warning"></span>
+                    </span>
                     <span v-html="match.white"></span>
                   </span>
                   <span class="button is-small" :class="{ 'has-background-white has-text-black' : match.wtime > 10, 'has-background-danger has-text-white' : match.wtime <= 10}">
