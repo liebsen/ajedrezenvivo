@@ -28,7 +28,6 @@
             <th>Evento</th>
             <th>Blancas</th>
             <th>Negras</th>
-            <th>Resultado</th>
             <th>Fecha</th>
             <th>Movimientos</th>
           </thead>
@@ -45,13 +44,14 @@
                 <span v-html="item.event"></span>
               </td>
               <td>
+                <span v-show="item.result==='1-0'" class="fa fa-trophy has-text-warning"></span>
+                <span v-show="item.result==='1/2-1/2'" class="fa fa-handshake has-text-success"></span>
                 <span v-html="item.white"></span>
               </td>
               <td>
+                <span v-show="item.result==='0-1'" class="fa fa-trophy has-text-warning"></span>
+                <span v-show="item.result==='1/2-1/2'" class="fa fa-handshake has-text-success"></span>
                 <span v-html="item.black"></span>
-              </td>
-              <td>
-                <span v-html="item.result"></span>
               </td>
               <td>
                 <span v-html="item.date"></span>
@@ -69,7 +69,7 @@
       <a class="pagination-next">Next page</a-->
       <ul class="pagination-list">
         <li v-for="(page, index) in pages">
-          <router-link :to="'?q=' + query + '&offset=' + page" class="pagination-link" :class="{'is-current': offset == page}" :title="'Ir a página ' + index"></router-link>
+          <router-link :to="'?q=' + query + '&offset=' + page" class="pagination-link" :class="{'is-current': offset == page}" :title="'Ir a página ' + (index + 1)"></router-link>
         </li>
       </ul>
     </nav>     
