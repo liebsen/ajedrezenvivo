@@ -467,7 +467,7 @@ new Vue({
 
         t.removeHighlight(id)
         t.addHightlight(id,move)
-        playSound(sound)
+        //playSound(sound)
       }
     },
     removeHighlight : function(id) {

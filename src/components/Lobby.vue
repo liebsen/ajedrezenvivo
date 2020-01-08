@@ -19,22 +19,19 @@
             <div :class="'board-container b' + match.id">
               <div :class="$root.boardColor">
                 <h6 class="has-text-left black is-clickable" @click="$root.gameFlip(match.id)">
-                  <span v-show="match.result==='0-1'">🏆</span>
-                  <span v-html="match.black" class="has-timer"></span>
                   <span class="button is-rounded is-small" v-html="$root.getTimeDisplay(match.btime)" :class="{ 'has-background-grey has-text-white' : match.btime > 10, 'has-background-danger has-text-white' : match.btime <= 10}"></span>
+                  <span v-html="match.black" class="has-timer"></span>
+                  <span v-show="match.result==='0-1'">🏆</span>
                 </h6>
                 <router-link :to="'/watch/' + match.id">
                   <div class="board preservefilter">
-                    <div class="score-container">
-                      <div class="score" :style="'max-height:' + match.vscore + '%'"></div>
-                    </div>            
                     <div :id="'board' + match.id"></div>
                   </div> 
                 </router-link>
                 <h6 class="has-text-right white is-clickable" @click="$root.gameFlip">
-                  <span class="button is-rounded is-small" v-html="$root.getTimeDisplay(match.wtime)" :class="{ 'has-background-white has-text-black' : match.wtime > 10, 'has-background-danger has-text-white' : match.wtime <= 10}"></span>
-                  <span v-html="match.white" class="has-timer"></span>
                   <span v-show="match.result==='1-0'">🏆</span>
+                  <span v-html="match.white" class="has-timer"></span>
+                  <span class="button is-rounded is-small" v-html="$root.getTimeDisplay(match.wtime)" :class="{ 'has-background-white has-text-black' : match.wtime > 10, 'has-background-danger has-text-white' : match.wtime <= 10}"></span>
                 </h6>
               </div>
               <div class="match-status has-text-info"></div>
