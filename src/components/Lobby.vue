@@ -176,7 +176,7 @@
       },
       clickObserve: function(data) { 
         if(data === this.$root.player.code){
-          snackbar('default','Eres tu')   
+          snackbar('default','No puedes jugar contra ti mismo')   
         } else {
           snackbar('default', data + ' Está en modo Observador y no acepta invitaciones') 
         }        

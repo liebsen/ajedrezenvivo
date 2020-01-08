@@ -500,7 +500,7 @@ new Vue({
     },
   	countMoves: (pgn) => {
 	    if(pgn && pgn.indexOf('.')){
-	      return pgn.split('.').length - 1
+	      return pgn.split('.').length
 	    }
 	  },
     msToTime(duration){
@@ -527,6 +527,7 @@ new Vue({
     isOnline:true,
     loading:true,
     saving:false,
+    processing:false,
     player:{},
     players: [],
     matches:[],

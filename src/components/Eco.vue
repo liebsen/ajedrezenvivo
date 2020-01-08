@@ -7,10 +7,10 @@
         </span> 
         <span>Aperturas</span>
       </h3>
-      <!--form @submit.prevent="submit">
+      <form @submit.prevent="submit">
         <div class="field has-addons">
           <div class="control">
-            <input ref="input" v-model="query" class="input is-rounded" type="text" placeholder="Evento, lugar, fecha, jugador o PGN" autofocus>
+            <input ref="input" v-model="query" class="input is-rounded" type="text" placeholder="Nombre o PGN" autofocus>
           </div>
           <div class="control">
             <button type="submit" id="searchbtn" class="button is-rounded is-success">
@@ -20,7 +20,7 @@
             </button>
           </div>
         </div>
-      </form-->
+      </form>
       <div v-if="data.length" class="has-text-left">
         <table class="table is-narrow is-striped is-fullwidth">
           <thead>
@@ -73,7 +73,6 @@
     },
     methods : {
       triggerSearch: function(){
-        /*
         if(this.$route.query.q){
           this.query = this.$route.query.q
         }
@@ -81,13 +80,13 @@
           this.offset = parseInt(this.$route.query.offset)
         }
         this.$nextTick(() => this.$refs.input.focus())
-        */
         this.search()
       },
       search: function() {
-        this.$root.loading = true
+        this.$root.processing = true
+        this.data = []
         axios.get( '/assets/json/eco_es.json').then((response) => {
-          this.data = {}
+          
           if(this.query.length){
             response.data.forEach((item) => {
               if(item.name.indexOf(this.query) > -1 || item.pgn.indexOf(this.query) > -1 || item.eco.indexOf(this.query) > -1){
@@ -101,7 +100,7 @@
           if(this.data.length===0){
             snackbar('danger','No hay partidas que coincidan con tu palabra clave.', 5000);
           } 
-          this.$root.loading = false
+          this.$root.processing = false
         })      
       },
       submit: function(){
@@ -110,7 +109,7 @@
     },
     data () {
       return {
-        data:{},
+        data:[],
         query:'',
         limit:10,
         offset:0,
