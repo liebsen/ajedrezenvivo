@@ -11,12 +11,12 @@
               <div class="board-container">
                 <h6 class="has-text-left black">
                   <span v-show="data.black === $root.player.code">
-                    <span class="button is-rounded is-small" v-html="tdisplay.w" :class="{ 'has-background-white has-text-black' : timer.w > 10, 'has-background-danger has-text-white' : timer.w <= 10}"></span>
+                    <span class="button is-small" v-html="tdisplay.w" :class="{ 'has-background-white has-text-black' : timer.w > 10, 'has-background-danger has-text-white' : timer.w <= 10}"></span>
                     <span v-html="data.white" class="has-timer"></span>
                     <span v-show="data.result==='1-0'">🏆</span>
                   </span> 
                   <span v-show="data.white === $root.player.code">
-                    <span class="button is-rounded is-small" v-html="tdisplay.b" :class="{ 'has-background-grey has-text-white' : timer.b > 10, 'has-background-danger has-text-white' : timer.b <= 10}"></span>
+                    <span class="button is-small" v-html="tdisplay.b" :class="{ 'has-background-grey has-text-white' : timer.b > 10, 'has-background-danger has-text-white' : timer.b <= 10}"></span>
                     <span v-html="data.black" class="has-timer"></span>
                     <span v-show="data.result==='0-1'">🏆</span>
                   </span> 

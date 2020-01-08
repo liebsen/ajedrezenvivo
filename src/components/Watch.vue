@@ -8,7 +8,7 @@
               <h6 class="has-text-left black is-clickable" @click="gameFlip">
                 <span v-show="data.result==='0-1'">🏆</span>
                 <span v-html="data.black" class="has-timer"></span>
-                <span class="button is-rounded is-small" v-html="tdisplay.b" :class="{ 'has-background-grey has-text-white' : timer.b > 10, 'has-background-danger has-text-white' : timer.b <= 10}"></span>
+                <span class="button is-small" v-html="tdisplay.b" :class="{ 'has-background-grey has-text-white' : timer.b > 10, 'has-background-danger has-text-white' : timer.b <= 10}"></span>
               </h6>
               <div class="board preservefilter">
                 <div class="score-container">
@@ -17,7 +17,7 @@
                 <div id="board"></div>
               </div>
               <h6 class="has-text-right white is-clickable" @click="gameFlip">
-                <span class="button is-rounded is-small" v-html="tdisplay.w" :class="{ 'has-background-white has-text-black' : timer.w > 10, 'has-background-danger has-text-white' : timer.w <= 10}"></span>
+                <span class="button is-small" v-html="tdisplay.w" :class="{ 'has-background-white has-text-black' : timer.w > 10, 'has-background-danger has-text-white' : timer.w <= 10}"></span>
                 <span v-html="data.white" class="has-timer"></span>
                 <span v-show="data.result==='1-0'">🏆</span>
               </h6>
