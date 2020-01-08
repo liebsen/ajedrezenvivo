@@ -50,7 +50,7 @@
                 <a v-show="!player.observe" @click="play(player.code)" :title="'Invitar a ' + player.code">
                   <span class="button is-text is-rounded is-danger" :class="{ 'is-outlined' : player.code != $root.player.code }">
                     <span class="icon">
-                      <span class="fas fa-user"></span>
+                      <span class="fas" :class="{ 'fa-user' : player.code != $root.player.code, 'fa-user-circle' : player.code === $root.player.code }"></span>
                     </span>
                     <span v-html="player.code"></span>
                   </span>
@@ -60,7 +60,7 @@
                 <a @click="clickObserve(player.code)" title="Modo observador">
                   <span class="button is-text is-rounded is-grey is-outlined" :class="{ 'is-outlined' : player.code != $root.player.code }">
                     <span class="icon">
-                      <span class="fas fa-user-astronaut"></span>
+                      <span class="fas" :class="{ 'fa-user-astronaut' : player.code != $root.player.code, 'fa-user-circle' : player.code === $root.player.code }"></span>
                     </span>
                     <span v-html="player.code"></span>
                   </span>
@@ -176,14 +176,14 @@
       },
       clickObserve: function(data) { 
         if(data === this.$root.player.code){
-          snackbar('default','No puedes jugar contra ti mismo')   
+          snackbar('error','No puedes jugar contra ti mismo')   
         } else {
           snackbar('default', data + ' Está en modo Observador y no acepta invitaciones') 
         }        
       },
       play: function(player) {
         if(player === this.$root.player.code)
-        return snackbar('default','Eres tu')   
+        return snackbar('error','No puedes jugar contra ti mismo') 
         if(this.$root.player.observe)
         return snackbar('default','Estás en modo Observador y no puedes invitar')   
 
