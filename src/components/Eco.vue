@@ -86,10 +86,10 @@
         this.$root.processing = true
         this.data = []
         axios.get( '/assets/json/eco_es.json').then((response) => {
-          
-          if(this.query.length){
+          const query = this.query.toLowerCase()
+          if(query.length){
             response.data.forEach((item) => {
-              if(item.name.indexOf(this.query) > -1 || item.pgn.indexOf(this.query) > -1 || item.eco.indexOf(this.query) > -1){
+              if(item.name.toLowerCase().indexOf(query) > -1 || item.pgn.toLowerCase().indexOf(query) > -1 || item.eco.toLowerCase().indexOf(query) > -1){
                 this.data.push(item)
               }
             })

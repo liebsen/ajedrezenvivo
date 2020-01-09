@@ -1,12 +1,7 @@
 <template>
   <div class="game-container" :class="boardColor" v-show="!$root.loading">
-    <div class="status">
-      <span class="has-text-weight-semibold">
-        <a href="#" @click="setClock">
-          &nbsp;🕗 <!-- <span v-html="speed / 1000"></span>s--> <span v-html="$root.msToTime(duration)"></span>
-        </a>
-      </span>
-      <div class="bar">
+    <div class="status" >
+      <div class="bar is-clickable" @click="setClock">
         <div class="bar-progress"></div>
       </div>
     </div>  
@@ -19,7 +14,7 @@
                 <div class="score-container">
                   <div class="score" :style="'max-height:' + vscore + '%'"></div>
                 </div>            
-                <div id="board" @click="gamePause"></div>
+                <div id="board" class="is-clickable" @click="gamePause"></div>
               </div>
             </div>
           </div>
@@ -526,7 +521,7 @@
         boardEl:null,
         index:0,
         paused:false,
-        speed:3000
+        speed:1000
       }
     }
   }
