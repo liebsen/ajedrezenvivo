@@ -131,7 +131,7 @@ export default {
   top: 60px;
   bottom: 0;
   padding: 0 2rem;
-  background-color: #9C27B0;
+  background-color: #8638AB;
   background-image: url(/assets/img/photo/cube-402231_1920.png);
   background-repeat: no-repeat;
   background-size: cover;
