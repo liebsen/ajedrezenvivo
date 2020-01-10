@@ -597,7 +597,7 @@
             var match = null
             if(match = line.match(/^Total evaluation: (\-?\d+\.\d+)/)) {
               t.score = parseFloat(match[1]);
-              t.vscore = 50 - (t.score / 20 * 100)
+              t.vscore = 50 - (t.score / 48 * 100)
               t.drawChart()
             }
 

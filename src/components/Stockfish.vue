@@ -25,27 +25,12 @@
                 <button class="button" @click="gameStart(4)">
                   <span>Novato</span>
                 </button>
-                <!--button class="button" @click="gameStart(4)">
-                  <span>2</span>
-                </button-->
                 <button class="button" @click="gameStart(6)">
                   <span>Principiante</span>
                 </button>
-                <!--button class="button" @click="gameStart(8)">
-                  <span>4</span>
-                </button>
-                <button class="button" @click="gameStart(10)">
-                  <span>5</span>
-                </button-->
-                <!--button class="button" @click="gameStart(12)">
-                  <span>6</span>
-                </button-->
                 <button class="button" @click="gameStart(14)">
                   <span>Intermedio</span>
                 </button>
-                <!--button class="button" @click="gameStart(16)">
-                  <span>8</span>
-                </button-->
                 <button class="button" @click="gameStart(18)">
                   <span>Avanzado</span>
                 </button>
@@ -182,6 +167,8 @@
         t.score = 0.10
         t.vscore = 49
         t.stockfishMoved = false
+        document.querySelector('.chart svg').remove()
+        t.chart.values = []
         t.gameStart(t.time.level)
       },
       showPGN:function(pgn){
@@ -279,8 +266,8 @@
               /// Did it find a mate?
 
               } else if(match[1] == 'mate') {
-                const abs = Math.abs(score) - 1
-                t.engineStatus.score = abs > 0 ? 'Mate en ' + abs : "Mate"
+                //const abs = Math.abs(score) - 1
+                //t.engineStatus.score = abs > 0 ? 'Mate en ' + abs : "Mate"
               }
 
               /// Is the score bounded?
@@ -471,9 +458,9 @@
 
         var polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
         polygon.setAttribute("points", this.chart.points);
+        element.style.width = width
 
         if(this.chart.values.length > 1){
-          element.style.width = width
           element.appendChild(chart);
           chart.appendChild(polygon);
         }
@@ -690,7 +677,7 @@
         }
 
         t.score = t.engineStatus.score
-        t.vscore = 50 - (t.engineStatus.score / 20 * 100)
+        t.vscore = 50 - (t.score / 48 * 100)
       },
       onDragStart : function(source, piece, position, orientation) {
         var re = this.playerColor == 'white' ? /^b/ : /^w/
