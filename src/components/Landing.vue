@@ -1,7 +1,7 @@
 <template>
   <div class="container is-widescreen">
-    <div class="area has-text-centered fadeIn preservefilter">
-      <div class="columns is-flex is-vcentered slideIn">
+    <div class="area has-text-centered preservefilter">
+      <div class="columns is-vcentered fadeIn">
         <div class="column is-hidden-mobile"></div>
         <div class="column is-8 has-text-centered">
           <div class="content is-hidden-mobile">
@@ -129,13 +129,13 @@ export default {
   left: 0;
   right: 0;
   top: 60px;
+  bottom: 0;
   padding: 0 2rem;
   background-color: #9C27B0;
   background-image: url(/assets/img/photo/cube-402231_1920.png);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;  
-  min-height: 100%;
 }
 
 .area > .columns {

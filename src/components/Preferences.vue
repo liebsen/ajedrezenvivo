@@ -222,12 +222,6 @@
         })
       },
       submit: function(){
-        if(this.data.darkmode){
-          document.getElementsByTagName('body')[0].classList.add('darkmode');
-        } else {
-          document.getElementsByTagName('body')[0].classList.remove('darkmode');
-        }
-
         this.$socket.emit('lobby_leave', this.$root.player) 
         this.$socket.emit('lobby_leave', this.data) 
         this.$root.saving = true
