@@ -1,7 +1,7 @@
 html, body {
   height: 100%;
   overflow-x: hidden;
-  background-color: white;
+  background-color: #edebe9;
 }
 
 html.dark-mode {
@@ -19,6 +19,8 @@ body > div {
 
 hr {
   margin-bottom: 0.75rem;
+  height: 1px;
+  background-color: #d1d1d1;
 }
 
 .is-checkradio[type="checkbox"] + label::after, .is-checkradio[type="checkbox"] + label::after  {

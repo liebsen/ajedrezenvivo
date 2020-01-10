@@ -89,7 +89,7 @@
               </span>
               <span>Invita a tus amigos</span>
             </h6>
-            <div class="columns is-multiline is-mobile is-vcentered fadeIn">
+            <div class="columns is-gapless is-multiline is-mobile is-vcentered fadeIn preservefilter">
               <div class="column is-hidden-tablet">
                 <a :href="'whatsapp://send?text=¿Querés jugar ajedrez online? Estoy como ' + $root.player.code + ' https://ajedrezenvivo.herokuapp.com/lobby'" target="_blank">
                   <span class="icon has-text-whatsapp is-size-3">
@@ -132,11 +132,7 @@
                   </span>
                 </a>
               </div>
-              <div class="column"></div>
-              <div class="column"></div>
-              <div class="column"></div>
-              <div class="column"></div>
-              <div class="column"></div>
+
             </div>
           </div>
         </div>

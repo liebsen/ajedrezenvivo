@@ -31,7 +31,6 @@ $blue: #4183d7;
 
 .status {
     display: inline-block;
-    background-color: #fff;
     padding: 0.25rem;
     width: 100%;
     position: fixed;  
@@ -39,6 +38,7 @@ $blue: #4183d7;
     bottom: 0;
 }
 .thinking {
+    background-color: transparent;
     border: none;
     display: inline;
 }
@@ -194,6 +194,7 @@ $blue: #4183d7;
     text-shadow: 0 0 1px rgba(0,0,0,0.4);
 }
 .movew {
+    background-color: transparent;
     text-shadow: 0 0 1px rgba(255,255,255,0.4);   
 }
 .moveSAN {
