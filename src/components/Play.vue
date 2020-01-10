@@ -756,7 +756,9 @@
         t.$socket.emit('move', move)
       },
       onSnapEnd: function() {
-        this.board.position(this.game.fen())
+        setTimeout(() => {
+          this.board.position(this.game.fen())
+        },100)
       },
       updateMoves:function(move){
 

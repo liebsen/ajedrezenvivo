@@ -707,7 +707,9 @@
         },this.ucitime)
       },
       onSnapEnd: function() {
-        this.board.position(this.game.fen(),false);
+        setTimeout(() => {
+          this.board.position(this.game.fen(),false)
+        },100)
       }
     },
     data () {
