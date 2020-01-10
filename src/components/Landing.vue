@@ -1,7 +1,7 @@
 <template>
   <div class="container is-widescreen">
     <div class="area has-text-centered preservefilter">
-      <div class="columns is-vcentered fadeIn">
+      <div class="columns is-marginless is-vcentered fadeIn">
         <div class="column is-hidden-mobile"></div>
         <div class="column is-8 has-text-centered">
           <div class="content is-hidden-mobile">
@@ -140,7 +140,6 @@ export default {
 
 .area > .columns {
   width: 100%;
-  margin-left: 0;
 } 
 
 .circles{
