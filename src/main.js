@@ -9,6 +9,7 @@ import Chess from 'chess.js'
 import Chessboard from '../assets/js/chessboard'
 import snackbar from './components/Snackbar';
 import playSound from './components/playSound'
+import '../assets/js/fontawesome_all.js'
 
 const endpoint='https://ajedrezenvivoapi.herokuapp.com'
 //const endpoint='https://ajedrezenvivoapidev.herokuapp.com'
