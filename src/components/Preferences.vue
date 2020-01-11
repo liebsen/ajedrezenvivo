@@ -27,6 +27,7 @@
                       <option value="light-green">Verde claro</option>
                       <option value="tournament">Campaña</option>
                       <option value="purple">Púrpura</option>
+                      <option value="lilac">Lila</option>
                       <option value="wood">Madera</option>
                       <option value="dark-wood">Madera oscura</option>
                       <option value="dash">Dash</option>
@@ -50,23 +51,24 @@
                     <select v-model="data.pieces" id="piezas">
                       <option value="classic">Clásico</option>
                       <option value="neo">Neo</option>
-                      <option value="neo_wood">Neo Wood</option>
-                      <option value="wood">Wood</option>
+                      <option value="neo_wood">Neo Madera</option>
+                      <option value="wood">Madera</option>
                       <option value="bases">Bases</option>
-                      <option value="book">Book</option>
+                      <option value="romantic">Romántico</option>
+                      <option value="book">Libro</option>
                       <option value="cases">Cases</option>
-                      <option value="newspaper">Newspaper</option>
+                      <option value="newspaper">Periódico</option>
                       <option value="maya">Maya</option>
-                      <option value="glass">Glass</option>
-                      <option value="gothic">Gothic</option>
-                      <option value="light">Light</option>
+                      <option value="glass">Vidrio</option>
+                      <option value="gothic">Gótico</option>
+                      <option value="light">Claro</option>
                       <option value="lolz">Lolz</option>
                       <option value="tigers">Tigers</option>
                       <option value="condal">Condal</option>
-                      <option value="marble">Marble</option>
-                      <option value="modern">Modern</option>
+                      <option value="marble">Mármol</option>
+                      <option value="modern">Moderno</option>
                       <option value="club">Club</option>
-                      <option value="neon">Neon</option>
+                      <option value="neon">Neón</option>
                     </select>
                   </div>
                 </div>

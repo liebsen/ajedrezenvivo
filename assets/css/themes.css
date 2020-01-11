@@ -529,3 +529,34 @@
         }
     }
 }
+
+.lilac {
+    .white-1e1d7, .bar, .moveRow, .moveRow a, .movew {
+        background-color: #9f90b0;
+        color:#7d4a8d;
+    }
+    .black-3c85d, .bar-progress, .moveb, .moveb a {
+        background-color: #7d4a8d;
+        color:#9f90b0;
+    }
+    .score-container {
+        background-color: #f8f8f8;
+        .score {
+            background-color: #7d4a8d;
+        }
+    }
+    .chart-container {
+        .white {
+            background-color: #7d4a8d;
+            polygon {
+                fill: #9f90b0;
+            }
+        }
+        .black {
+            background-color: #9f90b0;
+            polygon {
+                fill: #7d4a8d;
+            }
+        }
+    }
+}
