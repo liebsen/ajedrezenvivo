@@ -96,7 +96,7 @@
           <div class="columns is-hidden-mobile">
             <div class="chart-container preservefilter">
               <div :class="playerColor">
-                <div class="chart" v-show="pgnIndex.length"></div>
+                <div class="chart" v-show="pgnIndex.length > 1"></div>
               </div>
             </div>
           </div>

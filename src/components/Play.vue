@@ -358,7 +358,7 @@
         if(data.asker === t.$root.player.code){
           result = (t.playerColor==='black'?'1-0':'0-1')
           swal({
-            title: '¿Deseas la revancha?',
+            title: '¿Deseas solicitar revancha?',
             text: 'Has capitulado. ' + t.opponentName + ' ganó la partida',
             buttons: ["No", "Sí"]
           })
@@ -642,14 +642,14 @@
               if(turn === t.playerColor[0]){
                 result = (t.playerColor==='black'?'1-0':'0-1')
                 swal({
-                  title: '¿Deseas la revancha?',
-                  text: 'Has sido derrotado por tiempo. ' + t.opponentName + ' ganó la partida',
+                  title: '¿Deseas solicitar revancha?',
+                  text: t.opponentName + ' ganó la partida. Has sido derrotado por tiempo.',
                   buttons: ["No", "Sí"]
                 })
                 .then(accept => {
                   if (accept) {
-                    this.$socket.emit('invite', {
-                      asker:this.$root.player.code,
+                    this.$socket.emit('invite_rematch', {
+                      asker:t.$root.player.code,
                       player:t.opponentName
                     })
                   } else {

@@ -64,7 +64,7 @@
           </div>
           <div class="columns is-vcentered has-text-centered is-hidden-tablet">
             <div class="column">
-              <router-link class="button is-rounded is-outlined is-fullwidth is-white" to="/lobby">
+              <router-link class="button is-rounded is-outlined is-white" to="/lobby">
                 <span class="icon">
                   <span class="fas fa-user"></span>
                 </span> 
@@ -72,7 +72,7 @@
               </router-link>    
             </div>
             <div class="column">
-              <router-link class="button is-rounded is-outlined is-fullwidth is-white" to="/stockfish">
+              <router-link class="button is-rounded is-outlined is-white" to="/stockfish">
                 <span class="icon">
                   <span class="fas fa-server"></span>
                 </span> 
