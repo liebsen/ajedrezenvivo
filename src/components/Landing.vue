@@ -83,7 +83,7 @@
         </div>
         <div class="column is-hidden-mobile"></div>
       </div>
-      <!--ul class="circles">
+      <ul class="circles">
         <li class="black"></li>
         <li class="black"></li>
         <li class="black"></li>
@@ -96,7 +96,7 @@
         <li class="white"></li>
         <li class="white"></li>
         <li class="white"></li>
-      </ul-->
+      </ul>
     </div>
   </div>
 </template>
@@ -132,7 +132,6 @@ export default {
   bottom: 0;
   padding: 0 2rem;
   background-color: #004445;
-  /*background-image: url(/assets/img/photo/hm_1.png);*/
 }
 
 .area > .columns {
@@ -172,7 +171,7 @@ export default {
   left: 25%;
   width: 140px;
   height: 140px;
-  background-image: url(/assets/img/chesspieces/neo/wK.png);
+  background-image: url(/assets/img/chesspieces/romantic/wK.png);
   animation-delay: 5s;
 }
 
@@ -180,7 +179,7 @@ export default {
   left: 10%;
   width: 180px;
   height: 180px;
-  background-image: url(/assets/img/chesspieces/neo/wQ.png);
+  background-image: url(/assets/img/chesspieces/romantic/wQ.png);
   animation-delay: 1s;
   animation-duration: 12s;
 }
@@ -189,7 +188,7 @@ export default {
   left: 70%;
   width: 90px;
   height: 90px;
-  background-image: url(/assets/img/chesspieces/neo/wR.png);
+  background-image: url(/assets/img/chesspieces/romantic/wR.png);
   animation-delay: 7s;
 }
 
@@ -197,7 +196,7 @@ export default {
   left: 40%;
   width: 100px;
   height: 100px;
-  background-image: url(/assets/img/chesspieces/neo/wB.png);
+  background-image: url(/assets/img/chesspieces/romantic/wB.png);
   animation-delay: 15s;
   animation-duration: 18s;
 }
@@ -206,7 +205,7 @@ export default {
   left: 65%;
   width: 80px;
   height: 80px;
-  background-image: url(/assets/img/chesspieces/neo/wN.png);
+  background-image: url(/assets/img/chesspieces/romantic/wN.png);
   animation-delay: 11s;
 }
 
@@ -214,7 +213,7 @@ export default {
   left: 75%;
   width: 110px;
   height: 110px;
-  background-image: url(/assets/img/chesspieces/neo/wP.png);
+  background-image: url(/assets/img/chesspieces/romantic/wP.png);
   animation-delay: 12s;
 }
 
@@ -222,7 +221,7 @@ export default {
   left: 35%;
   width: 140px;
   height: 140px;
-  background-image: url(/assets/img/chesspieces/neo/bK.png);
+  background-image: url(/assets/img/chesspieces/romantic/bK.png);
   animation-delay: 2s;
 }
 
@@ -230,7 +229,7 @@ export default {
   left: 50%;
   width: 100px;
   height: 100px;
-  background-image: url(/assets/img/chesspieces/neo/bQ.png);
+  background-image: url(/assets/img/chesspieces/romantic/bQ.png);
   animation-delay: 10s;
   animation-duration: 45s;
 }
@@ -239,7 +238,7 @@ export default {
   left: 20%;
   width: 90px;
   height: 90px;
-  background-image: url(/assets/img/chesspieces/neo/bR.png);
+  background-image: url(/assets/img/chesspieces/romantic/bR.png);
   animation-delay: 6s;
   animation-duration: 35s;
 }
@@ -248,7 +247,7 @@ export default {
   left: 85%;
   width: 150px;
   height: 150px;
-  background-image: url(/assets/img/chesspieces/neo/bB.png);
+  background-image: url(/assets/img/chesspieces/romantic/bB.png);
   animation-delay: 3s;
   animation-duration: 11s;
 }
@@ -257,7 +256,7 @@ export default {
   left: 15%;
   width: 80px;
   height: 80px;
-  background-image: url(/assets/img/chesspieces/neo/bN.png);
+  background-image: url(/assets/img/chesspieces/romantic/bN.png);
   animation-delay: 8s;
   animation-duration: 11s;
 }
@@ -266,7 +265,7 @@ export default {
   left: 50%;
   width: 160px;
   height: 160px;
-  background-image: url(/assets/img/chesspieces/neo/bP.png);
+  background-image: url(/assets/img/chesspieces/romantic/bP.png);
   animation-delay: 4s;
   animation-duration: 11s;
 }
