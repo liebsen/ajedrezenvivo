@@ -131,11 +131,8 @@ export default {
   top: 60px;
   bottom: 0;
   padding: 0 2rem;
-  background-color: #8638AB;
-  background-image: url(/assets/img/photo/cube-402231_1920.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;  
+  background-color: #272343;
+  /*background-image: url(/assets/img/photo/hm_1.png);*/
 }
 
 .area > .columns {

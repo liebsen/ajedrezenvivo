@@ -10,10 +10,10 @@
       <form @submit.prevent="submit">
         <div class="field has-addons">
           <div class="control">
-            <input ref="input" v-model="query" class="input is-rounded" type="text" placeholder="Evento, lugar, fecha, jugador o PGN" autofocus>
+            <input ref="input" v-model="query" class="input is-rounded is-success" type="text" placeholder="Evento, lugar, fecha, jugador o PGN" autofocus>
           </div>
           <div class="control">
-            <button type="submit" id="searchbtn" class="button is-rounded is-info">
+            <button type="submit" id="searchbtn" class="button is-rounded is-success">
               <span class="icon">
                 <span class="fas fa-search"></span>
               </span>

@@ -1,3 +1,5 @@
+$menubg: #272343;
+
 html, body {
   height: 100%;
   overflow-x: hidden;
@@ -116,7 +118,7 @@ hr {
   right: 0;
   z-index: 90;
   height: 60px;
-  background-color: #8638AB;
+  background-color: $menubg;
   transition: background-color 0.25 linear;
 }
 
@@ -279,7 +281,7 @@ hr {
 }
 
 .menu-bg {
-  background-color: #8638AB;
+  background-color: $menubg;
   pointer-events: none;
   -webkit-transition: .3s;
   transition: .3s;

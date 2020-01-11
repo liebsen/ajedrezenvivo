@@ -92,13 +92,13 @@
           </div>
           <div class="column">
             <div class="has-text-centered">
-              <router-link to="/lobby" class="button is-rounded is-success">
+              <router-link to="/lobby" class="button is-rounded is-white is-outlined">
                 <span class="icon">
                   <span class="fas fa-user"></span>
                 </span>
                 <span>Humano</span>
               </router-link>
-              <router-link class="button is-rounded is-info" to="/stockfish">
+              <router-link class="button is-rounded is-white is-outlined" to="/stockfish">
                 <span class="icon">
                   <span class="fas fa-server"></span>
                 </span> 

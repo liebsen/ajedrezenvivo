@@ -10,7 +10,7 @@
       <form @submit.prevent="submit">
         <div class="field has-addons">
           <div class="control">
-            <input ref="input" v-model="query" class="input is-rounded" type="text" placeholder="Nombre o PGN" autofocus>
+            <input ref="input" v-model="query" class="input is-rounded is-success" type="text" placeholder="Nombre o PGN" autofocus>
           </div>
           <div class="control">
             <button type="submit" id="searchbtn" class="button is-rounded is-success">
