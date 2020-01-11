@@ -706,11 +706,12 @@
           this.drawChart()
         },this.ucitime)
       },
+      /*
       onSnapEnd: function() {
         setTimeout(() => {
           this.board.position(this.game.fen(),false)
         },100)
-      }
+      }*/
     },
     data () {
       return {
@@ -720,7 +721,7 @@
           draggable: true,
           //onDragStart: this.onDragStart,
           onDrop: this.onDrop,
-          onSnapEnd: this.onSnapEnd,
+          //onSnapEnd: this.onSnapEnd,
           pieceTheme:'/assets/img/chesspieces/classic/{piece}.png'
         },
         chart:{

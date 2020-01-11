@@ -18,7 +18,9 @@
                       <span v-html="tdisplay.w"></span>
                     </span>
                     <span class="button is-small is-text">
-                      <span v-html="data.white" class="is-size-6"></span>
+                      <span class="is-size-6">
+                        <span v-html="data.white"></span>
+                      </span>
                       <span v-show="data.result==='1-0'" class="icon">
                         <span class="fa fa-trophy has-text-warning"></span>
                       </span>
@@ -31,9 +33,13 @@
                       </span>
                       <span v-html="tdisplay.b"></span>
                     </span>
-                    <span v-html="data.black" class="is-size-6"></span>
-                    <span v-show="data.result==='0-1'" class="icon">
-                      <span class="fa fa-trophy has-text-warning"></span>
+                    <span class="button is-small is-text">
+                      <span class="is-size-6">
+                        <span v-html="data.black"></span>
+                      </span>
+                      <span v-show="data.result==='0-1'" class="icon">
+                        <span class="fa fa-trophy has-text-warning"></span>
+                      </span>
                     </span>
                   </span> 
                 </h6>
@@ -49,7 +55,9 @@
                       <span v-show="data.result==='0-1'" class="icon">
                         <span class="fa fa-trophy has-text-warning"></span>
                       </span>
-                      <span v-html="data.black" class="is-size-6"></span>
+                      <span class="is-size-6">
+                        <span v-html="data.black"></span>
+                      </span>
                     </span>
                     <span class="button is-small" :class="{ 'has-background-grey has-text-white' : timer.b > 10, 'has-background-danger has-text-white' : timer.b <= 10}">
                       <span class="icon">
@@ -59,10 +67,14 @@
                     </span>
                   </span> 
                   <span v-show="data.white === $root.player.code">
-                    <span v-show="data.result==='1-0'" class="icon">
-                      <span class="fa fa-trophy has-text-warning"></span>
+                    <span class="button is-small is-text">
+                      <span v-show="data.result==='1-0'" class="icon">
+                        <span class="fa fa-trophy has-text-warning"></span>
+                      </span>
+                      <span class="is-size-6">
+                        <span v-html="data.white"></span>
+                      </span>
                     </span>
-                    <span v-html="data.white" class="is-size-6"></span>
                     <span class="button is-small" :class="{ 'has-background-white has-text-black' : timer.w > 10, 'has-background-danger has-text-white' : timer.w <= 10}">
                       <span class="icon">
                         <span class="fa fa-clock"></span>
@@ -491,7 +503,7 @@
           if(!t.data.result){
             cfg.onDragStart = t.onDragStart
             cfg.onDrop = t.onDrop
-            cfg.onSnapEnd = t.onSnapEnd
+            //cfg.onSnapEnd = t.onSnapEnd
           }
 
           if(pref.pieces){

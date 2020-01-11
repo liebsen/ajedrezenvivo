@@ -1,33 +1,5 @@
 <template>
   <div class="game-container" :class="boardColor" v-show="!$root.loading">
-    <!--div class="playlist-container">
-      <div class="pietimer">
-        <div class="pie spinner"></div>
-        <div class="pie filler"></div>
-        <div class="mask"></div>
-      </div>
-    </div>
-    <div class="pres-container">
-      <div class="pres content">
-        <div class="columns is-result is-vcentered has-text-centered">
-          <div class="column is-player-white">
-            <h1><span v-show="data.result==='1-0'">🏆</span></h1>
-            <h3 class="has-text-black" v-html="data.white"></h3>
-          </div>
-          <div class="column is-player-black">
-            <h1><span v-show="data.result==='0-1'">🏆</span></h1>
-            <h3 class="has-text-white" v-html="data.black"></h3>
-          </div>
-        </div>
-        <div class="columns is-vcentered has-text-centered is-player-info">
-          <div class="column">
-            <h6 v-show="data.date && data.date !='?'" v-html="data.date"></h6>
-            <h6 v-show="data.event && data.event !='?'" v-html="data.event"></h6>
-            <h6 v-show="data.site && data.site !='?'" v-html="data.site"></h6>
-          </div>
-        </div>
-      </div>
-    </div-->
     <div class="status">
       <div class="bar is-clickable" @click="setClock">
         <div class="bar-progress"></div>
@@ -69,7 +41,6 @@
             </div>
           </div>
           <div class="column">
-            <!--h5 class="has-text-black">♛ Datos de la partida</h5-->
             <div v-if="Object.keys(data).length">
               <div class="columns">
                 <div class="column">
@@ -77,6 +48,11 @@
                   <span v-html="opening" class="has-text-black"></span>
                 </div>
                 <div class="column has-text-left">
+                  <button @click="gameFlip()" class="button is-small is-rounded is-info">
+                    <span class="icon">
+                      <span class="fa fa-redo"></span>
+                    </span>
+                  </button>
                   <button @click="showPGN()" class="button is-small is-rounded is-info" v-if="pgnIndex.length">
                     <strong>PGN</strong>
                   </button>
@@ -96,13 +72,11 @@
                       <div class="moveNumCell" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
                         <span v-html="(index+1)"></span>
                       </div>
-
                       <div class="moveCell moveSAN movew" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
                         <a :class="'moveindex m' + (move.i-2)" @click="gamePos(move.i-2)">
                           <span v-html="move.white"></span>
                         </a>
                       </div>
-
                       <div class="moveCell moveSAN moveb" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
                         <a :class="'moveindex m' + (move.i-1)" @click="gamePos(move.i-1)">
                           <span v-html="move.black"></span>
@@ -145,12 +119,6 @@
 
   export default {
     name: 'game',
-    /*
-    watch: {
-      '$route': function () {
-        this.gameSeek()
-      }
-    },*/
     mounted: function(){
 
       this.$root.loading = true
