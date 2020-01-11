@@ -131,7 +131,7 @@ export default {
   top: 60px;
   bottom: 0;
   padding: 0 2rem;
-  background-color: #004445;
+  background-color: #2f89fc;
 }
 
 .area > .columns {
