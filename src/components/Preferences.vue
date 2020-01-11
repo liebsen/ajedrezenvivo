@@ -92,7 +92,7 @@
                 <div class="field-body">
                   <div class="control has-checkradio">
                     <input v-model="data.strongnotification" class="is-checkradio has-background-color is-success" id="strongnotification" type="checkbox" @click="previewStrongNotification">
-                    <label class="label" for="strongnotification">Notificaciones gigantes</label>
+                    <label class="label" for="strongnotification">Notificación gigante</label>
                   </div>
                 </div>
                 <div class="field-body">

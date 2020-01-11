@@ -131,7 +131,7 @@ export default {
   top: 60px;
   bottom: 0;
   padding: 0 2rem;
-  background-color: #272343;
+  background-color: #004445;
   /*background-image: url(/assets/img/photo/hm_1.png);*/
 }
 

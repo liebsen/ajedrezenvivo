@@ -19,7 +19,7 @@
             <div :class="'board-container b' + match.id">
               <div :class="$root.boardColor">
                 <h6 class="has-text-left black is-clickable" @click="$root.gameFlip(match.id)">
-                  <span class="button is-small" :class="{ 'has-background-grey has-text-white' : match.btime > 10, 'has-background-danger has-text-white' : match.btime <= 10}">
+                  <span class="button is-small" :class="{ 'has-background-grey has-text-white' : match.btime > 10, 'has-background-info has-text-white' : match.btime <= 10}">
                     <span class="icon">
                       <span class="fa fa-clock"></span>
                     </span>
@@ -44,7 +44,7 @@
                     </span>
                     <span v-html="match.white"></span>
                   </span>
-                  <span class="button is-small" :class="{ 'has-background-white has-text-black' : match.wtime > 10, 'has-background-danger has-text-white' : match.wtime <= 10}">
+                  <span class="button is-small" :class="{ 'has-background-white has-text-black' : match.wtime > 10, 'has-background-info has-text-white' : match.wtime <= 10}">
                     <span class="icon">
                       <span class="fa fa-clock"></span>
                     </span>
@@ -63,7 +63,7 @@
             <div>
               <div v-for="player in $root.players" class="field">
                 <a v-show="!player.observe" @click="play(player.code)" :title="'Invitar a ' + player.code">
-                  <span class="button is-text is-rounded is-danger" :class="{ 'is-outlined' : player.code != $root.player.code }">
+                  <span class="button is-text is-rounded is-info" :class="{ 'is-outlined' : player.code != $root.player.code }">
                     <span class="icon">
                       <span class="fas" :class="{ 'fa-user' : player.code != $root.player.code, 'fa-user-circle' : player.code === $root.player.code }"></span>
                     </span>
