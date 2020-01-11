@@ -85,10 +85,10 @@
                   <span class="fas fa-question-circle"></span>
                 </span>
               </button>
-              <button @click="gameRestart()" class="button is-small is-rounded is-success" v-if="announced_game_over">
+              <button @click="gameRestart()" class="button is-small is-rounded is-success" v-if="announced_game_over" title="Jugar de nuevo">
                 <strong>REMATCH</strong>
               </button>
-              <button @click="showPGN()" class="button is-small is-rounded is-info" v-if="pgnIndex.length">
+              <button @click="showPGN()" class="button is-small is-rounded is-info" v-if="pgnIndex.length" title="Mostrar PGN">
                 <strong>PGN</strong>
               </button>
             </div>
@@ -532,34 +532,36 @@
               }
             })
           } else {
-            if(t.game.turn() === t.playerColor[0]){
-              swal({
-                title: "Stockfish ganó la partida",
-                text: '¿Deseas jugar otra vez?',
-                buttons: ["No", "Sí"]
-              })
-              .then(accept => {
-                if (accept) {
-                  t.gameRestart()
-                } else {
-                  console.log('Clicked on cancel')
-                }
-              })
-            } else {
-              swal({
-                title: "¿Deseas jugar otra vez?",
-                text: 'Venciste a Stockfish. ¡Felicitaciones! ',
-                icon: "success",
-                buttons: ["No", "Sí"]
-              })
-              .then(accept => {
-                if (accept) {
-                  t.gameRestart()
-                } else {
-                  console.log('Clicked on cancel')
-                }
-              })
-            }
+            setTimeout(() => {
+              if(t.game.turn() === t.playerColor[0]){
+                swal({
+                  title: "Stockfish ganó la partida",
+                  text: '¿Deseas jugar otra vez?',
+                  buttons: ["No", "Sí"]
+                })
+                .then(accept => {
+                  if (accept) {
+                    t.gameRestart()
+                  } else {
+                    console.log('Clicked on cancel')
+                  }
+                })
+              } else {
+                swal({
+                  title: "¿Deseas jugar otra vez?",
+                  text: 'Venciste a Stockfish. ¡Felicitaciones! ',
+                  icon: "success",
+                  buttons: ["No", "Sí"]
+                })
+                .then(accept => {
+                  if (accept) {
+                    t.gameRestart()
+                  } else {
+                    console.log('Clicked on cancel')
+                  }
+                })
+              }
+            },1000)
           }
           t.announced_game_over = true
         }
@@ -719,7 +721,7 @@
           showErrors:true,
           position: 'start',
           draggable: true,
-          //onDragStart: this.onDragStart,
+          onDragStart: this.onDragStart,
           onDrop: this.onDrop,
           //onSnapEnd: this.onSnapEnd,
           pieceTheme:'/assets/img/chesspieces/classic/{piece}.png'

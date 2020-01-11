@@ -103,12 +103,12 @@
                         <span class="fas fa-handshake"></span>
                       </span>
                     </button>
-                    <button @click="showLiveURL()" class="button is-small is-rounded is-info" v-if="pgnIndex.length">
+                    <button @click="showLiveURL()" class="button is-small is-rounded is-info" v-if="pgnIndex.length" title="Mostrar URL de transmisión">
                       <span class="icon has-text-white">
                         <span class="fas fa-user-astronaut"></span>
                       </span>
                     </button>
-                    <button @click="showPGN()" class="button is-small is-rounded is-info" v-if="pgnIndex.length">
+                    <button @click="showPGN()" class="button is-small is-rounded is-info" v-if="pgnIndex.length" title="Mostrar PGN">
                       <strong>PGN</strong>
                     </button>
                   </div>

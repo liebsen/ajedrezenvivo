@@ -49,12 +49,12 @@
                   <span v-html="opening" class="has-text-black"></span>
                 </div>
                 <div class="column has-text-left preservefilter">
-                  <button @click="gameFlip()" class="button is-small is-rounded is-info">
+                  <button @click="gameFlip()" class="button is-small is-rounded is-info" title="Girar tablero">
                     <span class="icon">
                       <span class="fa fa-redo"></span>
                     </span>
                   </button>
-                  <button @click="showPGN()" class="button is-small is-rounded is-info" v-if="pgnIndex.length">
+                  <button @click="showPGN()" class="button is-small is-rounded is-info" v-if="pgnIndex.length" title="Mostrar PGN">
                     <strong>PGN</strong>
                   </button>
                 </div>

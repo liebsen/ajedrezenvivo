@@ -19,20 +19,19 @@
             </div>
           </div>
           <div class="column">
-            <!--h5 class="has-text-black">♛ Datos de la partida</h5-->
             <div v-if="Object.keys(data).length">
               <div class="columns">
                 <div class="column">
-                  <strong v-html="data.eco" class=""></strong>&nbsp;
+                  <strong v-html="data.eco" class=""></strong>
                   <span v-html="data.name" class="has-text-black"></span>
                 </div>
                 <div class="column has-text-left preservefilter">
-                  <button @click="gameFlip()" class="button is-small is-rounded is-info">
+                  <button @click="gameFlip()" class="button is-small is-rounded is-info" title="Girar tablero">
                     <span class="icon">
                       <span class="fa fa-redo"></span>
                     </span>
                   </button>
-                  <button @click="showPGN()" class="button is-small is-rounded is-info" v-if="pgnIndex.length">
+                  <button @click="showPGN()" class="button is-small is-rounded is-info" v-if="pgnIndex.length" title="Mostrar PGN">
                     <strong>PGN</strong>
                   </button>
                 </div>
