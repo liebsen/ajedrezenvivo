@@ -1709,7 +1709,6 @@ function initDom() {
 function init() {
   if (checkDeps() !== true ||
       expandConfig() !== true) return;
-
   initDom();
   cacheImages();
   addEvents();
