@@ -1710,13 +1710,13 @@ function init() {
   if (checkDeps() !== true ||
       expandConfig() !== true) return;
   initDom();
-  cacheImages();
   addEvents();
 }
 
 // go time
 init();
 
+cacheImages();
 
 // return the widget object
 return widget;

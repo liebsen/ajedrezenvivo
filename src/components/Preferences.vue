@@ -19,7 +19,7 @@
               <div class="field-body">
 
                 <div class="field">
-                  <label class="label">Tablero</label>
+                  <label class="label">Tema del Tablero</label>
                   <div class="select is-fullwidth">
                     <select v-model="data.board" id="tablero">
                       <option value="classic">Clásico</option>
@@ -46,7 +46,7 @@
               </div>
               <div class="field-body">
                 <div class="field">
-                  <label class="label">Piezas</label>
+                  <label class="label">Estilo de Piezas</label>
                   <div class="select is-fullwidth">
                     <select v-model="data.pieces" id="piezas">
                       <option value="classic">Clásico</option>
@@ -54,7 +54,9 @@
                       <option value="neo_wood">Neo Madera</option>
                       <option value="wood">Madera</option>
                       <option value="bases">Bases</option>
-                      <option value="romantic">Romántico</option>
+                      <option value="uscf">USCF</option>
+                      <option value="chess24">Chess24</option>
+                      <option value="leipzig">Leipzig</option>
                       <option value="book">Libro</option>
                       <option value="cases">Cases</option>
                       <option value="newspaper">Periódico</option>
