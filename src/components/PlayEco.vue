@@ -390,17 +390,13 @@
         var history = this.game.history({verbose:true})
         if(history.length){
           var move = history[history.length-1]
-          setTimeout(() => {
-            this.addHightlight(move)
-          },250)          
+          this.addHightlight(move)
         }
       },
       gameFlip: function(){
         this.board.flip()
-        const head = document.querySelector('.board > .head').innerHTML
-        const foot = document.querySelector('.board > .foot').innerHTML
-        document.querySelector('.board > .head').innerHTML = foot
-        document.querySelector('.board > .foot').innerHTML = head
+        this.orientation = this.board.orientation()
+        this.highlightLastMove()
       },
       gamePos:function(pos){
         if(pos > this.gameMoves.length){

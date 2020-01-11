@@ -860,6 +860,32 @@ table {
 
 /* bulma hacks */
 
+@media screen and (min-width:1024px){
+    .container{
+        max-width:960px
+    }
+}
+@media screen and (max-width:1215px){
+    .container.is-widescreen{
+        max-width:1080px
+    }
+}
+@media screen and (max-width:1407px){
+    .container.is-fullhd{
+        max-width:1280px
+    }
+}
+@media screen and (min-width:1216px){
+    .container{
+        max-width:1080px
+    }
+}
+@media screen and (min-width:1408px){
+    .container{
+        max-width:1280px
+    }
+}
+
 @media screen and (max-width: 440px) {
  .menu.fs .menu-bg {
    width: 200vh;
