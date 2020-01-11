@@ -503,7 +503,7 @@
           if(!t.data.result){
             cfg.onDragStart = t.onDragStart
             cfg.onDrop = t.onDrop
-            //cfg.onSnapEnd = t.onSnapEnd
+            cfg.onSnapEnd = t.onSnapEnd
           }
 
           if(pref.pieces){

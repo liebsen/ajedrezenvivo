@@ -132,12 +132,11 @@
                   </span>
                 </a>
               </div>
-
             </div>
           </div>
         </div>
         <div class="column">
-          <div class="column has-text-left has-background-light">
+          <div class="column has-text-left has-background-light box">
             <div class="columns">
               <div class="column chatbox lobby_chat"></div>
             </div>
