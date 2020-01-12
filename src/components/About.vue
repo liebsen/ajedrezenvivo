@@ -1,6 +1,6 @@
 <template>
   <div class="container is-widescreen">
-    <section class="content column">
+    <section class="content column fadeIn">
       <h3 class="title">
         <span class="icon">
           <span class="fa fa-info"></span>
@@ -9,12 +9,11 @@
       </h3>
       <h2>¿Qué es?</h2>
       <p>AjedrezEV es una herramienta para seguir en vivo y estudiar el deporte del Ajedrez.</p>
-      <blockquote class="has-background-info"><span class="has-text-white">Este proyecto es puramente educacional. Los participantes no reciben ningún tipo de financiación y no tienen ánimos de lucro por este proyecto.</span></blockquote>
+      <div class="notification is-info"><span class="has-text-white">Este proyecto es puramente educacional. Los participantes no reciben ningún tipo de financiación y no tienen ánimos de lucro por este proyecto.</span></div>
       <h2>¿Qué hace?</h2>
       <p>AjedrezEV permite visualizar cualquier partida previemante emitida o cargada a partir de todos sus movimientos. AjedrezEV es una forma de ver y estudiar el ajedrez. También se puede jugar con un oponente humano y estudiar posteriormente esas partidas.</p>
       <h2>¿Qué objetivos persigue?</h2>
       <p>El código fuente de este proyecto fue creado y es mantenido por un solo desarrollador ad honorem. Actualmente tiene un solo idioma, <i>castellano neutro</i> o mas conocido como español neutro porque pretende llegar a los nuevos entusiastas del ajedrez en Argentina y países hermanos de habla castellana. Existe la posibilidad de extender la aplicación a multi-idioma pero es necesaria la bondadosa colaboración de eventuales entusiastas.</p>
-      <blockquote class="has-background-info"><span class="has-text-white">Este proyecto es puramente educacional y motivado exclusivamente, por parte de todos los integrantes de su equipo, por el amor que dedicamos a este singular deporte que es el ajedrez. Creemos que el ajedrez ayuda a traer el discernimiento de lo razonable que necesita nuestra sociedad para aspirar vivir en paz. Este proyecto es voluntario, no recibe ningún tipo de financiación y no persigue ánimos de lucro.</span></blockquote>        
       <p><a href="mailto:overlemonsoft@gmail.com?Subject=Hola, Quiero conocer mas sobre el proyecto AjedrezEV" class="button is-success is-outlined">Conocer mas sobre AjedrezEV</a></p>
       
       <h4>Objetivos</h4>
@@ -58,24 +57,23 @@
 
       <ul>
         <li>
-          <a href="https://github.com/martinfrith/ajedrezenvivoapi.git" target="_blank">API REST</a>
+          <a href="https://github.com/martinfrith/ajedrezenvivoapi.git" target="_blank">AjedrezEV API</a>
         </li>
         <li>  
-          <a href="https://github.com/martinfrith/ajedrezenvivo.git" target="_blank">APP</a>
+          <a href="https://github.com/martinfrith/ajedrezenvivo.git" target="_blank">AjedrezEV App</a>
         </li>
       </ul>
 
-      <h4>Equipo de desarrollo de AjedrezEV</h4>
+      <h4>Desarrollo de AjedrezEV</h4>
+      <p>Este proyecto cuenta con un solo desarrollador y tester.</p>
       <ul>
-        <li>👨🏻‍ Cristhian Daher - Tester 🌎 Esquel</li>
-        <li>👨🏻‍ ‍Martín Frith - Developer 🌎 Esquel </li>
+        <li>Martín Frith - Developer 🌎 Esquel, ARG </li>
       </ul>
+
       <h4>Agradecimientos</h4>
-        <p>AjedrezEV quiere agradecer a todas las personas que contribuyen con este proyecto directa o indirectamente usando la aplicación.</p>
-        <p>Un agradecimiento especial a <a href="https://github.com/jhlywa">Jeff Hlywa</a> de <a href="https://github.com/jhlywa/chess.js">chess.js</a>, a <a href="https://github.com/oakmac">Chris Oakman</a> de <a href="https://github.com/oakmac/chessboardjs">chessboard.js</a> y a <a href="https://github.com/nmrugg">Nathan Rugg</a> de <a href="https://github.com/nmrugg/stockfish.js">stockfish.js</a>. </p>
-
-        <blockquote class="has-background-info"><span class="has-text-white">Son algunos desarrolladores que gracias a su colaboración colectiva apostando <em>su</em> calidad de trabajo individual <em>en</em> la comunidad <em>sin fines de lucro</em> quienes nos permiten acceder y aprovechar software mas especializado y eficiente cada día. ¡Muchas gracias a todos ellos! </span></blockquote>
-
+      <p>AjedrezEV desea agradecer especialmente a <a href="https://github.com/jhlywa">Jeff Hlywa</a> de <a href="https://github.com/jhlywa/chess.js">chess.js</a>, a <a href="https://github.com/oakmac">Chris Oakman</a> de <a href="https://github.com/oakmac/chessboardjs">chessboard.js</a> y a <a href="https://github.com/nmrugg">Nathan Rugg</a> de <a href="https://github.com/nmrugg/stockfish.js">stockfish.js</a> por contribuir al desarrollo del software libre de ajedrez.</p>
+      <p>AjedrezEV quiere agradecer asimismo a todas las personas que contribuyen con este proyecto directa o indirectamente usando la aplicación.</p>
+        
       <h4>ChangeLog</h4>
       <ul>
         <li class="has-text-success">2019.4.2 Versión 0.1 Inicio del proyecto — Visualización de partida.</li>
@@ -85,9 +83,12 @@
         <li class="has-text-success">2019.4.11 Versión 0.3 — Emisión en vivo. Listado de partidas Online. Formulario de búsqueda de partidas por jugador, lugar o evento.</li>
         <li class="has-text-success">2019.4.13 Versión 0.4 — Código de seguridad de transmisión que garantiza la privacidad de las mesas siendo emitidas. Vista de resultados completos.</li>
         <li class="has-text-success">2019.5.18 Versión 0.5 — Vista de partida con índice de movimientos. Se cargan 5000 partidas históricas de <a href="http://chess-db.com" target="_blank">chess-db.com</a>.</li>
-        <li class="has-text-info">2019.7.20 Versión 0.6 — Segmentación cliente-servidor.  Frontend Webpack + vue. API REST Node Express <span class="tag is-warning">in progress</span> <span class="tag is-danger">delayed</span></li>
-        <li class="has-text-info">2019.7.30 Versión 0.7 — Plataforma de juego online con posibilidad de invitar oponente via email y redes sociales. <span class="tag is-info">schedule</span></li>
+        <li class="has-text-success">2019.7.20 Versión 0.6 — Segmentación cliente-servidor.  Frontend Webpack + vue. API REST Node Express</li>
+        <li class="has-text-success">2019.7.30 Versión 0.7 — Plataforma de juego online con posibilidad de invitar oponente via email y redes sociales.</li>
+        <li class="has-text-success">2019.12.20 Versión 0.8 — Análisis de posiciones con Stockfish.</li>
+        <li class="has-text-success">2020.1.10 Versión 0.9 — Chat grupal y de juego.</li>
       </ul>
+
       <h4>¿Quieres participar?</h4>
       <p>Si leíste efectivamente hasta el Changelog tal vez sea hora de preguntarte, ... ¿estas interesado en colaborar voluntariamente con este proyecto? Si piensas que puede ser así este el momento para hacerlo.</p>
       <p><a id="colaborar" class="button is-success is-outlined" href="mailto:overlemonsoft@gmail.com?Subject=Hola, Quiero colaborar con el proyecto AjedrezEV">Quiero colaborar con AjedrezEV</a></p>

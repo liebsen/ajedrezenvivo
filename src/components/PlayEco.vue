@@ -6,7 +6,7 @@
       </div>
     </div>  
     <div class="container is-widescreen">
-      <div class="content column">
+      <div class="content column fadeIn">
         <div class="columns">
           <div class="column">
             <div class="board-container">

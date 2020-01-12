@@ -1,12 +1,6 @@
 <template>
   <div class="container is-widescreen">
-    <div class="content column">
-      <!--h3>
-        <span class="icon">
-          <span class="fas fa-traffic-light"></span> 
-        </span>
-        <span>Salón</span>
-      </h3-->
+    <div class="content column fadeIn">
       <div class="live-games" v-show="$root.matches.length">
         <h6>
           <span class="icon">
@@ -63,7 +57,7 @@
             <div>
               <div v-for="player in $root.players" class="field">
                 <a v-show="!player.observe" @click="play(player.code)" :title="'Invitar a ' + player.code">
-                  <span class="button is-text is-rounded is-info" :class="{ 'is-outlined' : player.code != $root.player.code }">
+                  <span class="button is-text is-rounded is-dark" :class="{ 'is-outlined' : player.code != $root.player.code }">
                     <span class="icon">
                       <span class="fas" :class="{ 'fa-user' : player.code != $root.player.code, 'fa-user-circle' : player.code === $root.player.code }"></span>
                     </span>
@@ -171,10 +165,12 @@
   export default {
     name: 'lobby',
     mounted: function(){
-      this.$socket.emit('lobby_chat', { 
-        sender: 'chatbot',
-        line: `Hola ${this.$root.player.code}, gracias por visitar AjedrezEV.` + (this.$root.player.observe ? ` Estas en modo observador. Para cambiarlo puedes ` : ` Antes de jugar puedes `) +  `<a href="/preferences" class="has-text-success">establecer tus preferencias</a>`
-      })      
+      setTimeout(() => {
+        this.$socket.emit('lobby_chat', { 
+          sender: 'chatbot',
+          line: `Hola ${this.$root.player.code}, gracias por visitar AjedrezEV.` + (this.$root.player.observe ? ` Estas en modo observador. Para cambiarlo puedes ` : ` Antes de jugar puedes `) +  `<a href="/preferences" class="has-text-success">establecer tus preferencias</a>`
+        })
+      },2000)
     },
     methods: {
       sendChat: function() {

@@ -1,5 +1,5 @@
 <template>
-  <section class="hero">
+  <section class="hero fadeIn">
     <div class="hero-body">
       <div class="container is-flex-column is-vertical">
         <h1 class="title">

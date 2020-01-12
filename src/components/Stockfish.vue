@@ -1,7 +1,7 @@
 <template>
   <div class="container is-widescreen">
     <div class="content" v-if="time.level < 0">
-      <div class="columns-centered">
+      <div class="columns-centered fadeIn">
         <div class="columns columns-bottom is-flex has-text-centered">
           <div class="column">
             <h3>Jugar contra Stockfish</h3>
@@ -19,23 +19,23 @@
             <h4>Nivel</h4>
             <div class="control has-text-centered column">
               <div class="buttons levels has-addons">
-                <button class="button is-rounded" @click="gameStart(0)">
+                <!--button class="button is-rounded" @click="gameStart(0)">
                   <span>Fácil</span>
-                </button>
-                <button class="button" @click="gameStart(4)">
+                </button-->
+                <button class="button is-rounded" @click="gameStart(4)">
                   <span>Novato</span>
                 </button>
-                <button class="button" @click="gameStart(6)">
+                <button class="button" @click="gameStart(8)">
                   <span>Principiante</span>
                 </button>
-                <button class="button" @click="gameStart(14)">
+                <button class="button" @click="gameStart(12)">
                   <span>Intermedio</span>
                 </button>
-                <button class="button" @click="gameStart(18)">
+                <button class="button" @click="gameStart(16)">
                   <span>Avanzado</span>
                 </button>
                 <button class="button is-rounded" @click="gameStart(20)">
-                  <span>Gran maestro</span>
+                  <span>GM</span>
                 </button>
               </div>
             </div>

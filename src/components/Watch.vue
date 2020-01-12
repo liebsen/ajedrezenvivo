@@ -6,18 +6,10 @@
           <div class="column">
             <div class="board-container">
               <h6 class="has-text-left black is-clickable" @click="gameFlip">
-                <span class="button is-small is-text">
-                  <span v-show="data.result==='0-1'" class="icon">
-                    <span class="fa fa-trophy has-text-warning"></span>
-                  </span>
-                  <span v-html="data.black" class="is-size-6"></span>
+                <span v-show="data.result==='0-1'" class="icon">
+                  <span class="fa fa-trophy has-text-warning"></span>
                 </span>
-                <span class="button is-small" :class="{ 'has-background-grey has-text-white' : timer.b > 10, 'has-background-danger has-text-white' : timer.b <= 10}">
-                  <span class="icon">
-                    <span class="fa fa-clock"></span>
-                  </span>
-                  <span v-html="tdisplay.b"></span>
-                </span>
+                <span v-html="data.black" class="is-size-6"></span>
               </h6>
               <div class="board preservefilter">
                 <div class="score-container">
@@ -26,23 +18,51 @@
                 <div id="board"></div>
               </div>
               <h6 class="has-text-right white is-clickable" @click="gameFlip">
-                <span class="button is-small" :class="{ 'has-background-white has-text-black' : timer.w > 10, 'has-background-danger has-text-white' : timer.w <= 10}">
-                  <span class="icon">
-                    <span class="fa fa-clock"></span>
-                  </span>
-                  <span v-html="tdisplay.w"></span>
-                </span>
-                <span class="button is-small is-text">
-                  <span v-html="data.white" class="is-size-6"></span>
-                  <span v-show="data.result==='1-0'" class="icon">
-                    <span class="fa fa-trophy has-text-warning"></span>
-                  </span>
+                <span v-html="data.white" class="is-size-6"></span>
+                <span v-show="data.result==='1-0'" class="icon">
+                  <span class="fa fa-trophy has-text-warning"></span>
                 </span>
               </h6>
             </div>
           </div>
           <div class="column">
             <div v-show="gameStarted">
+              <div class="columns is-hidden-mobile">
+                <div class="column has-text-right">
+                  <span class="button is-large" :class="{ 'has-background-white has-text-black' : timer.w > 10, 'has-background-danger has-text-white' : timer.w <= 10}">
+                    <span class="icon">
+                      <span class="fa fa-clock"></span>
+                    </span>
+                    <span v-html="tdisplay.w"></span>
+                  </span>
+                </div>
+                <div class="column has-text-left">
+                  <span class="button is-large" :class="{ 'has-background-grey has-text-white' : timer.b > 10, 'has-background-danger has-text-white' : timer.b <= 10}">
+                    <span class="icon">
+                      <span class="fa fa-clock"></span>
+                    </span>
+                    <span v-html="tdisplay.b"></span>
+                  </span>
+                </div>
+              </div>
+              <div class="columns is-hidden-tablet is-mobile">
+                <div class="column has-text-left">
+                  <span class="button is-small" :class="{ 'has-background-white has-text-black' : timer.w > 10, 'has-background-danger has-text-white' : timer.w <= 10}">
+                    <span class="icon">
+                      <span class="fa fa-clock"></span>
+                    </span>
+                    <span v-html="tdisplay.w"></span>
+                  </span>
+                </div>
+                <div class="column has-text-right">
+                  <span class="button is-small" :class="{ 'has-background-grey has-text-white' : timer.b > 10, 'has-background-danger has-text-white' : timer.b <= 10}">
+                    <span class="icon">
+                      <span class="fa fa-clock"></span>
+                    </span>
+                    <span v-html="tdisplay.b"></span>
+                  </span>
+                </div>
+              </div>
               <div class="columns">
                 <div class="column">
                   <strong v-html="ecode" class=""></strong> 
@@ -59,6 +79,7 @@
                   </button>
                 </div>
               </div> 
+
               <div v-if="Object.keys(data).length">
                 <div class="columns is-hidden-mobile">
                   <div class="chart-container preservefilter">

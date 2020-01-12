@@ -1,6 +1,6 @@
 <template>
   <div class="container is-widescreen">
-    <div class="content column">
+    <div class="content column fadeIn">
       <h3>
         <span class="icon">
           <span class="fas fa-fire"></span> 
