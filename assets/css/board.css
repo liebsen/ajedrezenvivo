@@ -88,18 +88,18 @@ $blue: #4183d7;
         .score-container {
             position: absolute;
             top: 0;
-            left: -8px;
-            width: 5px;
+            left: -9px;
+            width: 6px;
             height: 100%;
-            border-radius: 3px;
+            border-radius: 5px;
             .score {
-                -webkit-border-top-left-radius: 3px;
-                -webkit-border-top-right-radius: 3px;
-                -moz-border-radius-topleft: 3px;
-                -moz-border-radius-topright: 3px;
-                border-top-left-radius: 3px;
-                border-top-right-radius: 3px;
-                width: 5px;
+                -webkit-border-top-left-radius: 5px;
+                -webkit-border-top-right-radius: 5px;
+                -moz-border-radius-topleft: 5px;
+                -moz-border-radius-topright: 5px;
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+                width: 6px;
                 max-height: 49%;
                 height: 100%;
                 transition: max-height ease-in 0.25s;
