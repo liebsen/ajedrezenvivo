@@ -1,5 +1,5 @@
 $themes: bases, book, cases, chess24, classic, club, condal, glass, gothic, leipzig, light, marble, maya, modern, neo, newspaper, tigers, uscf, wood, eight_bit, lolz, neo_wood;
-$bgcolors: #f0134d, #ff6666, #2c786c, #004445, #333366, #015668, #4a69bb, #f65c78, #ff7315, #b52b65, #621055, #10316b, #f45905, #233714;
+$bgcolors: #f7d695, #7fcd91, #fddb3a, #bbe1fa, #52de97, #ccda46, #e7f0c3, #b2dffb, #ffd800, #e3f6f5, #e5d8bf, #f6cd90, #edb5f5, #ffcccc, #bbeaa6, #f6f078, #e7f3ee, #ffffea, #f0dd92, #61f2f5, #f2f6f5;
 
 @function random_theme() {
   @return nth($themes, random(length($themes)));
