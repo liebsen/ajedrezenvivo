@@ -1,9 +1,15 @@
+$themes: bases, book, cases, chess24, classic, club, condal, glass, gothic, leipzig, light, marble, maya, modern, neo, newspaper, tigers, uscf, wood, eight_bit, lolz, neo_wood;
+$bgcolors: #f0134d, #ff6666, #2c786c, #004445, #333366, #015668, #4a69bb, #f65c78, #ff7315, #b52b65, #621055, #10316b, #f45905, #233714;
 
-@function random_element($elements...) {
-  @return nth($elements, random(length($elements)))
+@function random_theme() {
+  @return nth($themes, random(length($themes)));
+}
+@function random_color() {
+  @return nth($bgcolors, random(length($bgcolors)));
 }
 
-$piece: random_element('bases', 'book', 'cases', 'chess24', 'classic', 'club', 'condal', 'glass', 'gothic', 'leipzig', 'light', 'marble', 'maya', 'modern', 'neo', 'newspaper', 'tigers', 'uscf', 'wood', 'eight_bit', 'lolz', 'neo_wood');
+$theme: random_theme();
+$color: random_color();
 
 #search .has-addons {
   margin-bottom: 1.25rem;
@@ -17,7 +23,7 @@ $piece: random_element('bases', 'book', 'cases', 'chess24', 'classic', 'club', '
   top: 60px;
   bottom: 0;
   padding: 0 2rem;
-  background-color: #2f89fc;
+  background-color: $color;
 }
 
 .area > .columns {
@@ -57,7 +63,7 @@ $piece: random_element('bases', 'book', 'cases', 'chess24', 'classic', 'club', '
   left: 25%;
   width: 140px;
   height: 140px;
-  background-image: url('/assets/img/chesspieces/' + $piece + '/wK.png');
+  background-image: url('/assets/img/chesspieces/' + $theme + '/wK.png');
   animation-delay: 5s;
 }
 
@@ -65,7 +71,7 @@ $piece: random_element('bases', 'book', 'cases', 'chess24', 'classic', 'club', '
   left: 10%;
   width: 180px;
   height: 180px;
-  background-image: url('/assets/img/chesspieces/' + $piece + '/wQ.png');
+  background-image: url('/assets/img/chesspieces/' + $theme + '/wQ.png');
   animation-delay: 1s;
   animation-duration: 12s;
 }
@@ -74,7 +80,7 @@ $piece: random_element('bases', 'book', 'cases', 'chess24', 'classic', 'club', '
   left: 70%;
   width: 90px;
   height: 90px;
-  background-image: url('/assets/img/chesspieces/' + $piece + '/wR.png');
+  background-image: url('/assets/img/chesspieces/' + $theme + '/wR.png');
   animation-delay: 7s;
 }
 
@@ -82,7 +88,7 @@ $piece: random_element('bases', 'book', 'cases', 'chess24', 'classic', 'club', '
   left: 40%;
   width: 100px;
   height: 100px;
-  background-image: url('/assets/img/chesspieces/' + $piece + '/wB.png');
+  background-image: url('/assets/img/chesspieces/' + $theme + '/wB.png');
   animation-delay: 15s;
   animation-duration: 18s;
 }
@@ -91,7 +97,7 @@ $piece: random_element('bases', 'book', 'cases', 'chess24', 'classic', 'club', '
   left: 65%;
   width: 80px;
   height: 80px;
-  background-image: url('/assets/img/chesspieces/' + $piece + '/wN.png');
+  background-image: url('/assets/img/chesspieces/' + $theme + '/wN.png');
   animation-delay: 11s;
 }
 
@@ -99,7 +105,7 @@ $piece: random_element('bases', 'book', 'cases', 'chess24', 'classic', 'club', '
   left: 75%;
   width: 110px;
   height: 110px;
-  background-image: url('/assets/img/chesspieces/' + $piece + '/wP.png');
+  background-image: url('/assets/img/chesspieces/' + $theme + '/wP.png');
   animation-delay: 12s;
 }
 
@@ -107,7 +113,7 @@ $piece: random_element('bases', 'book', 'cases', 'chess24', 'classic', 'club', '
   left: 35%;
   width: 140px;
   height: 140px;
-  background-image: url('/assets/img/chesspieces/' + $piece + '/bK.png');
+  background-image: url('/assets/img/chesspieces/' + $theme + '/bK.png');
   animation-delay: 2s;
 }
 
@@ -115,7 +121,7 @@ $piece: random_element('bases', 'book', 'cases', 'chess24', 'classic', 'club', '
   left: 50%;
   width: 100px;
   height: 100px;
-  background-image: url('/assets/img/chesspieces/' + $piece + '/bQ.png');
+  background-image: url('/assets/img/chesspieces/' + $theme + '/bQ.png');
   animation-delay: 10s;
   animation-duration: 45s;
 }
@@ -124,7 +130,7 @@ $piece: random_element('bases', 'book', 'cases', 'chess24', 'classic', 'club', '
   left: 20%;
   width: 90px;
   height: 90px;
-  background-image: url('/assets/img/chesspieces/' + $piece + '/bR.png');
+  background-image: url('/assets/img/chesspieces/' + $theme + '/bR.png');
   animation-delay: 6s;
   animation-duration: 35s;
 }
@@ -133,7 +139,7 @@ $piece: random_element('bases', 'book', 'cases', 'chess24', 'classic', 'club', '
   left: 85%;
   width: 150px;
   height: 150px;
-  background-image: url('/assets/img/chesspieces/' + $piece + '/bB.png');
+  background-image: url('/assets/img/chesspieces/' + $theme + '/bB.png');
   animation-delay: 3s;
   animation-duration: 11s;
 }
@@ -142,7 +148,7 @@ $piece: random_element('bases', 'book', 'cases', 'chess24', 'classic', 'club', '
   left: 15%;
   width: 80px;
   height: 80px;
-  background-image: url('/assets/img/chesspieces/' + $piece + '/bN.png');
+  background-image: url('/assets/img/chesspieces/' + $theme + '/bN.png');
   animation-delay: 8s;
   animation-duration: 11s;
 }
@@ -151,7 +157,7 @@ $piece: random_element('bases', 'book', 'cases', 'chess24', 'classic', 'club', '
   left: 50%;
   width: 160px;
   height: 160px;
-  background-image: url('/assets/img/chesspieces/' + $piece + '/bP.png');
+  background-image: url('/assets/img/chesspieces/' + $theme + '/bP.png');
   animation-delay: 4s;
   animation-duration: 11s;
 }
@@ -159,23 +165,19 @@ $piece: random_element('bases', 'book', 'cases', 'chess24', 'classic', 'club', '
 @keyframes emerge {
   0%{
     transform: translateY(0) rotate(0deg);
-    opacity: 1;
   }
 
   100%{
     transform: translateY(-1000px) rotate(720deg);
-    opacity: 0;
   }
 }
 
 @keyframes sink {
   0%{
     transform: translateY(0) rotate(720deg);
-    opacity: 1;
   }
 
   100%{
     transform: translateY(1000px) rotate(0deg);
-    opacity: 0;
   }
 }
