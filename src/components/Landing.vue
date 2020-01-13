@@ -9,7 +9,7 @@
             <h6></h6>
           </div>
           <div class="content is-hidden-tablet">
-            <h3 class="has-text-white"></a>Estudia, entrena y gana</h3>
+            <h2 class="has-text-white"></a>Estudia, entrena y gana</h2>
             <h6></h6>
           </div>
           <div class="has-text-centered">
@@ -46,7 +46,7 @@
           </div>
           <div class="columns is-vcentered has-text-centered is-hidden-mobile">
             <div class="column has-text-right">
-              <router-link class="button is-rounded is-outlined is-medium is-white" to="/lobby">
+              <router-link class="button is-rounded is-medium is-success" to="/lobby">
                 <span class="icon">
                   <span class="fas fa-user"></span>
                 </span> 
@@ -54,7 +54,7 @@
               </router-link>    
             </div>
             <div class="column has-text-left">
-              <router-link class="button is-rounded is-outlined is-medium is-white" to="/stockfish">
+              <router-link class="button is-rounded is-medium is-danger" to="/stockfish">
                 <span class="icon">
                   <span class="fas fa-server"></span>
                 </span> 
@@ -64,7 +64,7 @@
           </div>
           <div class="columns is-vcentered has-text-centered is-hidden-tablet">
             <div class="column">
-              <router-link class="button is-rounded is-outlined is-white" to="/lobby">
+              <router-link class="button is-rounded is-success" to="/lobby">
                 <span class="icon">
                   <span class="fas fa-user"></span>
                 </span> 
@@ -72,7 +72,7 @@
               </router-link>    
             </div>
             <div class="column">
-              <router-link class="button is-rounded is-outlined is-white" to="/stockfish">
+              <router-link class="button is-rounded is-danger" to="/stockfish">
                 <span class="icon">
                   <span class="fas fa-server"></span>
                 </span> 
