@@ -27,7 +27,7 @@
           </div>
           <div class="column">
             <div v-show="gameStarted">
-              <div class="columns is-hidden-mobile">
+              <div class="columns is-hidden-mobile preservefilter">
                 <div class="column has-text-right">
                   <span class="button is-large" :class="{ 'has-background-white has-text-black' : timer.w > 10, 'has-background-danger has-text-white' : timer.w <= 10}">
                     <span class="icon">
@@ -37,7 +37,7 @@
                   </span>
                 </div>
                 <div class="column has-text-left">
-                  <span class="button is-large" :class="{ 'has-background-grey has-text-white' : timer.b > 10, 'has-background-danger has-text-white' : timer.b <= 10}">
+                  <span class="button is-large" :class="{ 'has-background-black has-text-white' : timer.b > 10, 'has-background-danger has-text-white' : timer.b <= 10}">
                     <span class="icon">
                       <span class="fa fa-clock"></span>
                     </span>
@@ -45,7 +45,7 @@
                   </span>
                 </div>
               </div>
-              <div class="columns is-hidden-tablet is-mobile">
+              <div class="columns is-hidden-tablet is-mobile preservefilter">
                 <div class="column has-text-left">
                   <span class="button is-small" :class="{ 'has-background-white has-text-black' : timer.w > 10, 'has-background-danger has-text-white' : timer.w <= 10}">
                     <span class="icon">
@@ -55,7 +55,7 @@
                   </span>
                 </div>
                 <div class="column has-text-right">
-                  <span class="button is-small" :class="{ 'has-background-grey has-text-white' : timer.b > 10, 'has-background-danger has-text-white' : timer.b <= 10}">
+                  <span class="button is-small" :class="{ 'has-background-black has-text-white' : timer.b > 10, 'has-background-danger has-text-white' : timer.b <= 10}">
                     <span class="icon">
                       <span class="fa fa-clock"></span>
                     </span>
