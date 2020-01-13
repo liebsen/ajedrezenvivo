@@ -303,7 +303,7 @@
               axios.post( this.$root.endpoint + '/create', {
                 white: (t.playerColor==='white'?data.asker:data.player),
                 black: (t.playerColor==='white'?data.player:data.asker),
-                minutes: 10,
+                minutes: t.data.minutes,
                 broadcast: true
               } ).then((response) => {
                 if(response.data.status === 'success'){
