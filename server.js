@@ -16,9 +16,15 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use(express.static(__dirname + '/dist'/*,{
-    maxAge: "1d"
-}*/))
+app.use(express.static(__dirname + '/dist',{
+    maxAge: "1d",
+    cacheControl: true,
+    setHeaders: function (res, path) {
+        if (res.getHeader('Cache-Control')) {
+        	res.removeHeader('Cache-Control');
+        }
+    }
+}))
 
 app.get('*', function(req, res){
 	res.sendFile('index.html', { root: __dirname + '/dist' })
