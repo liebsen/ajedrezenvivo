@@ -11,9 +11,11 @@ app.use(sslRedirect())
 app.use(bodyParser.json())
 app.set('etag', false)
 
-app.use((req, res, next) => {
-  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private')
-  next()
+app.use(function(req, res, next) {
+	if(req.url.indexOf('/assets/') === 0){
+		res.header("Expires", new Date(Date.now() + 2592000000).toUTCString())
+	}
+	next()
 })
 
 app.use(express.static(__dirname + '/dist',{
@@ -22,14 +24,10 @@ app.use(express.static(__dirname + '/dist',{
 
 app.get('*', function(req, res){
 	res.sendFile('index.html', { root: __dirname + '/dist' })
-  if (req.url.indexOf("/assets/") === 0) {
-    res.setHeader("Cache-Control", "public, max-age=2592000");
-    res.setHeader("Expires", new Date(Date.now() + 2592000000).toUTCString());
-  }
 })
 
 app.set('port', process.env.PORT || 3000)
 
 var server = app.listen(app.get('port'), function() {
-  console.log('Express server listening at http://localhost:' + server.address().port);
+	console.log('Express server listening at http://localhost:' + server.address().port)
 })
