@@ -13,8 +13,7 @@ app.set('etag', false)
 
 app.use(function(req, res, next) {
 	//if(req.url.indexOf('/assets/') === 0){
-		res.removeHeader('Cache-Control')
-		res.header("Expires", new Date(Date.now() + 2592000000).toUTCString())
+	res.header("Expires", new Date(Date.now() + 2592000000).toUTCString())
 	//}
 	next()
 })
