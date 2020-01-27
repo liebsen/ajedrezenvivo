@@ -219,14 +219,22 @@
 }
 
 .newspaper {
+    .square-55d63 {
+        box-shadow: 0 0 1px #4d4d4d;
+    }
     .white-1e1d7, .bar, .moveRow, .moveRow a, .movew {
         background-color: #cdcbc2;
         color:#4d4d4d;
     }
-    .black-3c85d, .bar-progress, .moveb, .moveb a {
-        background: repeating-linear-gradient(-45deg, #cdcbc2, #cdcbc2 2px, #4d4d4d 4px, #4d4d4d 4px);
-        box-shadow: 0 0 1px #4d4d4d inset;
+    .black-3c85d {
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAOUlEQVQYV43MQQ4AIAgDQfv/R4OYaFChsOfJYvQSNJxMgwouZDMGD2LwQhn8UARD9MIUeUjRhiUyqPw8Cgq7TDlmAAAAAElFTkSuQmCC);
+        background-size: 5px;
+        background-color: #cdcbc2;
         color:#4d4d4d;
+    }
+    .bar-progress, .moveb, .moveb a {
+        background-color: #4d4d4d;
+        color: #cdcbc2;
     }
     .score-container {
         background-color: #cdcbc2;

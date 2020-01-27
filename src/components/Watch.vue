@@ -71,7 +71,7 @@
                 <div class="column has-text-left preservefilter">
                   <button @click="gameFlip()" class="button is-small is-rounded is-info" title="Girar tablero">
                     <span class="icon">
-                      <span class="fa fa-redo"></span>
+                      <span class="fa fa-retweet"></span>
                     </span>
                   </button>
                   <button @click="showPGN()" class="button is-small is-rounded is-info" v-if="pgnIndex.length" title="Mostrar PGN">
