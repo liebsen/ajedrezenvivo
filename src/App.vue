@@ -1,14 +1,14 @@
 <template>
   <div>
     <svg v-show="$root.loading" class="spinner-container" viewBox="0 0 44 44">
-        <circle class="path" cx="22" cy="22" r="20" fill="none" stroke-width="4"></circle>
+      <circle class="path" cx="22" cy="22" r="20" fill="none" stroke-width="4"></circle>
     </svg>
   
     <div class="menu hidden-loading slideDown preservefilter">
       <div class="menu-container is-flex columns is-vcentered">
         <div class="column has-text-left">
           <router-link class="menu-logo" to="/">
-            <img src="/assets/img/logo.png" alt="AjedrezEV">
+            <img src="/static/img/logo.png" alt="AjedrezEV">
           </router-link>
         </div>
         <div class="column menu-primary has-text-right">
@@ -20,9 +20,6 @@
               </span>
               <span v-html="$root.player.code"></span>
             </router-link>
-            <!--router-link v-show="$root.players.length > 1" to="/lobby" class="button is-white is-outlined is-rounded fadeIn" title="Jugadores esperando invitación">
-              <span v-html="$root.players.length - 1"></span>
-            </router-link-->
           </div>
           <div class="is-hidden-tablet">
             <router-link to="/preferences" class="button is-small is-rounded">
@@ -32,9 +29,6 @@
               </span>
               <span v-html="$root.player.code"></span>
             </router-link>
-            <!--router-link v-show="$root.players.length > 1" to="/lobby" class="button is-small is-warning is-rounded fadeIn">
-              <span v-html="$root.players.length - 1"></span>
-            </router-link-->
           </div>
         </div>
         <div class="menu-burger">
@@ -49,7 +43,7 @@
       <div class="menu-items">
         <div>
           <router-link class="has-text-centered" to="/">
-            <img src="/assets/img/logo.png">
+            <img src="/static/img/logo.png">
           </router-link>
           <div class="menu-links has-text-left">
             <router-link to="/eco">

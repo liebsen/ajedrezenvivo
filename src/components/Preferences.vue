@@ -108,7 +108,7 @@
                     <input v-model="data.observe" class="is-checkradio has-background-color is-success" id="observe" type="checkbox">
                     <label class="label" for="observe">Observador</label>
                     <p class="notification is-warning">
-                      <small>No disponible para jugar en línea.</small>
+                      <small>No disponible para jugar en línea</small>
                     </p>
                   </div>
                 </div>
@@ -117,7 +117,7 @@
                     <input v-model="data.autoaccept" class="is-checkradio has-background-color is-success" id="autoaccept" type="checkbox">
                     <label class="label" for="autoaccept">Auto-aceptar invitaciones</label>
                     <p class="notification is-warning">
-                      <small>Aceptar automáticamente todas las invitaciones que reciba para jugar en línea.</small>
+                      <small>Aceptar automáticamente todas las invitaciones para jugar</small>
                     </p>
                   </div>
                 </div>
@@ -214,7 +214,7 @@
         this.game = new Chess()
 
         if(this.data.pieces){
-          this.boardCfg.pieceTheme = '/assets/img/chesspieces/' + this.data.pieces + '/{piece}.png'
+          this.boardCfg.pieceTheme = '/static/img/chesspieces/' + this.data.pieces + '/{piece}.png'
           this.boardColor = this.data.board
           this.pieceColor = this.data.pieces
         }
@@ -241,7 +241,7 @@
           showErrors:true,
           position: 'start',
           draggable: false,
-          pieceTheme:'/assets/img/chesspieces/classic/{piece}.png'
+          pieceTheme:'/static/img/chesspieces/classic/{piece}.png'
         },
         data:{},
         saved:{},

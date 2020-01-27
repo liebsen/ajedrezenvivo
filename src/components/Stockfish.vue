@@ -151,7 +151,7 @@
         document.getElementsByTagName("head")[0].appendChild(script_tag);
       }
 
-      axios.get('/assets/json/eco_es.json')
+      axios.get('/static/json/eco_es.json')
         .then((response)=>{
         this.eco = response.data
       })
@@ -299,7 +299,7 @@
             t.boardCfg.draggable = false 
           }
           if(pref.pieces){
-            t.boardCfg.pieceTheme = '/assets/img/chesspieces/' + pref.pieces + '/{piece}.png'
+            t.boardCfg.pieceTheme = '/static/img/chesspieces/' + pref.pieces + '/{piece}.png'
             t.boardColor = pref.board
           }
 
@@ -723,7 +723,7 @@
           onDragStart: this.onDragStart,
           onDrop: this.onDrop,
           onSnapEnd: this.onSnapEnd,
-          pieceTheme:'/assets/img/chesspieces/classic/{piece}.png'
+          pieceTheme:'/static/img/chesspieces/classic/{piece}.png'
         },
         chart:{
           width: 100,

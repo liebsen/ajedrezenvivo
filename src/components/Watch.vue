@@ -131,7 +131,7 @@
     name: 'watch',
     mounted: function(){
       window.app = this
-      axios.get('/assets/json/eco_es.json')
+      axios.get('/static/json/eco_es.json')
         .then((response) => {
           this.eco = response.data
           this.gameStart()
@@ -467,11 +467,11 @@
             var cfg = {
               draggable: false,
               position: pos,
-              pieceTheme:'/assets/img/chesspieces/wikipedia/{piece}.png'
+              pieceTheme:'/static/img/chesspieces/wikipedia/{piece}.png'
             }
 
             if(pref.pieces){
-              cfg.pieceTheme = '/assets/img/chesspieces/' + pref.pieces + '/{piece}.png'
+              cfg.pieceTheme = '/static/img/chesspieces/' + pref.pieces + '/{piece}.png'
               this.boardColor = pref.board
             }
 

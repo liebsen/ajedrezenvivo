@@ -85,7 +85,7 @@
       search: function() {
         this.$root.processing = true
         this.data = []
-        axios.get( '/assets/json/eco_es.json').then((response) => {
+        axios.get( '/static/json/eco_es.json').then((response) => {
           const query = this.query.toLowerCase()
           if(query.length){
             response.data.forEach((item) => {

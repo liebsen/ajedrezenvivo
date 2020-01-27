@@ -52,6 +52,37 @@ new Vue({
     }
   },
   mounted () {
+
+    const stored = JSON.parse(localStorage.getItem('player'))||{}
+
+    var preferences = { 
+      code: generateRandomCode(6), 
+      observe: false,
+      autoaccept: false,
+      strongnotification: false,
+      darkmode: false,
+      sound: true,
+      pieces: 'classic',
+      board:'classic'
+    }
+
+    if(Object.keys(stored).length){
+      if(!stored.observe){
+        stored.observe = preferences.observe
+      }
+      preferences = stored
+    } else {
+      localStorage.setItem('player',JSON.stringify(preferences))
+    }
+
+    if(preferences.darkmode){
+      document.documentElement.classList.add('dark-mode')
+    }
+    
+    this.player = preferences
+    this.$socket.emit('preferences', preferences)
+    this.documentTitle = document.title 
+    this.loading = false
     this.isOnline = window.navigator.onLine
     document.querySelector('body').addEventListener('click', function (event) {
       var target = event.target
@@ -138,39 +169,6 @@ new Vue({
       snackbar('error',"📶 Te desconectaste. Verifica tu conexión a internet ")
     }
   },
-  created: function() {
-    const savedd = localStorage.getItem('player')
-    const saved = JSON.parse(savedd)
-
-    var preferences = { 
-      code: generateRandomCode(6), 
-      observe: false,
-      autoaccept: false,
-      strongnotification: false,
-      darkmode: false,
-      sound: true,
-      pieces: 'classic',
-      board:'classic'
-    }
-
-    if(saved){
-      if(!saved.observe){
-        saved.observe = preferences.observe
-      }
-      preferences = saved
-    } else {
-      localStorage.setItem('player',JSON.stringify(preferences))
-    }
-
-    if(preferences.darkmode){
-      document.documentElement.classList.add('dark-mode')
-    }
-    
-    this.player = preferences
-    this.$socket.emit('preferences', preferences)
-    this.documentTitle = document.title 
-    this.loading = false
-  },
   sockets: {
     lobby_chat: function(data){
       const chatbox = document.querySelector(".lobby_chat")
@@ -197,10 +195,8 @@ new Vue({
         document.title = '(' + (available - 1) + ') ' + this.documentTitle
         if(this.$route.name === 'lobby'){
           snackbar('default','Hay ' + (available - 1) +  ' jugador' + (available > 2 ? 'es' : '') + ' esperando invitación ')
-          //playSound('pop.mp3')
         }
       } else {
-        //snackbar('default','No hay jugadores en este momento')       
         document.title = this.documentTitle
       }        
       this.players = JSON.parse(JSON.stringify(data))
@@ -345,14 +341,14 @@ new Vue({
       return new Promise(function(resolve,reject){
 
         var pos = 'start'
-        var pieces = '/assets/img/chesspieces/classic/{piece}.png'
+        var pieces = '/static/img/chesspieces/classic/{piece}.png'
 
         if(data.fen){
           pos = data.fen
         }
 
         if(t.player.pieces){
-          pieces = '/assets/img/chesspieces/' + t.player.pieces + '/{piece}.png'
+          pieces = '/static/img/chesspieces/' + t.player.pieces + '/{piece}.png'
           t.boardColor = t.player.board
         }
 

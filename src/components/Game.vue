@@ -125,7 +125,7 @@
         this.speed = parseInt(localStorage.getItem('speed'))
       }
 
-      axios.get('/assets/json/eco_es.json')
+      axios.get('/static/json/eco_es.json')
         .then((response) => {
           this.eco = response.data
           this.gameStart()
@@ -297,7 +297,7 @@
             this.game = new Chess()
 
             if(pref.pieces){
-              this.boardCfg.pieceTheme = '/assets/img/chesspieces/' + pref.pieces + '/{piece}.png'
+              this.boardCfg.pieceTheme = '/static/img/chesspieces/' + pref.pieces + '/{piece}.png'
               this.boardColor = pref.board
             }
 
@@ -588,7 +588,7 @@
           position: 'start',
           draggable: false,
           moveSpeed:250,
-          pieceTheme:'/assets/img/chesspieces/wikipedia/{piece}.png'
+          pieceTheme:'/static/img/chesspieces/wikipedia/{piece}.png'
         },
         chart:{
           width: 100,

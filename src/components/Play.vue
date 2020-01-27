@@ -209,7 +209,7 @@
       t.$root.loading = true
       window.app = this
       window.addEventListener('beforeunload', t.beforeunload)
-      axios.get('/assets/json/eco_es.json')
+      axios.get('/static/json/eco_es.json')
         .then((response)=>{
           this.eco = response.data
         })
@@ -502,7 +502,7 @@
           var cfg = {
             draggable: true,
             position: pos,
-            pieceTheme:'/assets/img/chesspieces/wikipedia/{piece}.png'
+            pieceTheme:'/static/img/chesspieces/wikipedia/{piece}.png'
           }
 
           if(!t.data.result){
@@ -512,7 +512,7 @@
           }
 
           if(pref.pieces){
-            cfg.pieceTheme = '/assets/img/chesspieces/' + pref.pieces + '/{piece}.png'
+            cfg.pieceTheme = '/static/img/chesspieces/' + pref.pieces + '/{piece}.png'
             t.boardColor = pref.board
           }
 

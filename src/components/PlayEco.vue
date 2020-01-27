@@ -293,7 +293,7 @@
       },    
       gameStart: function(){
         this.$root.loading = true
-        axios.get( '/assets/json/eco_es.json').then((res) => {
+        axios.get( '/static/json/eco_es.json').then((res) => {
           if(!Object.keys(res.data).length) return location.href="/404"
           var game = null
           const pref = JSON.parse(localStorage.getItem('player'))||{}
@@ -316,7 +316,7 @@
             this.game = new Chess()
 
             if(pref.pieces){
-              this.boardCfg.pieceTheme = '/assets/img/chesspieces/' + pref.pieces + '/{piece}.png'
+              this.boardCfg.pieceTheme = '/static/img/chesspieces/' + pref.pieces + '/{piece}.png'
               this.boardColor = pref.board
             }
 
@@ -503,7 +503,7 @@
           position: 'start',
           draggable: false,
           moveSpeed:250,
-          pieceTheme:'/assets/img/chesspieces/wikipedia/{piece}.png'
+          pieceTheme:'/static/img/chesspieces/wikipedia/{piece}.png'
         },
         boardColor:'classic',
         orientation:null,
