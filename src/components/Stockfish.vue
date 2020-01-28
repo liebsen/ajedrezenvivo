@@ -133,7 +133,7 @@
 <script>
   import axios from 'axios'
   import Chess from 'chess.js'
-  import Chessboard from '../../assets/js/chessboard'
+  import Chessboard from '../../static/js/chessboard'
   import snackbar from '../components/Snackbar'
   import playSound from '../components/playSound'
   import swal from 'sweetalert'
@@ -146,7 +146,7 @@
       if (!Worker || (location && location.protocol === "file:")) {
         var script_tag  = document.createElement("script");
         script_tag.type ="text/javascript";
-        script_tag.src  = "/assets/js/stockfish.js";
+        script_tag.src  = "/static/js/stockfish.js";
         script_tag.onload = init;
         document.getElementsByTagName("head")[0].appendChild(script_tag);
       }
@@ -217,7 +217,7 @@
         var t = this
         const pref = JSON.parse(localStorage.getItem('player'))||{}
         
-        t.engine = typeof STOCKFISH === "function" ? STOCKFISH() : new Worker('/assets/js/stockfish.js');
+        t.engine = typeof STOCKFISH === "function" ? STOCKFISH() : new Worker('/static/js/stockfish.js');
         t.engineStatus = {};
 
         t.engine.onmessage = function(event) {

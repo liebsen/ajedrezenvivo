@@ -139,7 +139,7 @@
 <script>
 
   import Chess from 'chess.js'
-  import Chessboard from '../../assets/js/chessboard'
+  import Chessboard from '../../static/js/chessboard'
   import snackbar from '../components/Snackbar'
   import playSound from '../components/playSound'
 

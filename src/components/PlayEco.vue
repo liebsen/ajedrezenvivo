@@ -78,7 +78,7 @@
 
   import axios from 'axios'
   import Chess from 'chess.js'
-  import Chessboard from '../../assets/js/chessboard'
+  import Chessboard from '../../static/js/chessboard'
   import snackbar from '../components/Snackbar'
   import swal from 'sweetalert'
   import playSound from '../components/playSound'
@@ -342,7 +342,7 @@
           },2000)
 
 
-          this.evaler = typeof STOCKFISH === "function" ? STOCKFISH() : new Worker('/assets/js/stockfish.js')
+          this.evaler = typeof STOCKFISH === "function" ? STOCKFISH() : new Worker('/static/js/stockfish.js')
 
           this.evaler.onmessage = function(event) {
             var t = window.app

@@ -11,12 +11,11 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.19.0",
     "bulma": "^0.8.0",
     "bulma-checkradio": "^1.1.1",
     "chess.js": "^0.10.2",
     "compression": "^1.7.4",
-    "copy-webpack-plugin": "^5.1.1",
     "express": "^4.16.4",
     "fs": "0.0.1-security",
     "heroku-ssl-redirect": "0.0.4",
@@ -40,6 +39,7 @@
     "babel-eslint": "~10.0",
     "babel-loader": "~8.0",
     "compression-webpack-plugin": "~2.0",
+    "copy-webpack-plugin": "^5.1.1",
     "cross-env": "~5.2",
     "css-loader": "~2.1",
     "eslint": "~5.16",

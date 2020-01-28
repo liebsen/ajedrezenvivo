@@ -293,11 +293,3 @@
     }
   }
 </script>
-
-<style>
-  .is-social-box {
-    max-width: 320px;
-    margin: 0 auto;
-  }
-
-</style>

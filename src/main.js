@@ -6,16 +6,16 @@ import swal from 'sweetalert'
 import App from './App.vue'
 import router from './router'
 import Chess from 'chess.js'
-import Chessboard from '../assets/js/chessboard'
+import Chessboard from '../static/js/chessboard'
 import snackbar from './components/Snackbar';
 import playSound from './components/playSound'
-import '../assets/js/fontawesome_all.js'
+import '../static/js/fontawesome_all.js'
 
 const endpoint='https://ajedrezenvivoapi.herokuapp.com'
 //const endpoint='https://ajedrezenvivoapidev.herokuapp.com'
 
-require('../assets/css/main.scss')
-require('../assets/css/chessboard.css')
+require('../static/css/main.scss')
+require('../static/css/chessboard.scss')
 
 Vue.use(new VueSocketIO({
   //debug: true,

@@ -197,7 +197,7 @@
 <script>
   import axios from 'axios'
   import Chess from 'chess.js'
-  import Chessboard from '../../assets/js/chessboard'
+  import Chessboard from '../../static/js/chessboard'
   import snackbar from '../components/Snackbar'
   import playSound from '../components/playSound'
   import swal from 'sweetalert'
@@ -597,7 +597,7 @@
           t.gameStart()
           t.$socket.emit('resume',this.$root.player)
 
-          t.evaler = typeof STOCKFISH === "function" ? STOCKFISH() : new Worker('/assets/js/stockfish.js')
+          t.evaler = typeof STOCKFISH === "function" ? STOCKFISH() : new Worker('/static/js/stockfish.js')
 
           t.evaler.onmessage = function(event) {
             var t = window.app
