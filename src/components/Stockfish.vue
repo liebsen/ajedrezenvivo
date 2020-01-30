@@ -69,55 +69,57 @@
           </div>
         </div>
         <div class="column">
-          <div class="columns" v-show="pgnIndex.length > 0">
-            <div class="column">
-              <strong v-html="ecode"></strong> 
-              <span v-html="opening" class="has-text-black"></span> 
-            </div>
-            <div class="column has-text-left preservefilter">
-              <button @click="gameRestart()" class="button is-small is-rounded is-danger" v-if="!announced_game_over" title="Abandonar partida">
-                <span class="icon has-text-white">
-                  <span class="fas fa-flag"></span>
-                </span>
-              </button>
-              <button @click="showHint()" class="button is-small is-rounded is-warning" v-if="pgnIndex.length && !announced_game_over" title="Mostrar pista">
-                <span class="icon has-text-white">
-                  <span class="fas fa-question-circle"></span>
-                </span>
-              </button>
-              <button @click="gameRestart()" class="button is-small is-rounded is-success" v-if="announced_game_over" title="Jugar de nuevo">
-                <strong>REMATCH</strong>
-              </button>
-              <button @click="showPGN()" class="button is-small is-rounded is-info" v-if="pgnIndex.length" title="Mostrar PGN">
-                <strong>PGN</strong>
-              </button>
-            </div>
-          </div>  
-          <div class="columns is-hidden-mobile">
-            <div class="chart-container preservefilter">
-              <div :class="playerColor">
-                <div class="chart" v-show="pgnIndex.length > 1"></div>
+          <div class="board-assistant">
+            <div class="columns" v-show="pgnIndex.length > 0">
+              <div class="column">
+                <strong v-html="ecode"></strong> 
+                <span v-html="opening" class="has-text-black"></span> 
+              </div>
+              <div class="column has-text-left preservefilter">
+                <button @click="gameRestart()" class="button is-small is-rounded is-danger" v-if="!announced_game_over" title="Abandonar partida">
+                  <span class="icon has-text-white">
+                    <span class="fas fa-flag"></span>
+                  </span>
+                </button>
+                <button @click="showHint()" class="button is-small is-rounded is-warning" v-if="pgnIndex.length && !announced_game_over" title="Mostrar pista">
+                  <span class="icon has-text-white">
+                    <span class="fas fa-question-circle"></span>
+                  </span>
+                </button>
+                <button @click="gameRestart()" class="button is-small is-rounded is-success" v-if="announced_game_over" title="Jugar de nuevo">
+                  <strong>REMATCH</strong>
+                </button>
+                <button @click="showPGN()" class="button is-small is-rounded is-info" v-if="pgnIndex.length" title="Mostrar PGN">
+                  <strong>PGN</strong>
+                </button>
+              </div>
+            </div>  
+            <div class="columns is-hidden-mobile">
+              <div class="chart-container preservefilter">
+                <div :class="playerColor">
+                  <div class="chart" v-show="pgnIndex.length > 1"></div>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="columns is-hidden-mobile">
-            <div class="movesTableContainer preservefilter">
-              <div class="movesTable">
-                <div class="moveRow" v-for="(move,index) in pgnIndex">
-                  <div class="moveNumCell" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
-                    <span v-html="(index+1)"></span>
-                  </div>
+            <div class="columns is-hidden-mobile">
+              <div class="movesTableContainer preservefilter">
+                <div class="movesTable">
+                  <div class="moveRow" v-for="(move,index) in pgnIndex">
+                    <div class="moveNumCell" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
+                      <span v-html="(index+1)"></span>
+                    </div>
 
-                  <div class="moveCell moveSAN movew" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
-                    <a class="moveindex">
-                      <span v-html="move.white"></span>
-                    </a>
-                  </div>
+                    <div class="moveCell moveSAN movew" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
+                      <a class="moveindex">
+                        <span v-html="move.white"></span>
+                      </a>
+                    </div>
 
-                  <div class="moveCell moveSAN moveb" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
-                    <a class="moveindex">
-                      <span v-html="move.black"></span>
-                    </a>
+                    <div class="moveCell moveSAN moveb" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
+                      <a class="moveindex">
+                        <span v-html="move.black"></span>
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
