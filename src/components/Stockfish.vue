@@ -1,6 +1,6 @@
 <template>
   <div class="container is-widescreen">
-    <div class="content" v-if="time.level < 0">
+    <div class="content" v-show="time.level < 0">
       <div class="columns-centered fadeIn">
         <div class="columns columns-bottom is-flex has-text-centered">
           <div class="column">
@@ -43,7 +43,7 @@
         </div>
       </div>
     </div>
-    <div class="content column" v-else>
+    <div class="content column" v-show="time.level > -1">
       <div class="columns" :class="boardColor">
         <div class="column">
           <div class="board-container">
@@ -69,7 +69,7 @@
           </div>
         </div>
         <div class="column">
-          <div class="columns" v-if="pgnIndex.length > 0">
+          <div class="columns" v-show="pgnIndex.length > 0">
             <div class="column">
               <strong v-html="ecode"></strong> 
               <span v-html="opening" class="has-text-black"></span> 
@@ -159,17 +159,18 @@
     methods: {
       gameRestart: function() {
         var t = this
+        //document.querySelector('.chart svg').remove()
         t.game.reset()
         t.announced_game_over = false
         t.pgnIndex = []
+        t.time.level = -1
         t.ecode = ''
         t.opening = ''
         t.score = 0.10
         t.vscore = 49
         t.stockfishMoved = false
-        document.querySelector('.chart svg').remove()
         t.chart.values = []
-        t.gameStart(t.time.level)
+        t.gameStart(-1)
       },
       showPGN:function(pgn){
         var pgn = this.game.pgn() + ' ' + (this.data.result ? this.data.result : '')
@@ -293,6 +294,7 @@
 
         setTimeout(() => {
           t.boardEl = document.getElementById('board')
+          t.$root.fullscreenBoard()
           t.game = new Chess()
 
           if(window.innerWidth < 789){
@@ -320,6 +322,7 @@
             t.board.resize()
             t.highlightLastMove()
             t.boardTaps()
+            t.$root.fullscreenBoard()
           })
 
           t.$root.loading = false
@@ -628,7 +631,7 @@
           difficulty_slider;
         
         if (skill < 0) {
-          skill = 0;
+          return 
         }
         if (skill > 20) {
           skill = 20;

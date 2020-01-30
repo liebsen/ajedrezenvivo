@@ -457,6 +457,7 @@
 
           setTimeout(() => {
             this.boardEl = document.getElementById('board')
+            this.$root.fullscreenBoard()
             this.game = new Chess()
             var pos = 'start'
 
@@ -485,6 +486,7 @@
             $(window).resize(() => {
               this.board.resize()
               this.highlightLastMove()
+              this.$root.fullscreenBoard()
             })
 
             playSound('game-start.mp3')

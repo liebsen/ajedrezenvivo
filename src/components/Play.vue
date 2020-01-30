@@ -525,12 +525,14 @@
           }
 
           t.boardEl = document.getElementById('board')
+          t.$root.fullscreenBoard()
           t.board = Chessboard('board', cfg)      
           t.board.orientation(t.playerColor)
 
           $(window).resize(() => {
             t.board.resize()
             t.highlightLastMove()
+            t.$root.fullscreenBoard()
             t.boardTaps()
           })
 

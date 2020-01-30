@@ -313,6 +313,7 @@
 
           setTimeout(() => {
             this.boardEl = document.getElementById('board')
+            this.$root.fullscreenBoard()
             this.game = new Chess()
 
             if(pref.pieces){
@@ -326,6 +327,7 @@
             $(window).resize(() => {
               this.board.resize()
               this.highlightLastMove()
+              this.$root.fullscreenBoard()
             })
 
             playSound('game-start.mp3')

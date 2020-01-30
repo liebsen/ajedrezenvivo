@@ -301,11 +301,13 @@
               this.boardColor = pref.board
             }
 
+            this.$root.fullscreenBoard()
             this.board = Chessboard('board', this.boardCfg)
             this.orientation = this.board.orientation()
 
             $(window).resize(() => {
               this.board.resize()
+              this.$root.fullscreenBoard()
               this.highlightLastMove()
             })
 
