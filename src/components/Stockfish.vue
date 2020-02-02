@@ -370,10 +370,10 @@
                 // illegal move
                 if (move === null) {
                   t.removeHighlight()
-                  t.moveFrom = square
-                  if(src){
-                    target.classList.add('highlight-move')
-                  }
+                  //t.moveFrom = square
+                  //if(src){
+                    //target.classList.add('highlight-move')
+                  //}
                   return 'snapback'
                 }
 
