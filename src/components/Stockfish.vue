@@ -44,7 +44,7 @@
       </div>
     </div>
     <div class="content column" v-show="time.level > -1">
-      <div class="columns" :class="boardColor">
+      <div class="columns fadeIn" :class="boardColor">
         <div class="column">
           <div class="board-container">
             <h6 class="has-text-left black">
@@ -174,7 +174,7 @@
         t.vscore = 49
         t.stockfishMoved = false
         t.chart.values = []
-        t.gameStart(-1)
+        //t.gameStart(-1)
       },
       showPGN:function(pgn){
         var pgn = this.game.pgn() + ' ' + (this.data.result ? this.data.result : '')
@@ -336,7 +336,8 @@
       },   
       boardTaps:function(){
         var t = this
-        var events = ['mousedown', 'touchstart']
+        var events = ['mousedown', 'click','touchstart']
+
         document.querySelectorAll('.square-55d63').forEach(item => {
           events.forEach(event => {
             item.addEventListener(event, element => {

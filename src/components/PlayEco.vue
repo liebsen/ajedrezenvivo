@@ -7,7 +7,7 @@
     </div>  
     <div class="container is-widescreen">
       <div class="content column fadeIn">
-        <div class="columns">
+        <div class="columns fadeIn">
           <div class="column">
             <div class="board-container">
               <div class="board preservefilter">

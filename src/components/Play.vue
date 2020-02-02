@@ -5,7 +5,7 @@
     </div>  
     <div class="game-container" v-show="!$root.loading">
       <div class="container is-widescreen">
-        <div class="content column">
+        <div class="content column fadeIn">
           <div class="columns">
             <div class="column">
               <div class="board-container">
@@ -707,7 +707,8 @@
       },
       boardTaps:function(){
         var t = this
-        var events = ['mousedown', 'touchstart']
+        var events = ['mousedown', 'click','touchstart']
+
         document.querySelectorAll('.square-55d63').forEach(item => {
           events.forEach(event => {
             item.addEventListener(event, element => {
