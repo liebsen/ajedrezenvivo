@@ -37,10 +37,10 @@
             </div>
           </div>
           <div class="column">
-            <div v-if="Object.keys(data).length">
+            <div class="board-assistant" v-if="Object.keys(data).length">
               <div class="columns">
                 <div class="column">
-                  <strong v-html="ecode" class=""></strong>&nbsp;
+                  <strong v-html="ecode" class=""></strong>
                   <span v-html="opening" class="has-text-black"></span>
                 </div>
                 <div class="column has-text-left">

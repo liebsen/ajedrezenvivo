@@ -19,7 +19,7 @@
             </div>
           </div>
           <div class="column">
-            <div v-if="Object.keys(data).length">
+            <div class="board-assistant" v-if="Object.keys(data).length">
               <div class="columns">
                 <div class="column">
                   <strong v-html="data.eco" class=""></strong>

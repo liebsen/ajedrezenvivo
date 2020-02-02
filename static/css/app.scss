@@ -300,8 +300,8 @@ hr {
 .menu.fs .menu-bg {
   -webkit-transform: translate3d(50%, -50%, 0);
           transform: translate3d(50%, -50%, 0);
-  width: 200vw;
-  height: 200vw;
+  width: 300vw;
+  height: 300vw;
 }
 
 .menu-burger {
@@ -380,7 +380,6 @@ hr {
 
 .menu.fs .menu-items div {
   opacity: 1;
-  /*margin-top: 75px;*/
 }
 
 /* nightmode */
@@ -888,8 +887,8 @@ table {
 
 @media screen and (max-width: 440px) {
  .menu.fs .menu-bg {
-   width: 200vh;
-   height: 200vh;
+   width: 300vh;
+   height: 300vh;
  }
 }
 

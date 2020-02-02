@@ -54,14 +54,14 @@
               </div>
             </div>
             <div class="column">
-              <div>
+              <div class="board-assistant">
                 <div class="columns is-hidden-mobile preservefilter">
                   <div class="column has-text-right">
                     <span class="button is-large" :class="{ 'has-background-white has-text-black' : timer.w > 10, 'has-background-danger has-text-white' : timer.w <= 10}">
                       <span class="icon">
                         <span class="fa fa-clock"></span>
                       </span>
-                      <span v-html="tdisplay.w"></span>
+                      <span class="clock-text" v-html="tdisplay.w"></span>
                     </span>
                   </div>
                   <div class="column has-text-left">
@@ -69,7 +69,7 @@
                       <span class="icon">
                         <span class="fa fa-clock"></span>
                       </span>
-                      <span v-html="tdisplay.b"></span>
+                      <span class="clock-text" v-html="tdisplay.b"></span>
                     </span>
                   </div>
                 </div>
@@ -79,7 +79,7 @@
                       <span class="icon">
                         <span class="fa fa-clock"></span>
                       </span>
-                      <span v-html="tdisplay.w"></span>
+                      <span class="clock-text" v-html="tdisplay.w"></span>
                     </span>
                   </div>
                   <div class="column has-text-right">
@@ -87,7 +87,7 @@
                       <span class="icon">
                         <span class="fa fa-clock"></span>
                       </span>
-                      <span v-html="tdisplay.b"></span>
+                      <span class="clock-text" v-html="tdisplay.b"></span>
                     </span>
                   </div>
                 </div>
@@ -97,22 +97,22 @@
                     <span v-html="opening" class="has-text-black"></span>
                   </div>
                   <div class="column has-text-left preservefilter">
-                    <button @click="gameCapitulate()" class="button is-small is-rounded is-danger" v-if="pgnIndex.length && !announced_game_over" title="Abandonar partida">
+                    <button @click="gameCapitulate()" class="button is-small is-rounded is-danger" v-show="pgnIndex.length && !announced_game_over" title="Abandonar partida">
                       <span class="icon has-text-white">
                         <span class="fas fa-flag"></span>
                       </span>
                     </button>
-                    <button @click="gameAskForDraw()" class="button is-small is-rounded is-success" v-if="pgnIndex.length && !announced_game_over" title="Solicitar tablas">
+                    <button @click="gameAskForDraw()" class="button is-small is-rounded is-success" v-show="pgnIndex.length && !announced_game_over" title="Solicitar tablas">
                       <span class="icon has-text-white">
                         <span class="fas fa-handshake"></span>
                       </span>
                     </button>
-                    <button @click="showLiveURL()" class="button is-small is-rounded is-info" v-if="pgnIndex.length" title="Mostrar URL de transmisión">
+                    <button @click="showLiveURL()" class="button is-small is-rounded is-info" v-show="pgnIndex.length && !announced_game_over" title="Mostrar URL de transmisión">
                       <span class="icon has-text-white">
                         <span class="fas fa-user-astronaut"></span>
                       </span>
                     </button>
-                    <button @click="showPGN()" class="button is-small is-rounded is-info" v-if="pgnIndex.length" title="Mostrar PGN">
+                    <button @click="showPGN()" class="button is-small is-rounded is-info" v-if="pgnIndex.length && announced_game_over" title="Mostrar PGN">
                       <strong>PGN</strong>
                     </button>
                   </div>
@@ -474,17 +474,39 @@
         return moves;
       },
       gameCapitulate: function(){
-        this.$socket.emit('capitulate', {
-          asker:this.$root.player.code,
-          player:this.opponentName,
-          id:this.$route.params.game
+        swal({
+          title: '¿Deseas capitular?',
+          text: '',
+          buttons: ["No", "Sí"]
+        })
+        .then(accept => {
+          if (accept) {
+            this.$socket.emit('capitulate', {
+              asker:this.$root.player.code,
+              player:this.opponentName,
+              id:this.$route.params.game
+            })
+          } else {
+            console.log('Clicked on cancel')
+          }
         })
       },
       gameAskForDraw: function(){
-        this.$socket.emit('askfordraw', {
-          asker:this.$root.player.code,
-          player:this.opponentName,
-          id:this.$route.params.game
+        swal({
+          title: '¿Deseas solicitar tablas?',
+          text: '',
+          buttons: ["No", "Sí"]
+        })
+        .then(accept => {
+          if (accept) {
+            this.$socket.emit('askfordraw', {
+              asker:this.$root.player.code,
+              player:this.opponentName,
+              id:this.$route.params.game
+            })
+          } else {
+            console.log('Clicked on cancel')
+          }
         })
       },
       gameStart: function(){
@@ -685,7 +707,7 @@
       },
       boardTaps:function(){
         var t = this
-        var events = ['click', 'touchstart']
+        var events = ['mousedown', 'touchstart']
         document.querySelectorAll('.square-55d63').forEach(item => {
           events.forEach(event => {
             item.addEventListener(event, element => {
@@ -725,7 +747,7 @@
                   return 'snapback'
                 }
 
-                t.board.position(t.game.fen())
+                t.board.position(t.game.fen(),false)
                 t.updateMoves(move)
                 t.emitMove(move)
               }

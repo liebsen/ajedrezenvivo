@@ -26,14 +26,14 @@
             </div>
           </div>
           <div class="column">
-            <div v-show="gameStarted">
+            <div class="board-assistant" v-show="gameStarted">
               <div class="columns is-hidden-mobile preservefilter">
                 <div class="column has-text-right">
                   <span class="button is-large" :class="{ 'has-background-white has-text-black' : timer.w > 10, 'has-background-danger has-text-white' : timer.w <= 10}">
                     <span class="icon">
                       <span class="fa fa-clock"></span>
                     </span>
-                    <span v-html="tdisplay.w"></span>
+                    <span class="clock-text" v-html="tdisplay.w"></span>
                   </span>
                 </div>
                 <div class="column has-text-left">
@@ -41,7 +41,7 @@
                     <span class="icon">
                       <span class="fa fa-clock"></span>
                     </span>
-                    <span v-html="tdisplay.b"></span>
+                    <span class="clock-text" v-html="tdisplay.b"></span>
                   </span>
                 </div>
               </div>
@@ -51,7 +51,7 @@
                     <span class="icon">
                       <span class="fa fa-clock"></span>
                     </span>
-                    <span v-html="tdisplay.w"></span>
+                    <span class="clock-text" v-html="tdisplay.w"></span>
                   </span>
                 </div>
                 <div class="column has-text-right">
@@ -59,7 +59,7 @@
                     <span class="icon">
                       <span class="fa fa-clock"></span>
                     </span>
-                    <span v-html="tdisplay.b"></span>
+                    <span class="clock-text" v-html="tdisplay.b"></span>
                   </span>
                 </div>
               </div>

@@ -87,7 +87,9 @@
                   </span>
                 </button>
                 <button @click="gameRestart()" class="button is-small is-rounded is-success" v-if="announced_game_over" title="Jugar de nuevo">
-                  <strong>REMATCH</strong>
+                  <span class="icon">
+                    <span class="fa fa-retweet"></span>
+                  </span>
                 </button>
                 <button @click="showPGN()" class="button is-small is-rounded is-info" v-if="pgnIndex.length" title="Mostrar PGN">
                   <strong>PGN</strong>
@@ -334,7 +336,7 @@
       },   
       boardTaps:function(){
         var t = this
-        var events = ['click', 'touchstart']
+        var events = ['mousedown', 'touchstart']
         document.querySelectorAll('.square-55d63').forEach(item => {
           events.forEach(event => {
             item.addEventListener(event, element => {
@@ -342,6 +344,7 @@
               const piece = element.target.getAttribute('data-piece')
               const target = src ? element.target.parentNode : element.target
               const square = target.id.substring(0,2)
+
               if(!t.moveFrom){
                 if(piece && piece[0]!=t.playerColor[0]) return
                 if(!src){ // blank square
@@ -373,7 +376,7 @@
                   return 'snapback'
                 }
 
-                t.board.position(t.game.fen())
+                t.board.position(t.game.fen(),false)
                 t.updateMoves(move)
 
                 setTimeout(() => {
