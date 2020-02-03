@@ -5,22 +5,22 @@
         <div class="column is-hidden-mobile"></div>
         <div class="column is-8 has-text-centered">
           <div class="content is-hidden-mobile">
-            <h1 class="has-text-dark"></a>Estudia, entrena y gana</h1>
+            <h1 class="has-text-white"></a>Estudia, entrena y gana</h1>
             <h6></h6>
           </div>
           <div class="content is-hidden-tablet">
-            <h2 class="has-text-dark"></a>Estudia, entrena y gana</h2>
+            <h2 class="has-text-white"></a>Estudia, entrena y gana</h2>
             <h6></h6>
           </div>
           <div class="has-text-centered">
             <form id="search" class="has-text-centered" @submit.prevent="submit">
               <div class="field has-addons is-hidden-mobile is-flex-centered">
                 <div class="control">
-                  <input v-model="query" class="input is-medium is-dark is-rounded" name="query" type="text" placeholder="Evento, jugador o PGN" autofocus>
+                  <input v-model="query" class="input is-medium is-white is-rounded" name="query" type="text" placeholder="Evento, jugador o PGN" autofocus>
                 </div>
                 <div class="control">
-                  <button type="submit" id="searchbtn" class="button is-medium is-rounded is-dark">
-                    <span class="icon">
+                  <button type="submit" id="searchbtn" class="button is-medium is-rounded is-white">
+                    <span class="icon has-text-info">
                       <span class="fas fa-search"></span>
                     </span>
                   </button>
@@ -31,8 +31,8 @@
                   <input v-model="query" class="input is-rounded" name="query" type="text" placeholder="Evento, jugador o PGN" autofocus>
                 </div>
                 <div class="control">
-                  <button type="submit" id="searchbtn" class="button is-rounded is-dark">
-                    <span class="icon">
+                  <button type="submit" id="searchbtn" class="button is-rounded is-white">
+                    <span class="icon has-text-info">
                       <span class="fas fa-search"></span>
                     </span>
                   </button>
@@ -41,7 +41,7 @@
             </form>     
           </div>       
           <div class="has-text-centered">
-            <h4 class="has-text-dark">Jugar contra</h4>
+            <h4 class="has-text-white">Jugar contra</h4>
             <h6>&nbsp;</h6>
           </div>
           <div class="columns is-vcentered has-text-centered is-hidden-mobile">

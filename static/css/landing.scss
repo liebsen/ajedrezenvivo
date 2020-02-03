@@ -9,10 +9,13 @@ $bgcolors: #deff8b, #f6f4e6, #fddb3a, #bbded6, #ccda46, #f0cf85, #a4d4ae, #e5e4c
 }
 
 $theme: random_theme();
-$color: random_color();
+//$color: random_color();
+$color: #2f89fc;
 
-#search .has-addons {
-  margin-bottom: 1.25rem;
+#search {
+  .has-addons {
+    margin-bottom: 1.25rem;
+  }
 }
 
 .area {
@@ -24,14 +27,14 @@ $color: random_color();
   bottom: 0;
   padding: 0 2rem;
   background-color: $color;
+
+  > .columns {
+    width: 100%;
+    margin: auto 0;
+  } 
 }
 
-.area > .columns {
-  width: 100%;
-  margin: auto 0;
-} 
-
-.circles{
+.circles {
   position: absolute;
   top: 0;
   left: 0;
@@ -39,128 +42,128 @@ $color: random_color();
   height: 100%;
   overflow: hidden;
   z-index: -1;
-}
 
-.circles li {
-  display: block;
-  position: absolute;
-  list-style: none;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center center;
-}
+  li {
+    display: block;
+    position: absolute;
+    list-style: none;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center center;
 
-.circles li.white {
-  top: -150px;
-  animation: sink 25s linear infinite;
-}
+    &.white {
+      top: -160px;
+      animation: sink 25s linear infinite;
+    }
 
-.circles li.black {
-  bottom: -150px;
-  animation: emerge 25s linear infinite;
-}
+    &.black {
+      bottom: -160px;
+      animation: emerge 25s linear infinite;
+    }
 
-.circles li:nth-child(1){
-  left: 25%;
-  width: 140px;
-  height: 140px;
-  background-image: url('/static/img/chesspieces/' + $theme + '/wK.png');
-  animation-delay: 5s;
-}
+    &:nth-child(1){
+      left: 25%;
+      width: 140px;
+      height: 140px;
+      background-image: url('/static/img/chesspieces/' + $theme + '/wK.png');
+      animation-delay: 5s;
+    }
 
-.circles li:nth-child(2){
-  left: 10%;
-  width: 180px;
-  height: 180px;
-  background-image: url('/static/img/chesspieces/' + $theme + '/wQ.png');
-  animation-delay: 1s;
-  animation-duration: 12s;
-}
+    &:nth-child(2){
+      left: 10%;
+      width: 180px;
+      height: 180px;
+      background-image: url('/static/img/chesspieces/' + $theme + '/wQ.png');
+      animation-delay: 1s;
+      animation-duration: 12s;
+    }
 
-.circles li:nth-child(3){
-  left: 70%;
-  width: 90px;
-  height: 90px;
-  background-image: url('/static/img/chesspieces/' + $theme + '/wR.png');
-  animation-delay: 7s;
-}
+    &:nth-child(3){
+      left: 70%;
+      width: 90px;
+      height: 90px;
+      background-image: url('/static/img/chesspieces/' + $theme + '/wR.png');
+      animation-delay: 7s;
+    }
 
-.circles li:nth-child(4){
-  left: 40%;
-  width: 100px;
-  height: 100px;
-  background-image: url('/static/img/chesspieces/' + $theme + '/wB.png');
-  animation-delay: 15s;
-  animation-duration: 18s;
-}
+    &:nth-child(4){
+      left: 40%;
+      width: 100px;
+      height: 100px;
+      background-image: url('/static/img/chesspieces/' + $theme + '/wB.png');
+      animation-delay: 15s;
+      animation-duration: 18s;
+    }
 
-.circles li:nth-child(5){
-  left: 65%;
-  width: 80px;
-  height: 80px;
-  background-image: url('/static/img/chesspieces/' + $theme + '/wN.png');
-  animation-delay: 11s;
-}
+    &:nth-child(5){
+      left: 65%;
+      width: 80px;
+      height: 80px;
+      background-image: url('/static/img/chesspieces/' + $theme + '/wN.png');
+      animation-delay: 11s;
+    }
 
-.circles li:nth-child(6){
-  left: 75%;
-  width: 110px;
-  height: 110px;
-  background-image: url('/static/img/chesspieces/' + $theme + '/wP.png');
-  animation-delay: 12s;
-}
+    &:nth-child(6){
+      left: 75%;
+      width: 110px;
+      height: 110px;
+      background-image: url('/static/img/chesspieces/' + $theme + '/wP.png');
+      animation-delay: 12s;
+    }
 
-.circles li:nth-child(7){
-  left: 35%;
-  width: 140px;
-  height: 140px;
-  background-image: url('/static/img/chesspieces/' + $theme + '/bK.png');
-  animation-delay: 2s;
-}
+    &:nth-child(7){
+      left: 35%;
+      width: 140px;
+      height: 140px;
+      background-image: url('/static/img/chesspieces/' + $theme + '/bK.png');
+      animation-delay: 2s;
+    }
 
-.circles li:nth-child(8){
-  left: 50%;
-  width: 100px;
-  height: 100px;
-  background-image: url('/static/img/chesspieces/' + $theme + '/bQ.png');
-  animation-delay: 10s;
-  animation-duration: 45s;
-}
+    &:nth-child(8){
+      left: 50%;
+      width: 100px;
+      height: 100px;
+      background-image: url('/static/img/chesspieces/' + $theme + '/bQ.png');
+      animation-delay: 10s;
+      animation-duration: 45s;
+    }
 
-.circles li:nth-child(9){
-  left: 20%;
-  width: 90px;
-  height: 90px;
-  background-image: url('/static/img/chesspieces/' + $theme + '/bR.png');
-  animation-delay: 6s;
-  animation-duration: 35s;
-}
+    &:nth-child(9){
+      left: 20%;
+      width: 90px;
+      height: 90px;
+      background-image: url('/static/img/chesspieces/' + $theme + '/bR.png');
+      animation-delay: 6s;
+      animation-duration: 35s;
+    }
 
-.circles li:nth-child(10){
-  left: 85%;
-  width: 150px;
-  height: 150px;
-  background-image: url('/static/img/chesspieces/' + $theme + '/bB.png');
-  animation-delay: 3s;
-  animation-duration: 11s;
-}
+    &:nth-child(10){
+      left: 85%;
+      width: 150px;
+      height: 150px;
+      background-image: url('/static/img/chesspieces/' + $theme + '/bB.png');
+      animation-delay: 3s;
+      animation-duration: 11s;
+    }
 
-.circles li:nth-child(11){
-  left: 15%;
-  width: 80px;
-  height: 80px;
-  background-image: url('/static/img/chesspieces/' + $theme + '/bN.png');
-  animation-delay: 8s;
-  animation-duration: 11s;
-}
+    &:nth-child(11){
+      left: 15%;
+      width: 80px;
+      height: 80px;
+      background-image: url('/static/img/chesspieces/' + $theme + '/bN.png');
+      animation-delay: 8s;
+      animation-duration: 11s;
+    }
 
-.circles li:nth-child(12){
-  left: 50%;
-  width: 160px;
-  height: 160px;
-  background-image: url('/static/img/chesspieces/' + $theme + '/bP.png');
-  animation-delay: 4s;
-  animation-duration: 11s;
+    &:nth-child(12){
+      left: 50%;
+      width: 160px;
+      height: 160px;
+      background-image: url('/static/img/chesspieces/' + $theme + '/bP.png');
+      animation-delay: 4s;
+      animation-duration: 11s;
+    }
+  }
 }
 
 @keyframes emerge {
