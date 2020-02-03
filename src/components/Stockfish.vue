@@ -166,8 +166,8 @@
       gameRestart: function() {
         var t = this
         swal({
-          title: 'Abandonar partida',
-          text: '¿Deseas abandonar la partida?',
+          title: 'Reiniciar partida',
+          text: '¿Deseas reiniciar la partida?',
           buttons: ["No", "Sí"]
         })
         .then(accept => {
