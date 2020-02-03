@@ -71,11 +71,7 @@
         <div class="column">
           <div class="board-assistant">
             <div class="columns" v-show="pgnIndex.length > 0">
-              <div class="column">
-                <strong v-html="ecode"></strong> 
-                <span v-html="opening" class="has-text-black"></span> 
-              </div>
-              <div class="column has-text-left preservefilter">
+              <div class="column has-text-left is-marginless preservefilter">
                 <button @click="gameRestart()" class="button is-small is-rounded is-danger" v-if="!announced_game_over" title="Abandonar partida">
                   <span class="icon has-text-white">
                     <span class="fas fa-flag"></span>
@@ -96,6 +92,12 @@
                 </button>
               </div>
             </div>  
+            <div class="columns is-marginless">
+              <div class="column">
+                <strong v-html="ecode"></strong> 
+                <span v-html="opening" class="has-text-black"></span> 
+              </div>
+            </div>
             <div class="columns is-hidden-mobile">
               <div class="chart-container preservefilter">
                 <div :class="playerColor">
@@ -163,18 +165,29 @@
     methods: {
       gameRestart: function() {
         var t = this
-        //document.querySelector('.chart svg').remove()
-        t.game.reset()
-        t.announced_game_over = false
-        t.pgnIndex = []
-        t.time.level = -1
-        t.ecode = ''
-        t.opening = ''
-        t.score = 0.10
-        t.vscore = 49
-        t.stockfishMoved = false
-        t.chart.values = []
-        //t.gameStart(-1)
+        swal({
+          title: 'Abandonar partida',
+          text: '¿Deseas abandonar la partida?',
+          buttons: ["No", "Sí"]
+        })
+        .then(accept => {
+          if (accept) {
+            //document.querySelector('.chart svg').remove()
+            t.game.reset()
+            t.announced_game_over = false
+            t.pgnIndex = []
+            t.time.level = -1
+            t.ecode = ''
+            t.opening = ''
+            t.score = 0.10
+            t.vscore = 49
+            t.stockfishMoved = false
+            t.chart.values = []
+            //t.gameStart(-1)
+          } else {
+            console.log('Clicked on cancel')
+          }
+        })
       },
       showPGN:function(pgn){
         var pgn = this.game.pgn() + ' ' + (this.data.result ? this.data.result : '')
@@ -336,57 +349,52 @@
       },   
       boardTaps:function(){
         var t = this
-        var events = ['mousedown', 'click','touchstart']
+        document.querySelector('.chessboard-63f37').addEventListener('click', e => {
+          e.preventDefault()
+          const src = e.target.getAttribute('src')
+          const piece = e.target.getAttribute('data-piece')
+          const target = src ? e.target.parentNode : e.target
+          const square = target.id.substring(0,2)
+          const turn = t.game.turn() === t.playerColor[0]
 
-        document.querySelectorAll('.square-55d63').forEach(item => {
-          events.forEach(event => {
-            item.addEventListener(event, element => {
-              const src = element.target.getAttribute('src')
-              const piece = element.target.getAttribute('data-piece')
-              const target = src ? element.target.parentNode : element.target
-              const square = target.id.substring(0,2)
+          if(!turn) return
+          if(!t.moveFrom){
+            target.classList.add('highlight-move')  
+            if(!src){ // blank square
+              t.removeHighlight()
+              return
+            } 
+            
+            t.moveFrom = square
+          } else {
+            if(square === t.moveFrom) return
+            var moveObj = ({
+              from: t.moveFrom,
+              to: square,
+              promotion: 'q' // NOTE: always promote to a queen for example simplicity
+            });
 
-              if(!t.moveFrom){
-                if(piece && piece[0]!=t.playerColor[0]) return
-                if(!src){ // blank square
-                  t.removeHighlight()
-                  return
-                } 
+            t.moveFrom = null
+            var move = t.game.move(moveObj)
+
+            // illegal move
+            if (move === null) {
+              t.removeHighlight()
+              t.moveFrom = square
+              if(src){
                 target.classList.add('highlight-move')
-                t.moveFrom = square
-              } else {
-
-                if(square === t.moveFrom) return
-
-                var moveObj = ({
-                  from: t.moveFrom,
-                  to: square,
-                  promotion: 'q' // NOTE: always promote to a queen for example simplicity
-                });
-
-                t.moveFrom = null
-                var move = t.game.move(moveObj)
-
-                // illegal move
-                if (move === null) {
-                  t.removeHighlight()
-                  //t.moveFrom = square
-                  //if(src){
-                    //target.classList.add('highlight-move')
-                  //}
-                  return 'snapback'
-                }
-
-                t.board.position(t.game.fen(),false)
-                t.updateMoves(move)
-
-                setTimeout(() => {
-                  this.prepareMove()
-                  this.drawChart()
-                },this.ucitime)                
               }
-            })
-          })
+              return 'snapback'
+            }
+
+            t.board.position(t.game.fen(),false)
+            t.updateMoves(move)
+
+            setTimeout(() => {
+              this.prepareMove()
+              this.drawChart()
+            },this.ucitime)                
+          }
         })
       },      
       get_moves: function()

@@ -20,11 +20,7 @@
           </div>
           <div class="column">
             <div class="board-assistant" v-if="Object.keys(data).length">
-              <div class="columns">
-                <div class="column">
-                  <strong v-html="data.eco" class=""></strong>
-                  <span v-html="data.name" class="has-text-black"></span>
-                </div>
+              <div class="columns is-marginless">
                 <div class="column has-text-left preservefilter">
                   <button @click="gameFlip()" class="button is-small is-rounded is-info" title="Girar tablero">
                     <span class="icon">
@@ -36,6 +32,12 @@
                   </button>
                 </div>
               </div>  
+              <div class="columns is-marginless">
+                <div class="column">
+                  <strong v-html="data.eco" class=""></strong>
+                  <span v-html="data.name" class="has-text-black"></span>
+                </div>
+              </div>
               <div class="columns is-hidden-mobile">
                 <div class="chart-container preservefilter">
                   <div :class="orientation">

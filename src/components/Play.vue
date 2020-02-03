@@ -91,11 +91,7 @@
                     </span>
                   </div>
                 </div>
-                <div class="columns">
-                  <div class="column">
-                    <strong v-html="ecode" class=""></strong> 
-                    <span v-html="opening" class="has-text-black"></span>
-                  </div>
+                <div class="columns is-marginless">
                   <div class="column has-text-left preservefilter">
                     <button @click="gameCapitulate()" class="button is-small is-rounded is-danger" v-show="pgnIndex.length && !announced_game_over" title="Abandonar partida">
                       <span class="icon has-text-white">
@@ -117,7 +113,12 @@
                     </button>
                   </div>
                 </div> 
-
+                <div class="columns is-marginless">
+                  <div class="column">
+                    <strong v-html="ecode" class=""></strong> 
+                    <span v-html="opening" class="has-text-black"></span>
+                  </div>
+                </div>
                 <div class="tabs is-centered is-boxed">
                   <ul>
                     <li :class="{ 'is-active' : tab === 'pgn' }">
@@ -364,7 +365,7 @@
           result = (t.playerColor==='black'?'1-0':'0-1')
           swal({
             title: '¿Deseas solicitar revancha?',
-            text: 'Has capitulado. ' + t.opponentName + ' ganó la partida',
+            text: 'Has abandonado. ' + t.opponentName + ' ganó la partida',
             buttons: ["No", "Sí"]
           })
           .then(accept => {
@@ -475,8 +476,8 @@
       },
       gameCapitulate: function(){
         swal({
-          title: '¿Deseas capitular?',
-          text: '',
+          title: 'Abandonar partida',
+          text: '¿Deseas abandonar la partida?',
           buttons: ["No", "Sí"]
         })
         .then(accept => {
@@ -706,54 +707,52 @@
         },1000)
       },
       boardTaps:function(){
-        var t = this
-        var events = ['mousedown', 'click','touchstart']
+        document.querySelector('.chessboard-63f37').addEventListener('click', e => {
+          e.preventDefault()
+          const src = e.target.getAttribute('src')
+          const piece = e.target.getAttribute('data-piece')
+          const target = src ? e.target.parentNode : e.target
+          const square = target.id.substring(0,2)
+          const turn = t.game.turn() === t.playerColor[0]
 
-        document.querySelectorAll('.square-55d63').forEach(item => {
-          events.forEach(event => {
-            item.addEventListener(event, element => {
-              if(!t.gameStarted || t.announced_game_over) return
-              const src = element.target.getAttribute('src')
-              const piece = element.target.getAttribute('data-piece')
-              const target = src ? element.target.parentNode : element.target
-              const square = target.id.substring(0,2)
-              if(!t.moveFrom){
-                if(piece && piece[0]!=t.playerColor[0]) return
-                if(!src){ // blank square
-                  t.removeHighlight()
-                  return
-                } 
+          if(!turn) return
+          if(!t.moveFrom){
+            target.classList.add('highlight-move')  
+            if(!src){ // blank square
+              t.removeHighlight()
+              return
+            } 
+            
+            t.moveFrom = square
+          } else {
+            if(square === t.moveFrom) return
+            var moveObj = ({
+              from: t.moveFrom,
+              to: square,
+              promotion: 'q' // NOTE: always promote to a queen for example simplicity
+            });
+
+            t.moveFrom = null
+            var move = t.game.move(moveObj)
+
+            // illegal move
+            if (move === null) {
+              t.removeHighlight()
+              t.moveFrom = square
+              if(src){
                 target.classList.add('highlight-move')
-                t.moveFrom = square
-              } else {
-
-                if(square === t.moveFrom) return
-
-                var moveObj = ({
-                  from: t.moveFrom,
-                  to: square,
-                  promotion: 'q' // NOTE: always promote to a queen for example simplicity
-                });
-
-                t.moveFrom = null
-                var move = t.game.move(moveObj)
-
-                // illegal move
-                if (move === null) {
-                  t.removeHighlight()
-                  t.moveFrom = square
-                  if(src){
-                    target.classList.add('highlight-move')
-                  }
-                  return 'snapback'
-                }
-
-                t.board.position(t.game.fen(),false)
-                t.updateMoves(move)
-                t.emitMove(move)
               }
-            })
-          })
+              return 'snapback'
+            }
+
+            t.board.position(t.game.fen(),false)
+            t.updateMoves(move)
+
+            setTimeout(() => {
+              this.prepareMove()
+              this.drawChart()
+            },this.ucitime)                
+          }
         })
       },
       onDragStart : function(source, piece, position, orientation) {

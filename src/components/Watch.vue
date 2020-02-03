@@ -63,11 +63,7 @@
                   </span>
                 </div>
               </div>
-              <div class="columns">
-                <div class="column">
-                  <strong v-html="ecode" class=""></strong> 
-                  <span v-html="opening" class="has-text-black"></span>
-                </div>
+              <div class="columns is-marginless">
                 <div class="column has-text-left preservefilter">
                   <button @click="gameFlip()" class="button is-small is-rounded is-info" title="Girar tablero">
                     <span class="icon">
@@ -79,7 +75,12 @@
                   </button>
                 </div>
               </div> 
-
+              <div class="columns is-marginless">
+                <div class="column">
+                  <strong v-html="ecode" class=""></strong> 
+                  <span v-html="opening" class="has-text-black"></span>
+                </div>
+              </div>
               <div v-if="Object.keys(data).length">
                 <div class="columns is-hidden-mobile">
                   <div class="chart-container preservefilter">

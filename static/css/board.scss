@@ -98,8 +98,8 @@ $blue: #4183d7;
         .score-container {
             position: absolute;
             top: 0;
-            left: -9px;
-            width: 6px;
+            left: -10px;
+            width: 7px;
             height: 100%;
             border-radius: 5px;
             .score {
@@ -109,7 +109,7 @@ $blue: #4183d7;
                 -moz-border-radius-topright: 5px;
                 border-top-left-radius: 5px;
                 border-top-right-radius: 5px;
-                width: 6px;
+                width: 7px;
                 max-height: 49%;
                 height: 100%;
                 transition: max-height ease-in 0.25s;
