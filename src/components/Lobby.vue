@@ -52,7 +52,7 @@
         </div>
       </div>
       <div class="columns">
-        <div class="column lobby-list is-3">
+        <div class="column is-lobby-list is-3">
           <div v-show="$root.players.length">
             <div>
               <div v-for="player in $root.players" class="field">
@@ -77,13 +77,13 @@
               </div>
             </div>
             <hr>
-            <h6>
+            <!--h6>
               <span class="icon">
                 <span class="fa fa-share"></span>
               </span>
               <span>Invita a tus amigos</span>
-            </h6>
-            <div class="columns is-gapless is-multiline is-mobile is-vcentered fadeIn preservefilter">
+            </h6-->
+            <div class="columns is-gapless is-multiline is-mobile is-vcentered has-text-centered preservefilter">
               <div class="column is-hidden-tablet">
                 <a :href="'whatsapp://send?text=¿Querés jugar ajedrez online? Estoy como ' + $root.player.code + ' https://ajedrezenvivo.herokuapp.com/lobby'" target="_blank">
                   <span class="icon has-text-whatsapp is-size-3">
@@ -142,7 +142,7 @@
                 <div class="control">
                   <button type="submit" class="button is-info is-rounded">
                     <span class="icon">
-                      <span class="fas fa-paper-plane"></span>
+                      <span class="fas fa-arrow-up"></span>
                     </span>
                   </button>
                 </div>

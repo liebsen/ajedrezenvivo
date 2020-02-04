@@ -486,7 +486,8 @@ table {
   }
 }
 
-.lobby-list {
+.is-lobby-list {
+  max-width: 260px;
   .field {
     margin-bottom: 0.25rem;
   }
