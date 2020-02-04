@@ -3,7 +3,7 @@
     <section class="content column fadeIn">
       <h3 class="title">
         <span class="icon">
-          <span class="fas fa-sliders-h"></span>
+          <span class="fas fa-paint-brush"></span>
         </span> 
         <span>Preferencias</span>
       </h3>
@@ -17,11 +17,10 @@
           <form @submit.prevent="submit"> 
             <div class="field is-horizontal">
               <div class="field-body">
-
                 <div class="field">
                   <label class="label">Tema del Tablero</label>
                   <div class="select is-fullwidth">
-                    <select v-model="data.board" id="tablero">
+                    <select v-model="data.board" id="tablero" title="Elegí el tema de tablero">
                       <option value="classic">Clásico</option>
                       <option value="green">Verde</option>
                       <option value="light-green">Verde claro</option>
@@ -48,7 +47,7 @@
                 <div class="field">
                   <label class="label">Estilo de Piezas</label>
                   <div class="select is-fullwidth">
-                    <select v-model="data.pieces" id="piezas">
+                    <select v-model="data.pieces" id="piezas" title="Elegí estilo de piezas">
                       <option value="classic">Clásico</option>
                       <option value="neo">Neo</option>
                       <option value="neo_wood">Neo Madera</option>
@@ -79,46 +78,46 @@
             <div class="field">
               <div class="control">
                 <label class="label">Nombre</label>
-                <input type="text" v-model="data.code" class="input" maxlength="10" required>
+                <input type="text" v-model="data.code" class="input" maxlength="10" title="Ingresa tu nombre!" required>
               </div>
             </div>
             <div class="field">
               <div class="field-group">
                 <label class="label">General</label>
                 <div class="field-body">
-                  <div class="control has-checkradio">
-                    <input v-model="data.sound" class="is-checkradio has-background-color is-success" id="sound" type="checkbox" @click="previewSound">
+                  <div class="control has-checkradio" title="Desactiva notificaciones sonoras">
+                    <input v-model="data.sound" class="is-checkradio has-background-color is-white" id="sound" type="checkbox" @click="previewSound">
                     <label class="label" for="sound">Sonido</label>
                   </div>
                 </div>
                 <div class="field-body">
-                  <div class="control has-checkradio">
-                    <input v-model="data.strongnotification" class="is-checkradio has-background-color is-success" id="strongnotification" type="checkbox" @click="previewStrongNotification">
+                  <div class="control has-checkradio" title="Notificaciones hiper-visibles">
+                    <input v-model="data.strongnotification" class="is-checkradio has-background-color is-white" id="strongnotification" type="checkbox" @click="previewStrongNotification">
                     <label class="label" for="strongnotification">Notificación gigante</label>
                   </div>
                 </div>
                 <div class="field-body">
-                  <div class="control has-checkradio">
-                    <input v-model="data.darkmode" class="is-checkradio has-background-color is-success" id="darkmode" type="checkbox" @click="previewDarkmode">
+                  <div class="control has-checkradio" title="Activa visión nocturna">
+                    <input v-model="data.darkmode" class="is-checkradio has-background-color is-white" id="darkmode" type="checkbox" @click="previewDarkmode">
                     <label class="label" for="darkmode">Modo oscuro</label>
                   </div>
                 </div>
                 <div class="field-body">
-                  <div class="control has-checkradio">
-                    <input v-model="data.observe" class="is-checkradio has-background-color is-success" id="observe" type="checkbox">
-                    <label class="label" for="observe">Observador</label>
-                    <p class="notification is-warning">
+                  <div class="control has-checkradio" title="No disponible para jugar en línea">
+                    <input v-model="data.observe" class="is-checkradio has-background-color is-white" id="observe" type="checkbox">
+                    <label class="label" for="observe">Modo Observador</label>
+                    <!--p class="notification is-warning">
                       <small>No disponible para jugar en línea</small>
-                    </p>
+                    </p-->
                   </div>
                 </div>
                 <div class="field-body">
-                  <div class="control has-checkradio">
-                    <input v-model="data.autoaccept" class="is-checkradio has-background-color is-success" id="autoaccept" type="checkbox">
+                  <div class="control has-checkradio" title="Aceptar automáticamente todas las invitaciones para jugar">
+                    <input v-model="data.autoaccept" class="is-checkradio has-background-color is-white" id="autoaccept" type="checkbox">
                     <label class="label" for="autoaccept">Auto-aceptar invitaciones</label>
-                    <p class="notification is-warning">
+                    <!--p class="notification is-warning">
                       <small>Aceptar automáticamente todas las invitaciones para jugar</small>
-                    </p>
+                    </p-->
                   </div>
                 </div>
               </div>

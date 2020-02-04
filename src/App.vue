@@ -79,7 +79,7 @@
             </router-link>
             <router-link to="/preferences">
               <span class="icon">
-                <span class="fas fa-sliders-h"></span>
+                <span class="fas fa-paint-brush"></span>
               </span> 
               <span>Preferencias</span>
             </router-link>
