@@ -443,6 +443,7 @@
     },
     methods: {
       sendChat: function(){
+        if(this.chat.trim()==='') this.chat = '👋'
         this.$socket.emit('chat', { 
           id:this.$route.params.game,
           sender: this.$root.player.code,
@@ -1064,7 +1065,7 @@
         data:{},
         eco:{},
         tab:'pgn',
-        chat:null,
+        chat:'',
         clock:null,
         timer:{w:null,b:null},
         tdisplay:{w:null,b:null},

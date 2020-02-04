@@ -181,6 +181,7 @@
     },
     methods: {
       sendChat: function() {
+        if(this.chat.trim()==='') this.chat = '👋'
         this.$socket.emit('lobby_chat', { 
           sender: this.$root.player.code,
           line: this.chat
@@ -288,7 +289,7 @@
     },
     data () {
       return {
-        chat:null
+        chat:''
       }
     }
   }
