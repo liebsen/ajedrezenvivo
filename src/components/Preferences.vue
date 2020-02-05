@@ -70,6 +70,7 @@
                       <option value="modern">Moderno</option>
                       <option value="club">Club</option>
                       <option value="neon">Neón</option>
+                      <option value="magi">Magi</option>
                     </select>
                   </div>
                 </div>
