@@ -713,13 +713,16 @@
         events.forEach((event) => {
           document.querySelector('.chessboard-63f37').addEventListener(event, e => {
             e.preventDefault()
+            const turn = t.game.turn() === t.playerColor[0]
+
+            if(!turn) return
+            if(e.target.classList.contains('row-5277c')) return
+
             const src = e.target.getAttribute('src')
             const piece = e.target.getAttribute('data-piece')
             const target = src ? e.target.parentNode : e.target
             const square = target.id.substring(0,2)
-            const turn = t.game.turn() === t.playerColor[0]
 
-            if(!turn) return
             if(!t.moveFrom){
               target.classList.add('highlight-move')  
               if(!src){ // blank square
