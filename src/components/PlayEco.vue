@@ -38,6 +38,24 @@
                   <span v-html="data.name" class="has-text-black"></span>
                 </div>
               </div>
+              <div class="columns is-desktop">
+                <div v-show="Object.keys(prevEco).length" class="column">
+                  <router-link :to="'/eco/'+prevEco.eco" class="button is-text">
+                    <span class="icon">
+                      <span class="fa fa-chevron-left"></span>
+                    </span>
+                    <span v-html="prevEco.name"></span>
+                  </router-link>
+                </div>
+                <div v-show="Object.keys(nextEco).length" class="column">
+                  <router-link :to="'/eco/'+nextEco.eco" class="button is-text">
+                    <span v-html="nextEco.name"></span>
+                    <span class="icon">
+                      <span class="fa fa-chevron-right"></span>
+                    </span>
+                  </router-link>
+                </div>
+              </div>
               <div class="columns is-hidden-mobile">
                 <div class="chart-container preservefilter">
                   <div :class="orientation">
@@ -92,7 +110,6 @@
       if(localStorage.getItem('speed')){
         this.speed = parseInt(localStorage.getItem('speed'))
       }
-
       this.gameStart()
     },
     methods: {
@@ -300,9 +317,15 @@
           var game = null
           const pref = JSON.parse(localStorage.getItem('player'))||{}
 
-          res.data.forEach((item) => {
+          res.data.forEach((item,i) => {
             if(this.$route.params.name===item.eco){
               game = item    
+              if(res.data[i-1]){
+                this.prevEco = res.data[i-1]
+              }
+              if(res.data[i+1]){
+                this.nextEco = res.data[i+1]
+              }
             }
           })
           
@@ -334,7 +357,7 @@
 
             playSound('game-start.mp3')
 
-            const offset = 100
+            const offset = 200
             setTimeout(() => {
               document.querySelector('.movesTableContainer').style.height = ($('.board').height() - offset) + 'px'
 
@@ -495,6 +518,8 @@
     },
     data () {
       return {
+        prevEco:{},
+        nextEco:{},
         chart:{
           width: 100,
           height: 50,

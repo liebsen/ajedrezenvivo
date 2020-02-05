@@ -343,10 +343,10 @@
           // resize event handling
 
           $(window).resize(() => {
+            t.$root.fullscreenBoard()
             t.board.resize()
             t.highlightLastMove()
             t.boardTaps()
-            t.$root.fullscreenBoard()
           })
 
           t.$root.loading = false
