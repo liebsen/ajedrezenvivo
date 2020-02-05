@@ -98,96 +98,188 @@
         <li class="white"></li>
       </ul>
       <div class="chessboard-63f37 fakeboard">
-          <div class="board-b72b1" style="width: 100%;">
-              <div class="row-5277c">
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="clearfix-7da63"></div>
-              </div>
-              <div class="row-5277c">
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="clearfix-7da63"></div>
-              </div>
-              <div class="row-5277c">
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="clearfix-7da63"></div>
-              </div>
-              <div class="row-5277c">
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="clearfix-7da63"></div>
-              </div>
-              <div class="row-5277c">
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="clearfix-7da63"></div>
-              </div>
-              <div class="row-5277c">
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="clearfix-7da63"></div>
-              </div>
-              <div class="row-5277c">
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="clearfix-7da63"></div>
-              </div>
-              <div class="row-5277c">
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="square-55d63 black-3c85d"></div>
-                  <div class="square-55d63 white-1e1d7"></div>
-                  <div class="clearfix-7da63"></div>
-              </div>
+        <div class="board-b72b1" style="width: 100%;">
+          <div class="row-5277c">
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="clearfix-7da63"></div>
           </div>
+          <div class="row-5277c">
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="clearfix-7da63"></div>
+          </div>
+          <div class="row-5277c">
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="clearfix-7da63"></div>
+          </div>
+          <div class="row-5277c">
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="clearfix-7da63"></div>
+          </div>
+          <div class="row-5277c">
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="clearfix-7da63"></div>
+          </div>
+          <div class="row-5277c">
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="clearfix-7da63"></div>
+          </div>
+          <div class="row-5277c">
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="clearfix-7da63"></div>
+          </div>
+          <div class="row-5277c">
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="clearfix-7da63"></div>
+          </div>
+          <div class="row-5277c">
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="clearfix-7da63"></div>
+          </div>
+          <div class="row-5277c">
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="clearfix-7da63"></div>
+          </div>
+          <div class="row-5277c">
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="clearfix-7da63"></div>
+          </div>
+          <div class="row-5277c">
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="square-55d63 black-3c85d"></div>
+              <div class="square-55d63 white-1e1d7"></div>
+              <div class="clearfix-7da63"></div>
+            </div>
+        </div>
       </div>
     </div>
   </div>

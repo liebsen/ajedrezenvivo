@@ -43,12 +43,23 @@ $color: #2f89fc;
   z-index: -2;
   filter: brightness(75%);
   transform: translate(-10%, -10%) rotate(15deg) skew(-5deg);
-  width: 200vw;
+  width: 300vw;
   .square-55d63 {
-    width: 25vw;
-    height: 25vw;
+    width: 20vw;
+    height: 20vw;
   }
 }
+
+@media screen and (min-width: 1440px) {
+  .fakeboard {
+    transform: translate(0%, -10%) rotate(15deg) skew(-5deg);
+    .square-55d63 {
+      width: 10vw;
+      height: 10vw;
+    }
+  }
+}
+
 .pieces {
   position: absolute;
   top: 0;
