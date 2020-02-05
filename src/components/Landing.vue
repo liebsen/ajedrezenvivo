@@ -83,7 +83,7 @@
         </div>
         <div class="column is-hidden-mobile"></div>
       </div>
-      <ul class="circles">
+      <ul class="pieces">
         <li class="black"></li>
         <li class="black"></li>
         <li class="black"></li>
@@ -97,6 +97,98 @@
         <li class="white"></li>
         <li class="white"></li>
       </ul>
+      <div class="chessboard-63f37 fakeboard">
+          <div class="board-b72b1" style="width: 100%;">
+              <div class="row-5277c">
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="clearfix-7da63"></div>
+              </div>
+              <div class="row-5277c">
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="clearfix-7da63"></div>
+              </div>
+              <div class="row-5277c">
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="clearfix-7da63"></div>
+              </div>
+              <div class="row-5277c">
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="clearfix-7da63"></div>
+              </div>
+              <div class="row-5277c">
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="clearfix-7da63"></div>
+              </div>
+              <div class="row-5277c">
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="clearfix-7da63"></div>
+              </div>
+              <div class="row-5277c">
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="clearfix-7da63"></div>
+              </div>
+              <div class="row-5277c">
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="square-55d63 black-3c85d"></div>
+                  <div class="square-55d63 white-1e1d7"></div>
+                  <div class="clearfix-7da63"></div>
+              </div>
+          </div>
+      </div>
     </div>
   </div>
 </template>
@@ -104,6 +196,18 @@
 <script>
 export default {
   name: 'landing',
+  mounted: function(){
+    const saved = JSON.parse(localStorage.getItem('player'))
+    const board = document.querySelector('.chessboard-63f37')
+    board.classList = []
+    board.classList.add('chessboard-63f37')
+    board.classList.add('fakeboard')
+    board.classList.add(saved.board)
+    document.querySelectorAll('.pieces li').forEach(e => {
+      let li = window.getComputedStyle(e);
+      e.style.backgroundImage = li.getPropertyValue('background-image').replace('classic',saved.pieces)
+    })
+  },
   methods: {
     submit: function(){
       this.$router.push('/results?q=' + this.query)
