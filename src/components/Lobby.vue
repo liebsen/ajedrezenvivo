@@ -285,6 +285,16 @@
             })
           }
         })
+
+        setTimeout(() => {
+          const saved = JSON.parse(localStorage.getItem('player'))
+          let pieces = ['.is-white-pieces','.is-black-pieces','.is-random-pieces']
+          pieces.forEach(tag => {
+            let e = document.querySelector(tag)
+            let li = window.getComputedStyle(e);
+            e.style.backgroundImage = li.getPropertyValue('background-image').split('classic').join(saved.pieces)
+          })
+        },10)
       }
     },
     data () {

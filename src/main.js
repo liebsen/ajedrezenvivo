@@ -84,6 +84,7 @@ new Vue({
     this.documentTitle = document.title 
     this.loading = false
     this.isOnline = window.navigator.onLine
+
     document.querySelector('body').addEventListener('click', function (event) {
       var target = event.target
       if (target.classList.contains('is-toggle')) {

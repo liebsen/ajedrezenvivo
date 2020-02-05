@@ -147,8 +147,8 @@
   export default {
     name: 'stockfish',
     mounted: function(){
-      //this.$root.loading = true
       window.app = this
+      const saved = JSON.parse(localStorage.getItem('player'))
       if (!Worker || (location && location.protocol === "file:")) {
         var script_tag  = document.createElement("script");
         script_tag.type ="text/javascript";
@@ -156,6 +156,13 @@
         script_tag.onload = init;
         document.getElementsByTagName("head")[0].appendChild(script_tag);
       }
+
+      let pieces = ['.is-white-pieces','.is-black-pieces','.is-random-pieces']
+      pieces.forEach(tag => {
+        let e = document.querySelector(tag)
+        let li = window.getComputedStyle(e);
+        e.style.backgroundImage = li.getPropertyValue('background-image').split('classic').join(saved.pieces)
+      })
 
       axios.get('/static/json/eco_es.json')
         .then((response)=>{
