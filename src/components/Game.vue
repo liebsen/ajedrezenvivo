@@ -122,6 +122,14 @@
       this.$root.loading = true
 
       window.app = this
+      document.getElementById('board').addEventListener("wheel", event => {
+        const delta = Math.sign(event.deltaY)
+        var pos = this.index - 1
+        if(delta < 0){
+          pos = this.index + 1
+        }
+        this.gamePos(pos)
+      })
 
       if(localStorage.getItem('speed')){
         this.speed = parseInt(localStorage.getItem('speed'))
@@ -315,15 +323,6 @@
 
             playSound('game-start.mp3')
             $('.bar-progress').css({width:'0%'})
-
-            /*document.querySelector('.pres-container .is-player-white').classList.add('slideOutTL') 
-            document.querySelector('.pres-container .is-player-black').classList.add('slideOutTR') 
-            document.querySelector('.pres-container .is-player-info').classList.add('slideOutB') 
-            document.querySelector('.pres-container').classList.add('fadeOut')   
-            setTimeout(() => {
-              document.querySelector('.pres-container').style.display = 'none'
-            },1500)           
-            */
 
             const offset = 150
             setTimeout(() => {
@@ -524,14 +523,17 @@
         const pgns = pgn.join(' ')
         this.game.reset()
         this.game.load_pgn(pgns) 
-        
+          
         const moved = this.game.move(move)
-        this.board.position(this.game.fen())
 
-        setTimeout(() => {
-          this.moveSound(moved)
-          this.addHightlight(moved)
-        },250)
+        if(moved){
+          this.board.position(this.game.fen())
+
+          setTimeout(() => {
+            this.moveSound(moved)
+            this.addHightlight(moved)
+          },250)
+        }
 
         if(!this.paused) {
           this.gamePause()
@@ -588,7 +590,6 @@
     data () {
       return {
         boardCfg: {
-          showErrors:true,
           position: 'start',
           draggable: false,
           moveSpeed:250,

@@ -238,7 +238,6 @@
     data () {
       return {
         boardCfg: {
-          showErrors:true,
           position: 'start',
           draggable: false,
           pieceTheme:'/static/img/chesspieces/classic/{piece}.png'

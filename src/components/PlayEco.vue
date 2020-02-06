@@ -528,7 +528,6 @@
           values:[],
         },
         boardCfg: {
-          showErrors:true,
           position: 'start',
           draggable: false,
           moveSpeed:250,

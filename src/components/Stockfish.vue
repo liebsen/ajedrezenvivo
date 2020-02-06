@@ -70,7 +70,7 @@
         </div>
         <div class="column">
           <div class="board-assistant">
-            <div class="columns" v-show="pgnIndex.length > 0">
+            <div class="columns" v-show="pgnIndex.length">
               <div class="column has-text-left is-marginless preservefilter">
                 <button @click="gameRestart()" class="button is-small is-rounded is-danger" v-if="!announced_game_over" title="Abandonar partida">
                   <span class="icon has-text-white">
@@ -114,13 +114,13 @@
                     </div>
 
                     <div class="moveCell moveSAN movew" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
-                      <a class="moveindex">
+                      <a :class="'moveindex m' + (move.i-2)" @click="gamePos(move.i-2)">
                         <span v-html="move.white"></span>
                       </a>
                     </div>
 
                     <div class="moveCell moveSAN moveb" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
-                      <a class="moveindex">
+                      <a :class="'moveindex m' + (move.i-1)" @click="gamePos(move.i-1)">
                         <span v-html="move.black"></span>
                       </a>
                     </div>
@@ -149,6 +149,18 @@
     mounted: function(){
       window.app = this
       const saved = JSON.parse(localStorage.getItem('player'))
+
+      document.getElementById('board').addEventListener("wheel", event => {
+        const delta = Math.sign(event.deltaY)
+        var pos = this.index - 1
+        if(delta < 0){
+          pos = this.index + 1
+        }
+        if(pos > -1){
+          this.gamePos(pos)
+        }
+      })
+
       if (!Worker || (location && location.protocol === "file:")) {
         var script_tag  = document.createElement("script");
         script_tag.type ="text/javascript";
@@ -219,6 +231,43 @@
             }
           }
         })
+      },
+      gamePos:function(pos){
+        if(pos > this.gameMoves.length - 1||!this.announced_game_over){
+          return
+        }
+
+        this.index = pos
+
+        const moves = this.gameMoves.slice(0,this.index)
+        var move = this.gameMoves[this.index];
+
+        // ---------------
+        var pgn = []
+        moves.forEach((move,i) => {
+          if(i%2){
+            pgn.push(move)
+          } else {
+            pgn.push([Math.ceil(i/2)+1,move].join('. '))     
+          }   
+        })
+
+        document.querySelectorAll('.moveindex').forEach((item) => {
+          item.parentNode.classList.remove('active');
+        })
+
+        document.querySelector('.moveindex.m' + this.index).parentNode.classList.add('active');
+        const pgns = pgn.join(' ')
+        this.game.reset()
+        this.game.load_pgn(pgns) 
+        
+        const moved = this.game.move(move)
+        this.board.position(this.game.fen())
+
+        setTimeout(() => {
+          this.moveSound(moved)
+          this.addHightlight(moved)
+        },250)
       },
       gamePGN:function(pgn){
         var data = []
@@ -597,12 +646,13 @@
           t.announced_game_over = true
         }
 
-        const game_pgn = t.game.pgn()
-        t.pgnIndex = this.gamePGNIndex(game_pgn)
+        t.pgnIndex = this.gamePGNIndex(t.game.pgn())
+        t.gameMoves.push(move.san)
+        t.index++
 
         setTimeout(() => {
-          this.addHightlight(move)
-          this.moveSound(move)
+          t.addHightlight(move)
+          t.moveSound(move)
         },250)
 
         const movesTable = document.querySelector(".movesTableContainer")
@@ -623,7 +673,6 @@
       gamePGNIndex:function(pgn){
         var data = []
         , index = 0
-        , selectedIndex = parseInt(location.hash.replace('#',''))
         , symbols = [
           {K:'♔',Q:'♕',B:'♗',N:'♘',R:'♖',p:'♙'},
           {K:'♚',Q:'♛',B:'♝',N:'♞',R:'♜',p:'♟'}
@@ -748,7 +797,6 @@
     data () {
       return {
         boardCfg: {
-          showErrors:true,
           position: 'start',
           draggable: true,
           onDragStart: this.onDragStart,
@@ -768,6 +816,8 @@
         time: {
           level: -1
         },
+        index:-1,
+        gameMoves:[],
         displayScore: true,
         score:0.10,
         vscore: 49,

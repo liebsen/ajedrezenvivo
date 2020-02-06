@@ -50,7 +50,8 @@ $color: #2f89fc;
   }
 }
 
-@media screen and (min-width: 1440px) {
+
+@media screen and (min-width: 1240px) {
   .fakeboard {
     transform: translate(0%, -10%) rotate(15deg) skew(-5deg);
     .square-55d63 {

@@ -151,12 +151,11 @@
                             <span v-html="(index+1)"></span>
                           </div>
                           <div class="moveCell moveSAN movew" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
-                            <a class="moveindex">
+                            <a :class="'moveindex m' + (move.i-2)" @click="gamePos(move.i-2)">
                               <span v-html="move.white"></span>
-                            </a>
-                          </div>
+                            </a>                          </div>
                           <div class="moveCell moveSAN moveb" :class="{ 'moveRowOdd': move.odd, 'moveRowEven': !move.odd }">
-                            <a class="moveindex">
+                            <a :class="'moveindex m' + (move.i-1)" @click="gamePos(move.i-1)">
                               <span v-html="move.black"></span>
                             </a>
                           </div>
@@ -210,6 +209,16 @@
       t.$root.loading = true
       window.app = this
       window.addEventListener('beforeunload', t.beforeunload)
+      document.getElementById('board').addEventListener("wheel", event => {
+        const delta = Math.sign(event.deltaY)
+        var pos = this.index - 1
+        if(delta < 0){
+          pos = this.index + 1
+        }
+        if(pos > -1){
+          this.gamePos(pos)
+        }
+      })
       axios.get('/static/json/eco_es.json')
         .then((response)=>{
           this.eco = response.data
@@ -579,6 +588,43 @@
           }      
         },500)  
       },
+      gamePos:function(pos){
+        if(pos > this.gameMoves.length - 1||!this.announced_game_over){
+          return
+        }
+
+        this.index = pos
+
+        const moves = this.gameMoves.slice(0,this.index)
+        var move = this.gameMoves[this.index];
+
+        // ---------------
+        var pgn = []
+        moves.forEach((move,i) => {
+          if(i%2){
+            pgn.push(move)
+          } else {
+            pgn.push([Math.ceil(i/2)+1,move].join('. '))     
+          }   
+        })
+
+        document.querySelectorAll('.moveindex').forEach((item) => {
+          item.parentNode.classList.remove('active');
+        })
+
+        document.querySelector('.moveindex.m' + this.index).parentNode.classList.add('active');
+        const pgns = pgn.join(' ')
+        this.game.reset()
+        this.game.load_pgn(pgns) 
+        
+        const moved = this.game.move(move)
+        this.board.position(this.game.fen())
+
+        setTimeout(() => {
+          this.moveSound(moved)
+          this.addHightlight(moved)
+        },250)
+      },
       gameLoad: function(){
         this.$root.loading = true
         var t = this
@@ -853,6 +899,9 @@
           } 
 
           t.pgnIndex = this.gamePGNIndex(t.game.pgn())
+          t.gameMoves.push(move.san)
+          t.index++
+
           t.addHightlight(move)
           setTimeout(() => {
             t.moveSound(move)
@@ -1069,6 +1118,8 @@
         eco:{},
         tab:'pgn',
         chat:'',
+        index:-1,
+        gameMoves:[],
         clock:null,
         timer:{w:null,b:null},
         tdisplay:{w:null,b:null},
