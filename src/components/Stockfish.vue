@@ -198,6 +198,7 @@
             t.time.level = -1
             t.ecode = ''
             t.opening = ''
+            t.index = -1
             t.score = 0.10
             t.vscore = 49
             t.stockfishMoved = false
@@ -233,22 +234,22 @@
         })
       },
       gamePos:function(pos){
-        if(pos > this.gameMoves.length - 1||!this.announced_game_over){
+        if(pos > Object.keys(this.gameMoves).length - 1){ //||!this.announced_game_over
           return
         }
 
         this.index = pos
-
         const moves = this.gameMoves.slice(0,this.index)
-        var move = this.gameMoves[this.index];
+        var move = this.gameMoves[this.index].san;
+        this.vscore = this.gameMoves[this.index].vscore
 
         // ---------------
         var pgn = []
         moves.forEach((move,i) => {
           if(i%2){
-            pgn.push(move)
+            pgn.push(move.san)
           } else {
-            pgn.push([Math.ceil(i/2)+1,move].join('. '))     
+            pgn.push([Math.ceil(i/2)+1,move.san].join('. '))     
           }   
         })
 
@@ -647,10 +648,13 @@
         }
 
         t.pgnIndex = this.gamePGNIndex(t.game.pgn())
-        t.gameMoves.push(move.san)
         t.index++
 
         setTimeout(() => {
+          t.gameMoves.push({
+            san: move.san,
+            vscore: t.vscore
+          })
           t.addHightlight(move)
           t.moveSound(move)
         },250)
@@ -759,7 +763,9 @@
         }
 
         t.score = t.engineStatus.score
+
         t.vscore = 50 - (t.score / 48 * 100)
+        console.log("--- " + t.vscore)
       },
       onDragStart : function(source, piece, position, orientation) {
         var re = this.playerColor == 'white' ? /^b/ : /^w/
