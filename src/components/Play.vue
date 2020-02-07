@@ -471,7 +471,7 @@
         //console.log("UCI: " + cmd);
         (which || this.evaler).postMessage(cmd);
       }, 
-      get_moves: function()
+      moveList: function()
       {
         var moves = '';
         var pgn = []
@@ -856,7 +856,7 @@
 
         var t = this
         setTimeout(() => {
-          this.uciCmd('position startpos moves' + this.get_moves(), this.evaler);
+          this.uciCmd('position startpos moves' + this.moveList(), this.evaler);
           this.uciCmd("eval", this.evaler);
 
           if(t.game.game_over()){

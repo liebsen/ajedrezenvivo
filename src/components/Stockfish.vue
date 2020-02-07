@@ -253,17 +253,14 @@
           }   
         })
 
-        document.querySelectorAll('.moveindex').forEach((item) => {
-          item.parentNode.classList.remove('active');
-        })
 
-        document.querySelector('.moveindex.m' + this.index).parentNode.classList.add('active');
         const pgns = pgn.join(' ')
         this.game.reset()
         this.game.load_pgn(pgns) 
         
         const moved = this.game.move(move)
         this.board.position(this.game.fen())
+        this.updateMoveList()
 
         setTimeout(() => {
           this.moveSound(moved)
@@ -455,13 +452,12 @@
 
               setTimeout(() => {
                 this.prepareMove()
-                this.drawChart()
               },this.ucitime)                
             }
           })
         })
       },      
-      get_moves: function()
+      moveList: function()
       {
         var moves = '';
         var pgn = []
@@ -479,14 +475,14 @@
         if(!t.game.game_over()) {
           t.thinking = true
           t.isEngineRunning = true
-          t.uciCmd('position startpos moves' + t.get_moves())
+          t.uciCmd('position startpos moves' + t.moveList())
           t.uciCmd("go " + (t.time.depth ? "depth " + t.time.depth : ""))          
         }
       },  
       showHint: function(){
         this.hintMode = true
         this.isEngineRunning = false
-        this.uciCmd('position startpos moves' + this.get_moves());
+        this.uciCmd('position startpos moves' + this.moveList());
         this.uciCmd("go " + (this.time.depth ? "depth " + this.time.depth : ""));
       },
       calcPoints : function(){
@@ -519,7 +515,7 @@
         }
 
         if(!isNaN(score)){
-          this.chart.values.push(score)
+          this.chart.values[this.index] = score
           this.updateChart()
         }        
       },
@@ -649,18 +645,20 @@
 
         t.pgnIndex = this.gamePGNIndex(t.game.pgn())
         t.index++
+        t.gameMoves = t.gameMoves.slice(0,t.index)
+        t.chart.values = t.chart.values.slice(0,t.index)
 
         setTimeout(() => {
-          t.gameMoves.push({
+          t.gameMoves[t.index] = {
             san: move.san,
             vscore: t.vscore
-          })
+          }
+          t.drawChart()
           t.addHightlight(move)
           t.moveSound(move)
+          t.updateMoveList()
         },250)
 
-        const movesTable = document.querySelector(".movesTableContainer")
-        movesTable.scrollTop = movesTable.scrollHeight
         t.thinking = false
 
         if(t.game.history().length < 14){
@@ -673,6 +671,15 @@
             })
           },1000)
         }
+      },
+      updateMoveList: function(){
+        const movesTable = document.querySelector(".movesTableContainer")
+        movesTable.scrollTop = movesTable.scrollHeight
+        document.querySelectorAll('.moveindex').forEach((item) => {
+          item.parentNode.classList.remove('active');
+        })
+
+        document.querySelector('.moveindex.m' + this.index).parentNode.classList.add('active');
       },
       gamePGNIndex:function(pgn){
         var data = []
@@ -763,9 +770,7 @@
         }
 
         t.score = t.engineStatus.score
-
         t.vscore = 50 - (t.score / 48 * 100)
-        console.log("--- " + t.vscore)
       },
       onDragStart : function(source, piece, position, orientation) {
         var re = this.playerColor == 'white' ? /^b/ : /^w/
@@ -784,14 +789,13 @@
         if (move === null) return 'snapback'
 
         this.isEngineRunning = false
-        this.uciCmd('position startpos moves' + this.get_moves())
+        this.uciCmd('position startpos moves' + this.moveList())
         this.uciCmd("go " + (this.time.depth ? "depth " + this.time.depth : ""))
         this.moveFrom = null
         this.updateMoves(move)
 
         setTimeout(() => {
           this.prepareMove()
-          this.drawChart()
         },this.ucitime)
       },
       onSnapEnd: function() {
