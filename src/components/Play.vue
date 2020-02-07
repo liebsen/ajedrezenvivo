@@ -753,13 +753,13 @@
         events.forEach((event) => {
           document.querySelector('.chessboard-63f37').addEventListener(event, e => {
             e.preventDefault()
-            const turn = t.game.turn() === t.playerColor[0]
+            const piece = e.target.getAttribute('data-piece')
 
             if(!turn) return
-            if(e.target.classList.contains('row-5277c')) return
+            if(piece && piece[0] != t.playerColor[0]) return 
+            if(e.target.classList.contains('row-5277c')||e.target.classList.contains('board-b72b1')) return
 
             const src = e.target.getAttribute('src')
-            const piece = e.target.getAttribute('data-piece')
             const target = src ? e.target.parentNode : e.target
             const square = target.id.substring(0,2)
 
