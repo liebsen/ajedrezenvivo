@@ -177,7 +177,7 @@
                         <div class="control">
                           <button type="submit" class="button is-info is-rounded">
                             <span class="icon">
-                              <span class="fas fa-paper-plane"></span>
+                              <span class="fas fa-arrow-up"></span>
                             </span>
                           </button>
                         </div>
@@ -353,6 +353,7 @@
       acceptdraw: function(data){
         swal.close()
         swal("Tablas", 'La partida finalizó con un empate', "info")
+        this.announced_game_over = true
       },
       rejectdraw: function(data){
         swal.close()
