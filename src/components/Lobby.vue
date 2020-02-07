@@ -222,8 +222,9 @@
     <div class="column">
       <h4>
         <span class="icon">
-          <span class="fas fa-stopwatch"></span>
+          <span class="fas fa-clock"></span>
         </span>
+        <span>Minutos</span>
       </h4>
       <div class="control has-text-centered column">
         <div class="buttons levels has-addons gameclock">
@@ -235,6 +236,25 @@
       </div>
     </div>
   </div>
+  <div class="columns is-flex has-text-centered">
+    <div class="column">
+      <h4>
+        <span class="icon">
+          <span class="fas fa-stopwatch"></span>
+        </span>
+        <span>Compensación en segundos</span>
+      </h4>
+      <div class="control has-text-centered column">
+        <div class="buttons levels has-addons gamecompensation">
+          <button class="button is-toggle is-rounded">+0</button>
+          <button class="button is-toggle">+1</button>
+          <button class="button is-toggle has-background-warning">+2</button>
+          <button class="button is-toggle is-rounded">+3</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>`);
         swal({
           title: 'Invitar a ' + player,
@@ -250,9 +270,11 @@
 
             var playercolor = document.querySelector('.playercolor > .has-background-warning')
             var gameclock = document.querySelector('.gameclock > .has-background-warning')
+            var gamecompensation = document.querySelector('.gamecompensation > .has-background-warning')
             var white = t.$root.player.code
             var black = player
             var minutes = parseInt(gameclock.textContent)
+            var compensation = parseInt(gamecompensation.textContent)
 
             if(playercolor.classList.contains('is-black-pieces')){
               white = player
@@ -272,7 +294,7 @@
 
             swal({
               title: "Esperando confirmación...",
-              text: '👤 ' + player + ' debe responder la solicitud',
+              text: player + ' debe responder la solicitud',
               buttons: false
             })
 
@@ -281,7 +303,8 @@
               player:player,
               white: white,
               black: black,
-              minutes: minutes      
+              minutes: minutes,
+              compensation: compensation
             })
           }
         })

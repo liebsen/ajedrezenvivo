@@ -165,7 +165,7 @@ new Vue({
       if(!observe){
         this.$socket.emit('lobby_join', this.player)
       }        
-      snackbar('success', (this.player.observe ? "👁️" : "👨") + " Estas conectado" +(this.player.observe ? ' en modo Observador' : ' y disponible para jugar'))
+      snackbar('success', "Estas conectado" +(this.player.observe ? ' en modo Observador' : ' y disponible para jugar'))
     } else {
       snackbar('error',"📶 Te desconectaste. Verifica tu conexión a internet ")
     }
@@ -228,7 +228,7 @@ new Vue({
     reject: function(data) {
       if(data.asker === this.player.code){
         swal.close()
-        swal("Partida declinada", '👤 ' + data.player + ' declinó tu invitación')
+        swal("Partida declinada", data.player + ' declinó tu invitación')
       }
     },
     invite: function(data) {
@@ -238,7 +238,8 @@ new Vue({
           axios.post( this.endpoint + '/create', {
             white: data.white,
             black: data.black,
-            minutes: data.minutes
+            minutes: data.minutes,
+            compensation: data.compensation
           }).then((response) => {
             if(response.data.status === 'success'){
               t.$socket.emit('play', {
@@ -264,8 +265,8 @@ new Vue({
   <h4>
     <span class="icon">
       <span class="fas fa-stopwatch"></span>
-      <span> ${data.minutes}'</span>
     </span>
+    <span> ${data.minutes}' + ${data.compensation}</span>
   </h4>
   </div>`);
           swal({
@@ -283,7 +284,8 @@ new Vue({
               axios.post( this.endpoint + '/create', {
                 white: data.white,
                 black: data.black,
-                minutes: data.minutes
+                minutes: data.minutes,
+                compensation: data.compensation,
               }).then((response) => {
                 if(response.data.status === 'success'){
                   t.$socket.emit('play', {

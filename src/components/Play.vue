@@ -307,6 +307,7 @@
                 white: (t.playerColor==='white'?data.asker:data.player),
                 black: (t.playerColor==='white'?data.player:data.asker),
                 minutes: t.data.minutes,
+                compensation: t.data.compensation,
                 broadcast: true
               } ).then((response) => {
                 if(response.data.status === 'success'){
@@ -753,6 +754,7 @@
         events.forEach((event) => {
           document.querySelector('.chessboard-63f37').addEventListener(event, e => {
             e.preventDefault()
+            const turn = t.game.turn() === t.playerColor[0]
             const piece = e.target.getAttribute('data-piece')
 
             if(!turn) return
@@ -838,6 +840,7 @@
         move.turn = t.game.turn()
         move.wtime = parseInt(t.timer.w)
         move.btime = parseInt(t.timer.b)
+        move.compensation = t.data.compensation
         t.$socket.emit('move', move)
       },
       onSnapEnd: function() {
