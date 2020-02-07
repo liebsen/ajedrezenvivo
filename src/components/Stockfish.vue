@@ -495,6 +495,8 @@
       drawChart: function(){
         var score = parseInt(this.vscore)
 
+        this.chart.values = this.chart.values.slice(0,this.index)
+
         if(this.playerColor === 'white'){
           score = 100 - score;
         }
@@ -639,7 +641,6 @@
         t.pgnIndex = this.gamePGNIndex(t.game.pgn())
         t.index++
         t.gameMoves = t.gameMoves.slice(0,t.index)
-        t.chart.values = t.chart.values.slice(0,t.index)
 
         setTimeout(() => {
           t.gameMoves[t.index] = {

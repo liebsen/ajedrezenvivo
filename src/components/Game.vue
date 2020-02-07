@@ -123,12 +123,7 @@
 
       window.app = this
       document.getElementById('board').addEventListener("wheel", event => {
-        const delta = Math.sign(event.deltaY)
-        var pos = this.index - 1
-        if(delta < 0){
-          pos = this.index + 1
-        }
-        this.gamePos(pos)
+        this.gamePos(Math.sign(event.deltaY)<0?this.index+1:this.index-1)
       })
 
       if(localStorage.getItem('speed')){
@@ -144,6 +139,7 @@
     methods: {
       gameMove:function(){
         if(!this.paused){
+
           var move = this.gameMoves[this.index];
           this.selectedIndex = parseInt(location.hash.replace('#',''))
 
@@ -159,13 +155,13 @@
 
           this.board.position(this.game.fen())
 
+          this.uciCmd('position startpos moves' + this.moveList(), this.evaler);
+          this.uciCmd("eval", this.evaler);
+
           setTimeout(() => {
             this.moveSound(moved)
             this.addHightlight(moved)
           },250)          
-
-          this.uciCmd('position startpos moves' + this.get_moves(), this.evaler);
-          this.uciCmd("eval", this.evaler);
 
           if(this.index === this.gameMoves.length){
             this.gamePause()
@@ -201,7 +197,7 @@
           setTimeout(this.gameMove, this.speed)
         }
       },
-      get_moves: function()
+      moveList: function()
       {
         var moves = '';
         var pgn = []
@@ -327,11 +323,8 @@
             const offset = 150
             setTimeout(() => {
               document.querySelector('.movesTableContainer').style.height = ($('.board').height() - offset) + 'px'
-
               setTimeout(() => {
-                /* autoplay kickstart */
-                
-                this.gameSeek()
+                this.gameMove()
               }, 1000)
             }, 500)
           },2000)
@@ -380,6 +373,8 @@
       },
       drawChart: function(){
         var score = parseInt(this.vscore)
+
+        this.chart.values = this.chart.values.slice(0,this.index)
 
         if(this.orientation === 'white'){
           score = 100 - score;
@@ -494,7 +489,7 @@
         }, 10)
       },
       gamePos:function(pos){
-        if(pos > this.gameMoves.length){
+        if(pos > this.gameMoves.length||pos<0){
           return
         }
 
@@ -523,8 +518,10 @@
         const pgns = pgn.join(' ')
         this.game.reset()
         this.game.load_pgn(pgns) 
-          
         const moved = this.game.move(move)
+
+        this.uciCmd('position startpos moves' + this.moveList(), this.evaler);
+        this.uciCmd("eval", this.evaler);
 
         if(moved){
           this.board.position(this.game.fen())

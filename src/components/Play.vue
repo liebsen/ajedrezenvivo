@@ -938,6 +938,8 @@
       drawChart: function(){
         var score = parseInt(this.vscore)
 
+        this.chart.values = this.chart.values.slice(0,this.index)
+
         if(this.playerColor === 'white'){
           score = 100 - score;
         }
