@@ -210,14 +210,7 @@
       window.app = this
       window.addEventListener('beforeunload', t.beforeunload)
       document.getElementById('board').addEventListener("wheel", event => {
-        const delta = Math.sign(event.deltaY)
-        var pos = this.index - 1
-        if(delta < 0){
-          pos = this.index + 1
-        }
-        if(pos > -1){
-          this.gamePos(pos)
-        }
+        this.gamePos(Math.sign(event.deltaY)<0?this.index+1:this.index-1)
       })
       axios.get('/static/json/eco_es.json')
         .then((response)=>{
@@ -589,7 +582,7 @@
         },500)  
       },
       gamePos:function(pos){
-        if(pos > this.gameMoves.length - 1||!this.announced_game_over){
+        if(pos > this.gameMoves.length - 1||pos < 0||!this.announced_game_over){
           return
         }
 
@@ -688,7 +681,6 @@
             if(match = line.match(/^Total evaluation: (\-?\d+\.\d+)/)) {
               t.score = parseFloat(match[1]);
               t.vscore = 50 - (t.score / 48 * 100)
-              t.drawChart()
             }
 
             /// Ignore some output.
@@ -900,8 +892,8 @@
           } 
 
           t.pgnIndex = this.gamePGNIndex(t.game.pgn())
-          t.gameMoves.push(move.san)
           t.index++
+          t.gameMoves = t.gameMoves.slice(0,t.index)
 
           setTimeout(() => {
             t.gameMoves.push({
@@ -910,6 +902,7 @@
             })
             t.addHightlight(move)
             t.moveSound(move)
+            t.drawChart()
           },250)
 
           const movesTable = document.querySelector(".movesTableContainer")

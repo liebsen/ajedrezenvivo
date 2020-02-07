@@ -151,14 +151,7 @@
       const saved = JSON.parse(localStorage.getItem('player'))
 
       document.getElementById('board').addEventListener("wheel", event => {
-        const delta = Math.sign(event.deltaY)
-        var pos = this.index - 1
-        if(delta < 0){
-          pos = this.index + 1
-        }
-        if(pos > -1){
-          this.gamePos(pos)
-        }
+        this.gamePos(Math.sign(event.deltaY)<0?this.index+1:this.index-1)
       })
 
       if (!Worker || (location && location.protocol === "file:")) {
@@ -234,7 +227,7 @@
         })
       },
       gamePos:function(pos){
-        if(pos > Object.keys(this.gameMoves).length - 1){ //||!this.announced_game_over
+        if(pos > Object.keys(this.gameMoves).length - 1||pos < 0){ //||!this.announced_game_over
           return
         }
 
