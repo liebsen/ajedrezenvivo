@@ -604,11 +604,6 @@
           }   
         })
 
-        document.querySelectorAll('.moveindex').forEach((item) => {
-          item.parentNode.classList.remove('active');
-        })
-
-        document.querySelector('.moveindex.m' + this.index).parentNode.classList.add('active');
         const pgns = pgn.join(' ')
         this.game.reset()
         this.game.load_pgn(pgns) 
@@ -898,6 +893,7 @@
           t.pgnIndex = this.gamePGNIndex(t.game.pgn())
           t.index++
           t.gameMoves = t.gameMoves.slice(0,t.index)
+          t.drawChart()
 
           setTimeout(() => {
             t.gameMoves.push({
@@ -906,12 +902,8 @@
             })
             t.addHightlight(move)
             t.moveSound(move)
-            t.drawChart()
+            t.updateMoveList()
           },250)
-
-          const movesTable = document.querySelector(".movesTableContainer")
-          movesTable.scrollTop = movesTable.scrollHeight
-
         },100)
 
         if(t.game.history().length < 14){
@@ -924,6 +916,19 @@
             })
           },1000)
         }
+      },
+      updateMoveList: function(){
+        var t = this
+        const index = t.index 
+        const movesTable = document.querySelector(".movesTableContainer")
+        movesTable.scrollTop = movesTable.scrollHeight
+        document.querySelectorAll('.moveindex').forEach((item) => {
+          item.parentNode.classList.remove('active')
+        })
+        document.querySelector('.moveindex.m' + this.index).parentNode.classList.add('active')
+        setTimeout(() => {
+          t.drawChart(index)
+        },1000)
       },
       calcPoints : function(){
         this.chart.points = [];
@@ -939,10 +944,8 @@
           this.chart.points = points                  
         }
       },
-      drawChart: function(){
-        var score = parseInt(this.vscore)
-
-        this.chart.values = this.chart.values.slice(0,this.index)
+      drawChart: function(index){
+        var score = this.vscore
 
         if(this.playerColor === 'white'){
           score = 100 - score;
@@ -955,9 +958,10 @@
         if(score > 100) {
           score = 100
         }
-        
+
         if(!isNaN(score)){
-          this.chart.values.push(score)
+          this.chart.values = this.chart.values.slice(0,index)
+          this.chart.values[index] = score
           this.updateChart()
         }        
       },
@@ -1113,10 +1117,8 @@
           width: 100,
           height: 50,
           maxValue: 100,
-          vSteps: 3,
-          points:[],
-          values:[],
-          measurements:[]
+          values:[51],
+          points:[]
         },
         data:{},
         eco:{},

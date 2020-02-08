@@ -19,9 +19,9 @@
             <h4>Nivel</h4>
             <div class="control has-text-centered column">
               <div class="buttons levels has-addons">
-                <!--button class="button is-rounded" @click="gameStart(0)">
-                  <span>Fácil</span>
-                </button-->
+                <button class="button is-rounded" @click="gameStart(0)">
+                  <span>Niño</span>
+                </button>
                 <button class="button is-rounded" @click="gameStart(4)">
                   <span>Novato</span>
                 </button>
@@ -72,7 +72,7 @@
           <div class="board-assistant">
             <div class="columns" v-show="pgnIndex.length">
               <div class="column has-text-left is-marginless preservefilter">
-                <button @click="gameRestart()" class="button is-small is-rounded is-danger" v-if="!announced_game_over" title="Abandonar partida">
+                <button @click="askForRematch()" class="button is-small is-rounded is-danger" v-if="!announced_game_over" title="Abandonar partida">
                   <span class="icon has-text-white">
                     <span class="fas fa-flag"></span>
                   </span>
@@ -82,7 +82,7 @@
                     <span class="fas fa-question-circle"></span>
                   </span>
                 </button>
-                <button @click="gameRestart()" class="button is-small is-rounded is-success" v-if="announced_game_over" title="Jugar de nuevo">
+                <button @click="askForRematch()" class="button is-small is-rounded is-success" v-if="announced_game_over" title="Jugar de nuevo">
                   <span class="icon">
                     <span class="fa fa-retweet"></span>
                   </span>
@@ -101,7 +101,7 @@
             <div class="columns is-hidden-mobile">
               <div class="chart-container preservefilter">
                 <div :class="playerColor">
-                  <div class="chart" v-show="pgnIndex.length > 1"></div>
+                  <div class="chart" v-show="pgnIndex.length"></div>
                 </div>
               </div>
             </div>
@@ -175,16 +175,8 @@
       })
     },
     methods: {
-      gameRestart: function() {
+      gameRestart: function(){
         var t = this
-        swal({
-          title: 'Reiniciar partida',
-          text: '¿Deseas reiniciar la partida?',
-          buttons: ["No", "Sí"]
-        })
-        .then(accept => {
-          if (accept) {
-            //document.querySelector('.chart svg').remove()
             t.game.reset()
             t.announced_game_over = false
             t.pgnIndex = []
@@ -195,8 +187,19 @@
             t.score = 0.10
             t.vscore = 49
             t.stockfishMoved = false
-            t.chart.values = []
-            //t.gameStart(-1)
+            t.chart.values = [51]
+            document.querySelector('.chart').textContent = ''
+      },
+      askForRematch: function() {
+        var t = this
+        swal({
+          title: 'Reiniciar partida',
+          text: '¿Deseas reiniciar la partida?',
+          buttons: ["No", "Sí"]
+        })
+        .then(accept => {
+          if (accept) {
+            t.gameRestart()
           } else {
             console.log('Clicked on cancel')
           }
@@ -301,6 +304,7 @@
             t.engineStatus.engineReady = true;
           } else {
             var match = line.match(/^bestmove ([a-h][1-8])([a-h][1-8])([qrbn])?/);
+
             /// Did the AI move?
 
             if(match) {
@@ -492,10 +496,9 @@
           this.chart.points = points                  
         }
       },
-      drawChart: function(){
-        var score = parseInt(this.vscore)
-
-        this.chart.values = this.chart.values.slice(0,this.index)
+      drawChart: function(index){
+        
+        var score = this.vscore
 
         if(this.playerColor === 'white'){
           score = 100 - score;
@@ -510,16 +513,16 @@
         }
 
         if(!isNaN(score)){
-          this.chart.values[this.index] = score
+          this.chart.values = this.chart.values.slice(0,index)
+          this.chart.values[index] = score
           this.updateChart()
-        }        
+        }
       },
       updateChart: function(){
-
         this.calcPoints()
 
         var element = document.getElementsByClassName("chart")[0]
-        element.innerHTML = "";
+        element.innerHTML = ""
 
         var width = document.querySelector(".movesTableContainer").clientWidth + 'px'
         var chart = document.createElementNS("http://www.w3.org/2000/svg", "svg")
@@ -528,8 +531,8 @@
         chart.setAttribute("preserveAspectRatio", "none")
         chart.setAttribute("viewBox", "0 0 " + this.chart.width + " " + this.chart.height)
 
-        var polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
-        polygon.setAttribute("points", this.chart.points);
+        var polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon')
+        polygon.setAttribute("points", this.chart.points)
         element.style.width = width
 
         if(this.chart.values.length > 1){
@@ -647,7 +650,6 @@
             san: move.san,
             vscore: t.vscore
           }
-          t.drawChart()
           t.addHightlight(move)
           t.moveSound(move)
           t.updateMoveList()
@@ -667,13 +669,17 @@
         }
       },
       updateMoveList: function(){
+        var t = this
+        const index = t.index
         const movesTable = document.querySelector(".movesTableContainer")
         movesTable.scrollTop = movesTable.scrollHeight
         document.querySelectorAll('.moveindex').forEach((item) => {
-          item.parentNode.classList.remove('active');
+          item.parentNode.classList.remove('active')
         })
-
-        document.querySelector('.moveindex.m' + this.index).parentNode.classList.add('active');
+        document.querySelector('.moveindex.m' + this.index).parentNode.classList.add('active')
+        setTimeout(() => {
+          t.drawChart(index)
+        },1000)
       },
       gamePGNIndex:function(pgn){
         var data = []
@@ -763,7 +769,7 @@
           }
         }
 
-        t.score = t.engineStatus.score
+        t.score = t.engineStatus.score.split(' ').reverse()[0]
         t.vscore = 50 - (t.score / 48 * 100)
       },
       onDragStart : function(source, piece, position, orientation) {
@@ -812,10 +818,8 @@
           width: 100,
           height: 50,
           maxValue: 100,
-          vSteps: 3,
-          points:[],
-          values:[],
-          measurements:[]
+          values:[51],
+          points:[]          
         },
         time: {
           level: -1

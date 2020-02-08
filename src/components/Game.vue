@@ -347,7 +347,9 @@
             if(match = line.match(/^Total evaluation: (\-?\d+\.\d+)/)) {
               t.score = parseFloat(match[1]);
               t.vscore = 50 - (t.score / 48 * 100)
-              t.drawChart()
+              setTimeout(() => {
+                t.drawChart()
+              },1000)              
             }
 
             /// Ignore some output.
@@ -372,9 +374,7 @@
         }
       },
       drawChart: function(){
-        var score = parseInt(this.vscore)
-
-        this.chart.values = this.chart.values.slice(0,this.index)
+        var score = this.vscore
 
         if(this.orientation === 'white'){
           score = 100 - score;
@@ -389,6 +389,7 @@
         }
 
         if(!isNaN(score)){
+          this.chart.values = this.chart.values.slice(0,this.index)
           this.chart.values.push(score)
           this.updateChart()
         }        
