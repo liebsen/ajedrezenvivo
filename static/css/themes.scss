@@ -134,6 +134,16 @@
         background-color: #8a613c;
         color:#c9a870;
     }
+    .white-1e1d7 {
+        background-image: url(/static/img/boards/wood/light.png);
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .black-3c85d {
+        background-image: url(/static/img/boards/wood/dark.png);
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
     .score-container {
         background-color: #c9a870;
         .score {
@@ -226,11 +236,15 @@
         background-color: #cdcbc2;
         color:#4d4d4d;
     }
+    .white-1e1d7 {
+        background-image: url(/static/img/boards/newspaper/light.png);
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
     .black-3c85d {
-        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAOUlEQVQYV43MQQ4AIAgDQfv/R4OYaFChsOfJYvQSNJxMgwouZDMGD2LwQhn8UARD9MIUeUjRhiUyqPw8Cgq7TDlmAAAAAElFTkSuQmCC);
-        background-size: 5px;
-        background-color: #cdcbc2;
-        color:#4d4d4d;
+        background-image: url(/static/img/boards/newspaper/dark.png);
+        background-repeat: no-repeat;
+        background-size: cover;
     }
     .bar-progress, .moveb, .moveb a {
         background-color: #4d4d4d;

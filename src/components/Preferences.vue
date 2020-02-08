@@ -28,7 +28,6 @@
                       <option value="purple">Púrpura</option>
                       <option value="lilac">Lila</option>
                       <option value="wood">Madera</option>
-                      <option value="dark-wood">Madera oscura</option>
                       <option value="dash">Dash</option>
                       <option value="book">Libro</option>
                       <option value="newspaper">Periódico</option>
