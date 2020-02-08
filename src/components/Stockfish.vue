@@ -194,7 +194,7 @@
         var t = this
         swal({
           title: 'Reiniciar partida',
-          text: '¿Deseas reiniciar la partida?',
+          text: '¿Querés reiniciar la partida?',
           buttons: ["No", "Sí"]
         })
         .then(accept => {
@@ -597,7 +597,7 @@
           if(t.game.in_draw() || t.game.in_stalemate() || t.game.in_threefold_repetition()){
             swal({
               title: "La partida finalizó en tablas",
-              text: '¿Deseas jugar otra vez?',
+              text: '¿Querés jugar otra vez?',
               buttons: ["No", "Sí"]
             }).then(accept => {
               if (accept) {
@@ -611,7 +611,7 @@
               if(t.game.turn() === t.playerColor[0]){
                 swal({
                   title: "Stockfish ganó la partida",
-                  text: '¿Deseas jugar otra vez?',
+                  text: '¿Querés jugar otra vez?',
                   buttons: ["No", "Sí"]
                 })
                 .then(accept => {
@@ -623,7 +623,7 @@
                 })
               } else {
                 swal({
-                  title: "¿Deseas jugar otra vez?",
+                  title: "¿Querés jugar otra vez?",
                   text: 'Venciste a Stockfish. ¡Felicitaciones! ',
                   icon: "success",
                   buttons: ["No", "Sí"]

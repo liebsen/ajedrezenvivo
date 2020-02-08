@@ -368,7 +368,7 @@
         if(data.asker === t.$root.player.code){
           result = (t.playerColor==='black'?'1-0':'0-1')
           swal({
-            title: '¿Deseas solicitar revancha?',
+            title: '¿Querés solicitar revancha?',
             text: 'Has abandonado. ' + t.opponentName + ' ganó la partida',
             buttons: ["No", "Sí"]
           })
@@ -482,7 +482,7 @@
       gameCapitulate: function(){
         swal({
           title: 'Abandonar partida',
-          text: '¿Deseas abandonar la partida?',
+          text: '¿Querés abandonar la partida?',
           buttons: ["No", "Sí"]
         })
         .then(accept => {
@@ -499,7 +499,7 @@
       },
       gameAskForDraw: function(){
         swal({
-          title: '¿Deseas solicitar tablas?',
+          title: '¿Querés solicitar tablas?',
           text: '',
           buttons: ["No", "Sí"]
         })
@@ -709,7 +709,7 @@
               if(turn === t.playerColor[0]){
                 result = (t.playerColor==='black'?'1-0':'0-1')
                 swal({
-                  title: '¿Deseas solicitar revancha?',
+                  title: '¿Querés solicitar revancha?',
                   text: t.opponentName + ' ganó la partida. Has sido derrotado por tiempo.',
                   buttons: ["No", "Sí"]
                 })
@@ -862,7 +862,7 @@
             } else {          
               if(t.game.turn() === t.playerColor[0]){
                 swal({
-                  title: '¿Deseas la revancha?',
+                  title: '¿Querés la revancha?',
                   text: t.opponentName + ' ganó la partida',
                   buttons: ["No", "Sí"]
                 })
