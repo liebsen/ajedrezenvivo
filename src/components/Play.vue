@@ -297,7 +297,7 @@
         if(data.player === this.$root.player.code){
           swal.close()
           swal({
-            title: "¿Aceptás la partida?",
+            title: "¿Aceptás esta partida?",
             text: '👤 ' + data.asker + ' solicita una revancha',
             buttons: ["Declinar", "Aceptar"]
           })
@@ -353,7 +353,7 @@
       },
       acceptdraw: function(data){
         swal.close()
-        swal("Tablas", 'La partida finalizó con un empate', "info")
+        swal("Tablas", 'Esta partida finalizó con un empate', "info")
         this.announced_game_over = true
       },
       rejectdraw: function(data){
@@ -369,7 +369,7 @@
           result = (t.playerColor==='black'?'1-0':'0-1')
           swal({
             title: '¿Querés solicitar revancha?',
-            text: 'Has abandonado. ' + t.opponentName + ' ganó la partida',
+            text: 'Has abandonado. ' + t.opponentName + ' ganó esta partida',
             buttons: ["No", "Sí"]
           })
           .then(accept => {
@@ -482,7 +482,7 @@
       gameCapitulate: function(){
         swal({
           title: 'Abandonar partida',
-          text: '¿Querés abandonar la partida?',
+          text: '¿Querés abandonar esta partida?',
           buttons: ["No", "Sí"]
         })
         .then(accept => {
@@ -710,7 +710,7 @@
                 result = (t.playerColor==='black'?'1-0':'0-1')
                 swal({
                   title: '¿Querés solicitar revancha?',
-                  text: t.opponentName + ' ganó la partida. Has sido derrotado por tiempo.',
+                  text: t.opponentName + ' ganó esta partida. Fuiste derrotado por tiempo.',
                   buttons: ["No", "Sí"]
                 })
                 .then(accept => {
@@ -858,12 +858,12 @@
                 wtime: t.timer.b,
                 result:"1/2-1/2"
               })
-              swal("Tablas", 'La partida finalizó con un empate', "info")
+              swal("Tablas", 'Esta partida finalizó en tablas', "info")
             } else {          
               if(t.game.turn() === t.playerColor[0]){
                 swal({
                   title: '¿Querés la revancha?',
-                  text: t.opponentName + ' ganó la partida',
+                  text: t.opponentName + ' ganó esta partida',
                   buttons: ["No", "Sí"]
                 })
                 .then(accept => {

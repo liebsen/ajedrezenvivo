@@ -269,10 +269,16 @@
 
         if(t.game.game_over()){
           if(t.game.in_draw() || t.game.in_stalemate() || t.game.in_threefold_repetition()) {
-            swal("Tablas", 'La partida finalizó con un empate', "info")
+            if(t.game.in_stalemate()){
+              swal("Tablas", 'Esta partida finalizó en tablas por rey ahogado', "info")
+            } else if(t.game.in_threefold_repetition()){
+              swal("Tablas", 'Esta partida finalizó en tablas por triple repetición', "info")
+            } else {
+              swal("Tablas", 'Esta partida finalizó en tablas', "info")
+            }
           } else {          
             const winner = t.game.turn() === 'w' ? t.data.black : t.data.white
-            swal("¡Victoria!", winner + ' ganó la partida', "success")
+            swal("¡Victoria!", winner + ' ganó esta partida', "success")
           }
           
           sound = 'game-end.mp3'

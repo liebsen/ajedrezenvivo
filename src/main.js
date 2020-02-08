@@ -270,7 +270,7 @@ new Vue({
   </h4>
   </div>`);
           swal({
-            title: "¿Aceptás la partida?",
+            title: "¿Aceptás esta partida?",
             content: {
               element: 'div',
               attributes: {
@@ -439,10 +439,16 @@ new Vue({
 
       if(game.game_over()){
         if(game.in_draw() || game.in_stalemate() || game.in_threefold_repetition()) {
-          document.querySelector('.board-container.b' + id + ' .match-status').innerHTML = 'La partida finalizó con un empate'
+          var message = 'Esta partida finalizó en tablas'
+          if(game.in_stalemate()){
+            message = 'Esta partida finalizó en tablas por rey ahogado'
+          } else if(game.in_threefold_repetition()){
+            message = 'Esta partida finalizó en tablas por triple repetición'
+          }
+          document.querySelector('.board-container.b' + id + ' .match-status').innerHTML = message
         } else {          
           const winner = game.turn() === 'w' ? data.black : data.white
-          document.querySelector('.board-container.b' + id + ' .match-status').innerHTML = winner + ' ganó la partida'
+          document.querySelector('.board-container.b' + id + ' .match-status').innerHTML = winner + ' ganó esta partida'
         }
         
         sound = 'game-end.mp3'
