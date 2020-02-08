@@ -83,7 +83,7 @@
               </span>
               <span>Invita a tus amigos</span>
             </h6-->
-            <div class="columns is-gapless is-multiline is-mobile is-vcentered has-text-centered preservefilter">
+            <div class="columns is-gapless is-mobile is-vcentered has-text-centered preservefilter">
               <div class="column is-hidden-tablet">
                 <a :href="'whatsapp://send?text=¿Querés jugar ajedrez online? Estoy como ' + $root.player.code + ' https://ajedrezenvivo.herokuapp.com/lobby'" target="_blank">
                   <span class="icon has-text-whatsapp is-size-3">
@@ -168,7 +168,7 @@
       setTimeout(() => {
         this.$socket.emit('lobby_chat', { 
           sender: 'chatbot',
-          line: `Hola ${this.$root.player.code}, gracias por visitar AjedrezEV.` + (this.$root.player.observe ? ` Estas en modo observador. Para cambiarlo puedes ` : ` Antes de jugar puedes `) +  `<a href="/preferences" class="has-text-success">establecer tus preferencias</a>`
+          line: `Hola ${this.$root.player.code}, gracias por visitar AjedrezEV.` + (this.$root.player.observe ? ` Estas en modo observador. Para cambiarlo podés ` : ` Antes de jugar podés `) +  `<a href="/preferences" class="has-text-success">establecer tus preferencias</a>`
         })
 
         if(this.$root.players.length < 2){
@@ -190,16 +190,16 @@
       },
       clickObserve: function(data) { 
         if(data === this.$root.player.code){
-          snackbar('error','No puedes jugar contra ti mismo')   
+          snackbar('error','No podés jugar contra vos mismo')   
         } else {
           snackbar('default', data + ' Está en modo Observador y no acepta invitaciones') 
         }        
       },
       play: function(player) {
         if(player === this.$root.player.code)
-        return snackbar('error','No puedes jugar contra ti mismo') 
+        return snackbar('error','No podés jugar contra vos mismo') 
         if(this.$root.player.observe)
-        return snackbar('default','Estás en modo Observador y no puedes invitar')   
+        return snackbar('default','Estás en modo Observador y no podés invitar')   
 
         var t = this
         const template = (`

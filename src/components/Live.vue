@@ -104,7 +104,7 @@
           var count = Object.keys(response.data).length
           if(response.data.error){
             if(res.data.error==='not_enough_params'){
-              snackbar('info','Por favor ingresa una palabra clave para ver partidas. Puedes buscar por evento, lugar, jugador o PGN.', 15000);  
+              snackbar('info','Ingresá una palabra clave para ver partidas. Podés buscar por evento, lugar, jugador o PGN.', 15000);  
             }
           } else {
             if(count===0){

@@ -486,13 +486,6 @@ table {
   }
 }
 
-.is-lobby-list {
-  max-width: 260px;
-  .field {
-    margin-bottom: 0.25rem;
-  }
-}
-
 
 /*
 .field-body {
@@ -850,11 +843,23 @@ table {
   background-color: rgba(43, 165, 137, 0.45);
 }
 
+.swal-title {
+  margin-top: 1rem;
+}
+
+.swal-button {
+  border-radius: 30px;
+}
+
 .swal-footer {
   background-color: rgb(245, 248, 250);
   margin-top: 32px;
   border-top: 1px solid #E9EEF1;
   overflow: hidden;
+}
+
+.swal-icon {
+  display: none;
 }
 
 
@@ -894,6 +899,13 @@ table {
 }
 
 @media screen and (min-width: 759px) {
+  .is-lobby-list {
+    max-width: 240px;
+    .field {
+      margin-bottom: 0.25rem;
+    }
+  }
+
  .is-horizontal {
   .field-body {
     &:not(:first-child) {
