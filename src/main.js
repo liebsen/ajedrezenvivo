@@ -510,11 +510,8 @@ new Vue({
 	    }
 	  },
     fullscreenBoard: function(){
-      var board = document.querySelector('.board')
-      if(board){
-        if(document.body.clientHeight < document.body.clientWidth){
-          board.style.width = document.body.clientHeight - document.querySelector('.menu').clientHeight - 70 + 'px'
-        }
+      if(document.querySelector('.board') && document.body.clientHeight < document.body.clientWidth && document.body.clientWidth > 768){
+        document.querySelector('.board').style.width = document.body.clientHeight - document.querySelector('.menu').clientHeight - 70 + 'px'
       }
     },
     msToTime(duration){

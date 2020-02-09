@@ -101,6 +101,7 @@
             <div class="columns is-hidden-mobile">
               <div class="chart-container preservefilter">
                 <div :class="playerColor">
+                  <div class="chart-indicator"></div>
                   <div class="chart" v-show="pgnIndex.length"></div>
                 </div>
               </div>
@@ -257,11 +258,21 @@
         const moved = this.game.move(move)
         this.board.position(this.game.fen())
         this.updateMoveList()
+        this.drawChartPosition()
 
         setTimeout(() => {
           this.moveSound(moved)
           this.addHightlight(moved)
         },250)
+      },
+      drawChartPosition: function(draw){
+        if(draw===undefined) draw = true
+        if(!draw){
+          document.querySelector('.chart-indicator').style.backgroundColor = 'transparent' 
+        } else {
+          document.querySelector('.chart-indicator').style.left = ((this.index + 1) / this.gameMoves.length * 100) + '%'
+          document.querySelector('.chart-indicator').style.backgroundColor = 'rgb(0,0,0,0.15)'
+        }
       },
       gamePGN:function(pgn){
         var data = []
@@ -497,9 +508,7 @@
         }
       },
       drawChart: function(index){
-        
-        var score = this.vscore
-
+        let score = this.vscore
         if(this.playerColor === 'white'){
           score = 100 - score;
         }
@@ -513,6 +522,7 @@
         }
 
         if(!isNaN(score)){
+          this.drawChartPosition(false)
           this.chart.values = this.chart.values.slice(0,index)
           this.chart.values[index] = score
           this.updateChart()
@@ -646,6 +656,7 @@
         t.gameMoves = t.gameMoves.slice(0,t.index)
 
         setTimeout(() => {
+          const index = t.index
           t.gameMoves[t.index] = {
             san: move.san,
             vscore: t.vscore
@@ -653,6 +664,9 @@
           t.addHightlight(move)
           t.moveSound(move)
           t.updateMoveList()
+          setTimeout(() => {
+            t.drawChart(index)
+          },1000)
         },250)
 
         t.thinking = false
@@ -669,17 +683,12 @@
         }
       },
       updateMoveList: function(){
-        var t = this
-        const index = t.index
         const movesTable = document.querySelector(".movesTableContainer")
         movesTable.scrollTop = movesTable.scrollHeight
         document.querySelectorAll('.moveindex').forEach((item) => {
           item.parentNode.classList.remove('active')
         })
         document.querySelector('.moveindex.m' + this.index).parentNode.classList.add('active')
-        setTimeout(() => {
-          t.drawChart(index)
-        },1000)
       },
       gamePGNIndex:function(pgn){
         var data = []

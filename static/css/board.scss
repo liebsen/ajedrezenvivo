@@ -26,6 +26,15 @@ $blue: #4183d7;
 
 .chart-container {
     min-height: 50px;
+    position: relative;
+    .chart-indicator {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: transparent;
+    }
     .chart {
         width:100%;
         height:50px;

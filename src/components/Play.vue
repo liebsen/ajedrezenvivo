@@ -139,6 +139,7 @@
                   <div class="columns is-hidden-mobile">
                     <div class="chart-container preservefilter">
                       <div :class="playerColor">
+                        <div class="chart-indicator"></div>
                         <div class="chart" v-show="pgnIndex.length"></div>
                       </div>
                     </div>
@@ -610,11 +611,22 @@
         
         const moved = this.game.move(move)
         this.board.position(this.game.fen())
+        this.updateMoveList()
+        this.drawChartPosition()
 
         setTimeout(() => {
           this.moveSound(moved)
           this.addHightlight(moved)
         },250)
+      },
+      drawChartPosition: function(draw){
+        if(draw===undefined) draw = true
+        if(!draw){
+          document.querySelector('.chart-indicator').style.backgroundColor = 'transparent' 
+        } else {
+          document.querySelector('.chart-indicator').style.left = ((this.index + 1) / this.gameMoves.length * 100) + '%'
+          document.querySelector('.chart-indicator').style.backgroundColor = 'rgb(0,0,0,0.15)'
+        }
       },
       gameLoad: function(){
         this.$root.loading = true
@@ -893,9 +905,9 @@
           t.pgnIndex = this.gamePGNIndex(t.game.pgn())
           t.index++
           t.gameMoves = t.gameMoves.slice(0,t.index)
-          t.drawChart()
 
           setTimeout(() => {
+            const index = t.index
             t.gameMoves.push({
               san: move.san,
               vscore: t.vscore
@@ -903,6 +915,9 @@
             t.addHightlight(move)
             t.moveSound(move)
             t.updateMoveList()
+            setTimeout(() => {
+              t.drawChart(index)
+            },1000)
           },250)
         },100)
 
@@ -918,17 +933,12 @@
         }
       },
       updateMoveList: function(){
-        var t = this
-        const index = t.index 
         const movesTable = document.querySelector(".movesTableContainer")
         movesTable.scrollTop = movesTable.scrollHeight
         document.querySelectorAll('.moveindex').forEach((item) => {
           item.parentNode.classList.remove('active')
         })
         document.querySelector('.moveindex.m' + this.index).parentNode.classList.add('active')
-        setTimeout(() => {
-          t.drawChart(index)
-        },1000)
       },
       calcPoints : function(){
         this.chart.points = [];
@@ -960,6 +970,7 @@
         }
 
         if(!isNaN(score)){
+          this.drawChartPosition(false)
           this.chart.values = this.chart.values.slice(0,index)
           this.chart.values[index] = score
           this.updateChart()
@@ -980,6 +991,7 @@
         chart.setAttribute("viewBox", "0 0 " + this.chart.width + " " + this.chart.height)
 
         var polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
+        console.log(this.chart.points)
         polygon.setAttribute("points", this.chart.points);
 
         if(this.chart.values.length > 1){
