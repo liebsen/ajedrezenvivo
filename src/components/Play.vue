@@ -753,7 +753,6 @@
             const piece = e.target.getAttribute('data-piece')
 
             if(!turn) return
-            if(piece && piece[0] != t.playerColor[0]) return 
             if(e.target.classList.contains('row-5277c')||e.target.classList.contains('board-b72b1')) return
 
             const src = e.target.getAttribute('src')
@@ -761,6 +760,7 @@
             const square = target.id.substring(0,2)
 
             if(!t.moveFrom){
+              if(piece && piece[0] != t.playerColor[0]) return 
               target.classList.add('highlight-move')  
               if(!src){ // blank square
                 t.removeHighlight()
