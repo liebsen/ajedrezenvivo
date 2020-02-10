@@ -54,29 +54,27 @@
       <div class="columns">
         <div class="column is-lobby-list is-3">
           <div>
-            <div v-show="$root.players.length">
-              <div v-for="player in $root.players" class="field">
-                <a v-show="!player.observe" @click="play(player.code)" :title="'Invitar a ' + player.code">
-                  <span v-if="player.code != $root.player.code" class="button is-text is-rounded is-dark">
-                    <span class="icon">
-                      <span class="fas fa-user-circle"></span>
-                    </span>
-                    <span v-html="player.code"></span>
+            <div v-for="player in $root.players" class="field">
+              <a v-show="!player.observe" @click="play(player.code)" :title="'Invitar a ' + player.code">
+                <span v-if="player.code != $root.player.code" class="button is-text is-rounded is-dark">
+                  <span class="icon">
+                    <span class="fas fa-user-circle"></span>
                   </span>
-                </a>
-              </div>
-              <div v-show="player.observe" v-for="player in $root.players" class="field">
-                <a @click="clickObserve(player.code)" title="Modo observador">
-                  <span v-if="player.code != $root.player.code" class="button is-text is-rounded is-grey is-outlined">
-                    <span class="icon">
-                      <span class="fas" :class="{ 'fa-user-astronaut' : player.code != $root.player.code, 'fa-user-circle' : player.code === $root.player.code }"></span>
-                    </span>
-                    <span v-html="player.code"></span>
-                  </span>
-                </a>
-              </div>
+                  <span v-html="player.code"></span>
+                </span>
+              </a>
             </div>
-            <div v-show="!$root.players.length" class="column">
+            <div v-show="player.observe" v-for="player in $root.players" class="field">
+              <a @click="clickObserve(player.code)" title="Modo observador">
+                <span v-if="player.code != $root.player.code" class="button is-text is-rounded is-grey is-outlined">
+                  <span class="icon">
+                    <span class="fas" :class="{ 'fa-user-astronaut' : player.code != $root.player.code, 'fa-user-circle' : player.code === $root.player.code }"></span>
+                  </span>
+                  <span v-html="player.code"></span>
+                </span>
+              </a>
+            </div>
+            <div v-show="$root.players.length < 2" class="column">
               <h6>
                 <span class="icon">
                   <span class="fa fa-share"></span>
