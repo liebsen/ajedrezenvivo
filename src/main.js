@@ -49,6 +49,13 @@ new Vue({
           },500)
         }        
       }
+    },
+    onLine(status) {
+      if(status){
+        snackbar('success','Se restauró la conexión a internet.')
+      } else {
+        snackbar('error','No hay conexión a internet. Por favor revise la configuración de la red.')
+      }
     }
   },
   mounted () {
@@ -83,7 +90,6 @@ new Vue({
     this.$socket.emit('preferences', preferences)
     this.documentTitle = document.title 
     this.loading = false
-    this.isOnline = window.navigator.onLine
 
     document.querySelector('body').addEventListener('click', function (event) {
       var target = event.target
@@ -160,15 +166,12 @@ new Vue({
       }
     })
 
-    if (this.isOnline) {
-      var observe  = this.player.observe
-      if(!observe){
-        this.$socket.emit('lobby_join', this.player)
-      }        
-      snackbar('success', "Estas conectado" +(this.player.observe ? ' en modo Observador' : ' y disponible para jugar'))
-    } else {
-      snackbar('error',"📶 Te desconectaste. Verifica tu conexión a internet ")
-    }
+    window.addEventListener('online', this.updateOnlineStatus)
+    window.addEventListener('offline', this.updateOnlineStatus)
+  },
+  beforeDestroy() {
+    window.removeEventListener('online', this.updateOnlineStatus)
+    window.removeEventListener('offline', this.updateOnlineStatus)
   },
   sockets: {
     lobby_chat: function(data){
@@ -339,6 +342,12 @@ new Vue({
     }
   },
   methods: {
+    updateOnlineStatus(e) {
+      const {
+        type
+      } = e;
+      this.onLine = type === 'online';
+    },
     gameStart: function(data){
       var t = this
       return new Promise(function(resolve,reject){
@@ -535,7 +544,7 @@ new Vue({
   },
   data:{
     endpoint:endpoint,
-    isOnline:true,
+    onLine: navigator.onLine,
     loading:true,
     saving:false,
     processing:false,
