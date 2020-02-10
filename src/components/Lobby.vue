@@ -52,7 +52,7 @@
         </div>
       </div>
       <div class="columns">
-        <div v-show="$root.players.length" class="column is-lobby-list is-3">
+        <div v-show="$root.players.length > 1" class="column is-lobby-list is-3">
           <div v-for="player in $root.players" class="field">
             <a v-if="!player.observe && player.code != $root.player.code" @click="play(player.code)" :title="'Invitar a ' + player.code">
               <span class="button is-text is-rounded is-info">
