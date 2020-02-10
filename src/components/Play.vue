@@ -55,6 +55,28 @@
             </div>
             <div class="column">
               <div class="board-assistant">
+                <div class="columns is-marginless">
+                  <div class="column has-text-left preservefilter">
+                    <button @click="gameCapitulate()" class="button is-small is-rounded is-danger" v-show="pgnIndex.length && !announced_game_over" title="Abandonar partida">
+                      <span class="icon has-text-white">
+                        <span class="fas fa-flag"></span>
+                      </span>
+                    </button>
+                    <button @click="gameAskForDraw()" class="button is-small is-rounded is-success" v-show="pgnIndex.length && !announced_game_over" title="Solicitar tablas">
+                      <span class="icon has-text-white">
+                        <span class="fas fa-handshake"></span>
+                      </span>
+                    </button>
+                    <button @click="showLiveURL()" class="button is-small is-rounded is-info" v-show="pgnIndex.length && !announced_game_over" title="Mostrar URL de transmisión">
+                      <span class="icon has-text-white">
+                        <span class="fas fa-user-astronaut"></span>
+                      </span>
+                    </button>
+                    <button @click="showPGN()" class="button is-small is-rounded is-info" v-if="pgnIndex.length && announced_game_over" title="Mostrar PGN">
+                      <strong>PGN</strong>
+                    </button>
+                  </div>
+                </div> 
                 <div class="columns is-hidden-mobile preservefilter">
                   <div class="column has-text-right">
                     <span class="button is-large" :class="{ 'has-background-white has-text-black' : timer.w > 10, 'has-background-danger has-text-white' : timer.w <= 10}">
@@ -91,28 +113,7 @@
                     </span>
                   </div>
                 </div>
-                <div class="columns is-marginless">
-                  <div class="column has-text-left preservefilter">
-                    <button @click="gameCapitulate()" class="button is-small is-rounded is-danger" v-show="pgnIndex.length && !announced_game_over" title="Abandonar partida">
-                      <span class="icon has-text-white">
-                        <span class="fas fa-flag"></span>
-                      </span>
-                    </button>
-                    <button @click="gameAskForDraw()" class="button is-small is-rounded is-success" v-show="pgnIndex.length && !announced_game_over" title="Solicitar tablas">
-                      <span class="icon has-text-white">
-                        <span class="fas fa-handshake"></span>
-                      </span>
-                    </button>
-                    <button @click="showLiveURL()" class="button is-small is-rounded is-info" v-show="pgnIndex.length && !announced_game_over" title="Mostrar URL de transmisión">
-                      <span class="icon has-text-white">
-                        <span class="fas fa-user-astronaut"></span>
-                      </span>
-                    </button>
-                    <button @click="showPGN()" class="button is-small is-rounded is-info" v-if="pgnIndex.length && announced_game_over" title="Mostrar PGN">
-                      <strong>PGN</strong>
-                    </button>
-                  </div>
-                </div> 
+
                 <div class="columns is-marginless">
                   <div class="column">
                     <strong v-html="ecode" class=""></strong> 
@@ -391,7 +392,7 @@
             wtime: t.timer.b,
             result:result
           })
-          swal("¡Victoria!", 'Has vencido a ' + t.opponentName, "success")
+          swal("¡Victoria!", t.opponentName + ' abandonó esta partida', "success")
         }
         if(result){
           t.data.result = result

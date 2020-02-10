@@ -11,8 +11,8 @@ import snackbar from './components/Snackbar';
 import playSound from './components/playSound'
 import '../static/js/fontawesome_all.js'
 
-const endpoint='https://ajedrezenvivoapi.herokuapp.com'
-//const endpoint='https://ajedrezenvivoapidev.herokuapp.com'
+//const endpoint='https://ajedrezenvivoapi.herokuapp.com'
+const endpoint='https://ajedrezenvivoapidev.herokuapp.com'
 
 require('../static/css/main.scss')
 require('../static/css/chessboard.scss')
