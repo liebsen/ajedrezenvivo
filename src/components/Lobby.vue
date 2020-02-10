@@ -52,82 +52,26 @@
         </div>
       </div>
       <div class="columns">
-        <div class="column is-lobby-list is-3">
-          <div>
-            <div v-for="player in $root.players" class="field">
-              <a v-show="!player.observe" @click="play(player.code)" :title="'Invitar a ' + player.code">
-                <span v-if="player.code != $root.player.code" class="button is-text is-rounded is-dark">
-                  <span class="icon">
-                    <span class="fas fa-user-circle"></span>
-                  </span>
-                  <span v-html="player.code"></span>
-                </span>
-              </a>
-            </div>
-            <div v-show="player.observe" v-for="player in $root.players" class="field">
-              <a @click="clickObserve(player.code)" title="Modo observador">
-                <span v-if="player.code != $root.player.code" class="button is-text is-rounded is-grey is-outlined">
-                  <span class="icon">
-                    <span class="fas" :class="{ 'fa-user-astronaut' : player.code != $root.player.code, 'fa-user-circle' : player.code === $root.player.code }"></span>
-                  </span>
-                  <span v-html="player.code"></span>
-                </span>
-              </a>
-            </div>
-            <div v-show="$root.players.length < 2" class="column">
-              <h6>
+        <div v-show="$root.players.length" class="column is-lobby-list is-3">
+          <div v-for="player in $root.players" class="field">
+            <a v-if="!player.observe && player.code != $root.player.code" @click="play(player.code)" :title="'Invitar a ' + player.code">
+              <span class="button is-text is-rounded is-info">
                 <span class="icon">
-                  <span class="fa fa-share"></span>
+                  <span class="fas fa-user-circle"></span>
                 </span>
-                <span>Invita a tus amigos</span>
-              </h6>
-
-              <div class="columns is-gapless is-mobile is-vcentered has-text-centered preservefilter">
-
-                <div class="column is-hidden-tablet">
-                  <a :href="'whatsapp://send?text=¿Querés jugar ajedrez online? Estoy como ' + $root.player.code + ' https://ajedrezenvivo.herokuapp.com/lobby'" target="_blank">
-                    <span class="icon has-text-whatsapp is-size-3">
-                      <span class="fab fa-whatsapp"></span>
-                    </span>
-                  </a>
-                </div>
-                <div class="column is-hidden-mobile">
-                  <a :href="'https://web.whatsapp.com/send?text=¿Querés jugar ajedrez online? Estoy como ' + $root.player.code + ' https://ajedrezenvivo.herokuapp.com/lobby'" target="_blank">
-                    <span class="icon has-text-whatsapp is-size-3">
-                      <span class="fab fa-whatsapp"></span>
-                    </span>
-                  </a>
-                </div>
-                <div class="column">
-                  <a :href="'http://www.facebook.com/sharer.php?u=https://ajedrezenvivo.herokuapp.com/lobby&quote=¿Querés jugar ajedrez online? Estoy como ' + $root.player.code + ' #chess'" target="_blank">
-                    <span class="icon has-text-facebook is-size-3">
-                      <span class="fab fa-facebook"></span>
-                    </span>
-                  </a>
-                </div>
-                <div class="column">
-                  <a :href="'https://twitter.com/share?url=https://ajedrezenvivo.herokuapp.com/lobby&amp;text=¿Querés jugar ajedrez online? Estoy como ' + $root.player.code + ' #chess'" target="_blank">
-                    <span class="icon has-text-twitter is-size-3">
-                      <span class="fab fa-twitter"></span>
-                    </span>
-                  </a>
-                </div>
-                <div class="column">
-                  <a :href="'http://www.linkedin.com/shareArticle?mini=true&url=https://ajedrezenvivo.herokuapp.com/lobby&text=¿Querés jugar ajedrez online? Estoy como ' + $root.player.code + ' #chess'" target="_blank">
-                    <span class="icon has-text-twitter is-size-3">
-                      <span class="fab fa-linkedin"></span>
-                    </span>
-                  </a>
-                </div>
-                <div class="column">
-                  <a :href="'mailto:?Body=Estoy como ' + $root.player.code + ' https://ajedrezenvivo.herokuapp.com/lobby&Subject=¿Querés jugar ajedrez online?'" target="_blank">
-                    <span class="icon has-text-primary is-size-3">
-                      <span class="fas fa-envelope-square"></span>
-                    </span>
-                  </a>
-                </div>
-              </div>
-            </div>
+                <span v-html="player.code"></span>
+              </span>
+            </a>
+          </div>
+          <div v-for="player in $root.players" class="field">
+            <a v-if="player.observe && player.code != $root.player.code" @click="clickObserve(player.code)" title="Modo observador">
+              <span class="button is-text is-rounded is-grey">
+                <span class="icon">
+                  <span class="fas" :class="{ 'fa-user-astronaut' : player.code != $root.player.code, 'fa-user-circle' : player.code === $root.player.code }"></span>
+                </span>
+                <span v-html="player.code"></span>
+              </span>
+            </a>
           </div>
         </div>
         <div class="column">
@@ -171,7 +115,7 @@
           sender: 'chatbot',
           line: `Hola ${this.$root.player.code}, gracias por visitar AjedrezEV.` + (this.$root.player.observe ? ` Estas en modo observador. Para cambiarlo podés ` : ` Antes de jugar podés `) +  `<a href="/preferences" class="has-text-success">establecer tus preferencias</a>`
         })
-
+        console.log(this.$root.players.length)
         if(this.$root.players.length < 2){
           this.$socket.emit('lobby_chat', { 
             sender: 'chatbot',
