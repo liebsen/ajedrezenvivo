@@ -197,6 +197,47 @@
     }
 }
 
+.marble {
+    .white-1e1d7, .bar, .moveRow, .moveRow a, .movew {
+        background-color: #e4ded0;
+        color:#605e68;
+    }
+    .black-3c85d, .bar-progress, .moveb, .moveb a  {
+        background-color: #605e68;
+        color:#e4ded0;
+    }
+    .white-1e1d7 {
+        background-image: url(/static/img/boards/marble/light.png);
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .black-3c85d {
+        background-image: url(/static/img/boards/marble/dark.png);
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .score-container {
+        background-color: #e4ded0;
+        .score {
+            background-color: #605e68;
+        }
+    }
+    .chart-container {
+        .white {
+            background-color: #605e68;
+            polygon {
+                fill: #e4ded0;
+            }
+        }
+        .black {
+            background-color: #e4ded0;
+            polygon {
+                fill: #605e68;
+            }
+        }
+    }
+}
+
 .dash {
     .white-1e1d7, .bar, .moveRow, .moveRow a, .movew {
         background-color: #be925a;
