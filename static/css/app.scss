@@ -25,6 +25,11 @@ hr {
   background-color: #d1d1d1;
 }
 
+* { 
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -moz-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
 .is-checkradio[type="checkbox"] + label::after, .is-checkradio[type="checkbox"] + label::after  {
   border-width: 0.25rem!important;
 }
