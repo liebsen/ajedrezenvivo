@@ -89,7 +89,6 @@ new Vue({
     this.player = preferences
     this.$socket.emit('preferences', preferences)
     this.documentTitle = document.title 
-    this.loading = false
 
     document.querySelector('body').addEventListener('click', function (event) {
       var target = event.target
@@ -134,6 +133,9 @@ new Vue({
       } else {
         document.querySelector('.tosprompt').style.display = 'none';
       }
+
+      this.$socket.emit('lobby_join', this.player)
+      this.loading = false
     })
 
     window.addEventListener('click', event => {
