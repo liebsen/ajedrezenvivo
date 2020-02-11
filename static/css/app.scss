@@ -101,6 +101,10 @@ hr {
   }
 }
 
+.is-vexpanded {
+  min-height: 100%;
+}
+
 .hidden-loading {
   display: none;
 }
@@ -838,9 +842,8 @@ table {
   100%{filter: saturate(100%);}
 }
 
-
 .swal-overlay {
-  background-color: rgba(43, 165, 137, 0.45);
+  background-color: rgba(0, 0, 0, 0.75);
 }
 
 .swal-title {

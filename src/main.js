@@ -213,13 +213,13 @@ new Vue({
           snackbar('error','El nombre ' + data.code + ' ya está en uso, por favor elige otro')
           this.$router.push('/preferences')
         } else {
-          if(data.available){
-            this.$socket.emit('lobby_join', data)
-          }        
           this.player = data
           document.querySelector('.menu-primary .icon').innerHTML = '<span v-if="$root.player.observe" class="fas fa-user' + (this.player.observe ? '-astronaut' : '-circle') +'"></span>'
           localStorage.setItem('player',JSON.stringify(data))
-          snackbar('success','Tus preferencias fueron actualizadas correctamente.')
+          snackbar('success','Tus preferencias fueron actualizadas correctamente.')          
+          if(!data.observe){
+            this.$socket.emit('lobby_join', data)
+          }        
         }
         this.saving = false
       }

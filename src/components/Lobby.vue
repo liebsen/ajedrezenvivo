@@ -115,7 +115,6 @@
           sender: 'chatbot',
           line: `Hola ${this.$root.player.code}, gracias por visitar AjedrezEV.` + (this.$root.player.observe ? ` Estas en modo observador. Para cambiarlo podés ` : ` Antes de jugar podés `) +  `<a href="/preferences" class="has-text-success">establecer tus preferencias</a>`
         })
-        console.log(this.$root.players.length)
         if(this.$root.players.length < 2){
           this.$socket.emit('lobby_chat', { 
             sender: 'chatbot',

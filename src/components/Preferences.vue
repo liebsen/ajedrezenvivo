@@ -220,6 +220,7 @@
         }
 
         this.board = Chessboard('board', this.boardCfg)      
+        this.board.resize()
 
         $(window).resize(() => {
           this.board.resize()
