@@ -298,7 +298,7 @@
           }
 
           if (t.game.in_check() === true) {
-            sound = 'check.mp3'
+            sound = 'check.ogg'
           }
 
           t.removeHighlight()

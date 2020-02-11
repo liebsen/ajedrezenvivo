@@ -1020,7 +1020,7 @@
           }
 
           if (this.game.in_check() === true) {
-            sound = 'check.mp3'
+            sound = 'check.ogg'
           }
         }
 

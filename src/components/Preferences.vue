@@ -192,7 +192,7 @@
       previewSound: function(){
         setTimeout(() => {
           if(this.data.sound){
-            playSound('check.mp3')
+            playSound('check.ogg')
           }
         },100)
       },
