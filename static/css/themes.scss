@@ -441,6 +441,46 @@
     }
 }
 
+.green-plastic {
+    .board-b72b1 {
+        background: url(/static/img/boards/green-plastic.png) no-repeat scroll 0% 0% / 100% 100%
+    }
+    .white-1e1d7 {
+        color:#769656;
+    }
+    .black-3c85d {
+        color:#f1f6b2;
+    }
+    .bar, .moveRow, .moveRow a, .movew {
+        background-color: #f1f6b2;
+        color:#59935d;
+    }
+    .bar-progress, .moveb, .moveb a {
+        background-color: #59935d;
+        color:#f1f6b2;
+    }
+    .score-container {
+        background-color: #f1f6b2;
+        .score {
+            background-color: #59935d;
+        }
+    }
+    .chart-container {
+        .white {
+            background-color: #59935d;
+            polygon {
+                fill: #f1f6b2;
+            }
+        }
+        .black {
+            background-color: #f1f6b2;
+            polygon {
+                fill: #59935d;
+            }
+        }
+    }
+}
+
 .ocean {
     .board-b72b1 {
         background: url(/static/img/boards/ocean.png) no-repeat scroll 0% 0% / 100% 100%
@@ -801,6 +841,46 @@
     }
 }
 
+.pink {
+    .board-b72b1 {
+        background: url(/static/img/boards/pink.png) no-repeat scroll 0% 0% / 100% 100%
+    }
+    .white-1e1d7 {
+        color:#f07272;
+    }
+    .black-3c85d {
+        color:#e8e9b7;
+    }
+    .bar, .moveRow, .moveRow a, .movew {
+        background-color: #e8e9b7;
+        color:#f07272;
+    }
+    .bar-progress, .moveb, .moveb a {
+        background-color: #f07272;
+        color:#e8e9b7;
+    }
+    .score-container {
+        background-color: #e8e9b7;
+        .score {
+            background-color: #f07272;
+        }
+    }
+    .chart-container {
+        .white {
+            background-color: #f07272;
+            polygon {
+                fill: #e8e9b7;
+            }
+        }
+        .black {
+            background-color: #e8e9b7;
+            polygon {
+                fill: #f07272;
+            }
+        }
+    }
+}
+
 .purple {
     .board-b72b1 {
         background: url(/static/img/boards/purple.webp) no-repeat scroll 0% 0% / 100% 100%
@@ -1116,6 +1196,46 @@
             background-color: #eaeaea;
             polygon {
                 fill: #c8c8c8;
+            }
+        }
+    }
+}
+
+.turquoise {
+    .board-b72b1 {
+        background: url(/static/img/boards/turquoise.jpg) no-repeat scroll 0% 0% / 100% 100%
+    }
+    .white-1e1d7 {
+        color:#4779ac;
+    }
+    .black-3c85d {
+        color:#c7d0d9;
+    }
+    .bar, .moveRow, .moveRow a, .movew {
+        background-color: #c7d0d9;
+        color:#4779ac;
+    }
+    .bar-progress, .moveb, .moveb a {
+        background-color: #4779ac;
+        color:#c7d0d9;
+    }
+    .score-container {
+        background-color: #c7d0d9;
+        .score {
+            background-color: #4779ac;
+        }
+    }
+    .chart-container {
+        .white {
+            background-color: #4779ac;
+            polygon {
+                fill: #c7d0d9;
+            }
+        }
+        .black {
+            background-color: #c7d0d9;
+            polygon {
+                fill: #4779ac;
             }
         }
     }

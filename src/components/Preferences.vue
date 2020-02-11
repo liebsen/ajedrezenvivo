@@ -32,6 +32,7 @@
                       <option value="glass">Vidrio</option>
                       <option value="graffiti">Graffiti</option>
                       <option value="green">Verde</option>
+                      <option value="green-plastic">Verde plástico</option>
                       <option value="ocean">Océano</option>
                       <option value="lolz">Lolz</option>
                       <option value="marble">Mármol</option>
@@ -41,6 +42,7 @@
                       <option value="orange">Naranja</option>
                       <option value="overlay">Cobertor</option>
                       <option value="parchment">Pergamino</option>
+                      <option value="pink">Rosa</option>
                       <option value="purple">Púrpura</option>
                       <option value="red">Rojo</option>
                       <option value="sand">Arena</option>
@@ -49,6 +51,7 @@
                       <option value="tan">Bronceado</option>
                       <option value="tournament">Torneo</option>
                       <option value="translucent">Translúcido</option>
+                      <option value="turquoise">Turquesa</option>
                       <option value="walnut">Nuez</option>
                     </select>
                   </div>
