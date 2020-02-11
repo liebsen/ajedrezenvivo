@@ -2,11 +2,20 @@
 /* themes */
 
 .classic {
-    .white-1e1d7, .bar, .moveRow, .moveRow a, .movew {
+    .board-b72b1 {
+        background: url(/static/img/boards/classic.webp) no-repeat scroll 0% 0% / 100% 100%
+    }
+    .white-1e1d7 {
+        color: #b58863;
+    }
+    .black-3c85d {
+        color: #f0d9b5;
+    }
+    .bar, .moveRow, .moveRow a, .movew {
         background-color: #f0d9b5;
         color: #b58863;
     }
-    .black-3c85d, .bar-progress, .moveb, .moveb a {
+    .bar-progress, .moveb, .moveb a {
         background-color: #b58863;
         color: #f0d9b5;
     }
@@ -32,146 +41,181 @@
     }
 }
 
-.green {
-    .white-1e1d7, .bar, .moveRow, .moveRow a, .movew {
-        background-color: #eeeed2;
-        color:#769656;
-    }
-    .black-3c85d, .bar-progress, .moveb, .moveb a {
-        background-color: #769656;
-        color:#eeeed2;
-    }
-    .score-container {
-        background-color: #eeeed2;
-        .score {
-            background-color: #769656;
-        }
-    }
-    .chart-container {
-        .white {
-            background-color: #769656;
-            polygon {
-                fill: #eeeed2;
-            }
-        }
-        .black {
-            background-color: #eeeed2;
-            polygon {
-                fill: #769656;
-            }
-        }
-    }
-}
-
-.tournament {
-    .white-1e1d7, .bar, .moveRow, .moveRow a, .movew {
-        background-color: #e8e6e3;
-        color:#32674a;
-    }
-    .black-3c85d, .bar-progress, .moveb, .moveb a {
-        background-color: #32674a;
-        color:#e8e6e3;
-    }
-    .score-container {
-        background-color: #e8e6e3;
-        .score {
-            background-color: #32674a;
-        }
-    }
-    .chart-container {
-        .white {
-            background-color: #32674a;
-            polygon {
-                fill: #e8e6e3;
-            }
-        }
-        .black {
-            background-color: #e8e6e3;
-            polygon {
-                fill: #32674a;
-            }
-        }
-    }
-}
-
-.purple {
-    .white-1e1d7, .bar, .moveRow, .moveRow a, .movew {
-        background-color: #efefef;
-        color:#8877b7;
-    }
-    .black-3c85d, .bar-progress, .moveb, .moveb a {
-        background-color: #8877b7;
-        color:#efefef;
-    }
-    .score-container {
-        background-color: #efefef;
-        .score {
-            background-color: #8877b7;
-        }
-    }
-    .chart-container {
-        .white {
-            background-color: #8877b7;
-            polygon {
-                fill: #efefef;
-            }
-        }
-        .black {
-            background-color: #efefef;
-            polygon {
-                fill: #8877b7;
-            }
-        }
-    }
-}
-
-.wood {
-    .white-1e1d7, .bar, .moveRow, .moveRow a, .movew {
-        background-color: #c9a870;
-        color:#8a613c;
-    }
-    .black-3c85d, .bar-progress, .moveb, .moveb a  {
-        background-color: #8a613c;
-        color:#c9a870;
+.bases {
+    .board-b72b1 {
+        background: url(/static/img/boards/bases.webp) no-repeat scroll 0% 0% / 100% 100%
     }
     .white-1e1d7 {
-        background-image: url(/static/img/boards/wood/light.png);
-        background-repeat: no-repeat;
-        background-size: cover;
+        color:#d3a36a;
     }
     .black-3c85d {
-        background-image: url(/static/img/boards/wood/dark.png);
-        background-repeat: no-repeat;
-        background-size: cover;
+        color:#edc9a2;
+    }
+    .bar,  .moveRow, .moveRow a, .movew {
+        background-color: #edc9a2;
+        color:#d3a36a;
+    }
+    .bar-progress, .moveb, .moveb a {
+        background-color: #d3a36a;
+        color:#edc9a2;
     }
     .score-container {
-        background-color: #c9a870;
+        background-color: #edc9a2;
         .score {
-            background-color: #8a613c;
+            background-color: #d3a36a;
         }
     }
     .chart-container {
         .white {
-            background-color: #8a613c;
+            background-color: #d3a36a;
             polygon {
-                fill: #c9a870;
+                fill: #edc9a2;
             }
         }
         .black {
-            background-color: #c9a870;
+            background-color: #edc9a2;
             polygon {
-                fill: #8a613c;
+                fill: #d3a36a;
             }
         }
     }
 }
 
-.dark-wood {
-    .white-1e1d7, .bar, .moveRow, .moveRow a, .movew {
+.bit {
+    .board-b72b1 {
+        background: url(/static/img/boards/bit.webp) no-repeat scroll 0% 0% / 100% 100%
+    }
+    .white-1e1d7 {
+        color:#6a9b41;
+    }
+    .black-3c85d {
+        color:#f3f3f4;
+    }
+    .bar, .moveRow, .moveRow a, .movew {
+        background-color: #f3f3f4;
+        color:#6a9b41;
+    }
+    .bar-progress, .moveb, .moveb a {
+        background-color: #6a9b41;
+        color:#f3f3f4;
+    }
+    .score-container {
+        background-color: #f3f3f4;
+        .score {
+            background-color: #6a9b41;
+        }
+    }
+    .chart-container {
+        .white {
+            background-color: #6a9b41;
+            polygon {
+                fill: #f3f3f4;
+            }
+        }
+        .black {
+            background-color: #f3f3f4;
+            polygon {
+                fill: #6a9b41;
+            }
+        }
+    }
+}
+
+.blue {
+    .board-b72b1 {
+        background: url(/static/img/boards/blue.webp) no-repeat scroll 0% 0% / 100% 100%
+    }
+    .white-1e1d7 {
+        color:#4b7399;
+    }
+    .black-3c85d {
+        color:#eae9d2;
+    }
+    .bar,  .moveRow, .moveRow a, .movew {
+        background-color: #eae9d2;
+        color:#4b7399;
+    }
+    .bar-progress, .moveb, .moveb a {
+        background-color: #4b7399;
+        color:#eae9d2;
+    }
+    .score-container {
+        background-color: #eae9d2;
+        .score {
+            background-color: #4b7399;
+        }
+    }
+    .chart-container {
+        .white {
+            background-color: #4b7399;
+            polygon {
+                fill: #eae9d2;
+            }
+        }
+        .black {
+            background-color: #eae9d2;
+            polygon {
+                fill: #4b7399;
+            }
+        }
+    }
+}
+
+.bubblegum {
+    .board-b72b1 {
+        background: url(/static/img/boards/bubblegum.webp) no-repeat scroll 0% 0% / 100% 100%
+    }
+    .white-1e1d7 {
+        color:#fcd8dd;
+    }
+    .black-3c85d {
+        color:#ffffff;
+    }
+    .bar, .moveRow, .moveRow a, .movew {
+        background-color: #ffffff;
+        color:#fcd8dd;
+    }
+    .bar-progress, .moveb, .moveb a {
+        background-color: #fcd8dd;
+        color:#ffffff;
+    }
+    .score-container {
+        background-color: #f8f8f8;
+        .score {
+            background-color: #fcd8dd;
+        }
+    }
+    .chart-container {
+        .white {
+            background-color: #fcd8dd;
+            polygon {
+                fill: #ffffff;
+            }
+        }
+        .black {
+            background-color: #ffffff;
+            polygon {
+                fill: #fcd8dd;
+            }
+        }
+    }
+}
+
+.burled-wood {
+    .board-b72b1 {
+        background: url(/static/img/boards/burled_wood.webp) no-repeat scroll 0% 0% / 100% 100%
+    }
+    .white-1e1d7 {
+        color:#6d3a20;
+    }
+    .black-3c85d {
+        color:#c2a068;
+    }
+    .bar, .moveRow, .moveRow a, .movew {
         background-color: #c2a068;
         color:#6d3a20;
     }
-    .black-3c85d, .bar-progress, .moveb, .moveb a {
+    .bar-progress, .moveb, .moveb a {
         background-color: #6d3a20;
         color:#c2a068;
     }
@@ -197,53 +241,61 @@
     }
 }
 
-.marble {
-    .white-1e1d7, .bar, .moveRow, .moveRow a, .movew {
-        background-color: #e4ded0;
-        color:#605e68;
-    }
-    .black-3c85d, .bar-progress, .moveb, .moveb a  {
-        background-color: #605e68;
-        color:#e4ded0;
+.dark-wood {
+    .board-b72b1 {
+        background: url(/static/img/boards/dark_wood.webp) no-repeat scroll 0% 0% / 100% 100%
     }
     .white-1e1d7 {
-        background-image: url(/static/img/boards/marble/light.png);
-        background-repeat: no-repeat;
-        background-size: cover;
+        color:#6d3a20;
     }
     .black-3c85d {
-        background-image: url(/static/img/boards/marble/dark.png);
-        background-repeat: no-repeat;
-        background-size: cover;
+        color:#c2a068;
+    }
+    .bar, .moveRow, .moveRow a, .movew {
+        background-color: #c2a068;
+        color:#6d3a20;
+    }
+    .bar-progress, .moveb, .moveb a {
+        background-color: #6d3a20;
+        color:#c2a068;
     }
     .score-container {
-        background-color: #e4ded0;
+        background-color: #c2a068;
         .score {
-            background-color: #605e68;
+            background-color: #6d3a20;
         }
     }
     .chart-container {
         .white {
-            background-color: #605e68;
+            background-color: #6d3a20;
             polygon {
-                fill: #e4ded0;
+                fill: #c2a068;
             }
         }
         .black {
-            background-color: #e4ded0;
+            background-color: #c2a068;
             polygon {
-                fill: #605e68;
+                fill: #6d3a20;
             }
         }
     }
 }
 
 .dash {
-    .white-1e1d7, .bar, .moveRow, .moveRow a, .movew {
+    .board-b72b1 {
+        background: url(/static/img/boards/dash.png) no-repeat scroll 0% 0% / 100% 100%
+    }
+    .white-1e1d7 {
+        color:#79412e;
+    }
+    .black-3c85d {
+        color:#be925a;
+    }
+    .bar, .moveRow, .moveRow a, .movew {
         background-color: #be925a;
         color:#79412e;
     }
-    .black-3c85d, .bar-progress, .moveb, .moveb a {
+    .bar-progress, .moveb, .moveb a {
         background-color: #79412e;
         color:#be925a;
     }
@@ -269,23 +321,339 @@
     }
 }
 
-.newspaper {
-    .square-55d63 {
-        box-shadow: 0 0 1px #4d4d4d;
-    }
-    .white-1e1d7, .bar, .moveRow, .moveRow a, .movew {
-        background-color: #cdcbc2;
-        color:#4d4d4d;
+.glass {
+    .board-b72b1 {
+        background: url(/static/img/boards/glass.webp) no-repeat scroll 0% 0% / 100% 100%
     }
     .white-1e1d7 {
-        background-image: url(/static/img/boards/newspaper/light.png);
-        background-repeat: no-repeat;
-        background-size: cover;
+        color:#29303e;
     }
     .black-3c85d {
-        background-image: url(/static/img/boards/newspaper/dark.png);
-        background-repeat: no-repeat;
-        background-size: cover;
+        color:#717b8e;
+    }
+    .bar, .moveRow, .moveRow a, .movew {
+        background-color: #717b8e;
+        color:#29303e;
+    }
+    .bar-progress, .moveb, .moveb a {
+        background-color: #29303e;
+        color:#717b8e;
+    }
+    .score-container {
+        background-color: #717b8e;
+        .score {
+            background-color: #29303e;
+        }
+    }
+    .chart-container {
+        .white {
+            background-color: #29303e;
+            polygon {
+                fill: #717b8e;
+            }
+        }
+        .black {
+            background-color: #717b8e;
+            polygon {
+                fill: #29303e;
+            }
+        }
+    }
+}
+
+.graffiti {
+    .board-b72b1 {
+        background: url(/static/img/boards/graffiti.png) no-repeat scroll 0% 0% / 100% 100%
+    }
+    .white-1e1d7 {
+        color:#b18653;
+    }
+    .black-3c85d {
+        color:#a7a7a7;
+    }
+    .bar, .moveRow, .moveRow a, .movew {
+        background-color: #a7a7a7;
+        color:#b18653;
+    }
+    .bar-progress, .moveb, .moveb a {
+        background-color: #b18653;
+        color:#a7a7a7;
+    }
+    .score-container {
+        background-color: #a7a7a7;
+        .score {
+            background-color: #b18653;
+        }
+    }
+    .chart-container {
+        .white {
+            background-color: #b18653;
+            polygon {
+                fill: #a7a7a7;
+            }
+        }
+        .black {
+            background-color: #a7a7a7;
+            polygon {
+                fill: #b18653;
+            }
+        }
+    }
+}
+
+.green {
+    .board-b72b1 {
+        background: url(/static/img/boards/green.webp) no-repeat scroll 0% 0% / 100% 100%
+    }
+    .white-1e1d7 {
+        color:#769656;
+    }
+    .black-3c85d {
+        color:#eeeed2;
+    }
+    .bar, .moveRow, .moveRow a, .movew {
+        background-color: #eeeed2;
+        color:#769656;
+    }
+    .bar-progress, .moveb, .moveb a {
+        background-color: #769656;
+        color:#eeeed2;
+    }
+    .score-container {
+        background-color: #eeeed2;
+        .score {
+            background-color: #769656;
+        }
+    }
+    .chart-container {
+        .white {
+            background-color: #769656;
+            polygon {
+                fill: #eeeed2;
+            }
+        }
+        .black {
+            background-color: #eeeed2;
+            polygon {
+                fill: #769656;
+            }
+        }
+    }
+}
+
+.ocean {
+    .board-b72b1 {
+        background: url(/static/img/boards/ocean.png) no-repeat scroll 0% 0% / 100% 100%
+    }
+    .white-1e1d7 {
+        color:#7598ad;
+    }
+    .black-3c85d {
+        color:#d7e2e8;
+    }
+    .bar, .moveRow, .moveRow a, .movew {
+        background-color: #d7e2e8;
+        color:#7598ad;
+    }
+    .bar-progress, .moveb, .moveb a {
+        background-color: #7598ad;
+        color:#d7e2e8;
+    }
+    .score-container {
+        background-color: #d7e2e8;
+        .score {
+            background-color: #7598ad;
+        }
+    }
+    .chart-container {
+        .white {
+            background-color: #7598ad;
+            polygon {
+                fill: #d7e2e8;
+            }
+        }
+        .black {
+            background-color: #d7e2e8;
+            polygon {
+                fill: #7598ad;
+            }
+        }
+    }
+}
+
+.lolz {
+    .board-b72b1 {
+        background: url(/static/img/boards/lolz.png) no-repeat scroll 0% 0% / 100% 100%
+    }
+    .white-1e1d7 {
+        color:#63696a;
+    }
+    .black-3c85d {
+        color:#dfe9e9;
+    }
+    .bar, .moveRow, .moveRow a, .movew {
+        background-color: #dfe9e9;
+        color:#63696a;
+    }
+    .bar-progress, .moveb, .moveb a {
+        background-color: #63696a;
+        color:#dfe9e9;
+    }
+    .score-container {
+        background-color: #dfe9e9;
+        .score {
+            background-color: #63696a;
+        }
+    }
+    .chart-container {
+        .white {
+            background-color: #63696a;
+            polygon {
+                fill: #dfe9e9;
+            }
+        }
+        .black {
+            background-color: #dfe9e9;
+            polygon {
+                fill: #63696a;
+            }
+        }
+    }
+}
+
+.marble {
+    .board-b72b1 {
+        background: url(/static/img/boards/marble.jpg) no-repeat scroll 0% 0% / 100% 100%
+    }
+    .white-1e1d7 {
+        color:#a35e44;
+    }
+    .black-3c85d {
+        color:#dec7a2;
+    }
+    .bar, .moveRow, .moveRow a, .movew {
+        background-color: #dec7a2;
+        color:#a35e44;
+    }
+    .bar-progress, .moveb, .moveb a  {
+        background-color: #a35e44;
+        color:#dec7a2;
+    }
+    .score-container {
+        background-color: #dec7a2;
+        .score {
+            background-color: #a35e44;
+        }
+    }
+    .chart-container {
+        .white {
+            background-color: #a35e44;
+            polygon {
+                fill: #dec7a2;
+            }
+        }
+        .black {
+            background-color: #dec7a2;
+            polygon {
+                fill: #a35e44;
+            }
+        }
+    }
+}
+
+.metal {
+    .board-b72b1 {
+        background: url(/static/img/boards/metal.png) no-repeat scroll 0% 0% / 100% 100%
+    }
+    .white-1e1d7 {
+        color:#555855;
+    }
+    .black-3c85d {
+        color:#fbfbfb;
+    }
+    .bar, .moveRow, .moveRow a, .movew {
+        background-color: #fbfbfb;
+        color:#555855;
+    }
+    .bar-progress, .moveb, .moveb a  {
+        background-color: #555855;
+        color:#fbfbfb;
+    }
+    .score-container {
+        background-color: #fbfbfb;
+        .score {
+            background-color: #555855;
+        }
+    }
+    .chart-container {
+        .white {
+            background-color: #555855;
+            polygon {
+                fill: #fbfbfb;
+            }
+        }
+        .black {
+            background-color: #fbfbfb;
+            polygon {
+                fill: #555855;
+            }
+        }
+    }
+}
+
+.neon {
+    .board-b72b1 {
+        background: url(/static/img/boards/neon.webp) no-repeat scroll 0% 0% / 100% 100%
+    }
+    .white-1e1d7 {
+        color:#5c5451;
+    }
+    .black-3c85d {
+        color:#bcbdbd;
+    }
+    .bar, .moveRow, .moveRow a, .movew {
+        background-color: #bcbdbd;
+        color:#5c5451;
+    }
+    .bar-progress, .moveb, .moveb a  {
+        background-color: #5c5451;
+        color:#bcbdbd;
+    }
+    .score-container {
+        background-color: #bcbdbd;
+        .score {
+            background-color: #5c5451;
+        }
+    }
+    .chart-container {
+        .white {
+            background-color: #5c5451;
+            polygon {
+                fill: #bcbdbd;
+            }
+        }
+        .black {
+            background-color: #bcbdbd;
+            polygon {
+                fill: #5c5451;
+            }
+        }
+    }
+}
+
+.newspaper {
+    .board-b72b1 {
+        background: url(/static/img/boards/newspaper.webp) no-repeat scroll 0% 0% / 100% 100%
+    }
+    .white-1e1d7 {
+        color:#4d4d4d;
+    }
+    .black-3c85d {
+        color:#cdcbc2;
+    }
+    .bar, .moveRow, .moveRow a, .movew {
+        background-color: #cdcbc2;
+        color:#4d4d4d;
     }
     .bar-progress, .moveb, .moveb a {
         background-color: #4d4d4d;
@@ -314,11 +682,20 @@
 }
 
 .orange {
-    .white-1e1d7, .bar, .moveRow, .moveRow a, .movew {
+    .board-b72b1 {
+        background: url(/static/img/boards/orange.webp) no-repeat scroll 0% 0% / 100% 100%
+    }
+    .white-1e1d7 {
+        color:#d08b18;
+    }
+    .black-3c85d {
+        color:#fce4b2;
+    }
+    .bar, .moveRow, .moveRow a, .movew {
         background-color: #fce4b2;
         color:#d08b18;
     }
-    .black-3c85d, .bar-progress, .moveb, .moveb a {
+    .bar-progress, .moveb, .moveb a {
         background-color: #d08b18;
         color:#fce4b2;
     }
@@ -344,150 +721,113 @@
     }
 }
 
-.ocean {
-    .white-1e1d7, .bar, .moveRow, .moveRow a, .movew {
-        background-color: #d7e2e8;
-        color:#7598ad;
+.overlay {
+    .board-b72b1 {
+        background: url(/static/img/boards/overlay.webp) no-repeat scroll 0% 0% / 100% 100%
     }
-    .black-3c85d, .bar-progress, .moveb, .moveb a {
-        background-color: #7598ad;
-        color:#d7e2e8;
+    .white-1e1d7 {
+        color:#e1e1e1;
+    }
+    .black-3c85d {
+        color:#e8e8e8;
+    }
+    .bar, .moveRow, .moveRow a, .movew {
+        background-color: #e8e8e8;
+        color:#e1e1e1;
+    }
+    .bar-progress, .moveb, .moveb a {
+        background-color: #e1e1e1;
+        color:#e8e8e8;
     }
     .score-container {
-        background-color: #d7e2e8;
+        background-color: #e8e8e8;
         .score {
-            background-color: #7598ad;
+            background-color: #e1e1e1;
         }
     }
     .chart-container {
         .white {
-            background-color: #7598ad;
+            background-color: #e1e1e1;
             polygon {
-                fill: #d7e2e8;
+                fill: #e8e8e8;
             }
         }
         .black {
-            background-color: #d7e2e8;
+            background-color: #e8e8e8;
             polygon {
-                fill: #7598ad;
+                fill: #e1e1e1;
             }
         }
     }
 }
 
-
-.bases {
-    .white-1e1d7, .bar,  .moveRow, .moveRow a, .movew {
-        background-color: #edc9a2;
-        color:#d3a36a;
+.parchment {
+    .board-b72b1 {
+        background: url(/static/img/boards/parchment.png) no-repeat scroll 0% 0% / 100% 100%
     }
-    .black-3c85d, .bar-progress, .moveb, .moveb a {
-        background-color: #d3a36a;
-        color:#edc9a2;
+    .white-1e1d7 {
+        color:#97783b;
+    }
+    .black-3c85d {
+        color:#d8d4af;
+    }
+    .bar, .moveRow, .moveRow a, .movew {
+        background-color: #d8d4af;
+        color:#97783b;
+    }
+    .bar-progress, .moveb, .moveb a {
+        background-color: #97783b;
+        color:#d8d4af;
     }
     .score-container {
-        background-color: #edc9a2;
+        background-color: #d8d4af;
         .score {
-            background-color: #d3a36a;
+            background-color: #97783b;
         }
     }
     .chart-container {
         .white {
-            background-color: #d3a36a;
+            background-color: #97783b;
             polygon {
-                fill: #edc9a2;
+                fill: #d8d4af;
             }
         }
         .black {
-            background-color: #edc9a2;
+            background-color: #d8d4af;
             polygon {
-                fill: #d3a36a;
+                fill: #97783b;
             }
         }
     }
 }
 
-.glass {
-    .white-1e1d7, .bar, .moveRow, .moveRow a, .movew {
-        background-color: #717b8e;
-        color:#29303e;
+.purple {
+    .board-b72b1 {
+        background: url(/static/img/boards/purple.webp) no-repeat scroll 0% 0% / 100% 100%
     }
-    .black-3c85d, .bar-progress, .moveb, .moveb a {
-        background-color: #29303e;
-        color:#717b8e;
+    .white-1e1d7 {
+        color:#8877b7;
     }
-    .score-container {
-        background-color: #717b8e;
-        .score {
-            background-color: #29303e;
-        }
+    .black-3c85d {
+        color:#efefef;
     }
-    .chart-container {
-        .white {
-            background-color: #29303e;
-            polygon {
-                fill: #717b8e;
-            }
-        }
-        .black {
-            background-color: #717b8e;
-            polygon {
-                fill: #29303e;
-            }
-        }
-    }
-}
-
-.light {
-    .white-1e1d7, .bar, .moveRow, .moveRow a, .movew {
-        background-color: #dcdcdc;
-        color:#ababab;
-    }
-    .black-3c85d, .bar-progress, .moveb, .moveb a {
-        background-color: #ababab;
-        color:#dcdcdc;
-    }
-    .score-container {
-        background-color: #dcdcdc;
-        .score {
-            background-color: #ababab;
-        }
-    }
-    .chart-container {
-        .white {
-            background-color: #ababab;
-            polygon {
-                fill: #dcdcdc;
-            }
-        }
-        .black {
-            background-color: #dcdcdc;
-            polygon {
-                fill: #ababab;
-            }
-        }
-    }
-}
-
-
-.book {
-    .white-1e1d7, .bar, .moveRow, .moveRow a, .movew {
+    .bar, .moveRow, .moveRow a, .movew {
         background-color: #efefef;
-        color:#ababab;
+        color:#8877b7;
     }
-    .black-3c85d, .bar-progress, .moveb, .moveb a {
-        background-color: #ababab;
+    .bar-progress, .moveb, .moveb a {
+        background-color: #8877b7;
         color:#efefef;
     }
     .score-container {
         background-color: #efefef;
         .score {
-            background-color: #ababab;
+            background-color: #8877b7;
         }
     }
     .chart-container {
         .white {
-            background-color: #ababab;
+            background-color: #8877b7;
             polygon {
                 fill: #efefef;
             }
@@ -495,18 +835,27 @@
         .black {
             background-color: #efefef;
             polygon {
-                fill: #ababab;
+                fill: #8877b7;
             }
         }
     }
 }
 
 .red {
-    .white-1e1d7, .bar, .moveRow, .moveRow a, .movew {
+    .board-b72b1 {
+        background: url(/static/img/boards/red.webp) no-repeat scroll 0% 0% / 100% 100%
+    }
+    .white-1e1d7 {
+        color:#ba5546;
+    }
+    .black-3c85d {
+        color:#f0d8bf;
+    }
+    .bar, .moveRow, .moveRow a, .movew {
         background-color: #f0d8bf;
         color:#ba5546;
     }
-    .black-3c85d, .bar-progress, .moveb, .moveb a {
+    .bar-progress, .moveb, .moveb a {
         background-color: #ba5546;
         color:#f0d8bf;
     }
@@ -532,94 +881,281 @@
     }
 }
 
-.light-green {
-    .white-1e1d7, .bar, .moveRow, .moveRow a, .movew {
-        background-color: #f3f3f4;
-        color:#6a9b41;
+.sand {
+    .board-b72b1 {
+        background: url(/static/img/boards/sand.png) no-repeat scroll 0% 0% / 100% 100%
     }
-    .black-3c85d, .bar-progress, .moveb, .moveb a {
-        background-color: #6a9b41;
-        color:#f3f3f4;
+    .white-1e1d7 {
+        color:#998574;
+    }
+    .black-3c85d {
+        color:#e5d5c6;
+    }
+    .bar, .moveRow, .moveRow a, .movew {
+        background-color: #e5d5c6;
+        color:#998574;
+    }
+    .bar-progress, .moveb, .moveb a {
+        background-color: #998574;
+        color:#e5d5c6;
     }
     .score-container {
-        background-color: #f3f3f4;
+        background-color: #e5d5c6;
         .score {
-            background-color: #6a9b41;
+            background-color: #998574;
         }
     }
     .chart-container {
         .white {
-            background-color: #6a9b41;
+            background-color: #998574;
             polygon {
-                fill: #f3f3f4;
+                fill: #e5d5c6;
             }
         }
         .black {
-            background-color: #f3f3f4;
+            background-color: #e5d5c6;
             polygon {
-                fill: #6a9b41;
+                fill: #998574;
             }
         }
     }
 }
 
-.bubblegum {
-    .white-1e1d7, .bar, .moveRow, .moveRow a, .movew {
-        background-color: #ffffff;
-        color:#fcd8dd;
+.sky {
+    .board-b72b1 {
+        background: url(/static/img/boards/sky.webp) no-repeat scroll 0% 0% / 100% 100%
     }
-    .black-3c85d, .bar-progress, .moveb, .moveb a {
-        background-color: #fcd8dd;
-        color:#ffffff;
+    .white-1e1d7 {
+        color:#c4d4e4;
+    }
+    .black-3c85d {
+        color:#efefef;
+    }
+    .bar, .moveRow, .moveRow a, .movew {
+        background-color: #efefef;
+        color:#c4d4e4;
+    }
+    .bar-progress, .moveb, .moveb a {
+        background-color: #c4d4e4;
+        color:#efefef;
     }
     .score-container {
-        background-color: #f8f8f8;
+        background-color: #efefef;
         .score {
-            background-color: #fcd8dd;
+            background-color: #c4d4e4;
         }
     }
     .chart-container {
         .white {
-            background-color: #fcd8dd;
+            background-color: #c4d4e4;
             polygon {
-                fill: #ffffff;
+                fill: #efefef;
             }
         }
         .black {
-            background-color: #ffffff;
+            background-color: #efefef;
             polygon {
-                fill: #fcd8dd;
+                fill: #c4d4e4;
             }
         }
     }
 }
 
-.lilac {
-    .white-1e1d7, .bar, .moveRow, .moveRow a, .movew {
-        background-color: #9f90b0;
-        color:#7d4a8d;
+.stone {
+    .board-b72b1 {
+        background: url(/static/img/boards/stone.png) no-repeat scroll 0% 0% / 100% 100%
     }
-    .black-3c85d, .bar-progress, .moveb, .moveb a {
-        background-color: #7d4a8d;
-        color:#9f90b0;
+    .white-1e1d7 {
+        color:#393736;
+    }
+    .black-3c85d {
+        color:#aba7a1;
+    }
+    .bar, .moveRow, .moveRow a, .movew {
+        background-color: #aba7a1;
+        color:#393736;
+    }
+    .bar-progress, .moveb, .moveb a {
+        background-color: #393736;
+        color:#aba7a1;
     }
     .score-container {
-        background-color: #f8f8f8;
+        background-color: #aba7a1;
         .score {
-            background-color: #7d4a8d;
+            background-color: #393736;
         }
     }
     .chart-container {
         .white {
-            background-color: #7d4a8d;
+            background-color: #393736;
             polygon {
-                fill: #9f90b0;
+                fill: #aba7a1;
             }
         }
         .black {
-            background-color: #9f90b0;
+            background-color: #aba7a1;
             polygon {
-                fill: #7d4a8d;
+                fill: #393736;
+            }
+        }
+    }
+}
+
+.tan {
+    .board-b72b1 {
+        background: url(/static/img/boards/tan.webp) no-repeat scroll 0% 0% / 100% 100%
+    }
+    .white-1e1d7 {
+        color:#ceae5d;
+    }
+    .black-3c85d {
+        color:#e9d29b;
+    }
+    .bar, .moveRow, .moveRow a, .movew {
+        background-color: #e9d29b;
+        color:#ceae5d;
+    }
+    .bar-progress, .moveb, .moveb a {
+        background-color: #ceae5d;
+        color:#e9d29b;
+    }
+    .score-container {
+        background-color: #e9d29b;
+        .score {
+            background-color: #ceae5d;
+        }
+    }
+    .chart-container {
+        .white {
+            background-color: #ceae5d;
+            polygon {
+                fill: #e9d29b;
+            }
+        }
+        .black {
+            background-color: #e9d29b;
+            polygon {
+                fill: #ceae5d;
+            }
+        }
+    }
+}
+
+.tournament {
+    .board-b72b1 {
+        background: url(/static/img/boards/tournament.png) no-repeat scroll 0% 0% / 100% 100%
+    }
+    .white-1e1d7 {
+        color:#32674a;
+    }
+    .black-3c85d {
+        color:#e8e6e3;
+    }
+    .bar, .moveRow, .moveRow a, .movew {
+        background-color: #e8e6e3;
+        color:#32674a;
+    }
+    .bar-progress, .moveb, .moveb a {
+        background-color: #32674a;
+        color:#e8e6e3;
+    }
+    .score-container {
+        background-color: #e8e6e3;
+        .score {
+            background-color: #32674a;
+        }
+    }
+    .chart-container {
+        .white {
+            background-color: #32674a;
+            polygon {
+                fill: #e8e6e3;
+            }
+        }
+        .black {
+            background-color: #e8e6e3;
+            polygon {
+                fill: #32674a;
+            }
+        }
+    }
+}
+
+.translucent {
+    .board-b72b1 {
+        background: url(/static/img/boards/translucent.webp) no-repeat scroll 0% 0% / 100% 100%
+    }
+    .white-1e1d7 {
+        color:#c8c8c8;
+    }
+    .black-3c85d {
+        color:#eaeaea;
+    }
+    .bar, .moveRow, .moveRow a, .movew {
+        background-color: #eaeaea;
+        color:#c8c8c8;
+    }
+    .bar-progress, .moveb, .moveb a {
+        background-color: #c8c8c8;
+        color:#eaeaea;
+    }
+    .score-container {
+        background-color: #eaeaea;
+        .score {
+            background-color: #c8c8c8;
+        }
+    }
+    .chart-container {
+        .white {
+            background-color: #c8c8c8;
+            polygon {
+                fill: #eaeaea;
+            }
+        }
+        .black {
+            background-color: #eaeaea;
+            polygon {
+                fill: #c8c8c8;
+            }
+        }
+    }
+}
+
+.walnut {
+    .board-b72b1 {
+        background: url(/static/img/boards/walnut.png) no-repeat scroll 0% 0% / 100% 100%
+    }
+    .white-1e1d7 {
+        color:#674933;
+    }
+    .black-3c85d {
+        color:#c0a583;
+    }
+    .bar, .moveRow, .moveRow a, .movew {
+        background-color: #c0a583;
+        color:#674933;
+    }
+    .bar-progress, .moveb, .moveb a {
+        background-color: #674933;
+        color:#c0a583;
+    }
+    .score-container {
+        background-color: #c0a583;
+        .score {
+            background-color: #674933;
+        }
+    }
+    .chart-container {
+        .white {
+            background-color: #674933;
+            polygon {
+                fill: #c0a583;
+            }
+        }
+        .black {
+            background-color: #c0a583;
+            polygon {
+                fill: #674933;
             }
         }
     }

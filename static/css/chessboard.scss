@@ -15,6 +15,8 @@
 
 /* board */
 .board-b72b1 {
+  cursor: pointer;
+  border: none;
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
   box-sizing: content-box;
@@ -35,13 +37,13 @@
 }
 
 .white-1e1d7 {
-  background-color: #f0d9b5;
+  background-color: transparent;
   color: #b58863;
 }
 
 /* black square */
 .black-3c85d {
-  background-color: #b58863;
+  background-color: transparent;
   color: #f0d9b5;
 }
 

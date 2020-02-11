@@ -22,22 +22,34 @@
                   <div class="select is-fullwidth">
                     <select v-model="data.board" id="tablero" title="Elegí el tema de tablero">
                       <option value="classic">Clásico</option>
-                      <option value="green">Verde</option>
-                      <option value="light-green">Verde claro</option>
-                      <option value="tournament">Campaña</option>
-                      <option value="purple">Púrpura</option>
-                      <option value="lilac">Lila</option>
-                      <option value="wood">Madera</option>
-                      <option value="marble">Mármol</option>
-                      <option value="dash">Dash</option>
-                      <option value="book">Libro</option>
-                      <option value="newspaper">Periódico</option>
-                      <option value="ocean">Océano</option>
-                      <option value="glass">Vidrio</option>
-                      <option value="light">Claro</option>
-                      <option value="red">Rojo</option>
-                      <option value="orange">Naranja</option>
+                      <option value="bases">Bases</option>
+                      <option value="bit">8 Bit</option>
+                      <option value="blue">Azul</option>
                       <option value="bubblegum">Chicle</option>
+                      <option value="burled-wood">Madera raíz</option>
+                      <option value="dark-wood">Madera</option>
+                      <option value="dash">Dash</option>
+                      <option value="glass">Vidrio</option>
+                      <option value="graffiti">Graffiti</option>
+                      <option value="green">Verde</option>
+                      <option value="ocean">Océano</option>
+                      <option value="lolz">Lolz</option>
+                      <option value="marble">Mármol</option>
+                      <option value="metal">Metal</option>
+                      <option value="neon">Neón</option>
+                      <option value="newspaper">Periódico</option>
+                      <option value="orange">Naranja</option>
+                      <option value="overlay">Cobertor</option>
+                      <option value="parchment">Pergamino</option>
+                      <option value="purple">Púrpura</option>
+                      <option value="red">Rojo</option>
+                      <option value="sand">Arena</option>
+                      <option value="sky">Cielo</option>
+                      <option value="stone">Piedra</option>
+                      <option value="tan">Bronceado</option>
+                      <option value="tournament">Torneo</option>
+                      <option value="translucent">Translúcido</option>
+                      <option value="walnut">Nuez</option>
                     </select>
                   </div>
                 </div>
