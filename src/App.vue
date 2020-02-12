@@ -88,7 +88,7 @@
             <div class="has-text-centered">
               <router-link to="/lobby" class="button is-rounded is-white is-outlined">
                 <span class="icon">
-                  <span class="fas fa-user"></span>
+                  <span class="fas fa-user-circle"></span>
                 </span>
                 <span>Humano</span>
               </router-link>

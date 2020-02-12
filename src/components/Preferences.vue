@@ -176,7 +176,9 @@
         this.data = JSON.parse(saved)
         this.saved = JSON.parse(saved)
       }
-      this.drawBoard()
+      setTimeout(() => {
+        this.drawBoard()  
+      },250)
     },
     beforeDestroy: function() {
       const player = JSON.parse(localStorage.getItem('player'))
@@ -205,7 +207,6 @@
         snackbarBar.classList.remove('ui-snackbar--is-active')
         snackbarBar.classList.add('ui-snackbar--is-inactive')
         setTimeout(() => {
-         
           if(this.data.strongnotification){
             snackbarBar.classList.add('is-strong')
             snackbar('default','Notificación gigante',3000)
@@ -236,6 +237,8 @@
 
         this.board = Chessboard('board', this.boardCfg)      
         this.board.resize()
+        document.querySelector('.square-b5').classList.add('highlight-move')
+        document.querySelector('.square-f1').classList.add('highlight-move')
 
         $(window).resize(() => {
           this.board.resize()
@@ -246,7 +249,6 @@
         this.$socket.emit('lobby_leave', this.data) 
         this.$root.saving = true
         this.data.ref = this.$root.player.code
-        //this.$root.player = this.data
         this.$socket.emit('preferences', this.data)  
         this.saved = {}
       }
@@ -254,9 +256,9 @@
     data () {
       return {
         boardCfg: {
-          position: 'start',
-          draggable: false,
-          pieceTheme:'/static/img/chesspieces/classic/{piece}.png'
+          position: 'r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R',
+          pieceTheme:'/static/img/chesspieces/classic/{piece}.png',
+          draggable: false
         },
         data:{},
         saved:{},

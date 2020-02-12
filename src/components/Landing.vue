@@ -48,13 +48,13 @@
             <div class="column has-text-right">
               <router-link class="button is-rounded is-medium is-success" to="/lobby">
                 <span class="icon">
-                  <span class="fas fa-user"></span>
+                  <span class="fas fa-user-circle"></span>
                 </span> 
                 <span>Humano</span>
               </router-link>    
             </div>
             <div class="column has-text-left">
-              <router-link class="button is-rounded is-medium is-danger" to="/stockfish">
+              <router-link class="button is-rounded is-medium is-info" to="/stockfish">
                 <span class="icon">
                   <span class="fas fa-server"></span>
                 </span> 
@@ -66,13 +66,13 @@
             <div class="column">
               <router-link class="button is-rounded is-success" to="/lobby">
                 <span class="icon">
-                  <span class="fas fa-user"></span>
+                  <span class="fas fa-user-circle"></span>
                 </span> 
                 <span>Humano</span>
               </router-link>    
             </div>
             <div class="column">
-              <router-link class="button is-rounded is-danger" to="/stockfish">
+              <router-link class="button is-rounded is-info" to="/stockfish">
                 <span class="icon">
                   <span class="fas fa-server"></span>
                 </span> 
