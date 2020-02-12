@@ -3,11 +3,10 @@
     <svg v-show="$root.loading" class="spinner-container" viewBox="0 0 44 44">
       <circle class="path" cx="22" cy="22" r="20" fill="none" stroke-width="4"></circle>
     </svg>
-  
     <div class="menu hidden-loading slideDown preservefilter">
       <div class="menu-container is-flex columns is-vcentered">
-        <div class="column has-text-left">
-          <router-link class="menu-logo" to="/">
+        <div class="column menu-logo has-text-left">
+          <router-link to="/">
             <img src="/static/img/logo.png" alt="AjedrezEV">
           </router-link>
         </div>
@@ -46,6 +45,12 @@
             <img src="/static/img/logo.png">
           </router-link>
           <div class="menu-links has-text-left">
+            <a @click="$root.goFS">
+              <span class="icon">
+                <span class="fas fa-expand"></span>
+              </span> 
+              <span>Pantalla completa</span>
+            </a>
             <router-link to="/eco">
               <span class="icon">
                 <span class="fas fa-book"></span>

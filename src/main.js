@@ -344,6 +344,50 @@ new Vue({
     }
   },
   methods: {
+    fullscreen() {
+      var isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
+        (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
+        (document.mozFullScreenElement && document.mozFullScreenElement !== null) ||
+        (document.msFullscreenElement && document.msFullscreenElement !== null);
+
+      var docElm = document.documentElement;
+      if (!isInFullScreen) {
+        if (docElm.requestFullscreen) {
+          docElm.requestFullscreen();
+        } else if (docElm.mozRequestFullScreen) {
+          docElm.mozRequestFullScreen();
+        } else if (docElm.webkitRequestFullScreen) {
+          docElm.webkitRequestFullScreen();
+        } else if (docElm.msRequestFullscreen) {
+          docElm.msRequestFullscreen();
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+          document.mozCancelFullScreen();
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+        }
+      }
+    },
+    goFS: function(){
+      if(document.querySelector('.menu-logo').classList.contains('is-hidden')){
+        document.querySelector('.menu-logo').classList.remove('is-hidden')
+        document.querySelector('.menu-primary').classList.remove('is-hidden')
+        document.querySelector('body').classList.remove('fs')
+      } else {
+        document.querySelector('.menu-logo').classList.add('is-hidden')
+        document.querySelector('.menu-primary').classList.add('is-hidden')
+        document.querySelector('body').classList.add('fs')
+      }
+      setTimeout(() => {
+        this.fullscreenBoard()
+        this.fullscreen();
+      },750)      
+    },
     updateOnlineStatus(e) {
       const {
         type
