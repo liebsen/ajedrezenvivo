@@ -51,10 +51,18 @@ hr {
 
 .has-checkradio {
   padding-bottom: 0.5rem;
+  .is-checkradio[type="checkbox"].is-white.has-background-color + label::before, .is-checkradio[type="checkbox"].is-white.has-background-color + label::before, .is-checkradio[type="checkbox"].is-white:checked.has-background-color + label::before, .is-checkradio[type="checkbox"].is-white:checked.has-background-color + label::before {
+    border-color: #dbdbdb!important;
+    border-width: 2px!important;
+  }
   p {
     margin-top: 0.25rem;
     margin-bottom: 0.25rem;
   }
+}
+
+.select:not(.is-multiple):not(.is-loading)::after {
+  border-color: #dbdbdb!important
 }
 
 .is-flex-centered {

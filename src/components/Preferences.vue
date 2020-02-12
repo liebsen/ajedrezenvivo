@@ -242,6 +242,8 @@
 
         $(window).resize(() => {
           this.board.resize()
+          document.querySelector('.square-b5').classList.add('highlight-move')
+          document.querySelector('.square-f1').classList.add('highlight-move')
         })
       },
       submit: function(){
