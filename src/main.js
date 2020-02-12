@@ -373,6 +373,15 @@ new Vue({
         }
       }
     },
+    fullscreenBoard: function(){
+      if(document.querySelector('.board') && document.body.clientHeight < document.body.clientWidth && document.body.clientWidth > 768){
+        var offset = 1
+        if(!document.querySelector('.menu-logo').classList.contains('is-hidden')) {
+          offset+= 70
+        }
+        document.querySelector('.board').style.width = document.body.clientHeight - document.querySelector('.menu').clientHeight - offset + 'px'
+      }
+    },
     goFS: function(){
       if(document.querySelector('.menu-logo').classList.contains('is-hidden')){
         document.querySelector('.menu-logo').classList.remove('is-hidden')
@@ -564,11 +573,6 @@ new Vue({
 	      return pgn.split('.').length
 	    }
 	  },
-    fullscreenBoard: function(){
-      if(document.querySelector('.board') && document.body.clientHeight < document.body.clientWidth && document.body.clientWidth > 768){
-        document.querySelector('.board').style.width = document.body.clientHeight - document.querySelector('.menu').clientHeight - 70 + 'px'
-      }
-    },
     msToTime(duration){
       duration = duration * 1000
       var milliseconds = parseInt((duration % 1000) / 100),
