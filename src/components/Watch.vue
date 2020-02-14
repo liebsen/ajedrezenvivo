@@ -1,8 +1,8 @@
 <template>
   <div :class="boardColor">
     <div class="container is-widescreen">
-      <div class="content column">
-        <div class="columns fadeIn">
+      <div class="content">
+        <div class="columns is-marginless-top fadeIn">
           <div class="column">
             <div class="board-container">
               <h6 class="has-text-left black is-clickable" @click="gameFlip">
@@ -63,7 +63,7 @@
                   </span>
                 </div>
               </div>
-              <div class="columns is-marginless">
+              <div class="columns has-text-centered">
                 <div class="column has-text-left preservefilter">
                   <button @click="gameFlip()" class="button is-small is-rounded is-info" title="Girar tablero">
                     <span class="icon">
@@ -75,7 +75,7 @@
                   </button>
                 </div>
               </div> 
-              <div class="columns is-marginless">
+              <div class="columns has-text-centered">
                 <div class="column">
                   <strong v-html="ecode" class=""></strong> 
                   <span v-html="opening" class="has-text-black"></span>

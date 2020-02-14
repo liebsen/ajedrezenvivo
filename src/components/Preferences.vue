@@ -7,7 +7,7 @@
         </span> 
         <span>Preferencias</span>
       </h3>
-      <div class="columns">
+      <div class="columns is-marginless">
         <div class="column">
           <div class="board-container preservefilter">
             <div id="board" :class="boardColor"></div>

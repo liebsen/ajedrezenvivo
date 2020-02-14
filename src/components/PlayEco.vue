@@ -6,8 +6,8 @@
       </div>
     </div>  
     <div class="container is-widescreen">
-      <div class="content column fadeIn">
-        <div class="columns fadeIn">
+      <div class="content fadeIn">
+        <div class="columns is-marginless-top fadeIn">
           <div class="column">
             <div class="board-container">
               <div class="board preservefilter">
@@ -20,7 +20,7 @@
           </div>
           <div class="column">
             <div class="board-assistant" v-if="Object.keys(data).length">
-              <div class="columns is-marginless">
+              <div class="columns has-text-centered">
                 <div class="column has-text-left preservefilter">
                   <button @click="gameFlip()" class="button is-small is-rounded is-info" title="Girar tablero">
                     <span class="icon">
@@ -32,7 +32,7 @@
                   </button>
                 </div>
               </div>  
-              <div class="columns is-marginless">
+              <div class="columns has-text-centered">
                 <div class="column">
                   <strong v-html="data.eco" class=""></strong>
                   <span v-html="data.name" class="has-text-black"></span>

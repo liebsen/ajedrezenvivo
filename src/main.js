@@ -375,9 +375,9 @@ new Vue({
     },
     fullscreenBoard: function(){
       if(document.querySelector('.board') && document.body.clientHeight < document.body.clientWidth && document.body.clientWidth > 768){
-        var offset = 1
+        var offset = 0
         if(!document.querySelector('.menu-logo').classList.contains('is-hidden')) {
-          offset+= 70
+          offset+= 60
         }
         document.querySelector('.board').style.width = document.body.clientHeight - document.querySelector('.menu').clientHeight - offset + 'px'
       }

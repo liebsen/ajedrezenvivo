@@ -43,8 +43,8 @@
         </div>
       </div>
     </div>
-    <div class="content column" v-show="time.level > -1">
-      <div class="columns fadeIn" :class="boardColor">
+    <div class="content" v-show="time.level > -1">
+      <div class="columns is-marginless-top fadeIn" :class="boardColor">
         <div class="column">
           <div class="board-container">
             <h6 class="has-text-left black">
@@ -70,8 +70,8 @@
         </div>
         <div class="column">
           <div class="board-assistant">
-            <div class="columns" v-show="pgnIndex.length">
-              <div class="column has-text-left is-marginless preservefilter">
+            <div class="columns has-text-centered" v-show="pgnIndex.length">
+              <div class="column preservefilter">
                 <button @click="askForRematch()" class="button is-small is-rounded is-danger" v-if="!announced_game_over" title="Abandonar partida">
                   <span class="icon has-text-white">
                     <span class="fas fa-flag"></span>
@@ -92,7 +92,7 @@
                 </button>
               </div>
             </div>  
-            <div class="columns is-marginless">
+            <div class="columns has-text-centered">
               <div class="column">
                 <strong v-html="ecode"></strong> 
                 <span v-html="opening" class="has-text-black"></span> 

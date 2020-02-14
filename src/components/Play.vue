@@ -5,8 +5,8 @@
     </div>  
     <div class="game-container" v-show="!$root.loading">
       <div class="container is-widescreen">
-        <div class="content column fadeIn">
-          <div class="columns">
+        <div class="content fadeIn">
+          <div class="columns is-marginless-top">
             <div class="column">
               <div class="board-container">
                 <h6 class="has-text-left black">
@@ -55,8 +55,8 @@
             </div>
             <div class="column">
               <div class="board-assistant">
-                <div class="columns is-marginless">
-                  <div class="column has-text-left preservefilter">
+                <div class="columns has-text-centered">
+                  <div class="column preservefilter">
                     <button @click="gameCapitulate()" class="button is-small is-rounded is-danger" v-show="pgnIndex.length && !announced_game_over" title="Abandonar partida">
                       <span class="icon has-text-white">
                         <span class="fas fa-flag"></span>
@@ -114,7 +114,7 @@
                   </div>
                 </div>
 
-                <div class="columns is-marginless">
+                <div class="columns has-text-centered">
                   <div class="column">
                     <strong v-html="ecode" class=""></strong> 
                     <span v-html="opening" class="has-text-black"></span>
