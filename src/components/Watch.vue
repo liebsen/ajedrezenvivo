@@ -5,7 +5,7 @@
         <div class="columns is-marginless-top fadeIn">
           <div class="column">
             <div class="board-container">
-              <h6 class="has-text-left black is-clickable" @click="gameFlip">
+              <h6 class="has-text-left black is-hidden-mobile is-clickable" @click="gameFlip">
                 <span v-show="data.result==='0-1'" class="icon">
                   <span class="fa fa-trophy has-text-warning"></span>
                 </span>
@@ -17,7 +17,7 @@
                 </div>            
                 <div id="board"></div>
               </div>
-              <h6 class="has-text-right white is-clickable" @click="gameFlip">
+              <h6 class="has-text-right white is-hidden-mobile is-clickable" @click="gameFlip">
                 <span v-html="data.white" class="is-size-6"></span>
                 <span v-show="data.result==='1-0'" class="icon">
                   <span class="fa fa-trophy has-text-warning"></span>

@@ -10,7 +10,7 @@
         <div class="columns is-marginless-top">
           <div class="column">
             <div class="board-container">
-              <h6 class="black has-text-left" v-show="game">
+              <h6 class="black has-text-left is-hidden-mobile" v-show="game">
                 <span v-show="data.result==='0-1'" class="icon">
                   <span class="fa fa-trophy has-text-warning"></span>
                 </span>
@@ -25,7 +25,7 @@
                 </div>            
                 <div id="board" class="is-clickable" @click="gamePause"></div>
               </div>
-              <h6 class="white has-text-right" v-show="game">
+              <h6 class="white has-text-right is-hidden-mobile" v-show="game">
                 <span v-show="data.result==='1-0'" class="icon">
                   <span class="fa fa-trophy has-text-warning"></span>
                 </span>

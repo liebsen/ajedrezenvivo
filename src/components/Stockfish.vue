@@ -47,7 +47,7 @@
       <div class="columns is-marginless-top fadeIn" :class="boardColor">
         <div class="column">
           <div class="board-container">
-            <h6 class="has-text-left black">
+            <h6 class="has-text-left black is-hidden-mobile">
               <span v-show="data.result==='0-1'">🏆</span>
               <span>Stockfish</span> 
               <span>
@@ -62,7 +62,7 @@
               </div>            
               <div id="board"></div>
             </div>
-            <h6 class="has-text-right white">
+            <h6 class="has-text-right white is-hidden-mobile">
               <span v-show="data.result==='1-0'">🏆</span>
               <span v-html="$root.player.code"></span> 
             </h6>
