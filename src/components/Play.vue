@@ -398,7 +398,6 @@
           t.data.result = result
         }
         t.announced_game_over = true
-        playSound('game-end.mp3')
       },
       askfordraw: function(data){
         var t = this
@@ -567,7 +566,6 @@
           })
 
           if(t.data.result){
-            playSound('game-end.mp3')
             t.announced_game_over = true
             snackbar('success',"Esta partida ha finalizado")
           } else {
@@ -992,7 +990,6 @@
         chart.setAttribute("viewBox", "0 0 " + this.chart.width + " " + this.chart.height)
 
         var polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
-        console.log(this.chart.points)
         polygon.setAttribute("points", this.chart.points);
 
         if(this.chart.values.length > 1){
@@ -1003,9 +1000,17 @@
       },
       moveSound: function(move){
         var sound = 'move.mp3'
+        let t = this
+        if(t.game.game_over()){
 
-        if(this.game.game_over()){
-          sound = 'game-end.mp3'
+          if(t.game.in_draw() || t.game.in_stalemate() || t.game.in_threefold_repetition()){
+            sound = 'game-end.mp3'
+          } else if(t.game.turn() === t.playerColor[0]){
+            sound = 'defeat.mp3'
+          } else {
+            sound = 'victory.mp3'
+          }
+
         } else {
           if(move.flags === 'c'){
             sound = 'capture.mp3'        
