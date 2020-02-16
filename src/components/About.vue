@@ -14,7 +14,7 @@
       <p>AjedrezEV permite visualizar cualquier partida previemante emitida o cargada a partir de todos sus movimientos. AjedrezEV es una forma de ver y estudiar el ajedrez. También se puede jugar con un oponente humano y estudiar posteriormente esas partidas.</p>
       <h2>¿Qué objetivos persigue?</h2>
       <p>El código fuente de este proyecto fue creado y es mantenido por un solo desarrollador ad honorem. Actualmente tiene un solo idioma, <i>castellano neutro</i> o mas conocido como español neutro porque pretende llegar a los nuevos entusiastas del ajedrez en Argentina y países hermanos de habla castellana. Existe la posibilidad de extender la aplicación a multi-idioma pero es necesaria la bondadosa colaboración de eventuales entusiastas.</p>
-      <p><a href="mailto:overlemonsoft@gmail.com?Subject=Hola, Quiero conocer mas sobre el proyecto AjedrezEV" class="button is-success is-outlined">Conocer mas sobre AjedrezEV</a></p>
+      <p><a href="mailto:overlemonsoft@gmail.com?Subject=Hola, Quiero conocer mas sobre el proyecto AjedrezEV" class="button is-success is-rounded">Conocer mas sobre AjedrezEV</a></p>
       
       <h4>Objetivos</h4>
       <ul>
@@ -91,7 +91,7 @@
 
       <h4>¿Quieres participar?</h4>
       <p>Si leíste efectivamente hasta el Changelog tal vez sea hora de preguntarte, ... ¿estas interesado en colaborar voluntariamente con este proyecto? Si piensas que puede ser así este el momento para hacerlo.</p>
-      <p><a id="colaborar" class="button is-success is-outlined" href="mailto:overlemonsoft@gmail.com?Subject=Hola, Quiero colaborar con el proyecto AjedrezEV">Quiero colaborar con AjedrezEV</a></p>
+      <p><a id="colaborar" class="button is-success is-rounded" href="mailto:overlemonsoft@gmail.com?Subject=Hola, Quiero colaborar con el proyecto AjedrezEV">Quiero colaborar con AjedrezEV</a></p>
 
       <br>
       <p>Gracias por utilizar <em>Ajedrez en vivo</em>.</p>

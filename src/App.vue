@@ -45,12 +45,6 @@
             <img src="/static/img/logo.png">
           </router-link>
           <div class="menu-links has-text-left">
-            <a @click="$root.goFS">
-              <span class="icon">
-                <span class="fas fa-expand"></span>
-              </span> 
-              <span>Pantalla completa</span>
-            </a>
             <router-link to="/eco">
               <span class="icon">
                 <span class="fas fa-book"></span>
@@ -69,7 +63,12 @@
               </span> 
               <span>Resultados</span>
             </router-link>
-            <!--router-link to="/puzzles"><span class="aev-icon">🔖</span> Puzzles</router-link-->
+            <router-link to="/preferences">
+              <span class="icon">
+                <span class="fas fa-paint-brush"></span>
+              </span> 
+              <span>Preferencias</span>
+            </router-link>
             <router-link to="/about">
               <span class="icon">
                 <span class="fa fa-info"></span>
@@ -82,12 +81,18 @@
               </span> 
               <span>Contacto</span>
             </router-link>
-            <router-link to="/preferences">
+            <router-link to="/donate">
               <span class="icon">
-                <span class="fas fa-paint-brush"></span>
+                <span class="fas fa-hands"></span>
               </span> 
-              <span>Preferencias</span>
+              <span>Donate</span>
             </router-link>
+            <a @click="$root.goFS">
+              <span class="icon">
+                <span class="fas fa-expand"></span>
+              </span> 
+              <span>Pantalla completa</span>
+            </a>
           </div>
           <div class="column">
             <div class="has-text-centered">

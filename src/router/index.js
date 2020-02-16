@@ -4,6 +4,7 @@ import $ from 'jquery'
 import Landing from '../components/Landing'
 import Results from '../components/Results'
 import Contact from '../components/Contact'
+import Donate from '../components/Donate'
 import Play from '../components/Play'
 import Lobby from '../components/Lobby'
 import Live from '../components/Live'
@@ -83,6 +84,11 @@ const router = new Router({
       path: '/contact',
       name: 'contact',
       component: Contact
+    },
+    {
+      path: '/donate',
+      name: 'donate',
+      component: Donate
     },
     {
       path: '/about',
