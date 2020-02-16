@@ -261,8 +261,10 @@
         this.drawChartPosition()
 
         setTimeout(() => {
-          this.moveSound(moved)
-          this.addHightlight(moved)
+          if(moved){
+            this.moveSound(moved)
+            this.addHightlight(moved)
+          }
         },250)
       },
       drawChartPosition: function(draw){
@@ -693,7 +695,12 @@
       },
       updateMoveList: function(){
         const movesTable = document.querySelector(".movesTableContainer")
-        movesTable.scrollTop = movesTable.scrollHeight
+        const current = document.querySelector('.moveindex.m' + this.index)
+        if(current.parentNode.offsetTop + current.parentNode.clientHeight > movesTable.clientHeight){
+          movesTable.scrollTop = current.parentNode.offsetTop
+        } else {
+          movesTable.scrollTop = 0
+        }
         document.querySelectorAll('.moveindex').forEach((item) => {
           item.parentNode.classList.remove('active')
         })

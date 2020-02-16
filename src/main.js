@@ -198,11 +198,21 @@ new Vue({
         }
       }
       if(available > 1){
+        const message = 'Hay ' + (available - 1) +  ' jugador' + (available > 2 ? 'es' : '') + ' esperando invitación '
         document.title = '(' + (available - 1) + ') ' + this.documentTitle
         if(this.$route.name === 'lobby'){
-          snackbar('default','Hay ' + (available - 1) +  ' jugador' + (available > 2 ? 'es' : '') + ' esperando invitación ')
+          snackbar('default',message)
         }
+        this.$socket.emit('lobby_chat', { 
+          sender: 'chatbot',
+          line: message
+        })
+
       } else {
+        this.$socket.emit('lobby_chat', { 
+          sender: 'chatbot',
+          line: `No hay jugadores en este momento`
+        })
         document.title = this.documentTitle
       }        
       this.players = JSON.parse(JSON.stringify(data))

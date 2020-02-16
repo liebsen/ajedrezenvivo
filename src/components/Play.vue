@@ -933,7 +933,12 @@
       },
       updateMoveList: function(){
         const movesTable = document.querySelector(".movesTableContainer")
-        movesTable.scrollTop = movesTable.scrollHeight
+        const current = document.querySelector('.moveindex.m' + this.index)
+        if(current.parentNode.offsetTop + current.parentNode.clientHeight > movesTable.clientHeight){
+          movesTable.scrollTop = current.parentNode.offsetTop
+        } else {
+          movesTable.scrollTop = 0
+        }
         document.querySelectorAll('.moveindex').forEach((item) => {
           item.parentNode.classList.remove('active')
         })

@@ -110,19 +110,13 @@
   export default {
     name: 'lobby',
     mounted: function(){
-      this.$socket.emit('lobby_chat', { 
-        sender: 'chatbot',
-        line: `Hola ${this.$root.player.code}, gracias por visitar AjedrezEV.` + (this.$root.player.observe ? ` Estas en modo observador. Para cambiarlo podés ` : ` Antes de jugar podés `) +  `<a href="/preferences" class="has-text-success">establecer tus preferencias</a>`
-      })
-
+      let t = this
       setTimeout(() => {
-        if(this.$root.players.length < 2){
-          this.$socket.emit('lobby_chat', { 
-            sender: 'chatbot',
-            line: `No hay jugadores en este momento`
-          })
-        }
-      },2000)
+        t.$socket.emit('lobby_chat', { 
+          sender: 'chatbot',
+          line: `Hola ${t.$root.player.code}, gracias por visitar AjedrezEV.` + (t.$root.player.observe ? ` Estas en modo observador. Para cambiarlo podés ` : ` Antes de jugar podés `) +  `<a href="/preferences" class="has-text-success">establecer tus preferencias</a>`
+        })
+      },1500)
     },
     methods: {
       sendChat: function() {
