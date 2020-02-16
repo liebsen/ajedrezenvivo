@@ -107,14 +107,14 @@ $blue: #4183d7;
 
 .highlight-move {
   backdrop-filter: saturate(400%) brightness(120%);
+  --webkit-backdrop-filter: saturate(400%) brightness(120%);
 }
 
-@-moz-document url-prefix() { 
+@supports not (backdrop-filter: saturate(400%)) {
   .highlight-move {
     background-color: rgba(255,255,0,0.5)!important
   }
 }
-
 
 .in-check {
   box-shadow: 0 0 50px red inset;
