@@ -13,7 +13,12 @@
             <input ref="input" v-model="query" class="input is-rounded is-success" type="text" placeholder="Nombre o PGN" autofocus>
           </div>
           <div class="control">
-            <button type="submit" id="searchbtn" class="button is-rounded is-success">
+            <button v-show="query.length" type="button" @click="clear" class="button is-rounded is-danger">
+              <span class="icon">
+                <span class="fas fa-times"></span>
+              </span>
+            </button>
+            <button v-show="!query.length" type="submit" id="searchbtn" class="button is-rounded is-success">
               <span class="icon">
                 <span class="fas fa-search"></span>
               </span>
@@ -21,16 +26,16 @@
           </div>
         </div>
       </form>
-      <div v-if="data.length" class="has-text-left">
+      <div v-show="Object.keys(data).length" class="has-text-left">
         <table class="table is-narrow is-striped is-fullwidth">
           <thead>
             <th></th>
             <th>ECO</th>
             <th>Nombre</th>
-            <th>Movimientos</th>
+            <th>Plys</th>
           </thead>
           <tbody>
-            <tr v-for="item in data">
+            <tr v-for="item in data.games">
               <td>
                 <router-link :to="'/eco/'+item.eco">
                   <span class="icon">
@@ -52,6 +57,13 @@
         </table>
       </div>
     </div>
+    <nav class="pagination is-centered is-rounded" role="navigation" aria-label="pagination">
+      <ul class="pagination-list">
+        <li v-for="(page, index) in pages">
+          <router-link :to="'?q=' + query + '&offset=' + page" class="pagination-link" :class="{'is-current': offset == page}" :title="'Ir a página ' + (index + 1)"></router-link>
+        </li>
+      </ul>
+    </nav> 
   </div>
 </template>
 
@@ -68,10 +80,13 @@
       }
     },
     mounted: function(){
-      //snackbar('info','Por favor ingresa una palabra clave para ver aperturas. Puedes buscar por nombre de apertura o PGN.', 15000);  
       this.triggerSearch()
     },
     methods : {
+      clear: function(){
+        this.query = ''
+        this.submit()
+      },
       triggerSearch: function(){
         if(this.$route.query.q){
           this.query = this.$route.query.q
@@ -83,37 +98,42 @@
         this.search()
       },
       search: function() {
-        this.$root.processing = true
-        this.data = []
-        axios.get( '/static/json/eco_es.json').then((response) => {
-          const query = this.query.toLowerCase()
-          if(query.length){
-            response.data.forEach((item) => {
-              if(item.name.toLowerCase().indexOf(query) > -1 || item.pgn.toLowerCase().indexOf(query) > -1 || item.eco.toLowerCase().indexOf(query) > -1){
-                this.data.push(item)
-              }
-            })
-          } else {
-            this.data = response.data
-          }
+        this.$root.loading = true
+        console.log(this.query)
+        axios.post( this.$root.endpoint + '/eco/search', {query:this.query,offset:this.offset,limit:this.limit} ).then((res) => {
+          this.data = res.data
 
-          if(this.data.length===0){
-            snackbar('danger','No hay partidas que coincidan con tu palabra clave.', 5000);
-          } 
-          this.$root.processing = false
-        })      
+          var pages = []
+          if(res.data.error){
+            if(res.data.error==='not_enough_params'){
+              snackbar('info','Ingresá una palabra clave para ver aperturas. Podés buscar por nombre o PGN.', 15000);  
+            }
+          } else {
+            if(res.data.count===0){
+              snackbar('danger','No hay aperturas que coincidan con tu palabra clave.', 5000);
+            } else {
+              var numPages = Math.ceil(res.data.count/this.limit)
+              for(var i=0;i< numPages;i++){
+                pages[i] = i*this.limit
+              }
+              snackbar('success','Se econtraron ' + this.data.count  +  ' apertura' + (this.data.count>1?'s':'')  + '. Mostrando resultados de ' + (this.offset + 1) + ' a ' + (this.offset + this.limit > this.data.count ? this.data.count : this.offset + this.limit ), 5000);
+            }
+          }
+          this.pages = pages
+          this.$root.loading = false
+        })    
       },
       submit: function(){
-        this.$router.push('/eco?q=' + this.query)
+        this.$router.push('/eco?q=' + this.query.trim())
       }    
     },
     data () {
       return {
-        data:[],
+        data:{count:0,games:[]},
+        pages:{},
         query:'',
         limit:10,
-        offset:0,
-        msg: 'Results'
+        offset:0
       }
     }
   }

@@ -130,11 +130,7 @@
         this.speed = parseInt(localStorage.getItem('speed'))
       }
 
-      axios.get('/static/json/eco_es.json')
-        .then((response) => {
-          this.eco = response.data
-          this.gameStart()
-        })
+      this.gameStart()
     },
     methods: {
       gameMove:function(){
@@ -183,19 +179,19 @@
 
           this.index++
 
-          if(this.game.history().length < 14){
-            setTimeout(() => {
-              this.eco.forEach((eco,i) => {
-                if(eco.pgn === this.game.pgn()){
-                  this.opening = eco.name
-                  this.ecode = eco.eco
-                }
-              })
-            },1000)
-          }
+          this.findEco(this.game.pgn())
 
           setTimeout(this.gameMove, this.speed)
         }
+      },
+      findEco: function(pgn){
+        let t = this
+        axios.post( this.$root.endpoint + '/eco/pgn', {pgn:pgn} ).then((res) => {
+          if(res.data.eco){
+            t.opening = res.data.name
+            t.ecode = res.data.eco
+          }
+        })
       },
       moveList: function()
       {

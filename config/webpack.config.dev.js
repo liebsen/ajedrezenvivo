@@ -28,6 +28,7 @@ const webpackConfig = merge(commonConfig, {
         new FriendlyErrorsPlugin()
     ],
     devServer: {
+        quiet: true,
         compress: true,
         historyApiFallback: true,
         hot: true,

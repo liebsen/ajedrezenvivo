@@ -169,11 +169,6 @@
         let li = window.getComputedStyle(e);
         e.style.backgroundImage = li.getPropertyValue('background-image').split('classic').join(saved.pieces)
       })
-
-      axios.get('/static/json/eco_es.json')
-        .then((response)=>{
-        this.eco = response.data
-      })
     },
     methods: {
       gameRestart: function(){
@@ -677,21 +672,20 @@
           t.updateMoveList()
           setTimeout(() => {
             t.drawChart(index)
-          },1000)
+          },250)
         },250)
 
         t.thinking = false
-
-        if(t.game.history().length < 14){
-          setTimeout(() => {
-            t.eco.forEach((eco,i) => {
-              if(eco.pgn === t.game.pgn()){
-                this.opening = eco.name
-                this.ecode = eco.eco
-              }
-            })
-          },1000)
-        }
+        t.findEco(t.game.pgn())
+      },
+      findEco: function(pgn){
+        let t = this
+        axios.post( this.$root.endpoint + '/eco/pgn', {pgn:pgn} ).then((res) => {
+          if(res.data.eco){
+            t.opening = res.data.name
+            t.ecode = res.data.eco
+          }
+        })
       },
       updateMoveList: function(){
         const movesTable = document.querySelector(".movesTableContainer")

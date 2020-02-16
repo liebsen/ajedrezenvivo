@@ -13,6 +13,7 @@ import '../static/js/fontawesome_all.js'
 
 const endpoint='https://ajedrezenvivoapi.herokuapp.com'
 //const endpoint='https://ajedrezenvivoapidev.herokuapp.com'
+//const endpoint='http://localhost:4000'
 
 require('../static/css/main.scss')
 require('../static/css/chessboard.scss')

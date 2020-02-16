@@ -214,10 +214,6 @@
       document.getElementById('board').addEventListener("wheel", event => {
         this.gamePos(Math.sign(event.deltaY)<0?this.index+1:this.index-1)
       })
-      axios.get('/static/json/eco_es.json')
-        .then((response)=>{
-          this.eco = response.data
-        })
 
       t.gameLoad()
       t.$socket.emit('join',t.$route.params.game)
@@ -920,16 +916,16 @@
           },250)
         },100)
 
-        if(t.game.history().length < 14){
-          setTimeout(() => {
-            t.eco.forEach((eco,i) => {
-              if(eco.pgn === this.game.pgn()){
-                t.opening = eco.name
-                t.ecode = eco.eco
-              }
-            })
-          },1000)
-        }
+        t.findEco(t.game.pgn())
+      },
+      findEco: function(pgn){
+        let t = this
+        axios.post( this.$root.endpoint + '/eco/pgn', {pgn:pgn} ).then((res) => {
+          if(res.data.eco){
+            t.opening = res.data.name
+            t.ecode = res.data.eco
+          }
+        })
       },
       updateMoveList: function(){
         const movesTable = document.querySelector(".movesTableContainer")

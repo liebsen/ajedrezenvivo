@@ -132,12 +132,7 @@
     name: 'watch',
     mounted: function(){
       window.app = this
-      axios.get('/static/json/eco_es.json')
-        .then((response) => {
-          this.eco = response.data
-          this.gameStart()
-        })
-
+      this.gameStart()
       this.$socket.emit('join',this.$route.params.game)
     },
     destroyed () {
@@ -315,17 +310,17 @@
             movesTable.scrollTop = movesTable.scrollHeight
           },1)
 
-          if(t.game.history().length < 14){
-            setTimeout(() => {
-              t.eco.forEach((eco,i) => {
-                if(eco.pgn === this.game.pgn()){
-                  t.opening = eco.name
-                  t.ecode = eco.eco
-                }
-              })
-            },1000)
-          }
+          t.findEco(t.game.pgn())
         }
+      },
+      findEco: function(pgn){
+        let t = this
+        axios.post( this.$root.endpoint + '/eco', {pgn:pgn} ).then((res) => {
+          if(res.data.eco){
+            t.opening = res.data.name
+            t.ecode = res.data.eco
+          }
+        })
       },
       removeHighlight : function() {
         document.getElementById('board').querySelectorAll('.square-55d63').forEach((item) => {

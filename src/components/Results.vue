@@ -13,7 +13,12 @@
             <input ref="input" v-model="query" class="input is-rounded is-success" type="text" placeholder="Evento, lugar, fecha, jugador o PGN" autofocus>
           </div>
           <div class="control">
-            <button type="submit" id="searchbtn" class="button is-rounded is-success">
+            <button v-show="this.$route.query.q.length" type="button" @click="clear" class="button is-rounded is-danger">
+              <span class="icon">
+                <span class="fas fa-times"></span>
+              </span>
+            </button>
+            <button v-show="!this.$route.query.q.length" type="submit" id="searchbtn" class="button is-rounded is-success">
               <span class="icon">
                 <span class="fas fa-search"></span>
               </span>
@@ -29,7 +34,7 @@
             <th>Blancas</th>
             <th>Negras</th>
             <th>Fecha</th>
-            <th>Movimientos</th>
+            <th>Plys</th>
           </thead>
           <tbody>
             <tr v-for="item in data.games">
@@ -91,6 +96,10 @@
       this.triggerSearch()
     },
     methods : {
+      clear: function(){
+        this.query = ''
+        this.submit()
+      },
       triggerSearch: function(){
         if(this.$route.query.q){
           this.query = this.$route.query.q
@@ -127,7 +136,7 @@
         })      
       },
       submit: function(){
-        this.$router.push('/results?q=' + this.query)
+        this.$router.push('/results?q=' + this.query.trim())
       }    
     },
     data () {

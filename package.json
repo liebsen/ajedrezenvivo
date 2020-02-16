@@ -6,7 +6,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --host 0.0.0.0 --progress",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --info-verbosity 'none' --host 0.0.0.0 --progress",
     "build": "cross-env NODE_ENV=production webpack",
     "start": "node server.js"
   },
