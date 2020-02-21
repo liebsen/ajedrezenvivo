@@ -186,7 +186,7 @@
       },
       findEco: function(pgn){
         let t = this
-        axios.post( this.$root.endpoint + '/eco_es/pgn', {pgn:pgn} ).then((res) => {
+        axios.post( this.$root.endpoint + '/eco/pgn', {pgn:pgn} ).then((res) => {
           if(res.data.eco){
             t.opening = res.data.name
             t.ecode = res.data.eco
