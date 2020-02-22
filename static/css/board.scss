@@ -47,19 +47,20 @@ $blue: #4183d7;
 }
 
 .board-container {
-    .white {
-        margin: 0.25rem;
-        margin-bottom: 0;
+    h6:first-child {
+        margin: 0.25rem; 
+        margin-top: 0.5rem;
     }
 
-    .black {
-        margin: 0.25rem; 
-        margin-top: 0.5rem; 
+    h6:last-child {
+        margin: 0.25rem;
+        margin-bottom: 0;
     }
     
     .icon {
         height: auto;
     }
+
     .board {
         position: relative;
         .score-container {

@@ -22,7 +22,7 @@
                   <span class="button is-small is-text">
                     <span v-html="match.black"></span>
                     <span v-show="match.result==='0-1'" class="icon">
-                      <span class="fa fa-trophy has-text-warning"></span>
+                      <span class="fa fa-trophy is-size-7 has-text-warning"></span>
                     </span>
                   </span>
                 </h6>
@@ -34,7 +34,7 @@
                 <h6 class="has-text-right white is-clickable" @click="$root.gameFlip">
                   <span class="button is-small is-text">
                     <span v-show="match.result==='1-0'" class="icon">
-                      <span class="fa fa-trophy has-text-warning"></span>
+                      <span class="fa fa-trophy is-size-7 has-text-warning"></span>
                     </span>
                     <span v-html="match.white"></span>
                   </span>

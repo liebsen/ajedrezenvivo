@@ -312,9 +312,13 @@
       },    
       gameStart: function(){
         this.$root.loading = true
-        axios.get( '/static/json/eco_es.json').then((res) => {
+        axios.post( this.$root.endpoint + '/eco/search', {
+          query:this.$route.params.name,
+          limit:1,
+          offset:0
+        }).then((res) => {
           if(!Object.keys(res.data).length) return location.href="/404"
-          var game = null
+          var game = res.data.games[0]
           const pref = JSON.parse(localStorage.getItem('player'))||{}
 
           res.data.forEach((item,i) => {

@@ -115,7 +115,7 @@
     </div>  
 
     <keep-alive include="lobby">
-      <router-view :key="$route.fullPath" v-show="!$root.loading" />
+      <router-view :key="$route.fullPath" />
     </keep-alive>
 
     <div class="tosprompt preservefilter"></div> 

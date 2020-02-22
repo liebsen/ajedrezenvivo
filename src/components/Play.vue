@@ -15,7 +15,7 @@
                       <span v-html="data.white"></span>
                     </span>
                     <span v-show="data.result==='1-0'" class="icon">
-                      <span class="fa fa-trophy has-text-warning"></span>
+                      <span class="fa fa-trophy is-size-7 has-text-warning"></span>
                     </span>
                   </span> 
                   <span v-show="data.white === $root.player.code">
@@ -23,7 +23,7 @@
                       <span v-html="data.black"></span>
                     </span>
                     <span v-show="data.result==='0-1'" class="icon">
-                      <span class="fa fa-trophy has-text-warning"></span>
+                      <span class="fa fa-trophy is-size-7 has-text-warning"></span>
                     </span>
                   </span> 
                 </h6>
@@ -36,7 +36,7 @@
                 <h6 class="has-text-right white">
                   <span v-show="data.black === $root.player.code">
                     <span v-show="data.result==='0-1'" class="icon">
-                      <span class="fa fa-trophy has-text-warning"></span>
+                      <span class="fa fa-trophy is-size-7 has-text-warning"></span>
                     </span>
                     <span class="is-size-6">
                       <span v-html="data.black"></span>
@@ -44,7 +44,7 @@
                   </span> 
                   <span v-show="data.white === $root.player.code">
                     <span v-show="data.result==='1-0'" class="icon">
-                      <span class="fa fa-trophy has-text-warning"></span>
+                      <span class="fa fa-trophy is-size-7 has-text-warning"></span>
                     </span>
                     <span class="is-size-6">
                       <span v-html="data.white"></span>

@@ -13,7 +13,6 @@ import playSound from './components/playSound'
 import '../static/js/fontawesome_all.js'
 
 const endpoint='https://ajedrezenvivoapi.herokuapp.com'
-//const endpoint='https://ajedrezenvivoapidev.herokuapp.com'
 //const endpoint='http://localhost:4000'
 
 require('../static/css/main.scss')
@@ -391,7 +390,7 @@ new Vue({
       if(document.querySelector('.board') && document.body.clientHeight < document.body.clientWidth && document.body.clientWidth > 768){
         var offset = 0
         if(!document.querySelector('.menu-logo').classList.contains('is-hidden')) {
-          offset+= 60
+          offset+= 64
         }
         document.querySelector('.board').style.width = document.body.clientHeight - document.querySelector('.menu').clientHeight - offset + 'px'
       }

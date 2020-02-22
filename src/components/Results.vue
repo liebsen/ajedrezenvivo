@@ -10,7 +10,7 @@
       <form @submit.prevent="submit">
         <div class="field has-addons">
           <div class="control">
-            <input ref="input" v-model="query" class="input is-rounded is-success" type="text" placeholder="Evento, lugar, fecha, jugador o PGN" autofocus>
+            <input ref="input" @keyup="inputTrigger" v-model="query" class="input is-rounded is-success" type="text" placeholder="Evento, lugar, fecha, jugador o PGN" autofocus>
           </div>
           <div class="control">
             <button v-show="this.$route.query.q.length" type="button" @click="clear" class="button is-rounded is-danger">
@@ -49,12 +49,12 @@
                 <span v-html="item.event"></span>
               </td>
               <td>
-                <span v-show="item.result==='1-0'" class="fa fa-trophy has-text-warning"></span>
+                <span v-show="item.result==='1-0'" class="fa fa-trophy is-size-7 has-text-warning"></span>
                 <span v-show="item.result==='1/2-1/2'" class="fa fa-handshake has-text-success"></span>
                 <span v-html="item.white"></span>
               </td>
               <td>
-                <span v-show="item.result==='0-1'" class="fa fa-trophy has-text-warning"></span>
+                <span v-show="item.result==='0-1'" class="fa fa-trophy is-size-7 has-text-warning"></span>
                 <span v-show="item.result==='1/2-1/2'" class="fa fa-handshake has-text-success"></span>
                 <span v-html="item.black"></span>
               </td>
@@ -96,6 +96,12 @@
       this.triggerSearch()
     },
     methods : {
+      inputTrigger: function(){
+        if(this.interval) clearInterval(this.interval)
+        this.interval = setTimeout(() => {
+          this.$router.push({ path: 'eco', query: { q: this.query }})
+        },1500)
+      },
       clear: function(){
         this.query = ''
         this.submit()

@@ -12,7 +12,7 @@
             <div class="board-container">
               <h6 class="black has-text-left is-hidden-mobile" v-show="game">
                 <span v-show="data.result==='0-1'" class="icon">
-                  <span class="fa fa-trophy has-text-warning"></span>
+                  <span class="fa fa-trophy is-size-7 has-text-warning"></span>
                 </span>
                 <span class="is-size-6">
                   <span v-html="data.black"></span> 
@@ -27,7 +27,7 @@
               </div>
               <h6 class="white has-text-right is-hidden-mobile" v-show="game">
                 <span v-show="data.result==='1-0'" class="icon">
-                  <span class="fa fa-trophy has-text-warning"></span>
+                  <span class="fa fa-trophy is-size-7 has-text-warning"></span>
                 </span>
                 <span class="is-size-6">
                   <span v-html="data.white"></span> 
