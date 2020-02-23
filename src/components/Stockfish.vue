@@ -638,17 +638,42 @@
                   }
                 })
               } else {
-                swal({
-                  title: "¡Felicitaciones!",
-                  text: 'Venciste a Stockfish. ¿Querés jugar otra vez?',
-                  icon: "success",
-                  buttons: ["No", "Sí"]
-                })
-                .then(accept => {
-                  if (accept) {
-                    t.gameRestart()
-                  } else {
-                    console.log('Clicked on cancel')
+                swal('¡Felicitaciones! Venciste a Stockfish', {
+                  buttons: {
+                    cancel: 'Salir',
+                    catch: {
+                      text: 'Jugar de nuevo',
+                      value: 'catch',
+                    },
+                    defeat: 'Guardar partida',
+                  },
+                }).then((value) => {
+                  switch (value) {
+                 
+                    case "defeat":
+                      let opponent = 'Stockfish nivel ' + (this.time.level / 2)
+                      let white = this.playerColor==='white' ? this.$root.player.code : opponent
+                      let black = this.playerColor==='black' ? this.$root.player.code : opponent
+                      axios.post( this.$root.endpoint + '/save', {
+                        white: white,
+                        black: black,
+                        orientation: this.board.orientation(),
+                        pgn: this.game.pgn()
+                      }).then((response) => {
+                        if(response.data.status === 'success'){
+                          swal("Guardado", 'El juego fue guardado')
+                        } else {
+                          snackbar('danger','El juego no pudo ser guardado.')
+                        }        
+                      })
+                      break;
+                 
+                    case "catch":
+                      this.gameRestart()
+                      break;
+                 
+                    default:
+                      this.$router.push('/')
                   }
                 })
               }

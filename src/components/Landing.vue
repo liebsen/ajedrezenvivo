@@ -14,6 +14,7 @@
           </div>
           <div class="has-text-centered">
             <form id="search" class="has-text-centered" @submit.prevent="submit">
+              <label class="label"><span v-html="eco.name" class="has-text-light"></span></label>
               <div class="field has-addons is-hidden-mobile is-flex-centered">
                 <div class="control">
                   <input v-model="query" class="input is-medium is-white is-rounded" name="query" type="text" placeholder="Evento, jugador o PGN" autofocus>
@@ -105,27 +106,36 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'landing',
-  mounted: function(){
+  mounted: function() {
+    var t = this
     const saved = JSON.parse(localStorage.getItem('player'))
     const board = document.querySelector('.fakeboard')
     board.classList = []
     board.classList.add('fakeboard')
     board.classList.add(saved.board)
+    axios.post(this.$root.endpoint + '/eco/pgn/random', {}).then((res) => {
+      if(res.data.pgn){
+        t.eco = res.data
+        t.query = res.data.pgn
+      }
+    })
     document.querySelectorAll('.pieces li').forEach(e => {
       let li = window.getComputedStyle(e);
       e.style.backgroundImage = li.getPropertyValue('background-image').replace('classic',saved.pieces)
     })
   },
   methods: {
-    submit: function(){
+    submit: function() {
       this.$router.push('/results?q=' + this.query)
     }
   },
   data () {
     return {
-      query: null
+      query: null,
+      eco: {}
     }
   }
 }

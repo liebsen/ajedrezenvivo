@@ -108,7 +108,6 @@
         console.log(this.query)
         axios.post( this.$root.endpoint + '/eco/search', {query:this.query,offset:this.offset,limit:this.limit} ).then((res) => {
           this.data = res.data
-
           var pages = []
           if(res.data.error){
             if(res.data.error==='not_enough_params'){

@@ -57,10 +57,10 @@
 
       <ul>
         <li>
-          <a href="https://github.com/liebsen/ajedrezenvivoapi.git" target="_blank">AjedrezEV API</a>
+          <a href="https://github.com/liebsen/biltzapi.git" target="_blank">AjedrezEV API</a>
         </li>
         <li>  
-          <a href="https://github.com/liebsen/ajedrezenvivo.git" target="_blank">AjedrezEV App</a>
+          <a href="https://github.com/liebsen/biltz.git" target="_blank">AjedrezEV App</a>
         </li>
       </ul>
 
