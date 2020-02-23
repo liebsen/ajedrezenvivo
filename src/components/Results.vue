@@ -99,7 +99,7 @@
       inputTrigger: function(){
         if(this.interval) clearInterval(this.interval)
         this.interval = setTimeout(() => {
-          this.$router.push({ path: 'eco', query: { q: this.query }})
+          this.$router.push({ path: 'results', query: { q: this.query }})
         },1500)
       },
       clear: function(){
