@@ -63,7 +63,7 @@
                   </div>
                 </div>
               </div>
-              <div class="columns">
+              <div class="columns is-hidden-mobile">
                 <div class="movesTableContainer preservefilter">
                   <div class="movesTable">
                     <div class="moveRow" v-for="(move,index) in pgnIndex">
@@ -84,7 +84,7 @@
                   </div>
                 </div>
               </div>
-              <div class="columns">
+              <div class="columns is-hidden-mobile">
                 <div class="column" v-show="data.date && data.date !='?'">
                   <span class=""  v-html="data.date"></span>
                 </div>
