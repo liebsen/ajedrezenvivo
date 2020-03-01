@@ -361,7 +361,7 @@
             setTimeout(() => {
               t.stockfishMoved = true
               t.prepareMove()
-            },t.ucitime)
+            },t.ucitime * 3)
           } 
         }
         
@@ -402,7 +402,7 @@
           })
 
           t.$root.loading = false
-          playSound('game-start.mp3')
+          playSound('start.ogg')
           t.boardTaps()
         },100)
       },   

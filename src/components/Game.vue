@@ -313,7 +313,7 @@
               this.highlightLastMove()
             })
 
-            playSound('game-start.mp3')
+            playSound('start.ogg')
             $('.bar-progress').css({width:'0%'})
 
             const offset = 150

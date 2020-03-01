@@ -491,7 +491,7 @@
               this.$root.fullscreenBoard()
             })
 
-            playSound('game-start.mp3')
+            playSound('start.ogg')
             this.highlightLastMove()
             this.gameStarted = true
           },100)
