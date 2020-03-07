@@ -14,12 +14,12 @@
             <input ref="input" @keyup="inputTrigger" v-model="query" class="input is-rounded is-success" type="text" placeholder="Evento, lugar, fecha, jugador o PGN" autofocus>
           </div>
           <div class="control">
-            <button v-show="this.$route.query.q.length" type="button" @click="clear" class="button is-rounded is-danger">
+            <button v-show="this.searching" type="button" @click="clear" class="button is-rounded is-danger">
               <span class="icon">
                 <span class="fas fa-times"></span>
               </span>
             </button>
-            <button v-show="!this.$route.query.q.length" type="submit" id="searchbtn" class="button is-rounded is-success">
+            <button v-show="!this.searching" type="submit" id="searchbtn" class="button is-rounded is-success">
               <span class="icon">
                 <span class="fas fa-search"></span>
               </span>
@@ -94,6 +94,7 @@
       }
     },
     mounted: function(){
+      this.query = this.$route.query.q || ''
       this.triggerSearch()
     },
     methods : {
@@ -108,18 +109,16 @@
         this.submit()
       },
       triggerSearch: function(){
-        if(this.$route.query.q){
-          this.query = this.$route.query.q
-        }
         if(this.$route.query.offset){
           this.offset = parseInt(this.$route.query.offset)
         }
-        this.$nextTick(() => this.$refs.input.focus())
+        // this.$nextTick(() => this.$refs.input.focus())
         this.search()
       },
       search: function() {
         var t = this
         this.$root.loading = true
+        this.searching = this.$route.query || false
         axios.post( this.$root.endpoint + '/search', {query:this.query,offset:this.offset,limit:this.limit} ).then((res) => {
           this.data = res.data
 
@@ -157,6 +156,7 @@
         data:{count:0,games:[]},
         pages:{},
         eco:{},
+        searching: false,
         query:'',
         limit:10,
         offset:0,
