@@ -183,8 +183,8 @@ new Vue({
         const ts = moment().format('hh:mm a')
         chatbox.innerHTML+= `<div class="box ${cls}"><strong class="has-text-${sender_color}">${sender}</strong> ${data.line} <span class="is-size-7 has-text-grey">${ts}</span></div>`
         chatbox.scrollTop = chatbox.scrollHeight
-        if(data.sender != this.$root.player.code && data.sender !== 'chatbot'){
-          playSound('pop.mp3')
+        if(data.sender != this.$root.player.code){
+          playSound('button-pressed.ogg')
         }
       }
     },
