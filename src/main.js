@@ -57,9 +57,6 @@ new Vue({
     }
   },
   mounted () {
-
-    console.log(process.env.ENDPOINT)
-
     const stored = JSON.parse(localStorage.getItem('player'))||{}
 
     var preferences = { 
@@ -186,7 +183,7 @@ new Vue({
         const ts = moment().format('hh:mm a')
         chatbox.innerHTML+= `<div class="box ${cls}"><strong class="has-text-${sender_color}">${sender}</strong> ${data.line} <span class="is-size-7 has-text-grey">${ts}</span></div>`
         chatbox.scrollTop = chatbox.scrollHeight
-        if(data.sender != this.$root.player.code){
+        if(data.sender != this.$root.player.code && data.sender !== 'chatbot'){
           playSound('pop.mp3')
         }
       }
@@ -209,7 +206,6 @@ new Vue({
           sender: 'chatbot',
           line: message
         })
-
       } else {
         this.$socket.emit('lobby_chat', { 
           sender: 'chatbot',
