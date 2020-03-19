@@ -242,6 +242,7 @@ new Vue({
       if(data.asker === this.player.code){
         swal.close()
         swal("Partida declinada", data.player + ' declinó tu invitación')
+        playSound('defeat.mp3')
       }
     },
     invite: function(data) {
@@ -266,7 +267,7 @@ new Vue({
             }        
           })
         } else {
-          playSound('pop.mp3')
+          playSound('victory.mp3')
           const template = (`
   <div class="content">
   <h4>
