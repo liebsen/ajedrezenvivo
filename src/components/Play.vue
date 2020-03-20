@@ -365,6 +365,7 @@
         var result = null
         if(data.asker === t.$root.player.code){
           result = (t.playerColor==='black'?'1-0':'0-1')
+          playSound('defeat.mp3')
           swal({
             title: '¿Querés solicitar revancha?',
             text: 'Has abandonado. ' + t.opponentName + ' ganó esta partida',
@@ -388,6 +389,7 @@
             wtime: t.timer.b,
             result:result
           })
+          playSound('victory.mp3')
           swal("¡Victoria!", t.opponentName + ' abandonó esta partida', "success")
         }
         if(result){
@@ -739,8 +741,7 @@
                   wtime: t.timer.b,
                   result:result
                 })
-                playSound('victory.mp3')
-                swal("¡Victoria!", 'Has vencido por tiempo a ' + t.opponentName, "success")
+                playSound('victory.mp3') swal("¡Victoria!", 'Has vencido por tiempo a ' + t.opponentName, "success")
               }
               if(result){
                 t.data.result = result
