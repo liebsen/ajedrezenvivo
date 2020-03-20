@@ -715,6 +715,7 @@
               t.timer[turn] = 0
               if(turn === t.playerColor[0]){
                 result = (t.playerColor==='black'?'1-0':'0-1')
+                playSound('defeat.mp3')
                 swal({
                   title: '¿Querés solicitar revancha?',
                   text: t.opponentName + ' ganó esta partida. Fuiste derrotado por tiempo.',
@@ -738,6 +739,7 @@
                   wtime: t.timer.b,
                   result:result
                 })
+                playSound('victory.mp3')
                 swal("¡Victoria!", 'Has vencido por tiempo a ' + t.opponentName, "success")
               }
               if(result){
