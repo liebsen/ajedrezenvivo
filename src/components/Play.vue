@@ -9,7 +9,7 @@
           <div class="columns is-marginless-top">
             <div class="column">
               <div class="board-container">
-                <h6 class="has-text-left black">
+                <h6 class="has-text-left black is-hidden-mobile">
                   <span v-show="data.black === $root.player.code">
                     <span class="is-size-6">
                       <span v-html="data.white"></span>
@@ -33,7 +33,7 @@
                   </div>            
                   <div id="board"></div>
                 </div>
-                <h6 class="has-text-right white">
+                <h6 class="has-text-right white is-hidden-mobile">
                   <span v-show="data.black === $root.player.code">
                     <span v-show="data.result==='0-1'" class="icon">
                       <span class="fa fa-trophy is-size-7 has-text-warning"></span>
@@ -120,7 +120,7 @@
                     <span v-html="opening" class="has-text-black"></span>
                   </div>
                 </div>
-                <div class="tabs is-centered is-boxed">
+                <div class="tabs is-centered is-boxed is-hidden-mobile">
                   <ul>
                     <li :class="{ 'is-active' : tab === 'pgn' }">
                       <a @click="tab = 'pgn'">
@@ -136,8 +136,8 @@
                     </li>
                   </ul>
                 </div>
-                <div v-show="tab === 'pgn'">
-                  <div class="columns is-hidden-mobile">
+                <div v-show="tab === 'pgn'" class="is-hidden-mobile">
+                  <div class="columns">
                     <div class="chart-container preservefilter">
                       <div :class="playerColor">
                         <div class="chart-indicator"></div>
