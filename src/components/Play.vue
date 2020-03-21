@@ -741,7 +741,8 @@
                   wtime: t.timer.b,
                   result:result
                 })
-                playSound('victory.mp3') swal("¡Victoria!", 'Has vencido por tiempo a ' + t.opponentName, "success")
+                playSound('victory.mp3')
+                swal("¡Victoria!", 'Has vencido por tiempo a ' + t.opponentName, "success")
               }
               if(result){
                 t.data.result = result
