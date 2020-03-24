@@ -291,7 +291,8 @@ new Vue({
                 innerHTML: `${template}`,
               }
             },
-            buttons: ["Declinar", "Aceptar"]
+            buttons: ["Declinar", "Aceptar"],
+            closeOnClickOutside: false
           })
           .then(accept => {
             if (accept) {

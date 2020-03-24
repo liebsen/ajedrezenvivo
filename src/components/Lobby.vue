@@ -198,6 +198,7 @@
         swal({
           title: 'Invitar a ' + player,
           buttons: ["Cancelar", "Invitar"],
+          closeOnClickOutside: false,
           content: {
             element: 'div',
             attributes: {

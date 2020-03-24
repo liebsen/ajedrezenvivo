@@ -297,7 +297,8 @@
           swal({
             title: "¿Aceptás esta partida?",
             text: '👤 ' + data.asker + ' solicita una revancha',
-            buttons: ["Declinar", "Aceptar"]
+            buttons: ["Declinar", "Aceptar"],
+            closeOnClickOutside: false
           })
           .then(accept => {
             if (accept) {
@@ -369,7 +370,8 @@
           swal({
             title: '¿Querés solicitar revancha?',
             text: 'Has abandonado. ' + t.opponentName + ' ganó esta partida',
-            buttons: ["No", "Sí"]
+            buttons: ["No", "Sí"],
+            closeOnClickOutside: false
           })
           .then(accept => {
             if (accept) {
@@ -404,7 +406,8 @@
           swal({
             title: '¿Aceptas tablas?',
             text: 'Tu oponente ' + t.opponentName + ' solicita tablas',
-            buttons: ["No", "Sí"]
+            buttons: ["No", "Sí"],
+            closeOnClickOutside: false
           })
           .then(accept => {
             if (accept) {
@@ -482,7 +485,8 @@
         swal({
           title: 'Abandonar partida',
           text: '¿Querés abandonar esta partida?',
-          buttons: ["No", "Sí"]
+          buttons: ["No", "Sí"],
+          closeOnClickOutside: false
         })
         .then(accept => {
           if (accept) {
@@ -500,7 +504,8 @@
         swal({
           title: '¿Querés solicitar tablas?',
           text: '',
-          buttons: ["No", "Sí"]
+          buttons: ["No", "Sí"],
+          closeOnClickOutside: false
         })
         .then(accept => {
           if (accept) {
@@ -721,7 +726,8 @@
                 swal({
                   title: '¿Querés solicitar revancha?',
                   text: t.opponentName + ' ganó esta partida. Fuiste derrotado por tiempo.',
-                  buttons: ["No", "Sí"]
+                  buttons: ["No", "Sí"],
+                  closeOnClickOutside: false
                 })
                 .then(accept => {
                   if (accept) {
@@ -875,7 +881,8 @@
                 swal({
                   title: '¿Querés la revancha?',
                   text: t.opponentName + ' ganó esta partida',
-                  buttons: ["No", "Sí"]
+                  buttons: ["No", "Sí"],
+                  closeOnClickOutside: false
                 })
                 .then(accept => {
                   if (accept) {
