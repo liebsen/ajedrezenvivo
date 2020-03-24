@@ -513,10 +513,6 @@ table {
   padding-left: 0.25rem;
 }*/
 
-.box {
-  border-radius: 25px;
-}
-
 .chatbox {
   height: 270px;
   width: 100%;
@@ -923,6 +919,9 @@ table {
     .field {
       margin-bottom: 0.25rem;
     }
+  }
+  .box {
+    border-radius: 25px;
   }
 
  .is-horizontal {
