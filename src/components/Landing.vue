@@ -14,7 +14,10 @@
           </div>
           <div class="has-text-centered">
             <form id="search" class="has-text-centered" @submit.prevent="submit">
-              <label class="label"><span v-html="eco.name" class="has-text-light"></span></label>
+              <label class="label">
+                <span v-html="eco.name" class="has-text-light">
+                </span>
+              </label>
               <div class="field has-addons is-hidden-mobile is-flex-centered">
                 <div class="control">
                   <input v-model="query" class="input is-medium is-white is-rounded" name="query" type="text" placeholder="Evento, jugador o PGN" autofocus>
@@ -135,7 +138,9 @@ export default {
   data () {
     return {
       query: null,
-      eco: {}
+      eco: {
+        name:'...'
+      }
     }
   }
 }

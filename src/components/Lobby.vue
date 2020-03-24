@@ -75,12 +75,12 @@
           </div>
         </div>
         <div class="column">
-          <div class="column has-text-left box">
+          <div class="column has-text-centered box">
             <div class="columns">
-              <div class="column chatbox lobby_chat"></div>
+              <div class="column chatbox has-text-left lobby_chat"></div>
             </div>
             <form v-show="$root.players.length > 1" @submit.prevent="sendChat">
-              <div class="field has-addons">
+              <div class="field is-fullwidth has-addons has-addons-fullwidth">
                 <div class="control">
                   <input class="input is-rounded" v-model="chat" type="text" placeholder="Ingresa tu mensaje" />
                 </div>

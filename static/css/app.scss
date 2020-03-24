@@ -513,15 +513,19 @@ table {
   padding-left: 0.25rem;
 }*/
 
+.box {
+  border-radius: 25px;
+}
+
 .chatbox {
-    height: 270px;
-    width: 100%;
-    overflow-y: auto;
-    .box {
-        clear: both;
-        padding: 0.25rem 0.5rem;
-        margin-bottom: 0.25rem;
-    }
+  height: 270px;
+  width: 100%;
+  overflow-y: auto;
+  .box {
+    clear: both;
+    padding: 0.25rem 0.75rem;
+    margin-bottom: 0.25rem;
+  }
 }
 
 .is-clickable {
