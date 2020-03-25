@@ -11,7 +11,7 @@
                 </span>
                 <span v-html="data.black" class="is-size-6"></span>
               </h6>
-              <div class="board preservefilter">
+              <div class="board preservefilter" :class="{ 'black' : orientation === 'black' }">
                 <div class="score-container">
                   <div class="score" :style="'max-height:' + vscore + '%'"></div>
                 </div>            
