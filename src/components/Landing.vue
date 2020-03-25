@@ -1,5 +1,5 @@
 <template>
-  <div class="container is-widescreen">
+  <div class="container is-widescreen landing">
     <div class="area has-text-centered preservefilter">
       <div class="columns is-vcentered fadeIn">
         <div class="column is-hidden-mobile"></div>

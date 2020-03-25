@@ -1,154 +1,160 @@
 $color: #2f89fc;
 
-#search {
-  .has-addons {
-    margin-bottom: 1.25rem;
+.landing {
+  h1, h2, h3, h4, .label {
+    text-shadow: 0 0 0.25rem #000000cc;
   }
-}
 
-.area {
-  display: inline-flex;
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 60px;
-  bottom: 0;
-  padding: 0 2rem;
-  background-color: $color;
+  #search {
+    .has-addons {
+      margin-bottom: 1.25rem;
+    }
+  }
 
-  > .columns {
-    width: 100%;
-    margin: auto 0;
-  } 
-}
+  .area {
+    display: inline-flex;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 60px;
+    bottom: 0;
+    padding: 0 2rem;
+    background-color: $color;
 
-body.fs .area {
-  top: 0;
-}
+    > .columns {
+      width: 100%;
+      margin: auto 0;
+    } 
+  }
 
-.fakeboard {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: -2;
-  width: 100%;
-  height: 100%;
-  .board-b72b1 {
-    background-repeat: repeat!important;
-    background-size: 85%!important;
+  body.fs .area {
+    top: 0;
+  }
+
+  .fakeboard {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -2;
     width: 100%;
     height: 100%;
+    .board-b72b1 {
+      background-repeat: repeat!important;
+      background-size: 85%!important;
+      width: 100%;
+      height: 100%;
+    }
   }
-}
 
 
-.pieces {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: -1;
-  li {
-    width: 9rem;
-    height: 9rem;
-    display: block;
+  .pieces {
     position: absolute;
-    list-style: none;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+    li {
+      width: 9rem;
+      height: 9rem;
+      display: block;
+      position: absolute;
+      list-style: none;
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center center;
 
-    &.white {
-      top: -16rem;
-      animation: sink 25s linear infinite;
-    }
+      &.white {
+        top: -16rem;
+        animation: sink 25s linear infinite;
+      }
 
-    &.black {
-      bottom: -16rem;
-      animation: emerge 25s linear infinite;
-    }
+      &.black {
+        bottom: -16rem;
+        animation: emerge 25s linear infinite;
+      }
 
-    &:nth-child(1){
-      left: 25%;
-      background-image: url('/static/img/chesspieces/classic/wK.png');
-      animation-delay: 5s;
-    }
+      &:nth-child(1){
+        left: 25%;
+        background-image: url('/static/img/chesspieces/classic/wK.png');
+        animation-delay: 5s;
+      }
 
-    &:nth-child(2){
-      left: 10%;
-      background-image: url('/static/img/chesspieces/classic/wQ.png');
-      animation-delay: 1s;
-      animation-duration: 12s;
-    }
+      &:nth-child(2){
+        left: 10%;
+        background-image: url('/static/img/chesspieces/classic/wQ.png');
+        animation-delay: 1s;
+        animation-duration: 12s;
+      }
 
-    &:nth-child(3){
-      left: 70%;
-      background-image: url('/static/img/chesspieces/classic/wR.png');
-      animation-delay: 7s;
-    }
+      &:nth-child(3){
+        left: 70%;
+        background-image: url('/static/img/chesspieces/classic/wR.png');
+        animation-delay: 7s;
+      }
 
-    &:nth-child(4){
-      left: 40%;
-      background-image: url('/static/img/chesspieces/classic/wB.png');
-      animation-delay: 15s;
-      animation-duration: 18s;
-    }
+      &:nth-child(4){
+        left: 40%;
+        background-image: url('/static/img/chesspieces/classic/wB.png');
+        animation-delay: 15s;
+        animation-duration: 18s;
+      }
 
-    &:nth-child(5){
-      left: 65%;
-      background-image: url('/static/img/chesspieces/classic/wN.png');
-      animation-delay: 11s;
-    }
+      &:nth-child(5){
+        left: 65%;
+        background-image: url('/static/img/chesspieces/classic/wN.png');
+        animation-delay: 11s;
+      }
 
-    &:nth-child(6){
-      left: 75%;
-      background-image: url('/static/img/chesspieces/classic/wP.png');
-      animation-delay: 12s;
-    }
+      &:nth-child(6){
+        left: 75%;
+        background-image: url('/static/img/chesspieces/classic/wP.png');
+        animation-delay: 12s;
+      }
 
-    &:nth-child(7){
-      left: 35%;
-      background-image: url('/static/img/chesspieces/classic/bK.png');
-      animation-delay: 2s;
-    }
+      &:nth-child(7){
+        left: 35%;
+        background-image: url('/static/img/chesspieces/classic/bK.png');
+        animation-delay: 2s;
+      }
 
-    &:nth-child(8){
-      left: 50%;
-      background-image: url('/static/img/chesspieces/classic/bQ.png');
-      animation-delay: 10s;
-      animation-duration: 45s;
-    }
+      &:nth-child(8){
+        left: 50%;
+        background-image: url('/static/img/chesspieces/classic/bQ.png');
+        animation-delay: 10s;
+        animation-duration: 45s;
+      }
 
-    &:nth-child(9){
-      left: 20%;
-      background-image: url('/static/img/chesspieces/classic/bR.png');
-      animation-delay: 6s;
-      animation-duration: 35s;
-    }
+      &:nth-child(9){
+        left: 20%;
+        background-image: url('/static/img/chesspieces/classic/bR.png');
+        animation-delay: 6s;
+        animation-duration: 35s;
+      }
 
-    &:nth-child(10){
-      left: 85%;
-      background-image: url('/static/img/chesspieces/classic/bB.png');
-      animation-delay: 3s;
-      animation-duration: 11s;
-    }
+      &:nth-child(10){
+        left: 85%;
+        background-image: url('/static/img/chesspieces/classic/bB.png');
+        animation-delay: 3s;
+        animation-duration: 11s;
+      }
 
-    &:nth-child(11){
-      left: 15%;
-      background-image: url('/static/img/chesspieces/classic/bN.png');
-      animation-delay: 8s;
-      animation-duration: 11s;
-    }
+      &:nth-child(11){
+        left: 15%;
+        background-image: url('/static/img/chesspieces/classic/bN.png');
+        animation-delay: 8s;
+        animation-duration: 11s;
+      }
 
-    &:nth-child(12){
-      left: 50%;
-      background-image: url('/static/img/chesspieces/classic/bP.png');
-      animation-delay: 4s;
-      animation-duration: 11s;
+      &:nth-child(12){
+        left: 50%;
+        background-image: url('/static/img/chesspieces/classic/bP.png');
+        animation-delay: 4s;
+        animation-duration: 11s;
+      }
     }
   }
 }
