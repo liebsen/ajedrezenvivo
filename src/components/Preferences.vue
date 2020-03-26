@@ -71,6 +71,7 @@
                       <option value="uscf">USCF</option>
                       <option value="chess24">Chess24</option>
                       <option value="leipzig">Leipzig</option>
+                      <option value="fantasy">Fantasía</option>
                       <option value="book">Libro</option>
                       <option value="cases">Cases</option>
                       <option value="newspaper">Periódico</option>
