@@ -14,8 +14,7 @@
           <div class="is-hidden-mobile">
             <router-link to="/preferences" class="button is-rounded is-white is-outlined" title="Establece tus preferencias">
               <span class="icon">
-                <span v-if="$root.player.observe" class="fas fa-user-astronaut"></span>
-                <span v-else class="fas fa-user-circle"></span>
+                <span v-html="$root.player.flag"></span>
               </span>
               <span v-html="$root.player.code"></span>
             </router-link>
@@ -23,8 +22,7 @@
           <div class="is-hidden-tablet">
             <router-link to="/preferences" class="button is-small is-rounded">
               <span class="icon">
-                <span v-if="$root.player.observe" class="fas fa-user-astronaut"></span>
-                <span v-else class="fas fa-user-circle"></span>
+               <span v-html="$root.player.flag"></span>
               </span>
               <span v-html="$root.player.code"></span>
             </router-link>

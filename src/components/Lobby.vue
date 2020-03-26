@@ -53,12 +53,12 @@
       </div>
       <div class="columns">
         <div class="column is-lobby-list is-3" :class="{ 'no-players': $root.players.length < 2 }">
-          <div v-if="$root.players.length > 2">
+          <div v-if="$root.players.length > 1">
             <div v-for="player in $root.players" class="field">
               <a v-if="!player.observe && player.code != $root.player.code" @click="play(player.code)" :title="'Invitar a ' + player.code">
                 <span class="button is-text is-rounded is-info">
                   <span class="icon">
-                    <span class="fas fa-user-circle"></span>
+                    <span v-html="player.flag"></span>
                   </span>
                   <span v-html="player.code"></span>
                 </span>
@@ -68,7 +68,7 @@
               <a v-if="player.observe && player.code != $root.player.code" @click="clickObserve(player.code)" title="Modo observador">
                 <span class="button is-text is-rounded is-grey">
                   <span class="icon">
-                    <span class="fas" :class="{ 'fa-user-astronaut' : player.code != $root.player.code, 'fa-user-circle' : player.code === $root.player.code }"></span>
+                    <span v-html="player.flag"></span>
                   </span>
                   <span v-html="player.code"></span>
                 </span>
@@ -111,15 +111,6 @@
 
   export default {
     name: 'lobby',
-    mounted: function(){
-      let t = this
-      setTimeout(() => {
-        t.$socket.emit('lobby_chat', { 
-          sender: 'chatbot',
-          line: `Hola ${t.$root.player.code}, gracias por visitar AjedrezEV.` + (t.$root.player.observe ? ` Estas en modo observador. Para cambiarlo podés ` : ` Antes de jugar podés `) +  `<a href="/preferences" class="has-text-success">establecer tus preferencias</a>`
-        })
-      },1500)
-    },
     methods: {
       sendChat: function() {
         if(this.chat.trim()==='') this.chat = '🤝'

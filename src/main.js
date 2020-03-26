@@ -56,9 +56,8 @@ new Vue({
       }
     }
   },
-  mounted () {
+  created () {
     const stored = JSON.parse(localStorage.getItem('player'))||{}
-
     var preferences = { 
       code: generateRandomCode(6), 
       observe: false,
@@ -70,21 +69,28 @@ new Vue({
       board:'classic'
     }
 
-    if(Object.keys(stored).length){
+    if(Object.keys(stored).length && stored.flag){
       if(!stored.observe){
         stored.observe = preferences.observe
       }
       preferences = stored
+      this.$socket.emit('preferences', preferences)
     } else {
-      localStorage.setItem('player',JSON.stringify(preferences))
+      axios.post('http://ip-api.com/json').then(res => {
+        axios.get('/static/json/flags.json').then(res2 => {
+          //preferences.locale = res.data
+          preferences.flag = res2.data[res.data.countryCode].emoji || null
+          this.player = preferences
+          this.$socket.emit('preferences', this.player)
+          localStorage.setItem('player',JSON.stringify(preferences))
+        })
+      })
     }
 
     if(preferences.darkmode){
       document.documentElement.classList.add('dark-mode')
     }
     
-    this.player = preferences
-    this.$socket.emit('preferences', preferences)
     this.documentTitle = document.title 
 
     document.querySelector('body').addEventListener('click', function (event) {
@@ -130,9 +136,6 @@ new Vue({
       } else {
         document.querySelector('.tosprompt').style.display = 'none';
       }
-
-      this.$socket.emit('lobby_join', this.player)
-      this.loading = false
     })
 
     window.addEventListener('click', event => {
@@ -167,6 +170,7 @@ new Vue({
 
     window.addEventListener('online', this.updateOnlineStatus)
     window.addEventListener('offline', this.updateOnlineStatus)
+    this.loading = false
   },
   beforeDestroy() {
     window.removeEventListener('online', this.updateOnlineStatus)
@@ -200,7 +204,7 @@ new Vue({
         const message = 'Hay ' + (available - 1) +  ' jugador' + (available > 2 ? 'es' : '') + ' esperando invitación '
         document.title = '(' + (available - 1) + ') ' + this.documentTitle
         if(this.$route.name === 'lobby'){
-          snackbar('default',message)
+          snackbar('default', message)
         }
         this.$socket.emit('lobby_chat', { 
           sender: 'chatbot',
@@ -222,12 +226,16 @@ new Vue({
           this.$router.push('/preferences')
         } else {
           this.player = data
-          document.querySelector('.menu-primary .icon').innerHTML = '<span v-if="$root.player.observe" class="fas fa-user' + (this.player.observe ? '-astronaut' : '-circle') +'"></span>'
+          // document.querySelector('.menu-primary .icon').innerHTML = '<span v-if="$root.player.observe" class="fas fa-user' + (this.player.observe ? '-astronaut' : '-circle') +'"></span>'
           localStorage.setItem('player',JSON.stringify(data))
           snackbar('success','Tus preferencias fueron actualizadas correctamente.')          
           if(!data.observe){
             this.$socket.emit('lobby_join', data)
-          }        
+            this.$socket.emit('lobby_chat', { 
+              sender: 'chatbot',
+              line: `Hola ${this.$root.player.code}, gracias por visitar AjedrezEV.` + (this.$root.player.observe ? ` Estas en modo observador. Para cambiarlo podés ` : ` Antes de jugar podés `) +  `<a href="/preferences" class="has-text-success">establecer tus preferencias</a>`
+            })
+          }  
         }
         this.saving = false
       }
@@ -354,6 +362,16 @@ new Vue({
     }
   },
   methods: {
+    getLocale () {
+      return new Promise((reject, resolve) => {
+        if (this.player.locale) {
+          resolve(this.player.locale)
+        }
+        return axios.post('http://ip-api.com/json').then(res => {
+          resolve(res)
+        })
+      })
+    },
     fullscreen() {
       var isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
         (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
@@ -608,19 +626,19 @@ new Vue({
     }
   },
   data:{
-    endpoint:process.env.ENDPOINT,
+    endpoint: process.env.ENDPOINT,
     onLine: navigator.onLine,
-    loading:true,
-    saving:false,
-    processing:false,
-    player:{},
+    loading: true,
+    saving: false,
+    processing: false,
+    player: {},
     players: [],
-    matches:[],
-    games:[],
-    boards:[],
-    documentTitle:null,
-    boardColor:null,
-    code:generateRandomCode(6)
+    matches: [],
+    games: [],
+    boards: [],
+    documentTitle: null,
+    boardColor: null,
+    code: generateRandomCode(6)
   },
   render: h => h(App)
 })
