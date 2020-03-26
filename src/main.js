@@ -76,10 +76,10 @@ new Vue({
       preferences = stored
       this.$socket.emit('preferences', preferences)
     } else {
-      axios.post('http://ip-api.com/json').then(res => {
+      axios.post('https://ipapi.co/json').then(res => {
         axios.get('/static/json/flags.json').then(res2 => {
           //preferences.locale = res.data
-          preferences.flag = res2.data[res.data.countryCode].emoji || null
+          preferences.flag = res2.data[res.data.country_code].emoji || null
           this.player = preferences
           this.$socket.emit('preferences', this.player)
           localStorage.setItem('player',JSON.stringify(preferences))
