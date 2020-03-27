@@ -114,21 +114,23 @@ export default {
   name: 'landing',
   mounted: function() {
     var t = this
-    const saved = JSON.parse(localStorage.getItem('player')).board || 'classic'
+    const saved = JSON.parse(localStorage.getItem('player'))
     const board = document.querySelector('.fakeboard')
     board.classList = []
     board.classList.add('fakeboard')
-    board.classList.add(saved)
+    board.classList.add(saved.board || 'classic')
     axios.post(this.$root.endpoint + '/eco/pgn/random', {}).then((res) => {
       if(res.data.pgn){
         t.eco = res.data
         t.query = res.data.pgn
       }
     })
-    document.querySelectorAll('.pieces li').forEach(e => {
-      let li = window.getComputedStyle(e);
-      e.style.backgroundImage = li.getPropertyValue('background-image').replace('classic',saved.pieces)
-    })
+    if (saved.pieces) {
+      document.querySelectorAll('.pieces li').forEach(e => {
+        let li = window.getComputedStyle(e)
+        e.style.backgroundImage = li.getPropertyValue('background-image').replace('classic',saved.pieces)
+      })
+    }
   },
   methods: {
     submit: function() {

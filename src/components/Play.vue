@@ -12,6 +12,9 @@
                 <h6 class="has-text-left black is-hidden-mobile">
                   <span v-show="data.black === $root.player.code">
                     <span class="is-size-6">
+                      <span class="icon">
+                        <span v-html="data.white_flag"></span>  
+                      </span>
                       <span v-html="data.white"></span>
                     </span>
                     <span v-show="data.result==='1-0'" class="icon">
@@ -20,6 +23,9 @@
                   </span> 
                   <span v-show="data.white === $root.player.code">
                     <span class="is-size-6">
+                      <span class="icon">
+                        <span v-html="data.black_flag"></span>  
+                      </span>
                       <span v-html="data.black"></span>
                     </span>
                     <span v-show="data.result==='0-1'" class="icon">
@@ -39,6 +45,9 @@
                       <span class="fa fa-trophy is-size-7 has-text-warning"></span>
                     </span>
                     <span class="is-size-6">
+                      <span class="icon">
+                        <span v-html="data.black_flag"></span>  
+                      </span>
                       <span v-html="data.black"></span>
                     </span>
                   </span> 
@@ -47,6 +56,9 @@
                       <span class="fa fa-trophy is-size-7 has-text-warning"></span>
                     </span>
                     <span class="is-size-6">
+                      <span class="icon">
+                        <span v-html="data.white_flag"></span>  
+                      </span>
                       <span v-html="data.white"></span>
                     </span>
                   </span> 
@@ -57,6 +69,11 @@
               <div class="board-assistant">
                 <div class="columns has-text-centered">
                   <div class="column preservefilter">
+                    <button @click="inviteRematch()" class="button is-small is-rounded is-danger" v-show="announced_game_over" title="Rematch">
+                      <span class="icon has-text-white">
+                        <span class="fas fa-chess-pawn"></span>
+                      </span>
+                    </button>
                     <button @click="gameCapitulate()" class="button is-small is-rounded is-danger" v-show="pgnIndex.length && !announced_game_over" title="Abandonar partida">
                       <span class="icon has-text-white">
                         <span class="fas fa-flag"></span>
@@ -285,34 +302,36 @@
         }
       },
       reject_rematch: function(data) {
-        if(data.asker === this.$root.player.code){
+        if(data.asker.code === this.$root.player.code){
           swal.close()
-          swal("Partida declinada", '👤 ' + data.player + ' declinó la revancha')
+          swal("Partida declinada", '👤 ' + data.player.code + ' declinó la revancha')
         }
       },
       invite_rematch: function(data) {
         var t = this
-        if(data.player === this.$root.player.code){
+        if(data.player.code === this.$root.player.code){
           swal.close()
           swal({
             title: "¿Aceptás esta partida?",
-            text: '👤 ' + data.asker + ' solicita una revancha',
+            text: '👤 ' + data.asker.code + ' solicita una revancha',
             buttons: ["Declinar", "Aceptar"],
             closeOnClickOutside: false
           })
           .then(accept => {
             if (accept) {
               axios.post( this.$root.endpoint + '/create', {
-                white: (t.playerColor==='white'?data.asker:data.player),
-                black: (t.playerColor==='white'?data.player:data.asker),
+                white: (t.playerColor==='white'?data.asker.code:data.player.code),
+                black: (t.playerColor==='white'?data.player.code:data.asker.code),
+                white_flag: (t.playerColor==='white'?data.asker.flag:data.player.flag),
+                black_flag: (t.playerColor==='white'?data.player.flag:data.asker.flag),
                 minutes: t.data.minutes,
                 compensation: t.data.compensation,
                 broadcast: true
               } ).then((response) => {
                 if(response.data.status === 'success'){
                   t.$socket.emit('play', {
-                    asker: data.asker,
-                    player: data.player,
+                    asker: data.asker.code,
+                    player: data.player.code,
                     id: response.data.id
                   })
                   t.$router.push(['/play',response.data.id].join('/'))
@@ -376,8 +395,11 @@
           .then(accept => {
             if (accept) {
               t.$socket.emit('invite_rematch', {
-                asker:t.$root.player.code,
-                player:t.opponentName
+                asker: t.$root.player,
+                player: {
+                  code: t.opponentName,
+                  flag: t.opponentFlag
+                }
               })
             } else {
               console.log('Clicked on cancel')
@@ -651,9 +673,11 @@
           if(game.white === t.$root.player.code){
             t.playerColor = 'white'
             t.opponentName = game.black
+            t.opponentFlag = game.black_flag
           } else if(game.black === t.$root.player.code){
             t.playerColor = 'black'
             t.opponentName = game.white
+            t.opponentFlag = game.white_flag
           }
 
           if(game.wtime){
@@ -732,8 +756,11 @@
                 .then(accept => {
                   if (accept) {
                     this.$socket.emit('invite_rematch', {
-                      asker:t.$root.player.code,
-                      player:t.opponentName
+                      asker:t.$root.player,
+                      player: {
+                        code: this.opponentName,
+                        flag: this.opponentFlag
+                      }
                     })
                   } else {
                     console.log('Clicked on cancel')
@@ -760,7 +787,16 @@
           }
         },1000)
       },
-      boardTaps:function(){
+      inviteRematch () {
+        this.$socket.emit('invite_rematch', {
+          asker:this.$root.player,
+          player: {
+            code: this.opponentName,
+            flag: this.opponentFlag
+          }
+        })
+      },
+      boardTaps (){
         var t = this
         const events = ['click', 'mousedown']
         events.forEach((event) => {
@@ -887,8 +923,11 @@
                 .then(accept => {
                   if (accept) {
                     this.$socket.emit('invite_rematch', {
-                      asker:this.$root.player.code,
-                      player:t.opponentName
+                      asker:this.$root.player,
+                      player: {
+                        code: t.opponentName,
+                        flag: t.opponentFlag
+                      }
                     })
                   } else {
                     console.log('Clicked on cancel')
@@ -1175,6 +1214,7 @@
         moveFrom:null,
         playerColor:null,
         opponentName:null,
+        opponentFlag:null,
         data:{}
       }
     }

@@ -52,11 +52,17 @@
               <td>
                 <span v-show="item.result==='1-0'" class="fa fa-trophy is-size-7 has-text-warning"></span>
                 <span v-show="item.result==='1/2-1/2'" class="fa fa-handshake has-text-success"></span>
+                <span v-if="item.white_flag" class="icon">
+                  <span v-html="item.white_flag"></span>
+                </span>
                 <span v-html="item.white"></span>
               </td>
               <td>
                 <span v-show="item.result==='0-1'" class="fa fa-trophy is-size-7 has-text-warning"></span>
                 <span v-show="item.result==='1/2-1/2'" class="fa fa-handshake has-text-success"></span>
+                <span v-if="item.black_flag" class="icon">
+                  <span v-html="item.black_flag"></span>
+                </span>
                 <span v-html="item.black"></span>
               </td>
               <td>

@@ -55,7 +55,7 @@
         <div class="column is-lobby-list is-3" :class="{ 'no-players': $root.players.length < 2 }">
           <div v-if="$root.players.length > 1">
             <div v-for="player in $root.players" class="field">
-              <a v-if="!player.observe && player.code != $root.player.code" @click="play(player.code)" :title="'Invitar a ' + player.code">
+              <a v-if="!player.observe && player.code != $root.player.code" @click="play(player)" :title="'Invitar a ' + player.code">
                 <span class="button is-text is-rounded is-info">
                   <span class="icon">
                     <span v-html="player.flag"></span>
@@ -128,7 +128,7 @@
         }        
       },
       play: function(player) {
-        if(player === this.$root.player.code)
+        if(player.code === this.$root.player.code)
         return snackbar('error','No podés jugar contra vos mismo') 
         if(this.$root.player.observe)
         return snackbar('default','Estás en modo Observador y no podés invitar')   
@@ -189,7 +189,7 @@
 
 </div>`);
         swal({
-          title: 'Invitar a ' + player,
+          title: 'Invitar a ' + player.code,
           buttons: ["Cancelar", "Invitar"],
           closeOnClickOutside: false,
           content: {
@@ -204,36 +204,36 @@
             var playercolor = document.querySelector('.playercolor > .has-background-warning')
             var gameclock = document.querySelector('.gameclock > .has-background-warning')
             var gamecompensation = document.querySelector('.gamecompensation > .has-background-warning')
-            var white = t.$root.player.code
+            var white = t.$root.player
             var black = player
             var minutes = parseInt(gameclock.textContent)
             var compensation = parseInt(gamecompensation.textContent)
 
             if(playercolor.classList.contains('is-black-pieces')){
               white = player
-              black = t.$root.player.code              
+              black = t.$root.player
             } 
 
             if(playercolor.classList.contains('is-random-pieces')){
               const coin = Math.floor(Math.random() * 1)
               if(coin){
                 white = player
-                black = t.$root.player.code              
+                black = t.$root.player
               } else {
-                white = t.$root.player.code
+                white = t.$root.player
                 black = player
               }
             }
 
             swal({
               title: "Esperando confirmación...",
-              text: player + ' debe responder la solicitud',
+              text: player.code + ' debe responder la solicitud',
               buttons: false
             })
 
             t.$socket.emit('invite', {
-              asker:t.$root.player.code,
-              player:player,
+              asker: t.$root.player,
+              player: player,
               white: white,
               black: black,
               minutes: minutes,

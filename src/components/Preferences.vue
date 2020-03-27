@@ -181,6 +181,12 @@
         this.drawBoard()  
       },250)
     },
+    created () {
+      window.addEventListener('resize', this.addWindowListeners)
+    },
+    destroyed () {
+      window.removeEventListener('resize', this.addWindowListeners)
+    },
     beforeDestroy: function() {
       const player = JSON.parse(localStorage.getItem('player'))
       if(player.strongnotification){
@@ -195,6 +201,11 @@
       }
     },
     methods: {
+      addWindowListeners () {
+        this.board.resize()
+        document.querySelector('.square-b5').classList.add('highlight-move')
+        document.querySelector('.square-f1').classList.add('highlight-move')
+      },
       previewSound: function(){
         setTimeout(() => {
           if(this.data.sound){
@@ -240,12 +251,6 @@
         this.board.resize()
         document.querySelector('.square-b5').classList.add('highlight-move')
         document.querySelector('.square-f1').classList.add('highlight-move')
-
-        $(window).resize(() => {
-          this.board.resize()
-          document.querySelector('.square-b5').classList.add('highlight-move')
-          document.querySelector('.square-f1').classList.add('highlight-move')
-        })
       },
       submit: function(){
         this.$socket.emit('lobby_leave', this.$root.player) 
