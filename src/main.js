@@ -36,16 +36,13 @@ new Vue({
   watch: {
     '$route' (to, from) {
       if(from.name === 'play'){
+        if(!this.player.observe) {
+          this.$socket.emit('lobby_join', this.player)
+        }   
         this.$socket.emit('match_end', from.params.game)
       }
       if(to.name === 'play'){
         this.$socket.emit('lobby_leave', this.player) 
-      } else {
-        if(!this.player.observe) {
-          setTimeout(() => {
-            this.$socket.emit('lobby_join', this.player)
-          },500)
-        }        
       }
     },
     onLine(status) {
