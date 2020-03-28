@@ -260,8 +260,8 @@ new Vue({
           axios.post( this.endpoint + '/create', {
             white: data.white.code,
             black: data.black.code,
-            white_flag: data.white.flag,
-            black_flag: data.black.flag,
+            whiteflag: data.white.flag,
+            blackflag: data.black.flag,
             minutes: data.minutes,
             compensation: data.compensation
           }).then((response) => {
@@ -308,9 +308,9 @@ new Vue({
             if (accept) {
               axios.post( this.endpoint + '/create', {
                 white: data.white.code,
-                white_flag: data.white.flag,
+                whiteflag: data.white.flag,
                 black: data.black.code,
-                black_flag: data.black.flag,
+                blackflag: data.black.flag,
                 minutes: data.minutes,
                 compensation: data.compensation,
               }).then((response) => {
