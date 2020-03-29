@@ -71,6 +71,7 @@ new Vue({
         stored.observe = preferences.observe
       }
       preferences = stored
+      this.player = preferences
       this.$socket.emit('preferences', preferences)
     } else {
       axios.post('https://ipapi.co/json').then(res => {
@@ -167,6 +168,7 @@ new Vue({
 
     window.addEventListener('online', this.updateOnlineStatus)
     window.addEventListener('offline', this.updateOnlineStatus)
+    this.$socket.emit('lobby_join', this.player)
     this.loading = false
   },
   beforeDestroy() {
