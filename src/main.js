@@ -74,12 +74,20 @@ new Vue({
       this.player = preferences
       this.$socket.emit('preferences', preferences)
     } else {
-      axios.post('https://ipapi.co/json').then(res => {
-        axios.get('/static/json/flags.json').then(res2 => {
+      axios.post('https://ipapi.co/json').then(json => {
+        axios.get('/static/json/flags.json').then(flags => {
           //preferences.locale = res.data
-          preferences.flag = res2.data[res.data.country_code].emoji || null
+          let flag = {
+            emoji: null
+          }
+
+          if (flags.data[json.data.country_code]) {
+            flag = flags.data[json.data.country_code]
+          }
+
+          preferences.flag = flag
           this.player = preferences
-          this.$socket.emit('preferences', this.player)
+          this.$socket.emit('preferences', preferences)
           localStorage.setItem('player',JSON.stringify(preferences))
         })
       })
