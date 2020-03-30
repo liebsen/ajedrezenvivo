@@ -111,7 +111,7 @@
 
   export default {
     name: 'lobby',
-    created () {
+    mounted () {
       let message = `🤝 Afectuoso saludo a ${this.$root.player.code} que nos visita desde ${this.$root.player.flag}.` + (this.$root.player.observe ? ` Estas en modo observador.` : ` Antes de empezar a jugar podés `) +  `<a href="/preferences" class="has-text-success">establecer preferencias</a>`
       this.$socket.emit('lobby_chat', { 
         sender: 'chatbot',
