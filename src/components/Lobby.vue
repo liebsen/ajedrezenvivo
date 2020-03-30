@@ -111,6 +111,18 @@
 
   export default {
     name: 'lobby',
+    created () {
+      let message = `🤝 Afectuoso saludo a ${this.$root.player.code} que nos visita desde ${this.$root.player.flag}.` + (this.$root.player.observe ? ` Estas en modo observador.` : ` Antes de empezar a jugar podés `) +  `<a href="/preferences" class="has-text-success">establecer preferencias</a>`
+      this.$socket.emit('lobby_chat', { 
+        sender: 'chatbot',
+        line: message
+      })
+    },
+    data () {
+      return {
+        chat:''
+      }
+    },
     methods: {
       sendChat: function() {
         if(this.chat.trim()==='') this.chat = '🤝'
@@ -128,10 +140,9 @@
         }        
       },
       play: function(player) {
-        if(player.code === this.$root.player.code)
-        return snackbar('error','No podés jugar contra vos mismo') 
-        if(this.$root.player.observe)
-        return snackbar('default','Estás en modo Observador y no podés invitar')   
+        if (player.code === this.$root.player.code) {
+          return snackbar('error','No podés jugar contra vos mismo') 
+        }
 
         var t = this
         const template = (`
@@ -251,11 +262,6 @@
             e.style.backgroundImage = li.getPropertyValue('background-image').split('classic').join(saved.pieces)
           })
         },10)
-      }
-    },
-    data () {
-      return {
-        chat:''
       }
     }
   }
