@@ -236,13 +236,6 @@ new Vue({
           // document.querySelector('.menu-primary .icon').innerHTML = '<span v-if="$root.player.observe" class="fas fa-user' + (this.player.observe ? '-astronaut' : '-circle') +'"></span>'
           localStorage.setItem('player',JSON.stringify(data))
           snackbar('success','Tus preferencias fueron actualizadas correctamente.')          
-          if(!data.observe){
-            this.$socket.emit('lobby_join', data)
-            this.$socket.emit('lobby_chat', { 
-              sender: 'chatbot',
-              line: `Hola ${this.$root.player.code}, gracias por visitar AjedrezEV.` + (this.$root.player.observe ? ` Estas en modo observador. Para cambiarlo podés ` : ` Antes de jugar podés `) +  `<a href="/preferences" class="has-text-success">establecer tus preferencias</a>`
-            })
-          }  
         }
         this.saving = false
       }
