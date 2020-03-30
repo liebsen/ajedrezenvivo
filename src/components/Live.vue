@@ -121,7 +121,7 @@
             }
           } else {
             if(res.data.count===0){
-              snackbar('danger','No hay partidas que coincidan con tu palabra clave.', 5000);
+              snackbar('warning','No hay partidas en vivo', 5000);
             } else {
               var numPages = Math.ceil(res.data.count/this.limit)
               for(var i=0;i< numPages;i++){

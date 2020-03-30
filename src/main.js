@@ -70,13 +70,13 @@ new Vue({
       if(!stored.observe){
         stored.observe = preferences.observe
       }
+
       preferences = stored
       this.player = preferences
       this.$socket.emit('preferences', preferences)
     } else {
       axios.post('https://ipapi.co/json').then(json => {
         axios.get('/static/json/flags.json').then(flags => {
-          //preferences.locale = res.data
           let flag = {
             emoji: null
           }

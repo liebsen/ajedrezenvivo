@@ -64,6 +64,9 @@
             </div>
             <h6 class="has-text-right white is-hidden-mobile">
               <span v-show="data.result==='1-0'">🏆</span>
+              <span class="icon">
+                <span v-html="$root.player.flag"/>
+              </span>
               <span v-html="$root.player.code"></span> 
             </h6>
           </div>
@@ -376,6 +379,7 @@
           if(window.innerWidth < 789){
             t.boardCfg.draggable = false 
           }
+
           if(pref.pieces){
             t.boardCfg.pieceTheme = '/static/img/chesspieces/' + pref.pieces + '/{piece}.png'
             t.boardColor = pref.board
@@ -386,9 +390,11 @@
 
           if(t.playerColor==='white'){
             t.data.white = t.$root.player.code
+            t.data.whiteflag = t.$root.player.flag
             t.data.black = 'Stockfish'
           } else {
             t.data.white = 'Stockfish'
+            t.data.blackflag = t.$root.player.flag
             t.data.black = t.$root.player.code
           }
 
@@ -654,9 +660,13 @@
                       let opponent = 'Stockfish nivel ' + (this.time.level / 2)
                       let white = this.playerColor==='white' ? this.$root.player.code : opponent
                       let black = this.playerColor==='black' ? this.$root.player.code : opponent
+                      let whiteflag = this.playerColor==='white' ? this.$root.player.flag : ''
+                      let blackflag = this.playerColor==='black' ? this.$root.player.flag : ''
                       axios.post( this.$root.endpoint + '/save', {
                         white: white,
                         black: black,
+                        whiteflag: whiteflag,
+                        blackflag: blackflag,
                         orientation: this.board.orientation(),
                         pgn: this.game.pgn()
                       }).then((response) => {
