@@ -120,7 +120,9 @@ export default {
     if (board) {
       board.classList = []
       board.classList.add('fakeboard')
-      board.classList.add(saved.board || 'classic')
+      if (saved) {
+        board.classList.add(saved.board || 'classic')
+      }
     }
 
     axios.post(this.$root.endpoint + '/eco/pgn/random', {}).then((res) => {

@@ -66,6 +66,7 @@ new Vue({
     var preferences = { 
       code: generateRandomCode(6), 
       flag: '🇷🇪',
+      country: '🇷🇪',
       observe: false,
       autoaccept: false,
       strongnotification: false,
@@ -87,7 +88,8 @@ new Vue({
       axios.post('https://ipapi.co/json').then(json => {
         axios.get('/static/json/flags.json').then(flags => {
           if (flags.data[json.data.country_code]) {
-            preferences.flag = flags.data[json.data.country_code]
+            preferences.flag = flags.data[json.data.country_code].emoji
+            preferences.country = flags.data[json.data.country_code].name
           }
           this.player = preferences
           this.$socket.emit('preferences', preferences)
