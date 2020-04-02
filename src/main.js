@@ -414,7 +414,7 @@ new Vue({
       if(document.querySelector('.board') && document.body.clientHeight < document.body.clientWidth && document.body.clientWidth > 768){
         var offset = 0
         if(!document.querySelector('.menu-logo').classList.contains('is-hidden')) {
-          offset+= 64
+          offset+= 70
         }
         document.querySelector('.board').style.width = document.body.clientHeight - document.querySelector('.menu').clientHeight - offset + 'px'
       }
