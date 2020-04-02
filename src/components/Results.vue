@@ -81,7 +81,7 @@
       <a class="pagination-next">Next page</a-->
       <ul class="pagination-list">
         <li v-for="(page, index) in pages">
-          <router-link :to="'?q=' + query + '&offset=' + page" class="pagination-link" :class="{'is-current': offset == page}" :title="'Ir a página ' + (index + 1)"></router-link>
+          <router-link :to="'?q=' + query + '&offset=' + page" class="pagination-link" :class="{'is-current': offset == page}" :title="'Ir a página ' + parseInt(page / limit + 1)"></router-link>
         </li>
       </ul>
     </nav>     
@@ -139,11 +139,18 @@
             } else {
               var numPages = Math.ceil(res.data.count/this.limit)
               for(var i=0;i< numPages;i++){
-                pages[i] = i*this.limit
+                pages[i] = i * this.limit
               }
               snackbar('success','Se econtraron ' + this.data.count  +  ' partida' + (this.data.count>1?'s':'')  + '. Mostrando resultados de ' + (this.offset + 1) + ' a ' + (this.offset + this.limit > this.data.count ? this.data.count : this.offset + this.limit ), 5000);
             }
           }
+
+          let max = 20
+          
+          if (pages.length > max) {
+            pages.splice(max / 2, pages.length - max)
+          }
+
           this.pages = pages
           this.$root.loading = false
           axios.post(this.$root.endpoint + '/eco/search/pgn', {pgn: this.query}).then((res2) => {
