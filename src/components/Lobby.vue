@@ -108,22 +108,26 @@
   import snackbar from '../components/Snackbar'
   import swal from 'sweetalert'
   import playSound from '../components/playSound'
-
   export default {
     name: 'lobby',
-    mounted () {
-      let message = `🤝 Saludos ${this.$root.player.code} que nos visita desde ${this.$root.player.country} ${this.$root.player.flag}` + (this.$root.player.observe ? ` Estas en modo observador.` : ` Antes de empezar a jugar podés `) +  `<a href="/preferences" class="has-text-success">establecer preferencias</a>`
-      this.$socket.emit('lobby_chat', { 
-        sender: 'chatbot',
-        line: message
-      })
-    },
     data () {
       return {
         chat:''
       }
     },
+    mounted () {
+      setTimeout(() => {
+        this.welcomeMsg()
+      }, 3000)
+    },
     methods: {
+      welcomeMsg () {
+        let message = `🤝 Saludos ${this.$root.player.code} que nos visita desde ${this.$root.player.country} ${this.$root.player.flag}` + (this.$root.player.observe ? ` Estas en modo observador.` : ` Antes de empezar a jugar podés `) +  `<a href="/preferences" class="has-text-success">establecer preferencias</a>`
+        this.$socket.emit('lobby_chat', { 
+          sender: 'chatbot',
+          line: message
+        })
+      },
       sendChat: function() {
         if(this.chat.trim()==='') this.chat = '🤝'
         this.$socket.emit('lobby_chat', { 
