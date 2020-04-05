@@ -220,7 +220,6 @@ new Vue({
       }
     },
     invite: function(data) {
-      var t = this
       if(data.player.code === this.player.code){
         if(this.player.autoaccept){
           axios.post( this.endpoint + '/create', {
@@ -232,12 +231,12 @@ new Vue({
             compensation: data.compensation
           }).then((response) => {
             if(response.data.status === 'success'){
-              t.$socket.emit('play', {
+              this.$socket.emit('play', {
                 asker: data.asker.code,
                 player: data.player.code,
                 id: response.data.id
               })
-              t.$router.push(['/play',response.data.id].join('/'))
+              this.$router.push(['/play',response.data.id].join('/'))
             } else {
               snackbar('danger','El juego no pudo ser creado.')
             }        
@@ -281,18 +280,18 @@ new Vue({
                 compensation: data.compensation,
               }).then((response) => {
                 if(response.data.status === 'success'){
-                  t.$socket.emit('play', {
+                  this.$socket.emit('play', {
                     asker: data.asker.code,
                     player: data.player.code,
                     id: response.data.id
                   })
-                  t.$router.push(['/play',response.data.id].join('/'))
+                  this.$router.push(['/play',response.data.id].join('/'))
                 } else {
                   snackbar('danger','El juego no pudo ser creado.')
                 }        
               })
             } else {
-              t.$socket.emit('reject', data)
+              this.$socket.emit('reject', data)
               console.log('Clicked on cancel')
             }
           })
@@ -311,22 +310,21 @@ new Vue({
       }
     },
     match_live: function(data){
-      var t = this
       var gamesContainer = document.querySelector('.live-games')
       if(gamesContainer){
         var exists = false 
-        for(var i in t.matches){
-          if(t.matches[i].id === data.id){
+        for(var i in this.matches){
+          if(this.matches[i].id === data.id){
             exists = true
           }
         }
 
         if(exists === false){
-          t.matches.push(data)
+          this.matches.push(data)
         }
 
         setTimeout(() => {
-          t.gameMove(data)  
+          this.gameMove(data)  
         },500)        
       }
     }
@@ -402,7 +400,6 @@ new Vue({
       this.onLine = type === 'online';
     },
     gameStart: function(data){
-      var t = this
       return new Promise(function(resolve,reject){
 
         var pos = 'start'
@@ -412,9 +409,9 @@ new Vue({
           pos = data.fen
         }
 
-        if(t.player.pieces){
+        if(this.player.pieces){
           pieces = '/static/img/chesspieces/' + t.player.pieces + '/{piece}.png'
-          t.boardColor = t.player.board
+          this.boardColor = this.player.board
         }
 
         var cfg = {
@@ -424,11 +421,11 @@ new Vue({
         }
 
         setTimeout(() => {
-          t.games[data.id] = new Chess
-          t.boards[data.id] = new Chessboard('board' + data.id,cfg)
+          this.games[data.id] = new Chess
+          this.boards[data.id] = new Chessboard('board' + data.id,cfg)
 
           if(data.pgn){
-            t.games[data.id].load_pgn(data.pgn)
+            this.games[data.id].load_pgn(data.pgn)
           }
           resolve()
         },500)        
@@ -440,17 +437,15 @@ new Vue({
       return '#' + Array(6 - color.length + 1).join('0') + color;
     },
     gameMove: function(data){
-      var t = this
-      if(!t.games[data.id]){
-        t.gameStart(data).then(() => {
-          t.makeMove(data)
+      if(!this.games[data.id]){
+        this.gameStart(data).then(() => {
+          this.makeMove(data)
         })        
       } else {
-        t.makeMove(data)
+        this.makeMove(data)
       }
     },
     makeMove: function(data){
-      var t = this
       setTimeout(() => {
         var moveObj = ({
           from: data.from,
@@ -458,21 +453,21 @@ new Vue({
           promotion: 'q' // NOTE: always promote to a queen for example simplicity
         });
         // see if the move is legal
-        var move = t.games[data.id].move(moveObj)
+        var move = this.games[data.id].move(moveObj)
 
         if (move === null) {
           return 'snapback'
         }
 
-        for(var i in t.matches){
-          if(t.matches[i].id === data.id){
-            t.matches[i].wtime = data.wtime
-            t.matches[i].btime = data.btime
+        for(var i in this.matches){
+          if(this.matches[i].id === data.id){
+            this.matches[i].wtime = data.wtime
+            this.matches[i].btime = data.btime
           }
         }
 
-        t.boards[data.id].position(data.fen)
-        t.updateMoves(data.id,move)
+        this.boards[data.id].position(data.fen)
+        this.updateMoves(data.id,move)
       },500)
     },
     gameFlip: function(id){
@@ -493,14 +488,13 @@ new Vue({
       return min + ":" + sec
     },
     updateMoves:function(id,move){
-      var t = this
       var sound = 'move.mp3'
-      var game = t.games[id] 
+      var game = this.games[id] 
       var data = {}
 
-      for(var i in t.matches){
-        if(t.matches[i].id === id){
-          data = t.matches[i]
+      for(var i in this.matches){
+        if(this.matches[i].id === id){
+          data = this.matches[i]
         }
       }
 
@@ -538,8 +532,8 @@ new Vue({
           sound = 'check.ogg'
         }
 
-        t.removeHighlight(id)
-        t.addHightlight(id,move)
+        this.removeHighlight(id)
+        this.addHightlight(id,move)
         //playSound(sound)
       }
     },
@@ -550,9 +544,8 @@ new Vue({
       })
     },
     addHightlight : function(id,move){
-      var t = this
-      var game = t.games[id]
-      t.removeHighlight(id);
+      var game = this.games[id]
+      this.removeHighlight(id);
       if(move){
         if (game.in_check() === true) {
           document.getElementById('board' + id).querySelector('img[data-piece="' + game.turn() + 'K"]').parentNode.classList.add('in-check')

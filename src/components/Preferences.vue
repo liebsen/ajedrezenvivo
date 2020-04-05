@@ -153,7 +153,7 @@
 </template>
 
 <script>
-
+  import { mapState } from 'vuex'
   import Chess from 'chess.js'
   import Chessboard from '../../static/js/chessboard'
   import snackbar from '../components/Snackbar'
@@ -171,12 +171,14 @@
         this.drawBoard()
       }
     },
+    computed: {
+      ...mapState([
+        'player'
+      ])
+    },
     mounted: function(){
-      const saved = localStorage.getItem('player')
-      if(saved){
-        this.data = JSON.parse(saved)
-        this.saved = JSON.parse(saved)
-      }
+      this.data = this.player
+      this.saved = this.player
       setTimeout(() => {
         this.drawBoard()  
       },250)

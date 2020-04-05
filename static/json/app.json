@@ -1,0 +1,23 @@
+{
+	"app": {
+		"title": "AjedrezEV",
+		"slogan": "Estudia, entrena y gana"
+	}, 
+	"langs": {
+		"es": { 
+			"about": "Acerca de",
+			"search": "Buscar",
+			"openings": "Aperturas",
+			"donate": "Donar",
+			"contact": "Contacto",
+			"results": "Resultados",
+			"live": "En Vivo",
+			"live": "En Vivo",
+			"human": "Humano",
+			"fullscreen": "Pantalla completa",
+			"play_against": "Jugar contra",
+			"preferences": "Preferencias",
+			"no_players": "No hay jugadores en este momento"
+		}
+	}
+}
