@@ -111,7 +111,7 @@
       },
       search: function() {
         this.$root.loading = true
-        axios.post( this.$root.endpoint + '/online', {query:this.query,offset:this.offset,limit:this.limit} ).then((res) => {
+        axios.post('/online', {query:this.query,offset:this.offset,limit:this.limit} ).then((res) => {
           this.data = res.data
 
           var pages = []

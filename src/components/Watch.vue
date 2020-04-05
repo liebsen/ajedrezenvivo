@@ -316,7 +316,7 @@
       },
       findEco: function(pgn){
         let t = this
-        axios.post( this.$root.endpoint + '/eco', {pgn:pgn} ).then((res) => {
+        axios.post('/eco', {pgn:pgn} ).then((res) => {
           if(res.data.eco){
             t.opening = res.data.name
             t.ecode = res.data.eco
@@ -403,7 +403,7 @@
       gameStart: function(){
         this.$root.loading = true
         const pref = JSON.parse(localStorage.getItem('player'))||{}
-        axios.post( this.$root.endpoint + '/game', {id:this.$route.params.game} ).then((res) => {
+        axios.post('/game', {id:this.$route.params.game} ).then((res) => {
           if(!Object.keys(res.data).length) return location.href="/404"
           var game = res.data
 

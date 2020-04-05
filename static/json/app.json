@@ -1,11 +1,14 @@
 {
-	"app": {
+	"props": {
 		"title": "AjedrezEV",
 		"slogan": "Estudia, entrena y gana"
-	}, 
-	"langs": {
-		"es": { 
-			"about": "Acerca de",
+	},
+	"pages": [
+		{
+			"slug": "about",
+			"title": "Acerca de",
+			"content": "",
+		},
 			"search": "Buscar",
 			"openings": "Aperturas",
 			"donate": "Donar",
@@ -13,11 +16,24 @@
 			"results": "Resultados",
 			"live": "En Vivo",
 			"live": "En Vivo",
+
+	},
+	"words": {
+		"es": { 
 			"human": "Humano",
 			"fullscreen": "Pantalla completa",
 			"play_against": "Jugar contra",
 			"preferences": "Preferencias",
-			"no_players": "No hay jugadores en este momento"
+			"level": "Nivel",
+			"level0": "Niño",
+			"level2": "Novato",
+			"level4": "Principiante",
+			"level6": "Intermedio",
+			"level8": "Avanzado",
+			"level10": "GM",
+			"no_players": "No hay jugadores en este momento",
+			"chatbot_players": "Hay %s jugador%s esperando invitación",
+			"chatbot_salute": "🤝 Saludos %s que nos visita desde %s %s Antes de jugar podés <a href='/preferences'>establecer preferencias</a>"
 		}
 	}
 }

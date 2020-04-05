@@ -104,12 +104,14 @@ const router = new Router({
   ]  
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
+  await Vue.nextTick()
   if (!store.state.player) {
     store
       .dispatch('playerId')
       .then(() => {
         console.log('🙌 Datos de la aplicación cargados')
+        router.app.$socket.emit('preferences', store.state.player)
         next()        
       }).catch(err => {
         console.log(`Algo malo sucedió ` + err)

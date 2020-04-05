@@ -95,6 +95,10 @@ hr {
     }
   }
 }
+
+.tabs.is-boxed li.is-active a {
+  background-color: #edebe9;
+}
 /* spinner */
 
 .spinner-container {
@@ -505,7 +509,6 @@ table {
   }
 }
 
-
 /*
 .field-body {
   padding-bottom: 0.25rem;
@@ -514,7 +517,7 @@ table {
 }*/
 
 .chatbox {
-  height: 270px;
+  height: 205px;
   width: 100%;
   margin-top: 1.25rem;
   overflow-y: auto;

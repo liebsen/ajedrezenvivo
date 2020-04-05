@@ -12,6 +12,8 @@ import snackbar from './components/Snackbar';
 import playSound from './components/playSound'
 import '../static/js/fontawesome_all.js'
 
+axios.defaults.baseURL = store.state.endpoint
+
 require('../static/css/main.scss')
 require('../static/css/chessboard.scss')
 
@@ -19,7 +21,6 @@ Vue.use(new VueSocketIO({
   debug: process.env.NODE_ENV!=='production',
   connection: process.env.ENDPOINT
 }))
-
 
 new Vue({
   el: '#app',
@@ -56,8 +57,6 @@ new Vue({
     }
   },
   created () {
-    let player = JSON.parse(localStorage.getItem('player')) || {}
-    this.$socket.emit('preferences', player)
     this.documentTitle = document.title 
 
     document.querySelector('body').addEventListener('click', function (event) {

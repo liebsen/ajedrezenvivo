@@ -105,7 +105,7 @@
       },
       search: function() {
         this.$root.loading = true
-        axios.post( this.$root.endpoint + '/eco/search', {query:this.query,offset:this.offset,limit:this.limit} ).then((res) => {
+        axios.post('/eco/search', {query:this.query,offset:this.offset,limit:this.limit} ).then((res) => {
           this.data = res.data
           var pages = []
           if(res.data.error){

@@ -9,7 +9,8 @@ export default new Vuex.Store({
     player: null,
     players: null,
     app: null,
-    status: null
+    status: null,
+    endpoint: (process.env.NODE_ENV === 'production' ? 'https://ajedrezenvivoapi.herokuapp.com' : 'http://localhost:4000')
   },
   mutations: {
     /* A fit-them-all commit */
@@ -97,19 +98,15 @@ export default new Vuex.Store({
             pieces: 'classic',
             board:'classic'
           }
-          axios.post('https://ipapi.co/json').then(json => {
-            axios.get('/static/json/flags.json').then(flags => {
-              axios.get('/static/json/app.json').then(app => {
-                var language = window.navigator.userLanguage || window.navigator.language
-                commit('app_success', app)
-                if (flags.data[json.data.country_code]) {
-                  preferences.flag = flags.data[json.data.country_code].emoji || ''
-                  preferences.country = flags.data[json.data.country_code].name || ''
-                }
 
-                commit('playerid_success', preferences)
-                resolve(preferences)
-              })
+          axios.post('https://ipapi.co/json').then(json => {
+            axios.get('/json/flags.json').then(flags => {
+              if (flags.data[json.data.country_code]) {
+                preferences.flag = flags.data[json.data.country_code].emoji || ''
+                preferences.country = flags.data[json.data.country_code].name || ''
+              }
+              commit('playerid_success', preferences)
+              resolve(preferences)
             })
           })
         }

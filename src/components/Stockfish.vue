@@ -170,7 +170,7 @@
       pieces.forEach(tag => {
         let e = document.querySelector(tag)
         let li = window.getComputedStyle(e);
-        e.style.backgroundImage = li.getPropertyValue('background-image').split('classic').join(this.saved.pieces)
+        e.style.backgroundImage = li.getPropertyValue('background-image').split('classic').join(this.player.pieces)
       })
     },
     computed: {
@@ -667,7 +667,7 @@
                       let black = this.playerColor==='black' ? this.player.code : opponent
                       let whiteflag = this.playerColor==='white' ? this.player.flag : ''
                       let blackflag = this.playerColor==='black' ? this.player.flag : ''
-                      axios.post( this.$root.endpoint + '/save', {
+                      axios.post('/save', {
                         white: white,
                         black: black,
                         whiteflag: whiteflag,
@@ -720,7 +720,7 @@
       },
       findEco: function(pgn){
         let t = this
-        axios.post( this.$root.endpoint + '/eco/pgn', {pgn:pgn} ).then((res) => {
+        axios.post('/eco/pgn', {pgn:pgn} ).then((res) => {
           if(res.data.eco){
             t.opening = res.data.name
             t.ecode = res.data.eco

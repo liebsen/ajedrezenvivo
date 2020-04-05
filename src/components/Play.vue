@@ -71,7 +71,7 @@
                   <div class="column preservefilter">
                     <button @click="inviteRematch()" class="button is-small is-rounded is-danger" v-show="announced_game_over" title="Rematch">
                       <span class="icon has-text-white">
-                        <span class="fas fa-chess-pawn"></span>
+                        <span class="fas fa-chess-knight"></span>
                       </span>
                     </button>
                     <button @click="gameCapitulate()" class="button is-small is-rounded is-danger" v-show="pgnIndex.length && !announced_game_over" title="Abandonar partida">
@@ -325,7 +325,7 @@
           })
           .then(accept => {
             if (accept) {
-              axios.post( this.$root.endpoint + '/create', {
+              axios.post('/create', {
                 white: (t.playerColor==='white'?data.asker.code:data.player.code),
                 black: (t.playerColor==='white'?data.player.code:data.asker.code),
                 whiteflag: (t.playerColor==='white'?data.asker.flag:data.player.flag),
@@ -976,7 +976,7 @@
       },
       findEco: function(pgn){
         let t = this
-        axios.post( this.$root.endpoint + '/eco/pgn', {pgn:pgn} ).then((res) => {
+        axios.post('/eco/pgn', {pgn:pgn} ).then((res) => {
           if(res.data.eco){
             t.opening = res.data.name
             t.ecode = res.data.eco

@@ -294,7 +294,7 @@
       },    
       gameStart: function(){
         this.$root.loading = true
-        axios.post( this.$root.endpoint + '/eco/search', {
+        axios.post('/eco/search', {
           query:this.$route.params.name,
           limit:1,
           offset:0
