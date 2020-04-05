@@ -1,11 +1,11 @@
 import Vue from 'vue'
-import store from 'store'
+import store from './store'
+import router from './router'
 import VueSocketIO from 'vue-socket.io'
 import axios from 'axios'
 import swal from 'sweetalert'
 import moment from 'moment'
 import App from './App.vue'
-import router from './router'
 import Chess from 'chess.js'
 import Chessboard from '../static/js/chessboard'
 import snackbar from './components/Snackbar';
@@ -20,19 +20,11 @@ Vue.use(new VueSocketIO({
   connection: process.env.ENDPOINT
 }))
 
-const generateRandomCode = (() => {
-  const USABLE_CHARACTERS = "abcdefghijklmnopqrstuvwxyz0123456789".split("")
-
-  return length => {
-    return new Array(length).fill(null).map(() => {
-      return USABLE_CHARACTERS[Math.floor(Math.random() * USABLE_CHARACTERS.length)]
-    }).join("")
-  }
-})()
 
 new Vue({
   el: '#app',
   router,
+  store,
   watch: {
     '$route' (to, from) {
       if (from.name === 'play') {
@@ -62,46 +54,9 @@ new Vue({
     }
   },
   created () {
-    const stored = JSON.parse(localStorage.getItem('player'))||{}
-    var preferences = { 
-      code: generateRandomCode(6), 
-      flag: '🇷🇪',
-      country: '🇷🇪',
-      observe: false,
-      autoaccept: false,
-      strongnotification: false,
-      darkmode: false,
-      sound: true,
-      pieces: 'classic',
-      board:'classic'
-    }
-
-    if(Object.keys(stored).length && stored.flag){
-      if(!stored.observe){
-        stored.observe = preferences.observe
-      }
-
-      preferences = stored
-      this.player = preferences
-      this.$socket.emit('preferences', preferences)
-    } else {
-      axios.post('https://ipapi.co/json').then(json => {
-        axios.get('/static/json/flags.json').then(flags => {
-          if (flags.data[json.data.country_code]) {
-            preferences.flag = flags.data[json.data.country_code].emoji
-            preferences.country = flags.data[json.data.country_code].name
-          }
-          this.player = preferences
-          this.$socket.emit('preferences', preferences)
-          localStorage.setItem('player',JSON.stringify(preferences))
-        })
-      })
-    }
-
-    if(preferences.darkmode){
-      document.documentElement.classList.add('dark-mode')
-    }
-    
+    let player = JSON.parse(localStorage.getItem('player')) || {}
+    this.$socket.emit('preferences', player)
+    this.$socket.emit('lobby_join', player)
     this.documentTitle = document.title 
 
     document.querySelector('body').addEventListener('click', function (event) {
@@ -181,7 +136,6 @@ new Vue({
 
     window.addEventListener('online', this.updateOnlineStatus)
     window.addEventListener('offline', this.updateOnlineStatus)
-    this.$socket.emit('lobby_join', this.player)
     this.loading = false
   },
   beforeDestroy() {
@@ -646,8 +600,7 @@ new Vue({
     games: [],
     boards: [],
     documentTitle: null,
-    boardColor: null,
-    code: generateRandomCode(6)
+    boardColor: null
   },
   render: h => h(App)
 })

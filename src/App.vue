@@ -12,19 +12,19 @@
         </div>
         <div class="column menu-primary has-text-right">
           <div class="is-hidden-mobile">
-            <router-link to="/preferences" class="button is-rounded is-white is-outlined" title="Establece tus preferencias">
+            <router-link v-if="player" to="/preferences" class="button is-rounded is-white is-outlined" title="Establece tus preferencias">
               <span class="icon">
-                <span v-html="$root.player.flag"></span>
+                <span v-html="player.flag"></span>
               </span>
-              <span v-html="$root.player.code"></span>
+              <span v-html="player.code"></span>
             </router-link>
           </div>
-          <div class="is-hidden-tablet">
+          <div v-if="player" class="is-hidden-tablet">
             <router-link to="/preferences" class="button is-small is-rounded">
               <span class="icon">
-               <span v-html="$root.player.flag"></span>
+               <span v-html="player.flag"></span>
               </span>
-              <span v-html="$root.player.code"></span>
+              <span v-html="player.code"></span>
             </router-link>
           </div>
         </div>
@@ -118,7 +118,7 @@
 
     <div class="tosprompt preservefilter"></div> 
 
-    <div class="ui-snackbar ui-snackbar--is-inactive preservefilter" :class="{ 'is-strong' : $root.player.strongnotification }">
+    <div class="ui-snackbar ui-snackbar--is-inactive preservefilter" :class="{ 'is-strong' : player && player.strongnotification }">
       <p class="ui-snackbar__message"></p>
     </div>
 
@@ -126,8 +126,14 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'app',
+  computed: {
+    ...mapState([
+      'player'
+    ])
+  },
   data () {
     return {
       ver: '2.0.1'

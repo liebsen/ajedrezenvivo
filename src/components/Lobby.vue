@@ -103,7 +103,7 @@
 </template>
 
 <script>
-
+  import { mapState } from 'vuex'
   import axios from 'axios'
   import snackbar from '../components/Snackbar'
   import swal from 'sweetalert'
@@ -115,6 +115,11 @@
         chat:''
       }
     },
+    computed: {
+      ...mapState([
+        'player'
+      ])
+    },
     mounted () {
       setTimeout(() => {
         this.welcomeMsg()
@@ -122,7 +127,7 @@
     },
     methods: {
       welcomeMsg () {
-        let message = `🤝 Saludos ${this.$root.player.code} que nos visita desde ${this.$root.player.country} ${this.$root.player.flag}` + (this.$root.player.observe ? ` Estas en modo observador.` : ` Antes de jugar podés `) +  `<a href="/preferences" class="has-text-success">establecer preferencias</a>`
+        let message = `🤝 Saludos ${this.player.code} que nos visita desde ${this.player.country} ${this.player.flag}` + (this.player.observe ? ` Estas en modo observador.` : ` Antes de jugar podés `) +  `<a href="/preferences" class="has-text-success">establecer preferencias</a>`
         this.$socket.emit('lobby_chat', { 
           sender: 'chatbot',
           line: message
@@ -131,20 +136,20 @@
       sendChat: function() {
         if(this.chat.trim()==='') this.chat = '🤝'
         this.$socket.emit('lobby_chat', { 
-          sender: this.$root.player.code,
+          sender: this.player.code,
           line: this.chat
         })
         this.chat = ''
       },
       clickObserve: function(data) { 
-        if(data === this.$root.player.code){
+        if(data === this.player.code){
           snackbar('error','No podés jugar contra vos mismo')   
         } else {
           snackbar('default', data + ' Está en modo Observador y no acepta invitaciones') 
         }        
       },
       play: function(player) {
-        if (player.code === this.$root.player.code) {
+        if (player.code === this.player.code) {
           return snackbar('error','No podés jugar contra vos mismo') 
         }
 
