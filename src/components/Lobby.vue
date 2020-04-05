@@ -52,10 +52,10 @@
         </div>
       </div>
       <div class="columns">
-        <div class="column is-lobby-list is-3" :class="{ 'no-players': $root.players.length < 2 }">
-          <div v-if="$root.players.length > 1">
-            <div v-for="player in $root.players" class="field">
-              <a v-if="!player.observe && player.code != $root.player.code" @click="play(player)" :title="'Invitar a ' + player.code">
+        <div class="column is-lobby-list is-3" :class="{ 'no-players': players.length < 2 }">
+          <div v-if="players.length > 1">
+            <div v-for="player in players" class="field">
+              <a v-if="!player.observe && player.code != player.code" @click="play(player)" :title="'Invitar a ' + player.code">
                 <span class="button is-text is-rounded is-info">
                   <span class="icon">
                     <span v-html="player.flag"></span>
@@ -64,8 +64,8 @@
                 </span>
               </a>
             </div>
-            <div v-for="player in $root.players" class="field">
-              <a v-if="player.observe && player.code != $root.player.code" @click="clickObserve(player.code)" title="Modo observador">
+            <div v-for="player in players" class="field">
+              <a v-if="player.observe && player.code != player.code" @click="clickObserve(player.code)" title="Modo observador">
                 <span class="button is-text is-rounded is-grey">
                   <span class="icon">
                     <span v-html="player.flag"></span>
@@ -81,7 +81,7 @@
             <div class="columns">
               <div class="column chatbox has-text-left lobby_chat"></div>
             </div>
-            <form v-show="$root.players.length > 1" @submit.prevent="sendChat">
+            <form v-show="players.length > 1" @submit.prevent="sendChat">
               <div class="field is-fullwidth has-addons has-addons-fullwidth">
                 <div class="control">
                   <input class="input is-rounded" v-model="chat" type="text" placeholder="Ingresa tu mensaje" />
@@ -224,23 +224,23 @@
             var playercolor = document.querySelector('.playercolor > .has-background-warning')
             var gameclock = document.querySelector('.gameclock > .has-background-warning')
             var gamecompensation = document.querySelector('.gamecompensation > .has-background-warning')
-            var white = t.$root.player
+            var white = t.player
             var black = player
             var minutes = parseInt(gameclock.textContent)
             var compensation = parseInt(gamecompensation.textContent)
 
             if(playercolor.classList.contains('is-black-pieces')){
               white = player
-              black = t.$root.player
+              black = t.player
             } 
 
             if(playercolor.classList.contains('is-random-pieces')){
               const coin = Math.floor(Math.random() * 1)
               if(coin){
                 white = player
-                black = t.$root.player
+                black = t.player
               } else {
-                white = t.$root.player
+                white = t.player
                 black = player
               }
             }
@@ -252,7 +252,7 @@
             })
 
             t.$socket.emit('invite', {
-              asker: t.$root.player,
+              asker: t.player,
               player: player,
               white: white,
               black: black,
