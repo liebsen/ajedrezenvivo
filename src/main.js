@@ -56,7 +56,6 @@ new Vue({
   created () {
     let player = JSON.parse(localStorage.getItem('player')) || {}
     this.$socket.emit('preferences', player)
-    this.$socket.emit('lobby_join', player)
     this.documentTitle = document.title 
 
     document.querySelector('body').addEventListener('click', function (event) {

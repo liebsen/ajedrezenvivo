@@ -121,6 +121,8 @@
       ])
     },
     mounted () {
+      let player = JSON.parse(localStorage.getItem('player')) || {}
+      this.$socket.emit('lobby_join', player)
       setTimeout(() => {
         this.welcomeMsg()
       }, 3000)
