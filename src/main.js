@@ -37,6 +37,8 @@ new Vue({
         this.$socket.emit('lobby_leave', this.player) 
       }
       if (to.name === 'lobby') {
+        let player = JSON.parse(localStorage.getItem('player')) || {}
+        this.$socket.emit('lobby_join', player)
         setTimeout(() => {
           const chatbox = document.querySelector(".lobby_chat")
           if (chatbox) {
