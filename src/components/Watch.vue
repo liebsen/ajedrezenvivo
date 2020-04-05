@@ -122,6 +122,7 @@
 <script>
 
   import axios from 'axios'
+  import { mapState } from 'vuex'
   import Chess from 'chess.js'
   import Chessboard from '../../static/js/chessboard'
   import snackbar from '../components/Snackbar'

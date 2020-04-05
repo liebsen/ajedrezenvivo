@@ -18,6 +18,9 @@
               </span>
               <span v-html="player.code"></span>
             </router-link>
+            <router-link to="/lobby" v-if="players" v-show="players.length > 1" class="button is-outlined is-info">
+              <span class="tag">{{ players.length }}</span>
+            </router-link>
           </div>
           <div v-if="player" class="is-hidden-tablet">
             <router-link to="/preferences" class="button is-small is-rounded">
@@ -131,6 +134,7 @@ export default {
   name: 'app',
   computed: {
     ...mapState([
+      'players',
       'player'
     ])
   },

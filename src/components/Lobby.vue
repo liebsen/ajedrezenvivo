@@ -51,10 +51,10 @@
           </div>
         </div>
       </div>
-      <div class="columns">
-        <div class="column is-lobby-list is-3" :class="{ 'no-players': $root.players.length < 2 }">
-          <div v-if="$root.players.length > 1">
-            <div v-for="plyer in $root.players" class="field">
+      <div class="columns" v-if="players">
+        <div class="column is-lobby-list is-3" :class="{ 'no-players': players.length < 2 }">
+          <div v-if="players.length > 1">
+            <div v-for="plyer in players" class="field">
               <a v-if="!plyer.observe && plyer.code != player.code" @click="play(plyer)" :title="'Invitar a ' + plyer.code">
                 <span class="button is-text is-rounded is-info">
                   <span class="icon">
@@ -64,7 +64,7 @@
                 </span>
               </a>
             </div>
-            <div v-for="plyer in $root.players" class="field">
+            <div v-for="plyer in players" class="field">
               <a v-if="plyer.observe && plyer.code != player.code" @click="clickObserve(plyer.code)" title="Modo observador">
                 <span class="button is-text is-rounded is-grey">
                   <span class="icon">
@@ -81,7 +81,7 @@
             <div class="columns">
               <div class="column chatbox has-text-left lobby_chat"></div>
             </div>
-            <form v-show="$root.players.length > 1" @submit.prevent="sendChat">
+            <form v-show="players.length > 1" @submit.prevent="sendChat">
               <div class="field is-fullwidth has-addons has-addons-fullwidth">
                 <div class="control">
                   <input class="input is-rounded" v-model="chat" type="text" placeholder="Ingresa tu mensaje" />
@@ -117,7 +117,8 @@
     },
     computed: {
       ...mapState([
-        'player'
+        'player',
+        'players'
       ])
     },
     mounted () {

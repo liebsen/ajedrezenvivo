@@ -75,7 +75,7 @@
 </template>
 
 <script>
-
+  import { mapState } from 'vuex'
   import axios from 'axios'
   import snackbar from '../components/Snackbar';
   export default {

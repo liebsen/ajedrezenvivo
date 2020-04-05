@@ -147,14 +147,14 @@ new Vue({
     lobby_chat: function(data){
       const chatbox = document.querySelector(".lobby_chat")
       if(chatbox){
-        const owned = this.$root.player.code === data.sender
+        const owned = this.player.code === data.sender
         const sender = owned || data.sender === 'chatbot' ? '' : data.sender
         let cls = owned ? 'is-pulled-right has-text-right has-background-info has-text-white ' : 'is-pulled-left has-text-left '
         cls+= data.sender === 'chatbot' ? 'has-text-grey' : 'has-text-white has-background-info'
         const ts = moment().format('hh:mm a')
         chatbox.innerHTML+= `<div class="box ${cls}"><strong class="has-text-white">${sender}</strong> ${data.line} <span class="is-size-7">${ts}</span></div>`
         chatbox.scrollTop = chatbox.scrollHeight
-        if(data.sender != this.$root.player.code){
+        if(data.sender != this.player.code){
           playSound('button-pressed.ogg')
         }
       }
@@ -183,8 +183,14 @@ new Vue({
           line: `No hay jugadores en este momento`
         })
         document.title = this.documentTitle
-      }        
-      this.players = JSON.parse(JSON.stringify(data))
+      }      
+      store
+        .dispatch('players', data)
+        .then(() => {
+          console.log('🙌 Lista de jugadores cargada')
+        }).catch(err => {
+          console.log(`Algo malo sucedió ` + err)
+        })  
     },
     player: function (data) {
       if(data.ref === this.player.code){
@@ -193,7 +199,7 @@ new Vue({
           this.$router.push('/preferences')
         } else {
           this.player = data
-          // document.querySelector('.menu-primary .icon').innerHTML = '<span v-if="$root.player.observe" class="fas fa-user' + (this.player.observe ? '-astronaut' : '-circle') +'"></span>'
+          // document.querySelector('.menu-primary .icon').innerHTML = '<span v-if="player.observe" class="fas fa-user' + (this.player.observe ? '-astronaut' : '-circle') +'"></span>'
           localStorage.setItem('player',JSON.stringify(data))
           snackbar('success','Tus preferencias fueron actualizadas correctamente.')          
         }

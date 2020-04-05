@@ -253,10 +253,10 @@
         document.querySelector('.square-f1').classList.add('highlight-move')
       },
       submit: function(){
-        this.$socket.emit('lobby_leave', this.$root.player) 
+        this.$socket.emit('lobby_leave', this.player) 
         this.$socket.emit('lobby_leave', this.data) 
         this.$root.saving = true
-        this.data.ref = this.$root.player.code
+        this.data.ref = this.player.code
         this.$socket.emit('preferences', this.data)  
         this.saved = {}
       }

@@ -65,9 +65,9 @@
             <h6 class="has-text-right white is-hidden-mobile">
               <span v-show="data.result==='1-0'">🏆</span>
               <span class="icon">
-                <span v-html="$root.player.flag"/>
+                <span v-html="player.flag"/>
               </span>
-              <span v-html="$root.player.code"></span> 
+              <span v-html="player.code"></span> 
             </h6>
           </div>
         </div>
@@ -139,9 +139,9 @@
   </div>
 </template>
 
-
 <script>
   import axios from 'axios'
+  import { mapState } from 'vuex'
   import Chess from 'chess.js'
   import Chessboard from '../../static/js/chessboard'
   import snackbar from '../components/Snackbar'
@@ -152,7 +152,7 @@
     name: 'stockfish',
     mounted: function(){
       window.app = this
-      const saved = JSON.parse(localStorage.getItem('player'))
+      // const saved = JSON.parse(localStorage.getItem('player'))
 
       document.getElementById('board').addEventListener("wheel", event => {
         this.gamePos(Math.sign(event.deltaY)<0?this.index+1:this.index-1)
@@ -170,8 +170,13 @@
       pieces.forEach(tag => {
         let e = document.querySelector(tag)
         let li = window.getComputedStyle(e);
-        e.style.backgroundImage = li.getPropertyValue('background-image').split('classic').join(saved.pieces)
+        e.style.backgroundImage = li.getPropertyValue('background-image').split('classic').join(this.saved.pieces)
       })
+    },
+    computed: {
+      ...mapState([
+        'player'
+      ])
     },
     methods: {
       gameRestart: function(){
@@ -389,13 +394,13 @@
           t.board.orientation(t.playerColor)  
 
           if(t.playerColor==='white'){
-            t.data.white = t.$root.player.code
-            t.data.whiteflag = t.$root.player.flag
+            t.data.white = t.player.code
+            t.data.whiteflag = t.player.flag
             t.data.black = 'Stockfish'
           } else {
             t.data.white = 'Stockfish'
-            t.data.blackflag = t.$root.player.flag
-            t.data.black = t.$root.player.code
+            t.data.blackflag = t.player.flag
+            t.data.black = t.player.code
           }
 
           // resize event handling
@@ -658,10 +663,10 @@
                  
                     case "defeat":
                       let opponent = 'Stockfish nivel ' + (this.time.level / 2)
-                      let white = this.playerColor==='white' ? this.$root.player.code : opponent
-                      let black = this.playerColor==='black' ? this.$root.player.code : opponent
-                      let whiteflag = this.playerColor==='white' ? this.$root.player.flag : ''
-                      let blackflag = this.playerColor==='black' ? this.$root.player.flag : ''
+                      let white = this.playerColor==='white' ? this.player.code : opponent
+                      let black = this.playerColor==='black' ? this.player.code : opponent
+                      let whiteflag = this.playerColor==='white' ? this.player.flag : ''
+                      let blackflag = this.playerColor==='black' ? this.player.flag : ''
                       axios.post( this.$root.endpoint + '/save', {
                         white: white,
                         black: black,

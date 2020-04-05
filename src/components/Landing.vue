@@ -110,6 +110,7 @@
 
 <script>
 import axios from 'axios'
+import { mapState } from 'vuex'
 export default {
   name: 'landing',
   mounted: function() {
@@ -138,6 +139,11 @@ export default {
         e.style.backgroundImage = li.getPropertyValue('background-image').replace('classic',saved.pieces)
       })
     }
+  },
+  computed: {
+    ...mapState([
+      'player'
+    ])
   },
   methods: {
     submit: function() {

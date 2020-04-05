@@ -10,7 +10,7 @@
             <div class="column">
               <div class="board-container">
                 <h6 class="has-text-left black is-hidden-mobile">
-                  <span v-show="data.black === $root.player.code">
+                  <span v-show="data.black === player.code">
                     <span class="is-size-6">
                       <span class="icon">
                         <span v-html="data.whiteflag"></span>  
@@ -21,7 +21,7 @@
                       <span class="fa fa-trophy is-size-7 has-text-warning"></span>
                     </span>
                   </span> 
-                  <span v-show="data.white === $root.player.code">
+                  <span v-show="data.white === player.code">
                     <span class="is-size-6">
                       <span class="icon">
                         <span v-html="data.blackflag"></span>  
@@ -40,7 +40,7 @@
                   <div id="board"></div>
                 </div>
                 <h6 class="has-text-right white is-hidden-mobile">
-                  <span v-show="data.black === $root.player.code">
+                  <span v-show="data.black === player.code">
                     <span v-show="data.result==='0-1'" class="icon">
                       <span class="fa fa-trophy is-size-7 has-text-warning"></span>
                     </span>
@@ -51,7 +51,7 @@
                       <span v-html="data.black"></span>
                     </span>
                   </span> 
-                  <span v-show="data.white === $root.player.code">
+                  <span v-show="data.white === player.code">
                     <span v-show="data.result==='1-0'" class="icon">
                       <span class="fa fa-trophy is-size-7 has-text-warning"></span>
                     </span>
@@ -215,6 +215,7 @@
 
 <script>
   import axios from 'axios'
+  import { mapState } from 'vuex'
   import Chess from 'chess.js'
   import Chessboard from '../../static/js/chessboard'
   import snackbar from '../components/Snackbar'
@@ -235,13 +236,18 @@
       t.gameLoad()
       t.$socket.emit('join',t.$route.params.game)
     },
+    computed: {
+      ...mapState([
+        'player'
+      ])
+    },
     destroyed () {
       this.$socket.emit('leave',this.data._id)
       clearInterval(this.clock)
     },
     beforeDestroy: function() {
       this.$socket.emit('gone', {
-        player: this.$root.player.code,
+        player: this.player.code,
         id:this.data._id
       })
       this.$socket.emit('leave',this.data._id)
@@ -271,7 +277,7 @@
       resume: function(data) {
         var t = this
         var exists = false
-        if(data.code != t.$root.player.code && !t.announced_game_over){
+        if(data.code != t.player.code && !t.announced_game_over){
           snackbar("success", '👤 ' + data.code + ' se unió a la partida')
         }
         for(var i in t.usersJoined){
@@ -283,16 +289,16 @@
           t.usersJoined.push(data.code)
         }
         setTimeout(() => {
-          if(t.usersJoined.length === 2 && !t.data.result && t.$root.player.code === t.data.white){
+          if(t.usersJoined.length === 2 && !t.data.result && t.player.code === t.data.white){
             t.$socket.emit('start', {
-              player: t.$root.player,
+              player: t.player,
               id:t.$route.params.game
             })
           }
         },1500)
       },
       gone: function(data) {
-        if(data.player != this.$root.player.code){
+        if(data.player != this.player.code){
           snackbar("error", '👤 ' + data.player + ' abandonó la partida')
         }
         for(var i in this.usersJoined){
@@ -302,14 +308,14 @@
         }
       },
       reject_rematch: function(data) {
-        if(data.asker.code === this.$root.player.code){
+        if(data.asker.code === this.player.code){
           swal.close()
           swal("Partida declinada", '👤 ' + data.player.code + ' declinó la revancha')
         }
       },
       invite_rematch: function(data) {
         var t = this
-        if(data.player.code === this.$root.player.code){
+        if(data.player.code === this.player.code){
           swal.close()
           swal({
             title: "¿Aceptás esta partida?",
@@ -376,14 +382,14 @@
       },
       rejectdraw: function(data){
         swal.close()
-        if(data.asker === this.$root.player.code){
+        if(data.asker === this.player.code){
           swal("Tablas rechazado", 'El oponente desea continuar jugando', "info")
         }
       },
       capitulate: function(data){
         var t = this
         var result = null
-        if(data.asker === t.$root.player.code){
+        if(data.asker === t.player.code){
           result = (t.playerColor==='black'?'1-0':'0-1')
           playSound('defeat.mp3')
           swal({
@@ -395,7 +401,7 @@
           .then(accept => {
             if (accept) {
               t.$socket.emit('invite_rematch', {
-                asker: t.$root.player,
+                asker: t.player,
                 player: {
                   code: t.opponentName,
                   flag: t.opponentFlag
@@ -424,7 +430,7 @@
       askfordraw: function(data){
         var t = this
         var result = null
-        if(data.player === t.$root.player.code){
+        if(data.player === t.player.code){
           swal({
             title: '¿Aceptas tablas?',
             text: 'Tu oponente ' + t.opponentName + ' solicita tablas',
@@ -457,14 +463,14 @@
       },
       chat: function(data){
         const chatbox = document.querySelector(".chatbox")
-        const owned = this.$root.player.code === data.sender
+        const owned = this.player.code === data.sender
         const cls = owned ? 'is-pulled-right has-text-right' : 'is-pulled-left has-text-left has-background-info has-text-white'
         chatbox.innerHTML+= `<div class="box ${cls}">${data.line}</div>`
         chatbox.scrollTop = chatbox.scrollHeight
         if(!owned){
           snackbar('success', '<strong class="has-text-light">👤 ' + data.sender + '</strong> ' + data.line)
         }
-        if(data.sender!=this.$root.player.code){
+        if(data.sender!=this.player.code){
           playSound('pop.mp3')
         }
       }
@@ -474,14 +480,14 @@
         if(this.chat.trim()==='') this.chat = '👋'
         this.$socket.emit('chat', { 
           id:this.$route.params.game,
-          sender: this.$root.player.code,
+          sender: this.player.code,
           line: this.chat
         })
         this.chat = ''
       },
       beforeunload: function handler(event) {
         this.$socket.emit('gone', {
-          player: this.$root.player.code,
+          player: this.player.code,
           id:this.data._id
         })
         this.$socket.emit('leave',this.$route.params.game)
@@ -513,7 +519,7 @@
         .then(accept => {
           if (accept) {
             this.$socket.emit('capitulate', {
-              asker:this.$root.player.code,
+              asker:this.player.code,
               player:this.opponentName,
               id:this.$route.params.game
             })
@@ -532,7 +538,7 @@
         .then(accept => {
           if (accept) {
             this.$socket.emit('askfordraw', {
-              asker:this.$root.player.code,
+              asker:this.player.code,
               player:this.opponentName,
               id:this.$route.params.game
             })
@@ -599,7 +605,7 @@
           
           if(t.data.pgn){
             t.$socket.emit('start', {
-              player: t.$root.player,
+              player: t.player,
               id:t.$route.params.game
             })
 
@@ -670,11 +676,11 @@
 
           t.data = game
 
-          if(game.white === t.$root.player.code){
+          if(game.white === t.player.code){
             t.playerColor = 'white'
             t.opponentName = game.black
             t.opponentFlag = game.blackflag
-          } else if(game.black === t.$root.player.code){
+          } else if(game.black === t.player.code){
             t.playerColor = 'black'
             t.opponentName = game.white
             t.opponentFlag = game.whiteflag
@@ -696,7 +702,7 @@
 
           t.tdisplay.b = t.$root.getTimeDisplay(t.timer.b)
           t.gameStart()
-          t.$socket.emit('resume',this.$root.player)
+          t.$socket.emit('resume',this.player)
 
           t.evaler = typeof STOCKFISH === "function" ? STOCKFISH() : new Worker('/static/js/stockfish.js')
 
@@ -756,7 +762,7 @@
                 .then(accept => {
                   if (accept) {
                     this.$socket.emit('invite_rematch', {
-                      asker:t.$root.player,
+                      asker:t.player,
                       player: {
                         code: this.opponentName,
                         flag: this.opponentFlag
@@ -789,7 +795,7 @@
       },
       inviteRematch () {
         this.$socket.emit('invite_rematch', {
-          asker:this.$root.player,
+          asker:this.player,
           player: {
             code: this.opponentName,
             flag: this.opponentFlag
@@ -923,7 +929,7 @@
                 .then(accept => {
                   if (accept) {
                     this.$socket.emit('invite_rematch', {
-                      asker:this.$root.player,
+                      asker:this.player,
                       player: {
                         code: t.opponentName,
                         flag: t.opponentFlag

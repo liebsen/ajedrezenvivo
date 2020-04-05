@@ -7,6 +7,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     player: null,
+    players: null,
     status: null
   },
   mutations: {
@@ -68,6 +69,14 @@ export default new Vuex.Store({
     playerid_error (state) {
       state.status = 'error'
       localStorage.removeItem('player')
+    },
+    players_success (state, data) {
+      state.players = data
+      localStorage.setItem('players', JSON.stringify(data))
+    },
+    players_error (state) {
+      state.status = 'error'
+      localStorage.removeItem('players')
     }
   },
   getters: {
@@ -76,6 +85,13 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    players ({ commit }, data) {
+      if (data) {
+        commit('players_success', data)
+      } else {
+        commit('players_error')
+      }
+    },
     playerId ({ commit }, data) {
       return new Promise((resolve, reject) => {
         const stored = JSON.parse(localStorage.getItem('player'))||{}
@@ -101,20 +117,19 @@ export default new Vuex.Store({
           commit('playerid_success', stored)
           resolve(stored)
         } else {
+          if(preferences.darkmode){
+            document.documentElement.classList.add('dark-mode')
+          }
           axios.post('https://ipapi.co/json').then(json => {
             axios.get('/static/json/flags.json').then(flags => {
               if (flags.data[json.data.country_code]) {
-                preferences.flag = flags.data[json.data.country_code].emoji
-                preferences.country = flags.data[json.data.country_code].name
+                preferences.flag = flags.data[json.data.country_code].emoji || ''
+                preferences.country = flags.data[json.data.country_code].name || ''
               }
               commit('playerid_success', preferences)
               resolve(preferences)
             })
           })
-        }
-
-        if(preferences.darkmode){
-          document.documentElement.classList.add('dark-mode')
         }
       })
     }
