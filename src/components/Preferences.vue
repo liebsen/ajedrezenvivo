@@ -79,7 +79,7 @@
                       <option value="glass">Vidrio</option>
                       <option value="gothic">Gótico</option>
                       <option value="light">Claro</option>
-                      <option value="lolz">Lolz</option>
+                      <option value="lolz">Lolz</option>                      
                       <option value="tigers">Tigers</option>
                       <option value="condal">Condal</option>
                       <option value="marble">Mármol</option>
@@ -87,6 +87,7 @@
                       <option value="club">Club</option>
                       <option value="neon">Neón</option>
                       <option value="magi">Magi</option>
+                      <option value="3d_staunton">3D Staunton</option>
                     </select>
                   </div>
                 </div>
@@ -164,6 +165,7 @@
     watch: {
       'data.pieces': function (val) {
         this.pieceColor = val
+        this.$root.checkBoardStyle(val)
         this.drawBoard()
       },
       'data.board': function (val) {
@@ -251,15 +253,23 @@
 
         this.board = Chessboard('board', this.boardCfg)      
         this.board.resize()
+        this.$root.checkBoardStyle(this.data.pieces)
         document.querySelector('.square-b5').classList.add('highlight-move')
         document.querySelector('.square-f1').classList.add('highlight-move')
       },
       submit: function(){
-        this.$socket.emit('lobby_leave', this.player) 
-        this.$socket.emit('lobby_leave', this.data) 
         this.$root.saving = true
+        this.$socket.emit('lobby_leave', this.player) 
         this.data.ref = this.player.code
-        this.$socket.emit('preferences', this.data)  
+        this.$store
+          .dispatch('player', this.data)
+          .then(() => {
+            console.log('🙌 Datos de la aplicación cargados')
+            this.$socket.emit('preferences', this.data)
+            next()        
+          }).catch(err => {
+            console.log(`Algo malo sucedió ` + err)
+          })
         this.saved = {}
       }
     },

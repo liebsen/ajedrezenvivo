@@ -35,11 +35,11 @@ export default new Vuex.Store({
       state.status = 'error'
       localStorage.removeItem('player')
     },
-    playerid_success (state, data) {
+    player_success (state, data) {
       state.player = data
       localStorage.setItem('player', JSON.stringify(data))
     },
-    playerid_error (state) {
+    player_error (state) {
       state.status = 'error'
       localStorage.removeItem('player')
     },
@@ -73,15 +73,15 @@ export default new Vuex.Store({
         commit('players_error')
       }
     },
-    playerId ({ commit }, data) {
+    player ({ commit }, data) {
       return new Promise((resolve, reject) => {
-        const stored = JSON.parse(localStorage.getItem('player'))||{}
+        const stored = data ? data : (JSON.parse(localStorage.getItem('player')) || {})
         if(Object.keys(stored).length && stored.flag){
           if(stored.darkmode){
             document.documentElement.classList.add('dark-mode')
           }
 
-          commit('playerid_success', stored)
+          commit('player_success', stored)
           resolve(stored)
         } else {
           const code = Math.random().toString(36).substring(2, 5) + Math.random().toString(36).substring(2, 5)
@@ -104,7 +104,7 @@ export default new Vuex.Store({
                 preferences.flag = flags.data[json.data.country_code].emoji || ''
                 preferences.country = flags.data[json.data.country_code].name || ''
               }
-              commit('playerid_success', preferences)
+              commit('player_success', preferences)
               resolve(preferences)
             })
           })

@@ -202,9 +202,9 @@ new Vue({
           // document.querySelector('.menu-primary .icon').innerHTML = '<span v-if="player.observe" class="fas fa-user' + (this.player.observe ? '-astronaut' : '-circle') +'"></span>'
           localStorage.setItem('player',JSON.stringify(data))
           snackbar('success','Tus preferencias fueron actualizadas correctamente.')          
-        }
-        this.saving = false
+        }        
       }
+      this.$root.saving = false
     },
     play: function(data) {
       if(data.asker === this.player.code){
@@ -330,6 +330,13 @@ new Vue({
     }
   },
   methods: {
+    checkBoardStyle (val) {
+      if (val.indexOf('3d') > -1) {
+        document.querySelector('body').classList.add('is-3d-pieces')
+      } else {
+        document.querySelector('body').classList.remove('is-3d-pieces')
+      }
+    },
     getLocale () {
       return new Promise((reject, resolve) => {
         if (this.player.locale) {

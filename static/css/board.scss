@@ -1,5 +1,46 @@
 $blue: #4183d7;
 
+.is-3d-pieces {
+    .board-b72b1 {
+        .square-55d63 {
+            position: relative;
+        }
+        img {
+            position: absolute;
+            bottom: 0;
+        }
+
+        img[data-piece="wR"],
+        img[data-piece="bR"] {
+            height: 115%!important;
+        }
+
+        img[data-piece="wN"],
+        img[data-piece="bN"] {
+            height: 110%!important;
+        }
+
+        img[data-piece="wB"],
+        img[data-piece="bB"] {
+            height: 115%!important;
+        }
+
+        img[data-piece="wQ"],
+        img[data-piece="bQ"] {
+            height: 125%!important;
+        }
+
+        img[data-piece="wK"],
+        img[data-piece="bK"] {
+            height: 125%!important;
+        }
+
+        img[data-piece="wP"],
+        img[data-piece="bP"] {
+            height: 105%!important;
+        }
+    }
+}
 .chart-container {
     min-height: 50px;
     position: relative;

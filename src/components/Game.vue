@@ -307,6 +307,7 @@
             if(pref.pieces){
               this.boardCfg.pieceTheme = '/static/img/chesspieces/' + pref.pieces + '/{piece}.png'
               this.boardColor = pref.board
+              this.$root.checkBoardStyle(pref.pieces)
             }
 
             this.$root.fullscreenBoard()
