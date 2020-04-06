@@ -249,11 +249,11 @@
           this.boardCfg.pieceTheme = '/static/img/chesspieces/' + this.data.pieces + '/{piece}.png'
           this.boardColor = this.data.board
           this.pieceColor = this.data.pieces
+          this.$root.checkBoardStyle(this.data.pieces)
         }
-
+        
         this.board = Chessboard('board', this.boardCfg)      
-        this.board.resize()
-        this.$root.checkBoardStyle(this.data.pieces)
+        this.board.resize()        
         document.querySelector('.square-b5').classList.add('highlight-move')
         document.querySelector('.square-f1').classList.add('highlight-move')
       },

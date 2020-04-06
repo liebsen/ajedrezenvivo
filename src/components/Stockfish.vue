@@ -668,11 +668,13 @@
                       let black = this.playerColor==='black' ? this.player.code : opponent
                       let whiteflag = this.playerColor==='white' ? this.player.flag : ''
                       let blackflag = this.playerColor==='black' ? this.player.flag : ''
+                      let result = this.playerColor==='white'?'1-0':'0-1'
                       axios.post('/save', {
                         white: white,
                         black: black,
                         whiteflag: whiteflag,
                         blackflag: blackflag,
+                        result: result,
                         orientation: this.board.orientation(),
                         pgn: this.game.pgn()
                       }).then((response) => {
