@@ -251,7 +251,7 @@
           this.pieceColor = this.data.pieces
           this.$root.checkBoardStyle(this.data.pieces)
         }
-        
+
         this.board = Chessboard('board', this.boardCfg)      
         this.board.resize()        
         document.querySelector('.square-b5').classList.add('highlight-move')
@@ -259,7 +259,8 @@
       },
       submit: function(){
         this.$root.saving = true
-        this.$socket.emit('lobby_leave', this.player) 
+        this.$socket.emit('lobby_leave', this.player)
+        this.$socket.emit('lobby_leave', this.data)
         this.data.ref = this.player.code
         this.$store
           .dispatch('player', this.data)
