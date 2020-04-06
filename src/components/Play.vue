@@ -467,9 +467,6 @@
         const cls = owned ? 'is-pulled-right has-text-right' : 'is-pulled-left has-text-left has-background-info has-text-white'
         chatbox.innerHTML+= `<div class="box ${cls}">${data.line}</div>`
         chatbox.scrollTop = chatbox.scrollHeight
-        if(!owned){
-          snackbar('success', '<strong class="has-text-light">👤 ' + data.sender + '</strong> ' + data.line)
-        }
         if(data.sender!=this.player.code){
           playSound('pop.mp3')
         }

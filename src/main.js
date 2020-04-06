@@ -154,6 +154,9 @@ new Vue({
         chatbox.innerHTML+= `<div class="box ${cls}"><strong class="has-text-white">${sender}</strong> ${data.line} <span class="is-size-7">${ts}</span></div>`
         chatbox.scrollTop = chatbox.scrollHeight
         this.chatlast = data.line
+        if(!owned && this.$route.name != 'lobby'){
+          snackbar('success', '<strong class="has-text-light">👤 ' + data.sender + '</strong> ' + data.line)
+        }
         if(data.sender != this.player.code){
           playSound('button-pressed.ogg')
         }
@@ -198,11 +201,22 @@ new Vue({
           snackbar('error','El nombre ' + data.code + ' ya está en uso, por favor elige otro')
           this.$router.push('/preferences')
         } else {
+          snackbar('success','Ahora eres ' + data.code + '')
+          this.$socket.emit('lobby_chat', { 
+            sender: 'chatbot',
+            line: `${data.ref} ahora es ${data.code}`
+          })
           this.player = data
           // document.querySelector('.menu-primary .icon').innerHTML = '<span v-if="player.observe" class="fas fa-user' + (this.player.observe ? '-astronaut' : '-circle') +'"></span>'
-          localStorage.setItem('player',JSON.stringify(data))
-          snackbar('success','Tus preferencias fueron actualizadas correctamente.')          
+          localStorage.setItem('player',JSON.stringify(data))          
         }        
+      } else {
+        snackbar('success','Tus preferencias fueron actualizadas correctamente.')
+
+        this.$socket.emit('lobby_chat', { 
+          sender: 'chatbot',
+          line: `${data.code} actualizó sus preferencias`
+        })
       }
       this.$root.saving = false
     },

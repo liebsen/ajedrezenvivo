@@ -88,6 +88,9 @@
                       <option value="neon">Neón</option>
                       <option value="magi">Magi</option>
                       <option value="3d_staunton">3D Staunton</option>
+                      <option value="3d_plastic">3D Plástico</option>
+                      <option value="3d_wood">3D Madera</option>
+                      <option value="3d_chesskid">3D Chess Kid</option>
                     </select>
                   </div>
                 </div>
