@@ -651,7 +651,7 @@
               } else {
                 swal('¡Felicitaciones! Venciste a Stockfish', {
                   buttons: {
-                    cancel: 'Salir',
+                    cancel: 'Cancelar',
                     catch: {
                       text: 'Jugar de nuevo',
                       value: 'catch',
@@ -688,7 +688,7 @@
                       break;
                  
                     default:
-                      this.$router.push('/')
+                      swal.close()
                   }
                 })
               }

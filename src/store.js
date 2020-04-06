@@ -8,7 +8,6 @@ export default new Vuex.Store({
   state: {
     player: null,
     players: null,
-    app: null,
     status: null,
     endpoint: (process.env.NODE_ENV === 'production' ? 'https://ajedrezenvivoapi.herokuapp.com' : 'http://localhost:4000')
   },

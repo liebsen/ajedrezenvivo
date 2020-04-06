@@ -145,7 +145,7 @@ new Vue({
   sockets: {
     lobby_chat: function(data){
       const chatbox = document.querySelector(".lobby_chat")
-      if(chatbox){
+      if(chatbox && this.chatlast != data.line){
         const owned = this.player.code === data.sender
         const sender = owned || data.sender === 'chatbot' ? '' : data.sender
         let cls = owned ? 'is-pulled-right has-text-right has-background-info has-text-white ' : 'is-pulled-left has-text-left '
@@ -153,6 +153,7 @@ new Vue({
         const ts = moment().format('hh:mm a')
         chatbox.innerHTML+= `<div class="box ${cls}"><strong class="has-text-white">${sender}</strong> ${data.line} <span class="is-size-7">${ts}</span></div>`
         chatbox.scrollTop = chatbox.scrollHeight
+        this.chatlast = data.line
         if(data.sender != this.player.code){
           playSound('button-pressed.ogg')
         }
@@ -214,7 +215,7 @@ new Vue({
     reject: function(data) {
       if(data.asker.code === this.player.code){
         swal.close()
-        swal("Partida declinada", data.player.code + ' declinó tu invitación')
+        swal("Partida declinada", data.player + ' declinó tu invitación')
         playSound('defeat.mp3')
       }
     },
@@ -598,6 +599,7 @@ new Vue({
     matches: [],
     games: [],
     boards: [],
+    chatlast: null,
     documentTitle: null,
     boardColor: null
   },

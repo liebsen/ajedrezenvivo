@@ -1,6 +1,6 @@
 import Vue from 'vue'
-import store from '../store'
 import Router from 'vue-router'
+import store from '../store'
 import $ from 'jquery'
 import Landing from '../components/Landing'
 import Results from '../components/Results'

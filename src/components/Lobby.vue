@@ -103,8 +103,8 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
   import axios from 'axios'
+  import { mapState } from 'vuex'
   import snackbar from '../components/Snackbar'
   import swal from 'sweetalert'
   import playSound from '../components/playSound'

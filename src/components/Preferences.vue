@@ -153,8 +153,8 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
   import Chess from 'chess.js'
+  import { mapState } from 'vuex'
   import Chessboard from '../../static/js/chessboard'
   import snackbar from '../components/Snackbar'
   import playSound from '../components/playSound'
