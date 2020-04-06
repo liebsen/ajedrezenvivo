@@ -64,10 +64,10 @@ new Vue({
       if (target.classList.contains('is-toggle')) {
         target.parentNode.childNodes.forEach((item) => {
           if (item.classList && item.classList.contains('is-toggle')) {
-            item.classList.remove('has-background-warning')
+            item.classList.remove('has-background-success')
           }
         })
-        target.classList.add('has-background-warning')
+        target.classList.add('has-background-success')
       }
     })
           

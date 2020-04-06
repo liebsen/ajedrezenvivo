@@ -161,7 +161,7 @@
     <div class="column">
       <div class="control">
         <div class="buttons levels has-addons playercolor preservefilter">
-          <button class="button is-toggle is-large is-rounded has-background-warning is-white-pieces">
+          <button class="button is-toggle is-large is-rounded has-background-success is-white-pieces">
           </button>
           <button class="button is-toggle is-large is-random-pieces">
           </button>
@@ -181,7 +181,7 @@
       </h4>
       <div class="control has-text-centered column">
         <div class="buttons levels has-addons gameclock">
-          <button class="button is-toggle is-rounded has-background-warning">3'</button>
+          <button class="button is-toggle is-rounded has-background-success">3'</button>
           <button class="button is-toggle">5'</button>
           <button class="button is-toggle">10'</button>
           <button class="button is-toggle is-rounded">30'</button>
@@ -201,7 +201,7 @@
         <div class="buttons levels has-addons gamecompensation">
           <button class="button is-toggle is-rounded">+0</button>
           <button class="button is-toggle">+1</button>
-          <button class="button is-toggle has-background-warning">+2</button>
+          <button class="button is-toggle has-background-success">+2</button>
           <button class="button is-toggle is-rounded">+3</button>
         </div>
       </div>
@@ -222,9 +222,9 @@
         }).then(accept => {
           if (accept) {
 
-            var playercolor = document.querySelector('.playercolor > .has-background-warning')
-            var gameclock = document.querySelector('.gameclock > .has-background-warning')
-            var gamecompensation = document.querySelector('.gamecompensation > .has-background-warning')
+            var playercolor = document.querySelector('.playercolor > .has-background-success')
+            var gameclock = document.querySelector('.gameclock > .has-background-success')
+            var gamecompensation = document.querySelector('.gamecompensation > .has-background-success')
             var white = this.player
             var black = player
             var minutes = parseInt(gameclock.textContent)

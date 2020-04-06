@@ -7,9 +7,9 @@
             <h3>Jugar contra Stockfish</h3>
             <div class="control">
               <div class="buttons levels has-addons preservefilter">
-                <button class="button is-rounded is-large is-white-pieces" @click="setPlayerColor('white')" :class="{'has-background-warning' : selectedColor==='white'}"></button>
-                <button class="button is-large is-random-pieces" @click="setPlayerColor('random')" :class="{'has-background-warning' : selectedColor==='random'}"></button>
-                <button class="button is-large is-rounded is-black-pieces" @click="setPlayerColor('black')" :class="{'has-background-warning' : selectedColor==='black'}"></button>
+                <button class="button is-rounded is-large is-white-pieces" @click="setPlayerColor('white')" :class="{'has-background-success' : selectedColor==='white'}"></button>
+                <button class="button is-large is-random-pieces" @click="setPlayerColor('random')" :class="{'has-background-success' : selectedColor==='random'}"></button>
+                <button class="button is-large is-rounded is-black-pieces" @click="setPlayerColor('black')" :class="{'has-background-success' : selectedColor==='black'}"></button>
               </div>
             </div>
           </div>

@@ -181,6 +181,7 @@
     mounted: function(){
       this.data = this.player
       this.saved = this.player
+      this.$root.saving = false
       setTimeout(() => {
         this.drawBoard()  
       },250)
