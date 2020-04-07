@@ -344,10 +344,14 @@ new Vue({
   },
   methods: {
     checkBoardStyle (val) {
-      if (val.indexOf('3d') > -1) {
-        document.querySelector('body').classList.add('is-3d-pieces')
+      document.querySelector('body').classList.remove('is3d')
+      document.querySelector('body').classList.remove('magi3d')
+      if (val.indexOf('magi3d') > -1) {
+        document.querySelector('body').classList.add('magi3d')
       } else {
-        document.querySelector('body').classList.remove('is-3d-pieces')
+        if (val.indexOf('3d') > -1) {
+          document.querySelector('body').classList.add('is3d')
+        }
       }
     },
     getLocale () {

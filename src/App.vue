@@ -12,14 +12,14 @@
         </div>
         <div class="column menu-primary has-text-right">
           <div class="is-hidden-mobile">
-            <router-link v-if="player" to="/preferences" class="button is-rounded is-white is-outlined" title="Establece tus preferencias">
+            <router-link v-if="player" to="/preferences" class="button is-rounded is-grey" title="Establece tus preferencias">
               <span class="icon">
                 <span v-html="player.flag"></span>
               </span>
               <span v-html="player.code"></span>
             </router-link>
-            <router-link to="/lobby" v-if="players" v-show="players.length > 1" class="button is-outlined is-info">
-              <span class="tag">{{ players.length }}</span>
+            <router-link to="/lobby" v-if="players" v-show="players.length > 1" class="button is-small is-success is-rounded has-margin-top">
+              <span class="has-text-weight-bold is-shadow">{{ players.length - 1 }}</span>
             </router-link>
           </div>
           <div v-if="player" class="is-hidden-tablet">
@@ -88,12 +88,6 @@
               </span> 
               <span>Donate</span>
             </router-link>
-            <a @click="$root.goFS">
-              <span class="icon">
-                <span class="fas fa-expand"></span>
-              </span> 
-              <span>Pantalla completa</span>
-            </a>
           </div>
           <div class="column">
             <div class="has-text-centered">

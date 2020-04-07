@@ -56,7 +56,7 @@
           <div v-if="players.length > 1">
             <div v-for="plyer in players" class="field">
               <a v-if="!plyer.observe && plyer.code != player.code" @click="play(plyer)" :title="'Invitar a ' + plyer.code">
-                <span class="button is-text is-rounded is-info">
+                <span class="button is-text is-rounded is-grey">
                   <span class="icon">
                     <span v-html="plyer.flag"></span>
                   </span>

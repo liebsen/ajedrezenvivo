@@ -1,11 +1,8 @@
 $blue: #4183d7;
 
-.is-3d-pieces {
+.is3d {
     .board-b72b1 {
-        .square-55d63 {
-            position: relative;
-        }
-        img {
+        img[data-piece] {
             position: absolute;
             bottom: 0;
         }
@@ -41,6 +38,17 @@ $blue: #4183d7;
         }
     }
 }
+
+.magi3d {
+    .board-b72b1 {
+        img[data-piece] {
+            position: absolute;
+            bottom: 0;
+            height: 175%!important;
+        }
+    }
+}
+
 .chart-container {
     min-height: 50px;
     position: relative;

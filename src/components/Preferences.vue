@@ -169,11 +169,10 @@
     watch: {
       'data.pieces': function (val) {
         this.pieceColor = val
-        this.$root.checkBoardStyle(val)
         this.drawBoard()
       },
       'data.board': function (val) {
-        this.bordColor = val
+        this.boardColor = val
         this.drawBoard()
       }
     },
@@ -184,7 +183,7 @@
     },
     mounted: function(){
       this.data = this.player
-      this.saved = this.player
+      this.nick = this.player.nick
       this.$root.saving = false
       setTimeout(() => {
         this.drawBoard()  
@@ -266,16 +265,16 @@
         this.$root.saving = true
         this.$socket.emit('lobby_leave', this.player)
         this.$socket.emit('lobby_leave', this.data)
-        this.data.ref = this.player.code
+        this.data.ref = this.nick
         this.$store
           .dispatch('player', this.data)
           .then(() => {
             console.log('🙌 Datos de la aplicación cargados')
+            this.nick = this.data.nick
             this.$socket.emit('preferences', this.data)
           }).catch(err => {
             console.log(`Algo malo sucedió ` + err)
           })
-        this.saved = {}
       }
     },
     data () {
@@ -286,7 +285,6 @@
           draggable: false
         },
         data:{},
-        saved:{},
         nick:null,
         boardColor:null,
         boardEl:null,
