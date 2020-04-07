@@ -79,7 +79,7 @@
                       <option value="glass">Vidrio</option>
                       <option value="gothic">Gótico</option>
                       <option value="light">Claro</option>
-                      <option value="lolz">Lolz</option>                      
+                      <option value="lolz">Lolz</option>
                       <option value="tigers">Tigers</option>
                       <option value="condal">Condal</option>
                       <option value="marble">Mármol</option>
@@ -271,7 +271,6 @@
           .then(() => {
             console.log('🙌 Datos de la aplicación cargados')
             this.$socket.emit('preferences', this.data)
-            next()        
           }).catch(err => {
             console.log(`Algo malo sucedió ` + err)
           })
