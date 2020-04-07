@@ -266,15 +266,17 @@
         this.$socket.emit('lobby_leave', this.player)
         this.$socket.emit('lobby_leave', this.data)
         this.data.ref = this.nick
-        this.$store
-          .dispatch('player', this.data)
-          .then(() => {
-            console.log('🙌 Datos de la aplicación cargados')
-            this.nick = this.data.nick
-            this.$socket.emit('preferences', this.data)
-          }).catch(err => {
-            console.log(`Algo malo sucedió ` + err)
-          })
+        setTimeout(() => {
+          this.$store
+            .dispatch('player', this.data)
+            .then(() => {
+              console.log('🙌 Datos de la aplicación cargados')
+              this.nick = this.data.nick
+              this.$socket.emit('preferences', this.data)
+            }).catch(err => {
+              console.log(`Algo malo sucedió ` + err)
+            })
+        }, 500)
       }
     },
     data () {

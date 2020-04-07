@@ -10,6 +10,7 @@ import Chess from 'chess.js'
 import Chessboard from '../static/js/chessboard'
 import snackbar from './components/Snackbar';
 import playSound from './components/playSound'
+import { mapState } from 'vuex'
 import '../static/js/fontawesome_all.js'
 
 axios.defaults.baseURL = store.state.endpoint
@@ -55,6 +56,12 @@ new Vue({
         snackbar('error','No hay conexión a internet. Por favor revise la configuración de la red.')
       }
     }
+  },
+  computed: {
+    ...mapState([
+      'player',
+      'players'
+    ])
   },
   created () {
     this.documentTitle = document.title 
@@ -228,7 +235,7 @@ new Vue({
     reject: function(data) {
       if(data.asker.code === this.player.code){
         swal.close()
-        swal("Partida declinada", data.player + ' declinó tu invitación')
+        swal("Partida declinada", data.player.code + ' declinó tu invitación')
         playSound('defeat.mp3')
       }
     },
@@ -618,8 +625,6 @@ new Vue({
     loading: true,
     saving: false,
     processing: false,
-    player: {},
-    players: [],
     matches: [],
     games: [],
     boards: [],
