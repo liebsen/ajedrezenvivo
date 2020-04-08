@@ -183,7 +183,7 @@
     },
     mounted: function(){
       this.data = this.player
-      this.nick = this.player.nick
+      this.nick = this.player.code
       this.$root.saving = false
       setTimeout(() => {
         this.drawBoard()  
@@ -263,20 +263,17 @@
       },
       submit: function(){
         this.$root.saving = true
-        this.$socket.emit('lobby_leave', this.player)
-        this.$socket.emit('lobby_leave', this.data)
+        this.$socket.emit('lobby_leave', {code: this.nick})
         this.data.ref = this.nick
-        setTimeout(() => {
-          this.$store
-            .dispatch('player', this.data)
-            .then(() => {
-              console.log('🙌 Datos de la aplicación cargados')
-              this.nick = this.data.nick
-              this.$socket.emit('preferences', this.data)
-            }).catch(err => {
-              console.log(`Algo malo sucedió ` + err)
-            })
-        }, 500)
+        this.$store
+          .dispatch('player', this.data)
+          .then(data => {
+            console.log('🙌 Datos de la aplicación actualizados')
+            this.nick = data.nick
+            this.$socket.emit('preferences', data)
+          }).catch(err => {
+            console.log(`Algo malo sucedió ` + err)
+          })
       }
     },
     data () {
