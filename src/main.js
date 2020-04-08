@@ -203,7 +203,7 @@ new Vue({
         })  
     },
     player: function (data) {
-      if(data.ref === data.code){
+      if(data.id === this.player.id){
         if(data.exists){
           snackbar('error',`El nombre ${data.code} ya está en uso, por favor elige otro`)
           this.$router.push('/preferences')
@@ -213,12 +213,9 @@ new Vue({
             sender: 'chatbot',
             line: `${data.ref} ahora es ${data.code}`
           })
-          this.player = data
-          // document.querySelector('.menu-primary .icon').innerHTML = '<span v-if="player.observe" class="fas fa-user' + (this.player.observe ? '-astronaut' : '-circle') +'"></span>'
-          localStorage.setItem('player',JSON.stringify(data))          
         }        
       } else {
-        snackbar('success','Tus preferencias fueron actualizadas correctamente.')
+        snackbar('default',`${data.code} actualizó sus preferencias`)
         this.$socket.emit('lobby_chat', { 
           sender: 'chatbot',
           line: `${data.code} actualizó sus preferencias`

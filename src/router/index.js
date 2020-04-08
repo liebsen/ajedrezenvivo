@@ -109,9 +109,9 @@ router.beforeEach(async (to, from, next) => {
   if (!store.state.player) {
     store
       .dispatch('player')
-      .then(() => {
-        console.log('🙌 Datos de la aplicación cargados')
-        router.app.$socket.emit('preferences', store.state.player)
+      .then(data => {
+        console.log('🙌 Identificación de jugador asignada')
+        router.app.$socket.emit('preferences', data)
         next()        
       }).catch(err => {
         console.log(`Algo malo sucedió ` + err)
