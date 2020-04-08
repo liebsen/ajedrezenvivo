@@ -125,7 +125,12 @@
         var t = this
         this.$root.loading = true
         this.searching = this.$route.query || false
-        axios.post('/search', {query:this.query,offset:this.offset,limit:this.limit} ).then((res) => {
+        axios.post('/search', {
+          query: this.query,
+          offset: this.offset,
+          limit: this.limit,
+          strict: this.$route.query.strict
+        }).then((res) => {
           this.data = res.data
 
           var pages = []

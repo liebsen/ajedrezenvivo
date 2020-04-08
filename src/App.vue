@@ -12,18 +12,23 @@
         </div>
         <div class="column menu-primary has-text-right">
           <div class="is-hidden-mobile">
-            <router-link v-if="player" to="/preferences" class="button is-rounded is-grey" title="Establece tus preferencias">
-              <span class="icon">
-                <span v-html="player.flag"></span>
-              </span>
-              <span v-html="player.code"></span>
-            </router-link>
-            <router-link to="/lobby" v-if="players" v-show="players.length > 1" class="button is-small is-success is-rounded has-margin-top">
-              <span class="has-text-weight-bold is-shadow">{{ players.length - 1 }}</span>
-            </router-link>
+            <div class="buttons levels has-addons is-pulled-right">
+              <router-link v-if="player" to="/preferences" class="button is-rounded is-grey" title="Establece tus preferencias">
+                <span class="icon">
+                  <span v-html="player.flag"></span>
+                </span>
+                <span v-html="player.code"></span>
+              </router-link>
+              <router-link v-if="games && player" :to="`/results?q=${player.code}&strict=1`" v-show="games.length > 1" class="button is-light" title="Historial de partidas">
+                <span class="has-text-weight-bold">{{ games.length }}</span>
+              </router-link>
+              <router-link to="/lobby" v-if="players" v-show="players.length > 1" class="button is-grey" title="Jugadores esperando invitación">
+                <span class="has-text-weight-bold">{{ players.length - 1 }}</span>
+              </router-link>
+            </div>
           </div>
           <div v-if="player" class="is-hidden-tablet">
-            <router-link to="/preferences" class="button is-small is-rounded">
+            <router-link to="/preferences" class="button is-small is-rounded" title="Establece tus preferencias">
               <span class="icon">
                <span v-html="player.flag"></span>
               </span>
@@ -31,7 +36,7 @@
             </router-link>
           </div>
         </div>
-        <div class="menu-burger">
+        <div class="menu-burger" title="Abrir menú principal">
           <svg viewBox="0 0 800 600">
             <path d="M300,220 C300,220 520,220 540,220 C740,220 640,540 520,420 C440,340 300,200 300,200" id="top"></path>
             <path d="M300,320 L540,320" id="middle"></path>
@@ -129,7 +134,8 @@ export default {
   computed: {
     ...mapState([
       'players',
-      'player'
+      'player',
+      'games',
     ])
   },
   data () {

@@ -884,16 +884,17 @@
         t.emitMove(move)
       },
       emitMove: function(move){
-        var t = this
-        move.id = t.$route.params.game
-        move.vscore = t.vscore
-        move.fen = t.game.fen()
-        move.pgn = t.game.pgn()
-        move.turn = t.game.turn()
-        move.wtime = parseInt(t.timer.w)
-        move.btime = parseInt(t.timer.b)
-        move.compensation = t.data.compensation
-        t.$socket.emit('move', move)
+        move.id = this.$route.params.game
+        move.eco = this.ecode
+        move.opening = this.opening
+        move.vscore = this.vscore
+        move.fen = this.game.fen()
+        move.pgn = this.game.pgn()
+        move.turn = this.game.turn()
+        move.wtime = parseInt(this.timer.w)
+        move.btime = parseInt(this.timer.b)
+        move.compensation = this.data.compensation
+        this.$socket.emit('move', move)
       },
       onSnapEnd: function() {
         setTimeout(() => {

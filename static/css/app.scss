@@ -48,8 +48,23 @@ label {
 
 .buttons.has-addons {
   justify-content: center;
-  .button:not(:last-child) {
-    margin-right: -2px;
+  .button {
+    box-shadow: 0px 10px 20px #00000015;
+    min-width: 2.75rem;
+    border-color: transparent;
+    &:hover {
+      border-color: #48c774;
+    }
+    &:focus {
+      border-color: #48c774;
+    }
+    &.has-background-success {
+      color: white;
+      font-weight: 800;
+    }
+    &:not(:last-child) {
+      margin-right: -2px;
+    }
   }
 }
 
@@ -540,6 +555,11 @@ table {
   cursor: pointer;
 }
 
+.is-padded {
+  padding: 1.5rem;
+}
+
+
 .has-addons {
   margin-bottom: 1rem;
 }
@@ -867,7 +887,11 @@ table {
 }
 
 .swal-overlay {
-  background-color: rgba(255, 255, 255, 0.75);
+  background-color: rgba(200, 200, 200, 0.5);
+}
+
+.swal-button:focus {
+  box-shadow: none;
 }
 
 .swal-title {

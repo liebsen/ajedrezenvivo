@@ -4,10 +4,13 @@ import axios from 'axios'
 
 Vue.use(Vuex)
 
+let games = JSON.parse(localStorage.getItem('games')) || []
+
 export default new Vuex.Store({
   state: {
     player: null,
     players: null,
+    games: games,
     status: null,
     endpoint: (process.env.NODE_ENV === 'production' ? 'https://ajedrezenvivoapi.herokuapp.com' : 'http://localhost:4000')
   },
@@ -43,6 +46,14 @@ export default new Vuex.Store({
       state.status = 'error'
       localStorage.removeItem('player')
     },
+    games_success (state, data) {
+      state.games.push(data)
+      localStorage.setItem('games', JSON.stringify(state.games))
+    },
+    games_error (state) {
+      state.status = 'error'
+      localStorage.removeItem('games')
+    },
     app_success (state, data) {
       state.app = data
       localStorage.setItem('app', JSON.stringify(data))
@@ -71,6 +82,13 @@ export default new Vuex.Store({
         commit('players_success', data)
       } else {
         commit('players_error')
+      }
+    },
+    games ({ commit }, data) {
+      if (data) {
+        commit('games_success', data)
+      } else {
+        commit('games_error') 
       }
     },
     player ({ commit }, data) {

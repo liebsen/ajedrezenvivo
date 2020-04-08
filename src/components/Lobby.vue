@@ -77,12 +77,12 @@
           </div>
         </div>
         <div class="column">
-          <div class="column has-text-centered box">
+          <div class="column has-text-centered box is-padded">
             <div class="columns">
               <div class="column chatbox has-text-left lobby_chat"></div>
             </div>
             <form v-show="players.length > 1" @submit.prevent="sendChat">
-              <div class="field is-fullwidth has-addons has-addons-fullwidth">
+              <div class="field is-fullwidth has-addons has-addons-fullwidth is-marginless">
                 <div class="control">
                   <input class="input is-rounded" v-model="chat" type="text" placeholder="Ingresa tu mensaje" />
                 </div>
@@ -153,19 +153,17 @@
         if (player.code === this.player.code) {
           return snackbar('error','No podés jugar contra vos mismo') 
         }
-
-        var t = this
         const template = (`
 <div class="content">
   <div class="columns columns-bottom is-flex has-text-centered">
     <div class="column">
-      <div class="control">
+      <div class="control" title="Selecciona el color de tus piezas">
         <div class="buttons levels has-addons playercolor preservefilter">
-          <button class="button is-toggle is-large is-rounded has-background-success is-white-pieces">
+          <button class="button is-toggle is-large is-rounded has-background-success is-white-pieces" title="Jugar con blancas">
           </button>
-          <button class="button is-toggle is-large is-random-pieces">
+          <button class="button is-toggle is-large is-random-pieces" title="Que vaya a sorteo">
           </button>
-          <button class="button is-toggle is-large is-rounded is-black-pieces">
+          <button class="button is-toggle is-large is-rounded is-black-pieces" title="Jugar con negras">
           </button>
         </div>
       </div>
@@ -180,11 +178,11 @@
         <span>Minutos</span>
       </h4>
       <div class="control has-text-centered column">
-        <div class="buttons levels has-addons gameclock">
-          <button class="button is-toggle is-rounded has-background-success">3'</button>
-          <button class="button is-toggle">5'</button>
-          <button class="button is-toggle">10'</button>
-          <button class="button is-toggle is-rounded">30'</button>
+        <div class="buttons levels has-addons gameclock" title="Estblece la duración de la partida en minutos">
+          <button class="button is-toggle is-rounded has-background-success" title="Agregar 3 minutos a la partida">3'</button>
+          <button class="button is-toggle" title="Agregar 5 minutos a la partida">5'</button>
+          <button class="button is-toggle" title="Agregar 10 minutos a la partida">10'</button>
+          <button class="button is-toggle is-rounded" title="Agregar 30 minutos a la partida">30'</button>
         </div>
       </div>
     </div>
@@ -198,11 +196,11 @@
         <span>Compensación en segundos</span>
       </h4>
       <div class="control has-text-centered column">
-        <div class="buttons levels has-addons gamecompensation">
-          <button class="button is-toggle is-rounded">+0</button>
-          <button class="button is-toggle">+1</button>
-          <button class="button is-toggle has-background-success">+2</button>
-          <button class="button is-toggle is-rounded">+3</button>
+        <div class="buttons levels has-addons gamecompensation" title="Agregar compensación por movimiento">
+          <button class="button is-toggle is-rounded" title="Jugar sin compensación por movimiento">+0</button>
+          <button class="button is-toggle" title="Agregar 1 segundo de compensación por cada movimiento">+1</button>
+          <button class="button is-toggle has-background-success" title="Agregar 2 segundos de compensación por cada movimiento">+2</button>
+          <button class="button is-toggle is-rounded" title="Agregar 3 segundos de compensación por cada movimiento">+3</button>
         </div>
       </div>
     </div>
@@ -221,7 +219,6 @@
           }
         }).then(accept => {
           if (accept) {
-
             var playercolor = document.querySelector('.playercolor > .has-background-success')
             var gameclock = document.querySelector('.gameclock > .has-background-success')
             var gamecompensation = document.querySelector('.gamecompensation > .has-background-success')
@@ -252,14 +249,16 @@
               buttons: false
             })
 
-            t.$socket.emit('invite', {
+            let game = {
               asker: this.player,
               player: player,
               white: white,
               black: black,
               minutes: minutes,
               compensation: compensation
-            })
+            }
+
+            this.$socket.emit('invite', game)
           }
         })
 

@@ -22,7 +22,7 @@
                 <button class="button is-rounded" @click="gameStart(0)">
                   <span>Niño</span>
                 </button>
-                <button class="button is-rounded" @click="gameStart(4)">
+                <button class="button" @click="gameStart(4)">
                   <span>Novato</span>
                 </button>
                 <button class="button" @click="gameStart(8)">
@@ -675,13 +675,15 @@
                         whiteflag: whiteflag,
                         blackflag: blackflag,
                         result: result,
+                        eco: this.ecode,
+                        opening: this.opening,
                         orientation: this.board.orientation(),
                         pgn: this.game.pgn()
                       }).then((response) => {
                         if(response.data.status === 'success'){
-                          swal("Guardado", 'El juego fue guardado')
+                          swal("Guardado", 'La partida se guardó correctamente')
                         } else {
-                          snackbar('danger','El juego no pudo ser guardado.')
+                          snackbar('danger','La partida no pudo ser guardada')
                         }        
                       })
                       break;
