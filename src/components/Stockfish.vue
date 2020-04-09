@@ -669,7 +669,7 @@
                       let whiteflag = this.playerColor==='white' ? this.player.flag : ''
                       let blackflag = this.playerColor==='black' ? this.player.flag : ''
                       let result = this.playerColor==='white'?'1-0':'0-1'
-                      axios.post('/save', {
+                      let game = {
                         white: white,
                         black: black,
                         whiteflag: whiteflag,
@@ -679,8 +679,11 @@
                         opening: this.opening,
                         orientation: this.board.orientation(),
                         pgn: this.game.pgn()
-                      }).then((response) => {
-                        if(response.data.status === 'success'){
+                      }
+
+                      axios.post('/save', game).then((res) => {
+                        if(res.data.status === 'success'){
+                          this.$store.dispatch('games', res.data)
                           swal("Guardado", 'La partida se guardó correctamente')
                         } else {
                           snackbar('danger','La partida no pudo ser guardada')

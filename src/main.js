@@ -225,7 +225,6 @@ new Vue({
     },
     play: function(data) {
       if(data.asker === this.player.code){
-        console.log('1')
         this.$store.dispatch('games', data)
         swal.close()
         this.$router.push(['/play',data.id].join('/'))
@@ -304,7 +303,6 @@ new Vue({
                     player: data.player.code,
                     id: response.data.id
                   })
-                  console.log('2')
                   this.$store.dispatch('games', response.data)
                   this.$router.push(['/play',response.data.id].join('/'))
                 } else {
