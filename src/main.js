@@ -30,17 +30,15 @@ new Vue({
   watch: {
     '$route' (to, from) {
       if (from.name === 'play') {
-        if (!this.player.observe) {
-          this.$socket.emit('lobby_join', this.player)
-        }   
         this.$socket.emit('match_end', from.params.game)
       }
       if (to.name === 'play') {
         this.$socket.emit('lobby_leave', this.player) 
       }
+      if (!this.player.observe) {
+        this.$socket.emit('lobby_join', this.player)
+      }   
       if (to.name === 'lobby') {
-        let player = JSON.parse(localStorage.getItem('player')) || {}
-        this.$socket.emit('lobby_join', player)
         setTimeout(() => {
           const chatbox = document.querySelector(".lobby_chat")
           if (chatbox) {

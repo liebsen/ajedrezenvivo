@@ -39,7 +39,7 @@
           <div class="column">
             <div class="board-assistant" v-if="Object.keys(data).length">
               <div class="columns has-text-centered">
-                <div class="column has-text-left">
+                <div class="column">
                   <button @click="gameFlip()" class="button is-small is-rounded is-info" title="Girar tablero">
                     <span class="icon">
                       <span class="fa fa-retweet"></span>
