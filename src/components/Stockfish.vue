@@ -682,7 +682,7 @@
                       }
 
                       axios.post('/save', game).then((res) => {
-                        if(res.data.status === 'success'){
+                        if (res.data.status === 'success') {
                           this.$store.dispatch('games', res.data)
                           swal("Guardado", 'La partida se guardó correctamente')
                         } else {
