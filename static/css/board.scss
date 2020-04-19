@@ -49,6 +49,24 @@ $blue: #4183d7;
     }
 }
 
+.jade3d {
+    .board-b72b1 {
+        img[data-piece] {
+            position: absolute;
+            bottom: 0;
+            height: 175%!important;
+            max-width: 130%!important;
+            width: 130%!important;
+            margin-bottom: -10%;
+            margin-left: -12%;
+        }
+        img[data-piece="wP"],
+        img[data-piece="bP"] {
+            height: 190%!important;
+        }
+    }
+}
+
 .chart-container {
     min-height: 50px;
     position: relative;

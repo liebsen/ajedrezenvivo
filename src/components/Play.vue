@@ -1,7 +1,12 @@
 <template>
   <div :class="boardColor">
     <div class="status" v-show="!gameStarted">
-      <span class="button is-rounded is-info is-small"><strong>Esperando jugadores...</strong></span>
+      <span class="button is-rounded is-info is-small">
+        <span class="icon">
+          <span class="fas fa-clock">
+          </span>
+        </span>
+      </span>
     </div>  
     <div class="game-container" v-show="!$root.loading">
       <div class="container is-widescreen">
@@ -414,10 +419,11 @@
         } else {
           result = (t.playerColor==='white'?'1-0':'0-1')
           t.$socket.emit('data',{
-            id:t.data._id,
+            id: t.data._id,
             wtime: t.timer.w,
             wtime: t.timer.b,
-            result:result
+            result: result,
+            score: t.chart.values
           })
           playSound('victory.mp3')
           swal("¡Victoria!", t.opponentName + ' abandonó esta partida', "success")

@@ -239,11 +239,13 @@ new Vue({
       if(data.player.code === this.player.code){
         if(this.player.autoaccept){
           axios.post( this.endpoint + '/create', {
+            event: `Match a ${data.games}`,
             white: data.white.code,
             black: data.black.code,
             whiteflag: data.white.flag,
             blackflag: data.black.flag,
             minutes: data.minutes,
+            games: data.games,
             compensation: data.compensation
           }).then((response) => {
             if(response.data.status === 'success'){
@@ -265,7 +267,7 @@ new Vue({
     <span class="icon">
       <span class="fas fa-user"></span>
     </span> 
-    <span>${data.asker.code}</span>
+    <span>${data.asker.code} te invita a un match de ${data.games}</span>
   </h4>
   <h4>
     <span class="icon">
@@ -350,7 +352,9 @@ new Vue({
     checkBoardStyle (val) {
       document.querySelector('body').classList.remove('is3d')
       document.querySelector('body').classList.remove('magi3d')
-      if (val.indexOf('magi3d') > -1) {
+      if (val.indexOf('jade3d') > -1) {
+        document.querySelector('body').classList.add('jade3d')
+      } else if (val.indexOf('magi3d') > -1) {
         document.querySelector('body').classList.add('magi3d')
       } else {
         if (val.indexOf('3d') > -1) {

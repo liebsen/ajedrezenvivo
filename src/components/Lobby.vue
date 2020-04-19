@@ -157,7 +157,18 @@
 <div class="content">
   <div class="columns columns-bottom is-flex has-text-centered">
     <div class="column">
-      <div class="control" title="Selecciona el color de tus piezas">
+      <div class="control has-text-centered column">
+        <div class="buttons levels has-addons games" title="Nro. partidas de este match">
+          <button class="button is-toggle is-rounded has-background-success" title="Match a 1 partida">1'</button>
+          <button class="button is-toggle" title="Match a 2 partidas">2'</button>
+          <button class="button is-toggle" title="Match a 5 partidas al match">5'</button>
+          <button class="button is-toggle is-rounded" title="Match a 10 partidas">10'</button>
+        </div>
+      </div>
+
+      <span class="playercolor"><span class="has-background-success is-random-pieces"></span></span>
+
+      <!--div class="control" title="Selecciona el color de tus piezas">
         <div class="buttons levels has-addons playercolor preservefilter">
           <button class="button is-toggle is-large is-rounded has-background-success is-white-pieces" title="Jugar con blancas">
           </button>
@@ -166,7 +177,7 @@
           <button class="button is-toggle is-large is-rounded is-black-pieces" title="Jugar con negras">
           </button>
         </div>
-      </div>
+      </div-->
     </div>
   </div>
   <div class="columns is-flex has-text-centered">
@@ -178,7 +189,7 @@
         <span>Minutos</span>
       </h4>
       <div class="control has-text-centered column">
-        <div class="buttons levels has-addons gameclock" title="Estblece la duración de la partida en minutos">
+        <div class="buttons levels has-addons gameclock" title="Establece la duración de la partida en minutos">
           <button class="button is-toggle is-rounded has-background-success" title="Agregar 3 minutos a la partida">3'</button>
           <button class="button is-toggle" title="Agregar 5 minutos a la partida">5'</button>
           <button class="button is-toggle" title="Agregar 10 minutos a la partida">10'</button>
@@ -221,10 +232,12 @@
           if (accept) {
             var playercolor = document.querySelector('.playercolor > .has-background-success')
             var gameclock = document.querySelector('.gameclock > .has-background-success')
+            var gamescont = document.querySelector('.games > .has-background-success')
             var gamecompensation = document.querySelector('.gamecompensation > .has-background-success')
             var white = this.player
             var black = player
             var minutes = parseInt(gameclock.textContent)
+            var games = parseInt(gamescont.textContent)
             var compensation = parseInt(gamecompensation.textContent)
 
             if(playercolor.classList.contains('is-black-pieces')){
@@ -255,6 +268,7 @@
               white: white,
               black: black,
               minutes: minutes,
+              games: games,
               compensation: compensation
             }
 

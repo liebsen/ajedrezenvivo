@@ -87,6 +87,7 @@
                       <option value="club">Club</option>
                       <option value="neon">Neón</option>
                       <option value="magi">Magi</option>
+                      <!--option value="jade3d">3D Jade</option-->
                       <option value="staunton3d">3D Staunton</option>
                       <option value="plastic3d">3D Plástico</option>
                       <option value="wood3d">3D Madera</option>
@@ -264,7 +265,7 @@
       submit: function(){
         this.$root.saving = true
         this.$socket.emit('lobby_leave', {code: this.nick})
-        this.data.ref = this.nick
+        this.data.ref = this.nick || 'desconocido'
         this.$store
           .dispatch('player', this.data)
           .then(data => {

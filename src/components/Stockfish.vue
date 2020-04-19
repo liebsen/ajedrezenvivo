@@ -670,11 +670,13 @@
                       let blackflag = this.playerColor==='black' ? this.player.flag : ''
                       let result = this.playerColor==='white'?'1-0':'0-1'
                       let game = {
+                        event: 'Jugá contra Stockfish',
                         white: white,
                         black: black,
                         whiteflag: whiteflag,
                         blackflag: blackflag,
                         result: result,
+                        score: this.chart.values,
                         eco: this.ecode,
                         opening: this.opening,
                         orientation: this.board.orientation(),
