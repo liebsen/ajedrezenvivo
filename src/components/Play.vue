@@ -330,33 +330,58 @@
           })
           .then(accept => {
             if (accept) {
-              axios.post('/create', {
-                white: (t.playerColor==='white'?data.asker.code:data.player.code),
-                black: (t.playerColor==='white'?data.player.code:data.asker.code),
-                whiteflag: (t.playerColor==='white'?data.asker.flag:data.player.flag),
-                blackflag: (t.playerColor==='white'?data.player.flag:data.asker.flag),
-                minutes: t.data.minutes,
-                compensation: t.data.compensation,
-                broadcast: true
-              } ).then((response) => {
-                if(response.data.status === 'success'){
-                  t.$socket.emit('play', {
-                    asker: data.asker.code,
-                    player: data.player.code,
-                    id: response.data.id
-                  })
-                  t.$router.push(['/play',response.data.id].join('/'))
-                } else {
-                  snackbar('danger','El juego no pudo ser creado.')
-                }        
-              })
+              t.createNewGame({ round: 1 })
             } else {
               t.$socket.emit('reject_rematch', data)
             }
           })
         }
       },
-      move: function(data){
+      showResultGame () {
+        if (this.data.round < this.data.rounds) {
+          swal({
+            title: `Resultado parcial: Ronda ${this.data.round}/${this.data.rounds}`,
+            text: `Resultado ${this.data.result}`,
+            closeOnClickOutside: false
+          })
+          setTimeout(() => {
+            swal.close()
+            this.createNewGame()
+          }, 5000)
+        } else {
+          swal({
+            title: `Resultado final: Ronda ${this.data.rounds}`,
+            text: `Resultado ${this.data.result}`,
+            closeOnClickOutside: false
+          })
+        }
+      },
+      createNewGame (options) {
+        let t = this
+        axios.post('/create', {
+          white: (t.playerColor==='white' ? this.player.code : this.opponentName),
+          black: (t.playerColor==='black' ? this.player.code : this.opponentName),
+          whiteflag: (t.playerColor==='white' ? this.player.flag : this.opponentFlag),
+          blackflag: (t.playerColor==='black' ? this.player.flag : this.opponentFlag),
+          minutes: t.data.minutes,
+          rounds: t.data.rounds,
+          round: (options.round ? options.round : t.data.round + 1),
+          compensation: t.data.compensation,
+          broadcast: true
+        } ).then((response) => {
+          if(response.data.status === 'success'){
+            t.$socket.emit('play', {
+              asker: data.asker.code,
+              player: data.player.code,
+              id: response.data.id
+            })
+            t.$router.push(['/play',response.data.id].join('/'))
+          } else {
+            snackbar('danger','El juego no pudo ser creado.')
+          }        
+        })
+      },
+      move (data) {
         var t = this
         if(data.color != t.playerColor[0]) {
 
@@ -397,6 +422,24 @@
         if(data.asker === t.player.code){
           result = (t.playerColor==='black'?'1-0':'0-1')
           playSound('defeat.mp3')
+        } else {
+          result = (t.playerColor==='white'?'1-0':'0-1')
+          t.$socket.emit('game',{
+            id: t.data._id,
+            wtime: t.timer.w,
+            wtime: t.timer.b,
+            result: result,
+            score: t.chart.values
+          })
+          playSound('victory.mp3')
+        }
+        t.announced_game_over = true
+        t.data.result = result
+        t.showResultGame()
+        /*
+        if(data.asker === t.player.code){
+          result = (t.playerColor==='black'?'1-0':'0-1')
+          playSound('defeat.mp3')
           swal({
             title: '¿Querés solicitar revancha?',
             text: 'Has abandonado. ' + t.opponentName + ' ganó esta partida',
@@ -432,6 +475,7 @@
           t.data.result = result
         }
         t.announced_game_over = true
+        */
       },
       askfordraw: function(data){
         var t = this
@@ -447,17 +491,19 @@
             if (accept) {
               result = '1/2-1/2'
 
-              t.$socket.emit('data',{
-                id:this.$route.params.game,
+              t.$socket.emit('game',{
+                id: t.$route.params.game,
                 wtime: t.timer.w,
                 wtime: t.timer.b,
-                result:result
+                result: result,
+                score: t.chart.values
               })
 
               t.$socket.emit('acceptdraw', data)
               t.data.result = result
               t.announced_game_over = true
               playSound('game-end.mp3')
+              t.showResultGame()
             } else {
               t.$socket.emit('rejectdraw', data)
               console.log('Clicked on cancel')
@@ -665,7 +711,7 @@
       gameLoad: function(){
         this.$root.loading = true
         var t = this
-        axios.post( t.$root.endpoint + '/game',{
+        axios.post('/game',{
           id:this.$route.params.game
         }).then((res) => {
 
@@ -757,6 +803,8 @@
               if(turn === t.playerColor[0]){
                 result = (t.playerColor==='black'?'1-0':'0-1')
                 playSound('defeat.mp3')
+
+                /*
                 swal({
                   title: '¿Querés solicitar revancha?',
                   text: t.opponentName + ' ganó esta partida. Fuiste derrotado por tiempo.',
@@ -775,22 +823,22 @@
                   } else {
                     console.log('Clicked on cancel')
                   }
-                })
+                })*/
               } else {
                 result = (t.playerColor==='white'?'1-0':'0-1')
-                t.$socket.emit('data',{
+                t.$socket.emit('game',{
                   id:t.data._id,
                   wtime: t.timer.w,
                   wtime: t.timer.b,
-                  result:result
+                  result: result,
+                  score: t.chart.values
                 })
                 playSound('victory.mp3')
                 swal("¡Victoria!", 'Has vencido por tiempo a ' + t.opponentName, "success")
               }
-              if(result){
-                t.data.result = result
-              }
+              t.data.result = result
               t.announced_game_over = true
+              t.showResultGame()
             } else {
               t.tdisplay[turn] = t.$root.getTimeDisplay(t.timer[turn]) 
             }
@@ -916,11 +964,12 @@
 
           if(t.game.game_over()){
             if(t.game.in_draw() || t.game.in_stalemate() || t.game.in_threefold_repetition()) {
-              t.$socket.emit('data',{
-                id:this.$route.params.game,
+              t.$socket.emit('game',{
+                id: this.$route.params.game,
                 wtime: t.timer.w,
                 wtime: t.timer.b,
-                result:"1/2-1/2"
+                result: "1/2-1/2",
+                score: t.chart.values
               })
               swal("Tablas", 'Esta partida finalizó en tablas', "info")
             } else {          
@@ -945,7 +994,7 @@
                   }
                 })
               } else {
-                t.$socket.emit('data',{
+                t.$socket.emit('game',{
                   id:t.data._id,
                   wtime: t.timer.w,
                   wtime: t.timer.b,
@@ -1205,6 +1254,7 @@
         tab:'pgn',
         chat:'',
         index:-1,
+        currentGame: 0,
         gameMoves:[],
         clock:null,
         timer:{w:null,b:null},

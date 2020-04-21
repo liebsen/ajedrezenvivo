@@ -19,7 +19,7 @@ require('../static/css/main.scss')
 require('../static/css/chessboard.scss')
 
 Vue.use(new VueSocketIO({
-  debug: process.env.NODE_ENV!=='production',
+  debug: process.env.NODE_ENV==='development',
   connection: process.env.ENDPOINT
 }))
 
@@ -28,25 +28,6 @@ new Vue({
   router,
   store,
   watch: {
-    '$route' (to, from) {
-      if (from.name === 'play') {
-        this.$socket.emit('match_end', from.params.game)
-      }
-      if (to.name === 'play') {
-        this.$socket.emit('lobby_leave', this.player) 
-      }
-      if (!this.player.observe) {
-        this.$socket.emit('lobby_join', this.player)
-      }   
-      if (to.name === 'lobby') {
-        setTimeout(() => {
-          const chatbox = document.querySelector(".lobby_chat")
-          if (chatbox) {
-            chatbox.scrollTop = chatbox.scrollHeight
-          }
-        }, 500)
-      }
-    },
     onLine(status) {
       if(status){
         snackbar('success','Se restauró la conexión a internet.')
@@ -148,207 +129,171 @@ new Vue({
     window.removeEventListener('offline', this.updateOnlineStatus)
   },
   sockets: {
-    lobby_chat: function(data){
-      const chatbox = document.querySelector(".lobby_chat")
-      if(chatbox && this.chatlast != data.line){
-        const owned = this.player.code === data.sender
-        const sender = owned || data.sender === 'chatbot' ? '' : data.sender
-        let cls = owned ? 'is-pulled-right has-text-right has-background-info has-text-white ' : 'is-pulled-left has-text-left '
-        cls+= data.sender === 'chatbot' ? 'has-text-grey' : 'has-text-white has-background-info'
-        const ts = moment().format('hh:mm a')
-        chatbox.innerHTML+= `<div class="box ${cls}"><strong class="has-text-white">${sender}</strong> ${data.line} <span class="is-size-7">${ts}</span></div>`
-        chatbox.scrollTop = chatbox.scrollHeight
-        this.chatlast = data.line
-        if (!owned) {
-          playSound('button-pressed.ogg')
-          if (this.$route.name != 'lobby') {
-            snackbar('success', '<strong class="has-text-light">👤 ' + data.sender + '</strong> ' + data.line)
-          }
-        }
-      }
+    opponent_not_found () {
+      this.isFindingOpponent = false
+      snackbar('default', `No se encontraron oponentes`)
     },
-    players: function (data) {
-      if(this.$route.name === 'play') return
-      var available = 0
-      for(var i in data){
-        if(!data[i].observe){
-          available++
-        }
-      }
-      if(available > 1){
-        const message = 'Hay ' + (available - 1) +  ' jugador' + (available > 2 ? 'es' : '') + ' esperando invitación '
-        document.title = '(' + (available - 1) + ') ' + this.documentTitle
-        if(this.$route.name === 'lobby'){
-          snackbar('default', message)
-        }
-        this.$socket.emit('lobby_chat', { 
-          sender: 'chatbot',
-          line: message
-        })
-      } else {
-        this.$socket.emit('lobby_chat', { 
-          sender: 'chatbot',
-          line: `No hay jugadores en este momento`
-        })
-        document.title = this.documentTitle
-      }      
-      store
-        .dispatch('players', data)
-        .then(() => {
-          console.log('🙌 Lista de jugadores cargada')
-        }).catch(err => {
-          console.log(`Algo malo sucedió ` + err)
-        })  
-    },
-    player: function (data) {
-      if(data.id === this.player.id){
-        if(data.exists){
-          snackbar('error',`El nombre ${data.code} ya está en uso, por favor elige otro`)
-          this.$router.push('/preferences')
-        } else {
-          snackbar('success',`Ahora eres ${data.code}`)
-          this.$socket.emit('lobby_chat', { 
-            sender: 'chatbot',
-            line: `${data.ref} ahora es ${data.code}`
-          })
-        }        
-      } else {
-        snackbar('default',`${data.code} actualizó sus preferencias`)
-        this.$socket.emit('lobby_chat', { 
-          sender: 'chatbot',
-          line: `${data.code} actualizó sus preferencias`
-        })
-      }
-      this.$root.saving = false
-    },
-    play: function(data) {
-      if(data.asker === this.player.code){
-        this.$store.dispatch('games', data)
-        swal.close()
-        this.$router.push(['/play',data.id].join('/'))
-      }
-    },
-    reject: function(data) {
-      if(data.asker.code === this.player.code){
-        swal.close()
-        swal("Partida declinada", data.player.code + ' declinó tu invitación')
-        playSound('defeat.mp3')
-      }
-    },
-    invite: function(data) {
-      if(data.player.code === this.player.code){
-        if(this.player.autoaccept){
-          axios.post( this.endpoint + '/create', {
-            event: `Match a ${data.games}`,
-            white: data.white.code,
-            black: data.black.code,
-            whiteflag: data.white.flag,
-            blackflag: data.black.flag,
-            minutes: data.minutes,
-            games: data.games,
-            compensation: data.compensation
-          }).then((response) => {
-            if(response.data.status === 'success'){
-              this.$socket.emit('play', {
-                asker: data.asker.code,
-                player: data.player.code,
-                id: response.data.id
-              })
-              this.$router.push(['/play',response.data.id].join('/'))
-            } else {
-              snackbar('danger','El juego no pudo ser creado.')
-            }        
-          })
-        } else {
-          playSound('victory.mp3')
-          const template = (`
-  <div class="content">
-  <h4>
-    <span class="icon">
-      <span class="fas fa-user"></span>
-    </span> 
-    <span>${data.asker.code} te invita a un match de ${data.games}</span>
-  </h4>
-  <h4>
-    <span class="icon">
-      <span class="fas fa-stopwatch"></span>
-    </span>
-    <span> ${data.minutes}' + ${data.compensation}</span>
-  </h4>
-  </div>`);
-          swal({
-            title: "¿Aceptás esta partida?",
-            content: {
-              element: 'div',
-              attributes: {
-                innerHTML: `${template}`,
-              }
-            },
-            buttons: ["Declinar", "Aceptar"],
-            closeOnClickOutside: false
-          })
-          .then(accept => {
-            if (accept) {
-              axios.post( this.endpoint + '/create', {
-                white: data.white.code,
-                whiteflag: data.white.flag,
-                black: data.black.code,
-                blackflag: data.black.flag,
-                minutes: data.minutes,
-                compensation: data.compensation,
-              }).then((response) => {
-                if(response.data.status === 'success'){
-                  this.$socket.emit('play', {
-                    asker: data.asker.code,
-                    player: data.player.code,
-                    id: response.data.id
-                  })
-                  this.$store.dispatch('games', response.data)
-                  this.$router.push(['/play',response.data.id].join('/'))
-                } else {
-                  snackbar('danger','El juego no pudo ser creado.')
-                }        
-              })
-            } else {
-              this.$socket.emit('reject', data)
-              console.log('Clicked on cancel')
-            }
-          })
-        }
-      }
-    },
-    matches_live: function(data){
-      this.matches = data
-      var gamesContainer = document.querySelector('.live-games')
-      if(gamesContainer){
-        for(var i in data){
-          if(!this.games[data[i].id]){
-            this.gameStart(data[i])
-          }
-        }
-      }
-    },
-    match_live: function(data){
-      var gamesContainer = document.querySelector('.live-games')
-      if(gamesContainer){
-        var exists = false 
-        for(var i in this.matches){
-          if(this.matches[i].id === data.id){
-            exists = true
-          }
-        }
-
-        if(exists === false){
-          this.matches.push(data)
-        }
-
-        setTimeout(() => {
-          this.gameMove(data)  
-        },500)        
-      }
+    game_spawn (data) {
+      this.isFindingOpponent = false
+      this.$router.push(`/play/${data.group}/${data.game}`)
     }
   },
   methods: {
+    play () {
+      this.isFindingOpponent = true
+      let group = 'landing'
+      if (this.$route.name === 'group') {
+        group = this.$route.params.group
+      }
+      console.log('group: ' + group)
+      this.$socket.emit('find_opponent', {
+        player: this.player,
+        group: group
+      })
+    },
+    createGroup () {
+      const template = (`
+<div class="content">
+<div class="columns columns-bottom is-flex has-text-centered">
+  <div class="column">
+    <h4>
+      <span class="icon">
+        <span class="fas fa-retweet"></span>
+      </span>
+      <span>Rondas</span>
+    </h4>
+    <div class="control has-text-centered column">
+      <div class="buttons levels has-addons rounds" title="Nro. partidas de este match">
+        <button class="button is-toggle is-rounded has-background-success" title="Match a 1 partida">1</button>
+        <button class="button is-toggle" title="Match a 3 partidas">3</button>
+        <button class="button is-toggle" title="Match a 5 partidas al match">5</button>
+        <button class="button is-toggle" title="Match a 10 partidas">10</button>
+        <button class="button is-toggle is-rounded" title="Match a 16 partidas">16</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="columns is-flex has-text-centered">
+  <div class="column">
+    <h4>
+      <span class="icon">
+        <span class="fas fa-clock"></span>
+      </span>
+      <span>Minutos</span>
+    </h4>
+    <div class="control has-text-centered column">
+      <div class="buttons levels has-addons gameclock" title="Establece la duración de las partidas en minutos">
+        <button class="button is-toggle is-rounded has-background-success" title="Partidas de 3 minutos">3'</button>
+        <button class="button is-toggle" title="Partidas de 5 minutos">5'</button>
+        <button class="button is-toggle" title="Partidas de 10 minutos">10'</button>
+        <button class="button is-toggle is-rounded" title="Partidas de 30 minutos">30'</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="columns is-flex has-text-centered">
+  <div class="column">
+    <h4>
+      <span class="icon">
+        <span class="fas fa-stopwatch"></span>
+      </span>
+      <span>Compensación en segundos</span>
+    </h4>
+    <div class="control has-text-centered column">
+      <div class="buttons levels has-addons gamecompensation" title="Agregar compensación por movimiento">
+        <button class="button is-toggle is-rounded" title="Partidas sin compensación por movimiento">+0</button>
+        <button class="button is-toggle" title="Partidas con 1 segundo de compensación por cada movimiento">+1</button>
+        <button class="button is-toggle has-background-success" title="Partidas con 2 segundos de compensación por cada movimiento">+2</button>
+        <button class="button is-toggle is-rounded" title="Partidas con 3 segundos de compensación por cada movimiento">+3</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>`);
+      swal({
+        title: 'Crear un grupo',
+        buttons: ["Cancelar", "Crear"],
+        closeOnClickOutside: false,
+        content: {
+          element: 'div',
+          attributes: {
+            innerHTML: `${template}`,
+          }
+        }
+      }).then(accept => {
+        if (accept) {
+          this.isCreatingGroup = true
+          var gameclock = document.querySelector('.gameclock > .has-background-success')
+          var roundsCont = document.querySelector('.rounds > .has-background-success')
+          var gamecompensation = document.querySelector('.gamecompensation > .has-background-success')
+          var minutes = parseInt(gameclock.textContent)
+          var rounds = parseInt(roundsCont.textContent)
+          var compensation = parseInt(gamecompensation.textContent)
+
+          swal({
+            title: "Creando grupo",
+            text: 'Tu grupo se está creando...',
+            buttons: false
+          })
+
+          const code = Math.random().toString(36).substring(2, 5) + Math.random().toString(36).substring(2, 5)
+          setTimeout(() => {
+            let group = {
+              code: code,
+              owner: this.player,
+              minutes: minutes,
+              rounds: rounds,
+              compensation: compensation
+            }
+
+            axios.post('/group/create', group).then(res => {
+              this.isCreatingGroup = false
+              this.isLoading = false
+              swal.close()
+              if (res.data.status === 'success') {
+                snackbar('success', `Grupo creado`)
+                this.$router.push('/groups/' + res.data.data._id)
+              } else {
+                snackbar('error', `Algo pasó y no se pudo crear el grupo`)
+              }
+            })
+          }, 1000)
+        }
+      })
+    },
+    getTimeDisplay: function(time){
+      var min = parseInt(time / 60, 10)
+      var sec = parseInt(time % 60, 10)
+
+      min = min < 10 ? "0" + min : min
+      sec = sec < 10 ? "0" + sec : sec
+
+      return min + ":" + sec
+    },
+    countMoves: (pgn) => {
+      if(pgn && pgn.indexOf('.')){
+        return pgn.split('.').length
+      }
+    },
+    msToTime(duration){
+      duration = duration * 1000
+      var milliseconds = parseInt((duration % 1000) / 100),
+        seconds = Math.floor((duration / 1000) % 60),
+        minutes = Math.floor((duration / (1000 * 60)) % 60),
+        hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+
+      //hours = (hours < 10) ? "0" + hours : hours;
+      //minutes = (minutes < 10) ? "0" + minutes : minutes;
+      seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+      //return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
+      if(minutes){
+        return minutes + "m" + seconds + "s";
+      } else {
+        return seconds + "s";
+      }
+      },
     checkBoardStyle (val) {
       document.querySelector('body').classList.remove('is3d')
       document.querySelector('body').classList.remove('magi3d')
@@ -430,208 +375,24 @@ new Vue({
         type
       } = e;
       this.onLine = type === 'online';
-    },
-    gameStart: function(data){
-      return new Promise(function(resolve,reject){
-
-        var pos = 'start'
-        var pieces = '/static/img/chesspieces/classic/{piece}.png'
-
-        if(data.fen){
-          pos = data.fen
-        }
-
-        if(this.player.pieces){
-          pieces = '/static/img/chesspieces/' + t.player.pieces + '/{piece}.png'
-          this.boardColor = this.player.board
-        }
-
-        var cfg = {
-          draggable: false,
-          position: pos,
-          pieceTheme:pieces
-        }
-
-        setTimeout(() => {
-          this.games[data.id] = new Chess
-          this.boards[data.id] = new Chessboard('board' + data.id,cfg)
-
-          if(data.pgn){
-            this.games[data.id].load_pgn(data.pgn)
-          }
-          resolve()
-        },500)        
-      })
-    },
-    colorize: function(str) {
-      for (var i = 0, hash = 0; i < str.length; hash = str.charCodeAt(i++) + ((hash << 5) - hash));
-      color = Math.floor(Math.abs((Math.sin(hash) * 10000) % 1 * 16777216)).toString(16);
-      return '#' + Array(6 - color.length + 1).join('0') + color;
-    },
-    gameMove: function(data){
-      if(!this.games[data.id]){
-        this.gameStart(data).then(() => {
-          this.makeMove(data)
-        })        
-      } else {
-        this.makeMove(data)
-      }
-    },
-    makeMove: function(data){
-      setTimeout(() => {
-        var moveObj = ({
-          from: data.from,
-          to: data.to,
-          promotion: 'q' // NOTE: always promote to a queen for example simplicity
-        });
-        // see if the move is legal
-        var move = this.games[data.id].move(moveObj)
-
-        if (move === null) {
-          return 'snapback'
-        }
-
-        for(var i in this.matches){
-          if(this.matches[i].id === data.id){
-            this.matches[i].wtime = data.wtime
-            this.matches[i].btime = data.btime
-          }
-        }
-
-        this.boards[data.id].position(data.fen)
-        this.updateMoves(data.id,move)
-      },500)
-    },
-    gameFlip: function(id){
-      this.boards[id].flip()
-      const white = document.querySelector('.board-container.b' + id + ' .white').innerHTML
-      const black = document.querySelector('.board-container.b' + id + ' .black').innerHTML
-      document.querySelector('.board-container.b' + id + ' .white').innerHTML = black
-      document.querySelector('.board-container.b' + id + ' .black').innerHTML = white
-      this.highlightLastMove(id)
-    },
-    getTimeDisplay: function(time){
-      var min = parseInt(time / 60, 10)
-      var sec = parseInt(time % 60, 10)
-
-      min = min < 10 ? "0" + min : min
-      sec = sec < 10 ? "0" + sec : sec
-
-      return min + ":" + sec
-    },
-    updateMoves:function(id,move){
-      var sound = 'move.mp3'
-      var game = this.games[id] 
-      var data = {}
-
-      for(var i in this.matches){
-        if(this.matches[i].id === id){
-          data = this.matches[i]
-        }
-      }
-
-      if(game.game_over()){
-        if(game.in_draw() || game.in_stalemate() || game.in_threefold_repetition()) {
-          var message = 'Esta partida finalizó en tablas'
-          if(game.in_stalemate()){
-            message = 'Esta partida finalizó en tablas por rey ahogado'
-          } else if(game.in_threefold_repetition()){
-            message = 'Esta partida finalizó en tablas por triple repetición'
-          }
-          document.querySelector('.board-container.b' + id + ' .match-status').innerHTML = message
-        } else {          
-          const winner = game.turn() === 'w' ? data.black : data.white
-          document.querySelector('.board-container.b' + id + ' .match-status').innerHTML = winner + ' ganó esta partida'
-        }
-        
-        sound = 'game-end.mp3'
-        game.announced_game_over = true
-      } else {
-
-        if(move.flags === 'c'){
-          sound = 'capture.mp3'        
-        }
-
-        if(move.flags === 'k'){
-          sound = 'castle.mp3'
-        }
-
-        if(move.flags === 'q'){
-          sound = 'castle.mp3'
-        }
-
-        if (game.in_check() === true) {
-          sound = 'check.ogg'
-        }
-
-        this.removeHighlight(id)
-        this.addHightlight(id,move)
-        //playSound(sound)
-      }
-    },
-    removeHighlight : function(id) {
-      document.getElementById('board' + id).querySelectorAll('.square-55d63').forEach((item) => {
-        item.classList.remove('highlight-move')
-        item.classList.remove('in-check')
-      })
-    },
-    addHightlight : function(id,move){
-      var game = this.games[id]
-      this.removeHighlight(id);
-      if(move){
-        if (game.in_check() === true) {
-          document.getElementById('board' + id).querySelector('img[data-piece="' + game.turn() + 'K"]').parentNode.classList.add('in-check')
-        }
-        setTimeout(function(){
-          document.getElementById('board' + id).querySelector('.square-' + move.from).classList.add('highlight-move');
-          document.getElementById('board' + id).querySelector('.square-' + move.to).classList.add('highlight-move');   
-        },200)
-      }
-    },
-    highlightLastMove: function(id){
-      var history = this.games[id].history({verbose:true})
-      if(history.length){
-        var move = history[history.length-1]
-        document.getElementById('board' + id).querySelector('.square-' + move.from).classList.add('highlight-move')
-        document.getElementById('board' + id).querySelector('.square-' + move.to).classList.add('highlight-move')
-      }
-    },
-  	countMoves: (pgn) => {
-	    if(pgn && pgn.indexOf('.')){
-	      return pgn.split('.').length
-	    }
-	  },
-    msToTime(duration){
-      duration = duration * 1000
-      var milliseconds = parseInt((duration % 1000) / 100),
-        seconds = Math.floor((duration / 1000) % 60),
-        minutes = Math.floor((duration / (1000 * 60)) % 60),
-        hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
-
-      //hours = (hours < 10) ? "0" + hours : hours;
-      //minutes = (minutes < 10) ? "0" + minutes : minutes;
-      seconds = (seconds < 10) ? "0" + seconds : seconds;
-
-      //return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
-      if(minutes){
-        return minutes + "m" + seconds + "s";
-      } else {
-        return seconds + "s";
-      }
     }
   },
-  data:{
-    endpoint: process.env.ENDPOINT,
-    onLine: navigator.onLine,
-    loading: true,
-    saving: false,
-    processing: false,
-    matches: [],
-    games: [],
-    boards: [],
-    chatlast: null,
-    documentTitle: null,
-    boardColor: null
+  data () {
+    return {
+      isFindingOpponent: false,
+      isCreatingGroup: false,
+      endpoint: process.env.ENDPOINT,
+      onLine: navigator.onLine,
+      loading: true,
+      saving: false,
+      processing: false,
+      matches: [],
+      games: [],
+      boards: [],
+      chatlast: null,
+      documentTitle: null,
+      boardColor: null
+    }
   },
   render: h => h(App)
 })

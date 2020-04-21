@@ -14,6 +14,9 @@ import Stockfish from '../components/Stockfish'
 import Eco from '../components/Eco'
 import PlayEco from '../components/PlayEco'
 import Game from '../components/Game'
+import Group from '../components/Group'
+import Groups from '../components/Groups'
+import Analysis from '../components/Analysis'
 import Watch from '../components/Watch'
 import About from '../components/About'
 import NotFound from '../components/NotFound'
@@ -57,7 +60,7 @@ const router = new Router({
       component: Game
     },
     {
-      path: '/play/:game',
+      path: '/play/:group/:game',
       name: 'play',
       component: Play
     },
@@ -65,6 +68,21 @@ const router = new Router({
       path: '/watch/:game',
       name: 'watch',
       component: Watch
+    },
+    {
+      path: '/analysis/:game',
+      name: 'analysis',
+      component: Analysis
+    },
+    {
+      path: '/groups',
+      name: 'groups',
+      component: Groups
+    },
+    {
+      path: '/groups/:group',
+      name: 'group',
+      component: Group
     },
     {
       path: '/preferences',

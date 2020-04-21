@@ -46,6 +46,10 @@ label {
   border-width: 0.25rem!important;
 }
 
+.is-margin-right {
+  margin-right: 0.5rem;
+}
+
 .buttons.has-addons {
   justify-content: center;
   .button {
@@ -951,18 +955,28 @@ table {
 
 
 @media screen and (min-width: 759px) {
-  .is-lobby-list {
-    max-width: 260px;
-    &.no-players {
+  .no-players {
+
+    .is-lobby-list {
+      max-width: 260px;
       opacity: 0.25;
       background-image: url('/static/img/monograma.png');
       background-position: center;
       background-repeat: no-repeat;
       background-size: 100%;
     }
-    .field {
-      margin-bottom: 0.25rem;
+
+    .chatbox {
+      filter: contrast(150%) brightness(125%);
+      background-image: url('/static/img/chat_bg.jpg');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
     }
+  }
+  
+  .field {
+    margin-bottom: 0.25rem;
   }
   
   .swal-modal {

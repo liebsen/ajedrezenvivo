@@ -117,7 +117,7 @@
   import playSound from '../components/playSound'
 
   export default {
-    name: 'game',
+    name: 'analysis',
     mounted: function(){
 
       this.$root.loading = true
@@ -563,7 +563,6 @@
           content: {
             element: 'input',
             attributes: {
-              className: 'input is-rounded',
               placeholder: "Valor en milisegundos",
               value: this.speed
             }

@@ -68,7 +68,7 @@
                       <option value="neo_wood">Neo Madera</option>
                       <option value="wood">Madera</option>
                       <option value="bases">Bases</option>
-                      <option value="uscf">USCF</option>
+                      <option value="alpha">Alfa</option>
                       <option value="chess24">Chess24</option>
                       <option value="leipzig">Leipzig</option>
                       <option value="fantasy">Fantasía</option>
@@ -98,10 +98,22 @@
                 </div>
               </div>
             </div>
-            <div class="field">
-              <div class="control">
-                <label class="label">Nombre</label>
-                <input type="text" v-model="data.code" class="input" maxlength="10" title="Ingresa tu nombre!" required>
+            <div class="field is-horizontal">
+              <div class="field-body">
+                <div class="field">
+                  <label class="label">Nombre</label>
+                  <input type="text" v-model="data.code" class="input" maxlength="10" title="Ingresa tu nombre!" required>
+                </div>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <label class="label">País</label>
+                  <div class="select is-fullwidth">
+                    <select v-model="data.flag" id="piezas" title="Elegí tu país">
+                      <option v-for="(item, index) in flags" :key="index" :value="item.emoji">{{item.emoji}} {{item.name}}</option>
+                    </select>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="field">
@@ -135,9 +147,9 @@
                   </div>
                 </div>
                 <div class="field-body">
-                  <div class="control has-checkradio" title="Aceptar automáticamente todas las invitaciones para jugar">
+                  <div class="control has-checkradio" title="Aceptar invitaciones de otros grupos">
                     <input v-model="data.autoaccept" class="is-checkradio has-background-color is-white" id="autoaccept" type="checkbox">
-                    <label class="label" for="autoaccept">Auto-aceptar invitaciones</label>
+                    <label class="label" for="autoaccept">Aceptar invitaciones de otros grupos</label>
                     <!--p class="notification is-warning">
                       <small>Aceptar automáticamente todas las invitaciones para jugar</small>
                     </p-->
@@ -159,6 +171,7 @@
 </template>
 
 <script>
+  import axios from 'axios'
   import Chess from 'chess.js'
   import { mapState } from 'vuex'
   import Chessboard from '../../static/js/chessboard'
@@ -183,12 +196,18 @@
       ])
     },
     mounted: function(){
+      this.$root.loading = true
       this.data = this.player
       this.nick = this.player.code
+      this.flag = this.player.flag
       this.$root.saving = false
-      setTimeout(() => {
-        this.drawBoard()  
-      },250)
+      axios.get('/json/flags.json').then(flags => {
+        this.flags = flags.data
+        setTimeout(() => {
+          this.$root.loading = false
+          this.drawBoard()  
+        },250)
+      })
     },
     created () {
       window.addEventListener('resize', this.addWindowListeners)
@@ -271,7 +290,9 @@
           .then(data => {
             console.log('🙌 Datos de la aplicación actualizados')
             this.nick = data.nick
+            this.$root.saving = false
             this.$socket.emit('preferences', data)
+            snackbar('success', 'Preferencias guardadas')
           }).catch(err => {
             console.log(`Algo malo sucedió ` + err)
           })
@@ -285,6 +306,7 @@
           draggable: false
         },
         data:{},
+        flags:[],
         nick:null,
         boardColor:null,
         boardEl:null,

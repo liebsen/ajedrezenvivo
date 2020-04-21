@@ -50,12 +50,12 @@
           </div>
           <div class="columns is-vcentered has-text-centered is-hidden-mobile">
             <div class="column has-text-right">
-              <router-link class="button is-rounded is-medium is-success" to="/lobby">
+              <a @click="$root.play" class="button is-rounded is-medium is-success">
                 <span class="icon">
-                  <span class="fas fa-user-circle"></span>
+                  <span class="fas fa-handshake"></span>
                 </span> 
                 <span>Humano</span>
-              </router-link>    
+              </a>
             </div>
             <div class="column has-text-left">
               <router-link class="button is-rounded is-medium is-info" to="/stockfish">
@@ -68,12 +68,12 @@
           </div>
           <div class="columns is-vcentered has-text-centered is-hidden-tablet">
             <div class="column">
-              <router-link class="button is-rounded is-success" to="/lobby">
+              <a @click="$root.play" class="button is-rounded is-success">
                 <span class="icon">
-                  <span class="fas fa-user-circle"></span>
+                  <span class="fas fa-layer-group"></span>
                 </span> 
                 <span>Humano</span>
-              </router-link>    
+              </a>
             </div>
             <div class="column">
               <router-link class="button is-rounded is-info" to="/stockfish">

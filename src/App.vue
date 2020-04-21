@@ -19,21 +19,27 @@
                 </span>
                 <span v-html="player.code"></span>
               </router-link>
-              <router-link v-if="games && player" :to="`/results?q=${player.code}&strict=1`" v-show="games.length > 1" class="button is-light" title="Historial de partidas">
-                <span class="has-text-weight-bold">{{ games.length }}</span>
-              </router-link>
-              <router-link to="/lobby" v-if="players" v-show="players.length > 1" class="button is-grey" title="Jugadores esperando invitación">
-                <span class="has-text-weight-bold">{{ players.length - 1 }}</span>
-              </router-link>
+              <a @click="$root.play" class="button is-rounded is-success" :class="{ 'is-loading': $root.isFindingOpponent }" title="Buscar oponente">
+                <span class="icon has-text-white">
+                  <span class="fas fa-handshake"></span>
+                </span>
+              </a>
             </div>
           </div>
           <div v-if="player" class="is-hidden-tablet">
-            <router-link to="/preferences" class="button is-small is-rounded" title="Establece tus preferencias">
-              <span class="icon">
-               <span v-html="player.flag"></span>
-              </span>
-              <span v-html="player.code"></span>
-            </router-link>
+            <div class="buttons levels has-addons is-pulled-right">
+              <router-link to="/preferences" class="button is-small is-rounded" title="Establece tus preferencias">
+                <span class="icon">
+                 <span v-html="player.flag"></span>
+                </span>
+                <span v-html="player.code"></span>
+              </router-link>
+              <a @click="$root.play" class="button is-small is-success is-rounded" :class="{ 'is-loading': $root.isFindingOpponent }" title="Buscar oponente">
+                <span class="icon has-text-white">
+                  <span class="fas fa-handshake"></span>
+                </span>
+              </a>
+            </div>
           </div>
         </div>
         <div class="menu-burger" title="Abrir menú principal">
@@ -51,6 +57,12 @@
             <img src="/static/img/logo.png">
           </router-link>
           <div class="menu-links has-text-left">
+            <router-link to="/groups">
+              <span class="icon">
+                <span class="fas fa-layer-group"></span>
+              </span> 
+              <span>Grupos</span>
+            </router-link>
             <router-link to="/eco">
               <span class="icon">
                 <span class="fas fa-book"></span>
@@ -96,18 +108,12 @@
           </div>
           <div class="column">
             <div class="has-text-centered">
-              <router-link to="/lobby" class="button is-rounded is-white is-outlined">
+              <a @click="$root.createGroup" class="button is-rounded is-white is-outlined" :class="{ 'is-loading': $root.isCreatingGroup }">
                 <span class="icon">
-                  <span class="fas fa-user-circle"></span>
-                </span>
-                <span>Humano</span>
-              </router-link>
-              <router-link class="button is-rounded is-white is-outlined" to="/stockfish">
-                <span class="icon">
-                  <span class="fas fa-server"></span>
+                  <span class="fas fa-layer-group"></span>
                 </span> 
-                <span>Stockfish</span>
-              </router-link>
+                <span>Nuevo Grupo</span>
+              </a>
             </div>
           </div>
         </div>
@@ -133,15 +139,9 @@ export default {
   name: 'app',
   computed: {
     ...mapState([
-      'players',
       'player',
       'games',
     ])
-  },
-  data () {
-    return {
-      ver: '2.0.1'
-    }
   }
 }
 </script>

@@ -157,12 +157,19 @@
 <div class="content">
   <div class="columns columns-bottom is-flex has-text-centered">
     <div class="column">
+      <h4>
+        <span class="icon">
+          <span class="fas fa-clock"></span>
+        </span>
+        <span>Rondas</span>
+      </h4>
       <div class="control has-text-centered column">
-        <div class="buttons levels has-addons games" title="Nro. partidas de este match">
-          <button class="button is-toggle is-rounded has-background-success" title="Match a 1 partida">1'</button>
-          <button class="button is-toggle" title="Match a 2 partidas">2'</button>
-          <button class="button is-toggle" title="Match a 5 partidas al match">5'</button>
-          <button class="button is-toggle is-rounded" title="Match a 10 partidas">10'</button>
+        <div class="buttons levels has-addons rounds" title="Nro. partidas de este match">
+          <button class="button is-toggle is-rounded has-background-success" title="Match a 1 partida">1</button>
+          <button class="button is-toggle" title="Match a 3 partidas">3</button>
+          <button class="button is-toggle" title="Match a 5 partidas al match">5</button>
+          <button class="button is-toggle" title="Match a 10 partidas">10</button>
+          <button class="button is-toggle is-rounded" title="Match a 16 partidas">16</button>
         </div>
       </div>
 
@@ -232,12 +239,12 @@
           if (accept) {
             var playercolor = document.querySelector('.playercolor > .has-background-success')
             var gameclock = document.querySelector('.gameclock > .has-background-success')
-            var gamescont = document.querySelector('.games > .has-background-success')
+            var roundsCont = document.querySelector('.rounds > .has-background-success')
             var gamecompensation = document.querySelector('.gamecompensation > .has-background-success')
             var white = this.player
             var black = player
             var minutes = parseInt(gameclock.textContent)
-            var games = parseInt(gamescont.textContent)
+            var rounds = parseInt(roundsCont.textContent)
             var compensation = parseInt(gamecompensation.textContent)
 
             if(playercolor.classList.contains('is-black-pieces')){
@@ -268,7 +275,8 @@
               white: white,
               black: black,
               minutes: minutes,
-              games: games,
+              rounds: rounds,
+              round: 1,
               compensation: compensation
             }
 
