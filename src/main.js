@@ -18,6 +18,8 @@ axios.defaults.baseURL = store.state.endpoint
 require('../static/css/main.scss')
 require('../static/css/chessboard.scss')
 
+moment.locale('es')
+
 Vue.use(new VueSocketIO({
   debug: process.env.NODE_ENV==='development',
   connection: process.env.ENDPOINT

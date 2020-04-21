@@ -14,13 +14,13 @@
           </div>
           <div class="has-text-centered">
             <form id="search" class="has-text-centered" @submit.prevent="submit">
-              <label class="label">
-                <span v-html="eco.name" class="has-text-light">
+              <label v-if="group.rounds" class="label">
+                <span v-html="`Match a ${group.rounds} - ${group.minutes}'+${group.compensation}`" class="has-text-light">
                 </span>
               </label>
               <div class="field has-addons is-hidden-mobile is-flex-centered">
                 <div class="control">
-                  <input v-model="query" class="input is-medium is-white is-rounded" name="query" type="text" placeholder="Evento, jugador o PGN" autofocus>
+                  <input v-model="query" class="input is-medium is-white is-rounded" name="query" type="text" placeholder="Buscar en grupos" autofocus>
                 </div>
                 <div class="control">
                   <button type="submit" id="searchbtn" class="button is-medium is-rounded is-white">
@@ -126,10 +126,10 @@ export default {
       }
     }
 
-    axios.post(this.$root.endpoint + '/eco/pgn/random', {}).then((res) => {
-      if(res.data.pgn){
-        t.eco = res.data
-        t.query = res.data.pgn
+    axios.post('/group/random').then((res) => {
+      if(res.data.status === 'success'){
+        t.group = res.data.data
+        t.query = res.data.data.code
       }
     })
     
@@ -147,14 +147,14 @@ export default {
   },
   methods: {
     submit: function() {
-      this.$router.push('/results?q=' + this.query)
+      this.$router.push('/groups?q=' + this.query)
     }
   },
   data () {
     return {
-      query: null,
-      eco: {
-        name:'...'
+      query: '',
+      group: {
+        code: '...'
       }
     }
   }

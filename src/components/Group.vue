@@ -1,6 +1,6 @@
 <template>
   <div class="container is-widescreen">
-    <div v-show="!data.owner" class="content column fadeIn">
+    <div v-show="!data.owner && tried" class="content column fadeIn">
       <section class="hero fadeIn">
         <div class="hero-body">
           <div class="container is-flex-column is-vertical">
@@ -79,9 +79,9 @@
           <div v-show="data.owner.code !== player.code">
             <h3>{{data.code}}</h3>
           </div>
-          <div v-show="players.length > 1">
-            <div v-for="plyer in players" class="field">
-              <router-link v-if="plyer.code != player.code" :to="`/results?q=${plyer.code}&strict=1`" :title="'Invitar a ' + plyer.code">
+          <div>
+            <div v-for="plyer in players">
+              <router-link :to="`/results?q=${plyer.code}&strict=1`" :title="'Invitar a ' + plyer.code">
                 <span class="button is-text is-rounded is-grey">
                   <span class="icon">
                     <span v-html="plyer.flag"></span>
@@ -95,9 +95,19 @@
         <div class="column">
           <div class="column has-text-centered box is-padded">
             <div class="columns">
-              <div class="column chatbox has-text-left group_chat"></div>
+              <div class="column chatbox-container">
+                <div class="chatbox fadeIn">
+                  <div v-for="line in chatLines" class="chatline">
+                    <div class="chatbubble" :class="{ 'is-pulled-right has-text-right has-background-light' : line.owned, 'is-pulled-left has-text-left has-background-white' : !line.owned, 'has-background-primary' : line.sender === 'bot' }">
+                      <strong v-if="line.sender != 'bot'" v-html="line.sender"></strong>
+                      <span v-html="line.text" :class="{ 'has-text-grey' : line.sender === 'bot' }"></span>
+                      <span v-if="line.sender != 'bot'" v-html="line.ts" class="is-size-7" :class="{ 'has-text-grey': line.sender !== 'bot', 'has-text-white': line.sender === 'bot' }"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <form v-show="players.length > 1" @submit.prevent="sendChat">
+            <form @submit.prevent="sendChat">
               <div class="field is-fullwidth has-addons has-addons-fullwidth is-marginless">
                 <div class="control">
                   <input class="input is-rounded" v-model="chat" type="text" placeholder="Ingresa tu mensaje" />
@@ -130,9 +140,11 @@
     data () {
       return {
         chat:'',
+        tried: false,
         data: {},
         group: {},
-        players: []
+        players: [],
+        chatLines:[]
       }
     },
     computed: {
@@ -141,49 +153,39 @@
       ])
     },
     mounted () {
-      setTimeout(() => {
-        this.welcomeMsg()
-      }, 3000)
       this.loadGroup()
     },
     beforeDestroy () {
-      console.log('beforeDestroy')
       this.$socket.emit('group_leave', this.group)
     },
     sockets: {
+      group_join: function(data){
+        setTimeout(() => {
+          this.chatLines.push({
+            text: `<span class="fas fa-arrow-right"></span> ${data.code} ${data.flag}`,
+            ts: moment().fromNow(true),
+            sender: "bot",
+            owned: false
+          })
+          this.scrollToBottom()
+        },1000)
+      },
+      group_leave: function(data){
+        this.chatLines.push({
+          text: `<span class="fas fa-arrow-left"></span> ${data.code} ${data.flag}`,
+          ts: moment().fromNow(true),
+          sender: "bot",
+          owned: false
+        })
+        this.scrollToBottom()
+      },
       group_chat: function(data){
-        const chatbox = document.querySelector(".group_chat")
-        if(chatbox && this.chatlast != data.line){
-          const owned = this.player.code === data.sender
-          const sender = owned || data.sender === 'chatbot' ? '' : data.sender
-          let cls = owned ? 'is-pulled-right has-text-right has-background-info has-text-white ' : 'is-pulled-left has-text-left '
-          cls+= data.sender === 'chatbot' ? 'has-text-grey' : 'has-text-white has-background-info'
-          const ts = moment().format('hh:mm a')
-          chatbox.innerHTML+= `<div class="box ${cls}"><strong class="has-text-white">${sender}</strong> ${data.line} <span class="is-size-7">${ts}</span></div>`
-          chatbox.scrollTop = chatbox.scrollHeight
-          this.chatlast = data.line
+        if (data.sender !== this.player.code) {
+          this.chatLine(data)
         }
       },
       players: function (data) {
         if(this.$route.name === 'play') return
-        if(data.length > 1){
-          const message = 'Hay ' + (data.length - 1) +  ' jugador' + (data.length > 2 ? 'es' : '') + ' esperando invitación '
-          if(this.$route.name === 'lobby'){
-            snackbar('default', message)
-          }
-          this.$socket.emit('chat', { 
-            id: this.$route.params.group,
-            sender: 'chatbot',
-            line: message
-          })
-        } else {
-          this.$socket.emit('group_chat', { 
-            group: this.$route.params.group,
-            sender: 'chatbot',
-            line: `No hay jugadores en este momento`
-          })
-        }
-        console.log(data.length)
         this.players = data
       },
       player: function (data) {
@@ -194,7 +196,7 @@
           } else {
             snackbar('success',`Ahora eres ${data.code}`)
             this.$socket.emit('group_chat', { 
-              group: this.$route.params.group,
+              id: this.$route.params.group,
               sender: 'chatbot',
               line: `${data.ref} ahora es ${data.code}`
             })
@@ -202,7 +204,7 @@
         } else {
           snackbar('default',`${data.code} actualizó sus preferencias`)
           this.$socket.emit('group_chat', { 
-            group: this.$route.params.group,
+            id: this.$route.params.group,
             sender: 'chatbot',
             line: `${data.code} actualizó sus preferencias`
           })
@@ -224,7 +226,7 @@
         }
       },
       invite: function(data) {
-        let group = this.$route.params.group
+        let id = this.$route.params.group
         if(data.player.code === this.player.code){
           if(this.player.autoaccept){
             axios.post( this.endpoint + '/game/create', {
@@ -233,7 +235,7 @@
               black: data.black.code,
               whiteflag: data.white.flag,
               blackflag: data.black.flag,
-              group: group,
+              group: id,
               minutes: data.minutes,
               games: data.games,
               compensation: data.compensation
@@ -279,13 +281,13 @@
             })
             .then(accept => {
               if (accept) {
-                let group = this.$route.params.group
-                axios.post(this.endpoint + '/game/create', {
+                let id = this.$route.params.group
+                axios.post('/game/create', {
                   white: data.white.code,
                   whiteflag: data.white.flag,
                   black: data.black.code,
                   blackflag: data.black.flag,
-                  group: group,
+                  group: id,
                   minutes: data.minutes,
                   compensation: data.compensation,
                 }).then(res => {
@@ -473,8 +475,6 @@
         })
 
         setTimeout(() => {
-
-          console.log('1')
           document.querySelectorAll('.rounds .button').forEach(e => {
             let value = parseInt(e.innerHTML)
             e.classList.remove('has-background-success')
@@ -482,8 +482,6 @@
               e.classList.add('has-background-success')
             }
           })
-
-          console.log('2')
           document.querySelectorAll('.gameclock .button').forEach(e => {
             let value = parseInt(e.innerHTML)
             e.classList.remove('has-background-success')
@@ -491,8 +489,6 @@
               e.classList.add('has-background-success')
             }
           })
-
-          console.log('3')
           document.querySelectorAll('.gamecompensation .button').forEach(e => {
             let value = parseInt(e.innerHTML)
             e.classList.remove('has-background-success')
@@ -500,21 +496,22 @@
               e.classList.add('has-background-success')
             }
           })
-
         },50)
       },
       loadGroup (){
         this.$root.loading = true
         var t = this
         axios.post('/group',{
-          id:this.$route.params.group
+          id: this.$route.params.group
         }).then((res) => {
           this.$root.loading = false
+          this.tried = true
           this.data = res.data
           this.group = {
             group: res.data,
             player: this.player
           }
+          this.chatHistory()
           this.$socket.emit('group_join', this.group)
         })
       },
@@ -550,12 +547,60 @@
           },500)        
         })
       },
-      colorize: function(str) {
+      chatHistory (){
+        if (this.data.chat) {
+          const box = document.querySelector(".chatbox")
+          this.data.chat.forEach( line => {
+            const owned = this.player.code === line.sender
+            this.chatLines.push({
+              text: line.line,
+              ts: moment(line.created).fromNow(true),
+              sender: line.sender,
+              owned: owned
+            })
+          })
+          this.scrollToBottom()
+        }
+      },
+      scrollToBottom (){
+        setTimeout(() => {
+          const box = document.querySelector(".chatbox-container")
+          if(box){
+            box.scrollTop = box.scrollHeight  
+          }
+        },50)
+      },
+      sendChat () {
+        let chat = this.chat
+        if(chat==='') this.chat = '🤝'
+        let line = { 
+          id: this.$route.params.group,
+          sender: this.player.code,
+          line: chat
+        }
+        this.chatLine(line)
+        this.$socket.emit('group_chat', line)
+        this.chat = ''
+      },
+      chatLine (line){
+        const owned = this.player.code === line.sender
+        this.chatLines.push({
+          text: line.line,
+          ts: moment(line.created).fromNow(true),
+          sender: owned ? '' : line.name,
+          owned: owned
+        })
+        if(!owned) {
+          playSound('chat.ogg')
+        }
+        this.scrollToBottom()
+      },
+      colorize (str) {
         for (var i = 0, hash = 0; i < str.length; hash = str.charCodeAt(i++) + ((hash << 5) - hash));
         color = Math.floor(Math.abs((Math.sin(hash) * 10000) % 1 * 16777216)).toString(16);
         return '#' + Array(6 - color.length + 1).join('0') + color;
       },
-      gameMove: function(data){
+      gameMove (data){
         if(!this.games[data.id]){
           this.gameStart(data).then(() => {
             this.makeMove(data)
@@ -564,7 +609,7 @@
           this.makeMove(data)
         }
       },
-      makeMove: function(data){
+      makeMove (data){
         setTimeout(() => {
           var moveObj = ({
             from: data.from,
@@ -589,7 +634,7 @@
           this.updateMoves(data.id,move)
         },500)
       },
-      gameFlip: function(id){
+      gameFlip (id){
         this.boards[id].flip()
         const white = document.querySelector('.board-container.b' + id + ' .white').innerHTML
         const black = document.querySelector('.board-container.b' + id + ' .black').innerHTML
@@ -597,7 +642,7 @@
         document.querySelector('.board-container.b' + id + ' .black').innerHTML = white
         this.highlightLastMove(id)
       },
-      updateMoves:function(id,move){
+      updateMoves (id,move){
         var sound = 'move.mp3'
         var game = this.games[id] 
         var data = {}
@@ -647,13 +692,13 @@
           //playSound(sound)
         }
       },
-      removeHighlight : function(id) {
+      removeHighlight (id) {
         document.getElementById('board' + id).querySelectorAll('.square-55d63').forEach((item) => {
           item.classList.remove('highlight-move')
           item.classList.remove('in-check')
         })
       },
-      addHightlight : function(id,move){
+      addHightlight (id,move){
         var game = this.games[id]
         this.removeHighlight(id);
         if(move){
@@ -666,7 +711,7 @@
           },200)
         }
       },
-      highlightLastMove: function(id){
+      highlightLastMove (id){
         var history = this.games[id].history({verbose:true})
         if(history.length){
           var move = history[history.length-1]
@@ -674,24 +719,7 @@
           document.getElementById('board' + id).querySelector('.square-' + move.to).classList.add('highlight-move')
         }
       },
-      welcomeMsg () {
-        let message = `🤝 Saludos ${this.player.code} que nos visita desde ${this.player.country} ${this.player.flag}` + (this.player.observe ? ` Estas en modo observador.` : ` Antes de jugar podés `) +  `<a href="/preferences" class="has-text-success">establecer preferencias</a>`
-        this.$socket.emit('group_chat', { 
-          group: this.$route.params.group,
-          sender: 'chatbot',
-          line: message
-        })
-      },
-      sendChat: function() {
-        if(this.chat.trim()==='') this.chat = '🤝'
-        this.$socket.emit('chat', { 
-          id: this.$route.params.group,
-          sender: this.player.code,
-          line: this.chat
-        })
-        this.chat = ''
-      },
-      clickObserve: function(data) { 
+      clickObserve (data) { 
         if(data === this.player.code){
           snackbar('error','No podés jugar contra vos mismo')   
         } else {

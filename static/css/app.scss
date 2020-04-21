@@ -543,7 +543,31 @@ table {
   padding-left: 0.25rem;
 }*/
 
-.chatbox {
+.chatbox-container {
+  border-radius: 4px;
+  height: 300px;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  .chatbox {
+    position: static;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    .chatline {
+      clear: both;
+      .chatbubble {
+        border-radius: 5px;
+        margin-bottom: 0.5rem;
+        line-height: 1.25rem;
+        padding: 0.25rem 0.5rem;
+      }
+    }
+  }
+}
+
+
+/*.chatbox {
   height: 205px;
   width: 100%;
   margin-top: 1.25rem;
@@ -553,7 +577,7 @@ table {
     padding: 0.25rem 0.75rem;
     margin-bottom: 0.25rem;
   }
-}
+}*/
 
 .is-clickable {
   cursor: pointer;
