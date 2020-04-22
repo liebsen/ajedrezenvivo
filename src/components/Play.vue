@@ -74,11 +74,11 @@
               <div class="board-assistant">
                 <div class="columns has-text-centered">
                   <div class="column preservefilter">
-                    <button @click="inviteRematch()" class="button is-small is-rounded is-danger" v-show="announced_game_over" title="Rematch">
+                    <!--button @click="inviteRematch()" class="button is-small is-rounded is-danger" v-show="announced_game_over" title="Rematch">
                       <span class="icon has-text-white">
                         <span class="fas fa-chess-knight"></span>
                       </span>
-                    </button>
+                    </button-->
                     <button @click="gameCapitulate()" class="button is-small is-rounded is-danger" v-show="pgnIndex.length && !announced_game_over" title="Abandonar partida">
                       <span class="icon has-text-white">
                         <span class="fas fa-flag"></span>
@@ -89,14 +89,14 @@
                         <span class="fas fa-handshake"></span>
                       </span>
                     </button>
-                    <button @click="showLiveURL()" class="button is-small is-rounded is-info" v-show="pgnIndex.length && !announced_game_over" title="Mostrar URL de transmisión">
+                    <!--button @click="showLiveURL()" class="button is-small is-rounded is-info" v-show="pgnIndex.length && !announced_game_over" title="Mostrar URL de transmisión">
                       <span class="icon has-text-white">
                         <span class="fas fa-user-astronaut"></span>
                       </span>
                     </button>
                     <button @click="showPGN()" class="button is-small is-rounded is-info" v-if="pgnIndex.length && announced_game_over" title="Mostrar PGN">
                       <strong>PGN</strong>
-                    </button>
+                    </button-->
                   </div>
                 </div> 
                 <div class="columns is-hidden-mobile preservefilter">
@@ -136,24 +136,34 @@
                   </div>
                 </div>
 
+                <!--div class="columns has-text-centered">
+                  <pre v-html="scoreChart"/>  ½
+                  <div class="column">
+                    <table class="table">
+                      <tr v-for="(row, i) in scoreChart" :key="i">
+                        <td>{{row.player}}</td>
+                        <td v-for="(item, j) in row.partials" :key="j">{{item}}</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div-->
+
                 <div class="columns has-text-centered">
                   <div class="column">
                     <strong v-html="ecode" class=""></strong> 
                     <span v-html="opening" class="has-text-black"></span>
                   </div>
                 </div>
-                <div class="tabs is-centered is-boxed is-hidden-mobile">
+                <div class="tabs is-boxed is-hidden-mobile">
                   <ul>
                     <li :class="{ 'is-active' : tab === 'pgn' }">
-                      <a @click="tab = 'pgn'">
-                        <span class="icon is-small"><i class="fas fa-clipboard-list" aria-hidden="true"></i></span>
-                        <strong>Movimientos</strong>
+                      <a @click="tab = 'pgn'" title="Plys">
+                        <span class="icon"><i class="fas fa-clipboard-list" aria-hidden="true"></i></span>
                       </a>
                     </li>
                     <li :class="{ 'is-active' : tab === 'chat' }">
-                      <a @click="tab = 'chat'">
-                        <span class="icon is-small"><i class="fas fa-comments" aria-hidden="true"></i></span>
-                        <strong>Chat</strong>
+                      <a @click="tab = 'chat'" title="Chat">
+                        <span class="icon"><i class="fas fa-comments" aria-hidden="true"></i></span>
                       </a>
                     </li>
                   </ul>
@@ -229,7 +239,7 @@
 
   export default {
     name: 'play',
-    mounted: function(){
+    mounted (){
       var t = this
       t.$root.loading = true
       window.app = this
@@ -246,22 +256,26 @@
         'player'
       ])
     },
-    destroyed () {
+    beforeDestroy () {
       this.$socket.emit('leave',this.data._id)
       clearInterval(this.clock)
-    },
-    beforeDestroy: function() {
       this.$socket.emit('gone', {
         player: this.player.code,
-        id:this.data._id
+        id: this.data._id
       })
       this.$socket.emit('leave',this.data._id)
       this.$socket.emit('match_end', {
-        id:this.data._id
+        id: this.data._id
       })
     },
     sockets: {
-      start: function(data){
+      game_updated (data) {
+        if (data.result) {
+          this.data = data
+          this.showResultGame()
+        }
+      },
+      start (data){
         var t = this
         setTimeout(() => {
           if(!t.gameStarted && !t.data.result){
@@ -269,6 +283,7 @@
             t.gameStarted = true
             t.boardTaps()
             t.startClock()
+            playSound('start.ogg')
             this.$socket.emit('match_start', {
               id:t.data._id,
               white: t.data.white,
@@ -279,7 +294,7 @@
           }
         },100)
       },
-      resume: function(data) {
+      resume (data) {
         var t = this
         var exists = false
         if(data.code != t.player.code && !t.announced_game_over){
@@ -302,7 +317,7 @@
           }
         },1500)
       },
-      gone: function(data) {
+      gone (data) {
         if(data.player != this.player.code){
           snackbar("error", '👤 ' + data.player + ' abandonó la partida')
         }
@@ -312,13 +327,13 @@
           }
         }
       },
-      reject_rematch: function(data) {
+      reject_rematch (data) {
         if(data.asker.code === this.player.code){
           swal.close()
           swal("Partida declinada", '👤 ' + data.player.code + ' declinó la revancha')
         }
       },
-      invite_rematch: function(data) {
+      invite_rematch (data) {
         var t = this
         if(data.player.code === this.player.code){
           swal.close()
@@ -330,56 +345,12 @@
           })
           .then(accept => {
             if (accept) {
-              t.createNewGame({ round: 1 })
+              t.createNewGame(1)
             } else {
               t.$socket.emit('reject_rematch', data)
             }
           })
         }
-      },
-      showResultGame () {
-        if (this.data.round < this.data.rounds) {
-          swal({
-            title: `Resultado parcial: Ronda ${this.data.round}/${this.data.rounds}`,
-            text: `Resultado ${this.data.result}`,
-            closeOnClickOutside: false
-          })
-          setTimeout(() => {
-            swal.close()
-            this.createNewGame()
-          }, 5000)
-        } else {
-          swal({
-            title: `Resultado final: Ronda ${this.data.rounds}`,
-            text: `Resultado ${this.data.result}`,
-            closeOnClickOutside: false
-          })
-        }
-      },
-      createNewGame (options) {
-        let t = this
-        axios.post('/create', {
-          white: (t.playerColor==='white' ? this.player.code : this.opponentName),
-          black: (t.playerColor==='black' ? this.player.code : this.opponentName),
-          whiteflag: (t.playerColor==='white' ? this.player.flag : this.opponentFlag),
-          blackflag: (t.playerColor==='black' ? this.player.flag : this.opponentFlag),
-          minutes: t.data.minutes,
-          rounds: t.data.rounds,
-          round: (options.round ? options.round : t.data.round + 1),
-          compensation: t.data.compensation,
-          broadcast: true
-        } ).then((response) => {
-          if(response.data.status === 'success'){
-            t.$socket.emit('play', {
-              asker: data.asker.code,
-              player: data.player.code,
-              id: response.data.id
-            })
-            t.$router.push(['/play',response.data.id].join('/'))
-          } else {
-            snackbar('danger','El juego no pudo ser creado.')
-          }        
-        })
       },
       move (data) {
         var t = this
@@ -405,18 +376,18 @@
         t.tdisplay.w = t.$root.getTimeDisplay(t.timer.w)
         t.tdisplay.b = t.$root.getTimeDisplay(t.timer.b)
       },
-      acceptdraw: function(data){
+      acceptdraw (data){
         swal.close()
         swal("Tablas", 'Esta partida finalizó con un empate', "info")
         this.announced_game_over = true
       },
-      rejectdraw: function(data){
+      rejectdraw (data){
         swal.close()
         if(data.asker === this.player.code){
           swal("Tablas rechazado", 'El oponente desea continuar jugando', "info")
         }
       },
-      capitulate: function(data){
+      capitulate (data){
         var t = this
         var result = null
         if(data.asker === t.player.code){
@@ -434,50 +405,8 @@
           playSound('victory.mp3')
         }
         t.announced_game_over = true
-        t.data.result = result
-        t.showResultGame()
-        /*
-        if(data.asker === t.player.code){
-          result = (t.playerColor==='black'?'1-0':'0-1')
-          playSound('defeat.mp3')
-          swal({
-            title: '¿Querés solicitar revancha?',
-            text: 'Has abandonado. ' + t.opponentName + ' ganó esta partida',
-            buttons: ["No", "Sí"],
-            closeOnClickOutside: false
-          })
-          .then(accept => {
-            if (accept) {
-              t.$socket.emit('invite_rematch', {
-                asker: t.player,
-                player: {
-                  code: t.opponentName,
-                  flag: t.opponentFlag
-                }
-              })
-            } else {
-              console.log('Clicked on cancel')
-            }
-          })
-        } else {
-          result = (t.playerColor==='white'?'1-0':'0-1')
-          t.$socket.emit('data',{
-            id: t.data._id,
-            wtime: t.timer.w,
-            wtime: t.timer.b,
-            result: result,
-            score: t.chart.values
-          })
-          playSound('victory.mp3')
-          swal("¡Victoria!", t.opponentName + ' abandonó esta partida', "success")
-        }
-        if(result){
-          t.data.result = result
-        }
-        t.announced_game_over = true
-        */
       },
-      askfordraw: function(data){
+      askfordraw (data){
         var t = this
         var result = null
         if(data.player === t.player.code){
@@ -503,7 +432,6 @@
               t.data.result = result
               t.announced_game_over = true
               playSound('game-end.mp3')
-              t.showResultGame()
             } else {
               t.$socket.emit('rejectdraw', data)
               console.log('Clicked on cancel')
@@ -513,7 +441,7 @@
           swal("Esperando respuesta...", 'Has solicitado tablas a ' + t.opponentName, "info")
         }
       },
-      chat: function(data){
+      chat (data){
         const chatbox = document.querySelector(".chatbox")
         const owned = this.player.code === data.sender
         const cls = owned ? 'is-pulled-right has-text-right' : 'is-pulled-left has-text-left has-background-info has-text-white'
@@ -525,7 +453,130 @@
       }
     },
     methods: {
-      sendChat: function(){
+      showResultGame () {
+        let data = this.data
+        let winner = ''
+        switch (data.result) {
+          case '1-0':
+            winner = data.white
+            break;
+          case '0-1':
+            winner = data.black
+            break;
+          case '1/2-1/2':
+          default:
+            winner = null
+            break;
+        }
+
+
+        let result = winner ? `Ganador ${winner}` : 'Tablas'
+        let round = parseInt(data.round)
+        let rounds = parseInt(data.rounds)
+
+        if (round < rounds) {
+          const template = (`
+<div>
+  <div class="columns is-mobile">
+    <div class="column">
+      <span class="button result-white">${data.whiteflag} ${data.white}</span>
+    </div>
+    <div class="column">
+      <span class="button result-black">${data.black} ${data.blackflag}</span>
+    </div>
+  </div>
+  <div class="has-text-centered">
+    <div class="pietimer">
+      <div class="spinner pie"></div>
+      <div class="filler pie"></div>
+      <div class="mask"></div>
+      <div class="timer"></div>
+    </div>
+    <p>Siguiente partida en <span id="secondstoproceed"></span></p>
+  </div>
+</div>`)
+          swal({
+            title: `Resultado parcial ${round}/${rounds}`,
+            text: result,
+            content: {
+              element: 'div',
+              attributes: {
+                innerHTML: `${template}`,
+              }
+            },
+            buttons: false,
+            closeOnClickOutside: false
+          })
+
+          let seconds = this.secondsToProceed
+          let interval = setInterval(() => {
+            let s = seconds > 1 ? 's' : ''
+            document.getElementById('secondstoproceed').innerHTML = `${seconds} segundo${s}`
+            seconds--
+
+            if (seconds <= -1) {
+              clearInterval(interval)
+            }
+          }, 1000)
+
+          setTimeout(() => {
+            swal.close()
+            this.createNewGame(this.data.round + 1)
+          }, seconds*1000)
+
+          if (result !== '1/2-1/2') {
+            setTimeout(() => {
+              let sel = result === '1-0' ? 'white' : 'black'
+              document.querySelector(`.result-${sel}`).classList.add('is-success is-outlined')
+            }, 100)
+          }
+        } else {
+          const template = (`
+<div>
+  <div class="columns is-mobile">
+    <div class="column">
+      <span class="button result-white">${data.whiteflag} ${data.white}</span>
+    </div>
+    <div class="column">
+      <span class="button result-black">${data.black} ${data.blackflag}</span>
+    </div>
+  </div>
+</div>`)
+          swal({
+            title: `Resultado final`,
+            text: result,
+            closeOnClickOutside: false
+          }).then(accept => {
+            this.$router.push('/groups/' + this.$route.params.group)
+          })
+        }
+      },
+      createNewGame (round) {
+        let t = this
+        axios.post('/game/create', {
+          white: (t.playerColor==='white' ? this.player.code : this.opponentName),
+          black: (t.playerColor==='black' ? this.player.code : this.opponentName),
+          whiteflag: (t.playerColor==='white' ? this.player.flag : this.opponentFlag),
+          blackflag: (t.playerColor==='black' ? this.player.flag : this.opponentFlag),
+          minutes: t.data.minutes,
+          rounds: t.data.rounds,
+          round: round,
+          compensation: t.data.compensation,
+          broadcast: true
+        } ).then((response) => {
+          if(response.data.status === 'success'){
+            t.$socket.emit('play', {
+              asker: data.asker.code,
+              player: data.player.code,
+              id: response.data.id
+            })
+            t.$router.push(['/play',response.data.id].join('/'))
+          } else {
+            snackbar('danger','El juego no pudo ser creado.')
+          }        
+        })
+      },
+      sendChat (){
         if(this.chat.trim()==='') this.chat = '👋'
         this.$socket.emit('chat', { 
           id:this.$route.params.game,
@@ -541,11 +592,11 @@
         })
         this.$socket.emit('leave',this.$route.params.game)
       },      
-      uciCmd: function(cmd, which) {
+      uciCmd (cmd, which) {
         //console.log("UCI: " + cmd);
         (which || this.evaler).postMessage(cmd);
       }, 
-      moveList: function()
+      moveList ()
       {
         var moves = '';
         var pgn = []
@@ -558,7 +609,7 @@
 
         return moves;
       },
-      gameCapitulate: function(){
+      gameCapitulate (){
         swal({
           title: 'Abandonar partida',
           text: '¿Querés abandonar esta partida?',
@@ -577,7 +628,7 @@
           }
         })
       },
-      gameAskForDraw: function(){
+      gameAskForDraw (){
         swal({
           title: '¿Querés solicitar tablas?',
           text: '',
@@ -596,7 +647,7 @@
           }
         })
       },
-      gameStart: function(){
+      gameStart (){
         var t = this
         var pos = 'start'
         const pref = JSON.parse(localStorage.getItem('player'))||{}
@@ -648,9 +699,8 @@
 
           if(t.data.result){
             t.announced_game_over = true
-            snackbar('success',"Esta partida ha finalizado")
-          } else {
-            playSound('start.ogg')
+            snackbar('success',"Reviví esta partida")
+            t.$router.push('/game/' + t.data._id)
           }
           
           if(t.data.pgn){
@@ -699,7 +749,7 @@
           this.addHightlight(moved)
         },250)
       },
-      drawChartPosition: function(draw){
+      drawChartPosition (draw){
         if(draw===undefined) draw = true
         if(!draw){
           document.querySelector('.chart-indicator').style.backgroundColor = 'transparent' 
@@ -708,7 +758,7 @@
           document.querySelector('.chart-indicator').style.backgroundColor = 'rgb(0,0,0,0.15)'
         }
       },
-      gameLoad: function(){
+      gameLoad (){
         this.$root.loading = true
         var t = this
         axios.post('/game',{
@@ -781,7 +831,7 @@
           }
         })
       },
-      getTimeDisplay: function(time){
+      getTimeDisplay (time){
         var min = parseInt(time / 60, 10)
         var sec = parseInt(time % 60, 10)
 
@@ -790,7 +840,7 @@
 
         return min + ":" + sec
       },
-      startClock: function(){
+      startClock (){
         var t = this
         t.clock = setInterval(() => {
           if(t.announced_game_over) {
@@ -803,29 +853,11 @@
               if(turn === t.playerColor[0]){
                 result = (t.playerColor==='black'?'1-0':'0-1')
                 playSound('defeat.mp3')
-
-                /*
-                swal({
-                  title: '¿Querés solicitar revancha?',
-                  text: t.opponentName + ' ganó esta partida. Fuiste derrotado por tiempo.',
-                  buttons: ["No", "Sí"],
-                  closeOnClickOutside: false
-                })
-                .then(accept => {
-                  if (accept) {
-                    this.$socket.emit('invite_rematch', {
-                      asker:t.player,
-                      player: {
-                        code: this.opponentName,
-                        flag: this.opponentFlag
-                      }
-                    })
-                  } else {
-                    console.log('Clicked on cancel')
-                  }
-                })*/
               } else {
                 result = (t.playerColor==='white'?'1-0':'0-1')
+                playSound('victory.mp3')
+              }
+              if (turn === 'w') {
                 t.$socket.emit('game',{
                   id:t.data._id,
                   wtime: t.timer.w,
@@ -833,12 +865,8 @@
                   result: result,
                   score: t.chart.values
                 })
-                playSound('victory.mp3')
-                swal("¡Victoria!", 'Has vencido por tiempo a ' + t.opponentName, "success")
               }
-              t.data.result = result
               t.announced_game_over = true
-              t.showResultGame()
             } else {
               t.tdisplay[turn] = t.$root.getTimeDisplay(t.timer[turn]) 
             }
@@ -907,7 +935,7 @@
           })
         })
       },
-      onDragStart : function(source, piece, position, orientation) {
+      onDragStart  (source, piece, position, orientation) {
         var t = this
         if (t.game.game_over() === true ||
             (t.game.turn() === 'w' && piece.search(/^b/) !== -1) ||
@@ -915,7 +943,7 @@
           return false;
         }
       },
-      onDrop : function(source, target) {
+      onDrop  (source, target) {
         var t = this
         if(!t.gameStarted || t.announced_game_over) return 'snapback'
         //move object
@@ -937,7 +965,7 @@
         t.updateMoves(move)
         t.emitMove(move)
       },
-      emitMove: function(move){
+      emitMove (move){
         move.id = this.$route.params.game
         move.eco = this.ecode
         move.opening = this.opening
@@ -950,60 +978,36 @@
         move.compensation = this.data.compensation
         this.$socket.emit('move', move)
       },
-      onSnapEnd: function() {
+      onSnapEnd () {
         setTimeout(() => {
           this.board.position(this.game.fen())
         },100)
       },
       updateMoves:function(move){
-
         var t = this
         setTimeout(() => {
           this.uciCmd('position startpos moves' + this.moveList(), this.evaler);
           this.uciCmd("eval", this.evaler);
-
           if(t.game.game_over()){
+            let result = '1/2-1/2'
             if(t.game.in_draw() || t.game.in_stalemate() || t.game.in_threefold_repetition()) {
+              result = '1/2-1/2'
+            } else {          
+              result = t.playerColor==='white'?'1-0':'0-1'
+            }
+            console.log('1a')
+            console.log(t.game.turn())
+
+            if (t.playerColor[0] === 'w') {
+              console.log('1b')
               t.$socket.emit('game',{
                 id: this.$route.params.game,
                 wtime: t.timer.w,
                 wtime: t.timer.b,
-                result: "1/2-1/2",
+                result: result,
                 score: t.chart.values
               })
-              swal("Tablas", 'Esta partida finalizó en tablas', "info")
-            } else {          
-              if(t.game.turn() === t.playerColor[0]){
-                swal({
-                  title: '¿Querés la revancha?',
-                  text: t.opponentName + ' ganó esta partida',
-                  buttons: ["No", "Sí"],
-                  closeOnClickOutside: false
-                })
-                .then(accept => {
-                  if (accept) {
-                    this.$socket.emit('invite_rematch', {
-                      asker:this.player,
-                      player: {
-                        code: t.opponentName,
-                        flag: t.opponentFlag
-                      }
-                    })
-                  } else {
-                    console.log('Clicked on cancel')
-                  }
-                })
-              } else {
-                t.$socket.emit('game',{
-                  id:t.data._id,
-                  wtime: t.timer.w,
-                  wtime: t.timer.b,
-                  result:(t.playerColor==='white'?'1-0':'0-1')
-                })
-                swal("¡Victoria!", 'Has vencido a ' + t.opponentName, "success")
-              }
             }
-            
             t.announced_game_over = true
           } 
 
@@ -1028,7 +1032,7 @@
 
         t.findEco(t.game.pgn())
       },
-      findEco: function(pgn){
+      findEco (pgn){
         let t = this
         axios.post('/eco/pgn', {pgn:pgn} ).then((res) => {
           if(res.data.eco){
@@ -1037,7 +1041,7 @@
           }
         })
       },
-      updateMoveList: function(){
+      updateMoveList (){
         const movesTable = document.querySelector(".movesTableContainer")
         const current = document.querySelector('.moveindex.m' + this.index)
         if(current.parentNode.offsetTop + current.parentNode.clientHeight > movesTable.clientHeight){
@@ -1050,7 +1054,7 @@
         })
         document.querySelector('.moveindex.m' + this.index).parentNode.classList.add('active')
       },
-      calcPoints : function(){
+      calcPoints  (){
         this.chart.points = [];
         if(this.chart.values.length > 1){
           var points = "0," + this.chart.height + " ";
@@ -1064,7 +1068,7 @@
           this.chart.points = points                  
         }
       },
-      drawChart: function(index){
+      drawChart (index){
         var score = this.vscore
 
         if(this.playerColor === 'white'){
@@ -1086,7 +1090,7 @@
           this.updateChart()
         }        
       },
-      updateChart: function(){
+      updateChart (){
 
         this.calcPoints()
 
@@ -1109,7 +1113,7 @@
           chart.appendChild(polygon);
         }
       },
-      moveSound: function(move){
+      moveSound (move){
         var sound = 'move.mp3'
         let t = this
         if(t.game.game_over()){
@@ -1142,34 +1146,38 @@
 
         playSound(sound)
       },
-      removeHighlight : function() {
+      removeHighlight  () {
         document.getElementById('board').querySelectorAll('.square-55d63').forEach((item) => {
           item.classList.remove('highlight-move')
           item.classList.remove('in-check')
         })
       },
-      addHightlight : function(move){
+      addHightlight  (move){
         var t = this
         t.removeHighlight()
         
         if(move){
           if (t.game.in_check() === true) {
             setTimeout(() => {
-              document.getElementById('board').querySelector('img[data-piece="' + t.game.turn() + 'K"]').parentNode.classList.add('in-check')
+              if (document.getElementById('board')) {
+                document.getElementById('board').querySelector('img[data-piece="' + t.game.turn() + 'K"]').parentNode.classList.add('in-check')
+              }
             },200)      
           }
-          document.getElementById('board').querySelector('.square-' + move.from).classList.add('highlight-move');
-          document.getElementById('board').querySelector('.square-' + move.to).classList.add('highlight-move');   
+          if (document.getElementById('board')) {
+            document.getElementById('board').querySelector('.square-' + move.from).classList.add('highlight-move');
+            document.getElementById('board').querySelector('.square-' + move.to).classList.add('highlight-move');
+          }   
         }      
       },
-      highlightLastMove: function(){
+      highlightLastMove (){
         var history = this.game.history({verbose:true})
         if(history.length){
           var move = history[history.length-1]
           this.addHightlight(move)
         }
       },
-      showLiveURL: function(){
+      showLiveURL (){
         var url = `${ window.location.protocol }//${ window.location.host }/watch/${this.$route.params.game}`
         const template = (`
 <div class="content">
@@ -1242,41 +1250,42 @@
     },
     data () {
       return {
-        chart:{
+        chart: {
           width: 100,
           height: 50,
           maxValue: 100,
           values:[51],
           points:[]
         },
-        data:{},
-        eco:{},
-        tab:'pgn',
-        chat:'',
-        index:-1,
+        secondsToProceed: 30,
+        data: {},
+        eco: {},
+        tab: 'pgn',
+        chat: '',
+        index: -1,
         currentGame: 0,
-        gameMoves:[],
-        clock:null,
-        timer:{w:null,b:null},
-        tdisplay:{w:null,b:null},
-        opening:null,
-        score:0.10,
-        vscore:49,
-        orientation:null,
-        announced_game_over:false,
-        ecode:null,
-        board:null,
-        boardEl:null,
-        boardColor:'classic',
-        game:null,
-        gameStarted:false,
-        usersJoined:[],
-        pgnIndex:[],
-        moveFrom:null,
-        playerColor:null,
-        opponentName:null,
-        opponentFlag:null,
-        data:{}
+        gameMoves: [],
+        clock: null,
+        timer: {w:null,b:null},
+        tdisplay: {w:null,b:null},
+        opening: null,
+        score: 0.10,
+        scoreChart: [],
+        vscore: 49,
+        orientation: null,
+        announced_game_over: false,
+        ecode: null,
+        board: null,
+        boardEl: null,
+        boardColor: 'classic',
+        game: null,
+        gameStarted: false,
+        usersJoined: [],
+        pgnIndex: [],
+        moveFrom: null,
+        playerColor: null,
+        opponentName: null,
+        opponentFlag: null
       }
     }
   }

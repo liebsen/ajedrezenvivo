@@ -325,10 +325,12 @@
 
             const offset = 150
             setTimeout(() => {
-              document.querySelector('.movesTableContainer').style.height = ($('.board').height() - offset) + 'px'
-              setTimeout(() => {
-                this.gameMove()
-              }, 1000)
+              if (document.querySelector('.movesTableContainer')) {
+                document.querySelector('.movesTableContainer').style.height = ($('.board').height() - offset) + 'px'
+                setTimeout(() => {
+                  this.gameMove()
+                }, 1000)
+              }
             }, 500)
           },2000)
 

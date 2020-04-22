@@ -69,11 +69,11 @@
       <div class="columns">
         <div v-if="players && data && data.owner" class="column is-lobby-list is-3">
           <div v-show="data.owner.code === player.code">
-            <h3 class="is-clickable">
-              <span @click="setGroupRules" class="icon">
+            <h3 class="is-clickable" @click="setGroupRules" title="Configurar Grupo">
+              <span class="icon">
                 <span class="fas fa-cog"></span>
               </span>
-              <span @click="setGroupName" >{{data.code}}</span>
+              <span>{{data.code}}</span>
             </h3>            
           </div>
           <div v-show="data.owner.code !== player.code">
@@ -93,35 +93,54 @@
           </div>
         </div>
         <div class="column">
-          <div class="column has-text-centered box is-padded">
-            <div class="columns">
-              <div class="column chatbox-container">
-                <div class="chatbox fadeIn">
-                  <div v-for="line in chatLines" class="chatline">
-                    <div class="chatbubble" :class="{ 'is-pulled-right has-text-right has-background-light' : line.owned, 'is-pulled-left has-text-left has-background-white' : !line.owned, 'has-background-primary' : line.sender === 'bot' }">
-                      <strong v-if="line.sender != 'bot'" v-html="line.sender"></strong>
-                      <span v-html="line.text" :class="{ 'has-text-grey' : line.sender === 'bot' }"></span>
-                      <span v-if="line.sender != 'bot'" v-html="line.ts" class="is-size-7" :class="{ 'has-text-grey': line.sender !== 'bot', 'has-text-white': line.sender === 'bot' }"></span>
+          <div class="tabs is-boxed is-marginless">
+            <ul>
+              <li :class="{ 'is-active' : tab === 'chat' }">
+                <a @click="tab = 'chat'" title="Chat">
+                  <span class="icon"><i class="fas fa-comments" aria-hidden="true"></i></span>
+                </a>
+              </li>
+              <li :class="{ 'is-active' : tab === 'results' }">
+                <a @click="tab = 'results'" title="Resultados">
+                  <span class="icon"><i class="fas fa-list" aria-hidden="true"></i></span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div v-show="tab === 'results'">
+            <h1>Resultados</h1>
+          </div>
+          <div v-show="tab === 'chat'">
+            <div class="column has-text-centered box is-padded">
+              <div class="columns">
+                <div class="column chatbox-container">
+                  <div class="chatbox fadeIn">
+                    <div v-for="line in chatLines" class="chatline">
+                      <div class="chatbubble" :class="{ 'is-pulled-right has-text-right has-background-light' : line.owned, 'is-pulled-left has-text-left has-background-white' : !line.owned, 'has-background-primary' : line.sender === 'bot' }">
+                        <strong v-show="line.sender !== 'bot' && line.sender !== player.code" v-html="line.sender"></strong>
+                        <span v-html="line.text" :class="{ 'has-text-grey' : line.sender === 'bot' }"></span>
+                        <span v-show="line.sender != 'bot'" v-html="line.ts" class="is-size-7" :class="{ 'has-text-grey': line.sender !== 'bot', 'has-text-white': line.sender === 'bot' }"></span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
+              <form @submit.prevent="sendChat">
+                <div class="field is-fullwidth has-addons has-addons-fullwidth is-marginless">
+                  <div class="control">
+                    <input class="input is-rounded" v-model="chat" type="text" placeholder="Ingresa tu mensaje" />
+                  </div>
+                  <div class="control">
+                    <button type="submit" class="button is-info is-rounded">
+                      <span class="icon">
+                        <span class="fas fa-arrow-up"></span>
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </form>
             </div>
-            <form @submit.prevent="sendChat">
-              <div class="field is-fullwidth has-addons has-addons-fullwidth is-marginless">
-                <div class="control">
-                  <input class="input is-rounded" v-model="chat" type="text" placeholder="Ingresa tu mensaje" />
-                </div>
-                <div class="control">
-                  <button type="submit" class="button is-info is-rounded">
-                    <span class="icon">
-                      <span class="fas fa-arrow-up"></span>
-                    </span>
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>        
+          </div>    
         </div>
       </div>
     </div>
@@ -140,6 +159,7 @@
     data () {
       return {
         chat:'',
+        tab: 'chat',
         tried: false,
         data: {},
         group: {},
@@ -159,7 +179,17 @@
       this.$socket.emit('group_leave', this.group)
     },
     sockets: {
-      group_join: function(data){
+      group_updated () {
+        swal.close()
+        this.chatLines.push({
+          text: `<span class="fas fa-cog"></span> Configurción actualizada`,
+          ts: moment().fromNow(true),
+          sender: "bot",
+          owned: false
+        })
+        this.scrollToBottom()
+      },
+      group_join (data){
         setTimeout(() => {
           this.chatLines.push({
             text: `<span class="fas fa-arrow-right"></span> ${data.code} ${data.flag}`,
@@ -170,7 +200,7 @@
           this.scrollToBottom()
         },1000)
       },
-      group_leave: function(data){
+      group_leave (data){
         this.chatLines.push({
           text: `<span class="fas fa-arrow-left"></span> ${data.code} ${data.flag}`,
           ts: moment().fromNow(true),
@@ -179,16 +209,16 @@
         })
         this.scrollToBottom()
       },
-      group_chat: function(data){
+      group_chat (data){
         if (data.sender !== this.player.code) {
           this.chatLine(data)
         }
       },
-      players: function (data) {
+      players (data) {
         if(this.$route.name === 'play') return
         this.players = data
       },
-      player: function (data) {
+      player (data) {
         if(data.id === this.player.id){
           if(data.exists){
             snackbar('error',`El nombre ${data.code} ya está en uso, por favor elige otro`)
@@ -197,7 +227,7 @@
             snackbar('success',`Ahora eres ${data.code}`)
             this.$socket.emit('group_chat', { 
               id: this.$route.params.group,
-              sender: 'chatbot',
+              sender: 'bot',
               line: `${data.ref} ahora es ${data.code}`
             })
           }        
@@ -205,27 +235,27 @@
           snackbar('default',`${data.code} actualizó sus preferencias`)
           this.$socket.emit('group_chat', { 
             id: this.$route.params.group,
-            sender: 'chatbot',
+            sender: 'bot',
             line: `${data.code} actualizó sus preferencias`
           })
         }
         this.$root.saving = false
       },
-      play: function(data) {
+      play (data) {
         if(data.asker === this.player.code){
           this.$store.dispatch('games', data)
           swal.close()
           this.$router.push(`/play/${this.$route.params.group}/${data.id}`)
         }
       },
-      reject: function(data) {
+      reject (data) {
         if(data.asker.code === this.player.code){
           swal.close()
           swal("Partida declinada", data.player.code + ' declinó tu invitación')
           playSound('defeat.mp3')
         }
       },
-      invite: function(data) {
+      invite (data) {
         let id = this.$route.params.group
         if(data.player.code === this.player.code){
           if(this.player.autoaccept){
@@ -311,7 +341,7 @@
           }
         }
       },
-      matches_live: function(data){
+      matches_live (data){
         this.matches = data
         var gamesContainer = document.querySelector('.live-games')
         if(gamesContainer){
@@ -322,7 +352,7 @@
           }
         }
       },
-      match_live: function(data){
+      match_live (data){
         var gamesContainer = document.querySelector('.live-games')
         if(gamesContainer){
           var exists = false 
@@ -369,8 +399,35 @@
       },
       setGroupRules () {
         const template = (`
-  <div class="content">
-  <div class="columns columns-bottom is-flex has-text-centered">
+<div class="content">
+  <div class="columns is-group-edit is-flex has-text-centered">
+    <div class="column">
+      <h4>
+        <span class="icon">
+          <span class="fas fa-edit"></span>
+        </span>
+        <span>Nombre</span>
+      </h4>
+      <div class="field">
+        <div class="control has-text-centered column">
+          <input class="input is-rounded groupcode" maxlength="15" value="${this.data.code}">
+        </div>
+      </div>
+      <h4>
+        <span class="icon">
+          <span class="fas fa-eye"></span>
+        </span>
+        <span>Privacidad</span>
+      </h4>
+      <div class="field">
+        <div class="control has-text-centered column">
+          <div class="buttons levels has-addons groupprivacy" title="Establece la Privacidad para este Grupo">
+            <button class="button is-toggle is-rounded" title="Cualquier persona podrá unirse a este Grupo">Público</button>
+            <button class="button is-toggle is-rounded" title="Solo vos y las personas con quien compartas podrán unirse al grupo">Privado</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="column">
       <h4>
         <span class="icon">
@@ -378,58 +435,56 @@
         </span>
         <span>Rondas</span>
       </h4>
-      <div class="control has-text-centered column">
-        <div class="buttons levels has-addons rounds" title="Nro. partidas de este match">
-          <button class="button is-toggle is-rounded has-background-success" title="Match a 1 partida">1</button>
-          <button class="button is-toggle" title="Match a 3 partidas">3</button>
-          <button class="button is-toggle" title="Match a 5 partidas al match">5</button>
-          <button class="button is-toggle" title="Match a 10 partidas">10</button>
-          <button class="button is-toggle is-rounded" title="Match a 16 partidas">16</button>
+      <div class="field">
+        <div class="control has-text-centered column">
+          <div class="buttons levels has-addons rounds" title="Nro. partidas de este match">
+            <button class="button is-toggle is-rounded has-background-success" title="Match a 1 partida">1</button>
+            <button class="button is-toggle" title="Match a 3 partidas">3</button>
+            <button class="button is-toggle" title="Match a 5 partidas al match">5</button>
+            <button class="button is-toggle" title="Match a 10 partidas">10</button>
+            <button class="button is-toggle is-rounded" title="Match a 16 partidas">16</button>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="columns is-flex has-text-centered">
-    <div class="column">
       <h4>
         <span class="icon">
           <span class="fas fa-clock"></span>
         </span>
         <span>Minutos</span>
       </h4>
-      <div class="control has-text-centered column">
-        <div class="buttons levels has-addons gameclock" title="Establece la duración de las partidas en minutos">
-          <button class="button is-toggle is-rounded has-background-success" title="Partidas de 3 minutos">3'</button>
-          <button class="button is-toggle" title="Partidas de 5 minutos">5'</button>
-          <button class="button is-toggle" title="Partidas de 10 minutos">10'</button>
-          <button class="button is-toggle is-rounded" title="Partidas de 30 minutos">30'</button>
+      <div class="field">
+        <div class="control has-text-centered column">
+          <div class="buttons levels has-addons gameclock" title="Establece la duración de las partidas en minutos">
+            <button class="button is-toggle is-rounded has-background-success" title="Partidas de 3 minutos">3'</button>
+            <button class="button is-toggle" title="Partidas de 5 minutos">5'</button>
+            <button class="button is-toggle" title="Partidas de 10 minutos">10'</button>
+            <button class="button is-toggle is-rounded" title="Partidas de 30 minutos">30'</button>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="columns is-flex has-text-centered">
-    <div class="column">
       <h4>
         <span class="icon">
           <span class="fas fa-stopwatch"></span>
         </span>
         <span>Compensación en segundos</span>
       </h4>
-      <div class="control has-text-centered column">
-        <div class="buttons levels has-addons gamecompensation" title="Agregar compensación por movimiento">
-          <button class="button is-toggle is-rounded" title="Partidas sin compensación por movimiento">+0</button>
-          <button class="button is-toggle" title="Partidas con 1 segundo de compensación por cada movimiento">+1</button>
-          <button class="button is-toggle has-background-success" title="Partidas con 2 segundos de compensación por cada movimiento">+2</button>
-          <button class="button is-toggle is-rounded" title="Partidas con 3 segundos de compensación por cada movimiento">+3</button>
+      <div class="field">
+        <div class="control has-text-centered column">
+          <div class="buttons levels has-addons gamecompensation" title="Agregar compensación por movimiento">
+            <button class="button is-toggle is-rounded" title="Partidas sin compensación por movimiento">+0</button>
+            <button class="button is-toggle" title="Partidas con 1 segundo de compensación por cada movimiento">+1</button>
+            <button class="button is-toggle has-background-success" title="Partidas con 2 segundos de compensación por cada movimiento">+2</button>
+            <button class="button is-toggle is-rounded" title="Partidas con 3 segundos de compensación por cada movimiento">+3</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-
-  </div>`);
+</div>`);
         swal({
-          title: 'Editar Grupo',
+          title: `${this.data.code}`,
           buttons: ["Cancelar", "Actualizar"],
+          className: 'is-wide',
           closeOnClickOutside: false,
           content: {
             element: 'div',
@@ -439,12 +494,16 @@
           }
         }).then(accept => {
           if (accept) {
+            var groupprivacy = document.querySelector('.groupprivacy > .has-background-success')
+            var groupcode = document.querySelector('.groupcode')
             var gameclock = document.querySelector('.gameclock > .has-background-success')
             var roundsCont = document.querySelector('.rounds > .has-background-success')
             var gamecompensation = document.querySelector('.gamecompensation > .has-background-success')
             var minutes = parseInt(gameclock.textContent)
             var rounds = parseInt(roundsCont.textContent)
             var compensation = parseInt(gamecompensation.textContent)
+            var code = groupcode.value
+            var broadcast = groupprivacy.textContent.toLowerCase() === 'privado' ? false : true
 
             swal({
               title: "Actualizando grupo",
@@ -457,24 +516,19 @@
                 id: this.data._id,
                 minutes: minutes,
                 rounds: rounds,
+                broadcast: broadcast,
+                code: code,
                 compensation: compensation
               }
 
-              axios.post('/group/update', group).then(res => {
-                this.isLoading = false
-                swal.close()
-                if (res.data.status === 'success') {
-                  this.data = res.data.data
-                  snackbar('success', `Grupo actualizado`)
-                } else {
-                  snackbar('error', `Algo pasó y no se pudo crear el grupo`)
-                }
-              })
+              this.$socket.emit('group', group)
             }, 1000)
           }
         })
 
         setTimeout(() => {
+          let pindex = this.data.broadcast ? 2 : 1
+          document.querySelector(`.groupprivacy .button:nth-child(${pindex})`).classList.add('has-background-success')
           document.querySelectorAll('.rounds .button').forEach(e => {
             let value = parseInt(e.innerHTML)
             e.classList.remove('has-background-success')
@@ -582,7 +636,8 @@
         this.$socket.emit('group_chat', line)
         this.chat = ''
       },
-      chatLine (line){
+      chatLine (line) {
+        console.log(line)
         const owned = this.player.code === line.sender
         this.chatLines.push({
           text: line.line,
@@ -726,7 +781,7 @@
           snackbar('default', data + ' Está en modo Observador y no acepta invitaciones') 
         }        
       },
-      play: function(player) {
+      play (player) {
         if (player.code === this.player.code) {
           return snackbar('error','No podés jugar contra vos mismo') 
         }

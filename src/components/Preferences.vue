@@ -18,6 +18,24 @@
             <div class="field is-horizontal">
               <div class="field-body">
                 <div class="field">
+                  <label class="label">Nombre</label>
+                  <input type="text" v-model="data.code" class="input is-rounded" maxlength="10" title="Ingresa tu nombre!" required>
+                </div>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <label class="label">País</label>
+                  <div class="select is-fullwidth">
+                    <select v-model="data.flag" id="piezas" title="Elegí tu país">
+                      <option v-for="(item, index) in flags" :key="index" :value="item.emoji">{{item.emoji}} {{item.name}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-body">
+                <div class="field">
                   <label class="label">Tema del Tablero</label>
                   <div class="select is-fullwidth">
                     <select v-model="data.board" id="tablero" title="Elegí el tema de tablero">
@@ -98,24 +116,7 @@
                 </div>
               </div>
             </div>
-            <div class="field is-horizontal">
-              <div class="field-body">
-                <div class="field">
-                  <label class="label">Nombre</label>
-                  <input type="text" v-model="data.code" class="input" maxlength="10" title="Ingresa tu nombre!" required>
-                </div>
-              </div>
-              <div class="field-body">
-                <div class="field">
-                  <label class="label">País</label>
-                  <div class="select is-fullwidth">
-                    <select v-model="data.flag" id="piezas" title="Elegí tu país">
-                      <option v-for="(item, index) in flags" :key="index" :value="item.emoji">{{item.emoji}} {{item.name}}</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
+
             <div class="field">
               <div class="field-group">
                 <label class="label">General</label>

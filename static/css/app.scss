@@ -88,6 +88,10 @@ label {
   border-color: #dbdbdb!important
 }
 
+.select select {
+  border-radius: 35px;
+}
+
 .is-flex-centered {
   justify-content: center!important;
 }
@@ -122,8 +126,20 @@ label {
   }
 }
 
-.tabs.is-boxed li.is-active a {
-  background-color: #edebe9;
+.tabs.is-marginless {
+  ul {
+    margin-right: 2rem;
+  }
+  .is-boxed {
+    a {
+      border-radius: 10px 10px 0 0;
+    }
+  }
+}
+.board-assistant {
+  .tabs.is-boxed li.is-active a {
+    background-color: #edebe9;
+  }
 }
 /* spinner */
 
@@ -416,6 +432,16 @@ label {
 
 .logo-emoji {
   font-size: 3.5rem;
+}
+
+.is-group-edit {
+  h4 {
+    margin-top: 1.25rem;
+    margin-bottom: 0;
+  }
+  .groupcode {
+    max-width: 180px;
+  }
 }
 
 .legal-footer {
@@ -1020,6 +1046,14 @@ table {
  }
 }
 
+@media screen and (min-width: 768px), print {
+  .swal-modal {
+    &.is-wide {
+      width: 90%;
+      max-width: 750px;
+    }
+  }
+}
 @media screen and (min-width: 1440px), print {
   .chatbox {
     min-height: 50vh;
