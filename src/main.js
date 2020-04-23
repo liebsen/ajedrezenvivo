@@ -137,7 +137,12 @@ new Vue({
     },
     game_spawn (data) {
       this.isFindingOpponent = false
-      this.$router.push(`/play/${data.group}/${data.game}`)
+      let match = {
+        match: data.match,
+        group: data.group
+      }
+      localStorage.setItem('match', JSON.stringify(match))
+      this.$router.push(`/play/${data.game}`)
     }
   },
   methods: {
@@ -165,7 +170,7 @@ new Vue({
       <span>Rondas</span>
     </h4>
     <div class="control has-text-centered column">
-      <div class="buttons levels has-addons rounds" title="Nro. partidas de este match">
+      <div class="buttons levels has-addons groupgames" title="Nro. partidas de este match">
         <button class="button is-toggle is-rounded has-background-success" title="Match a 1 partida">1</button>
         <button class="button is-toggle" title="Match a 3 partidas">3</button>
         <button class="button is-toggle" title="Match a 5 partidas al match">5</button>
@@ -227,10 +232,10 @@ new Vue({
         if (accept) {
           this.isCreatingGroup = true
           var gameclock = document.querySelector('.gameclock > .has-background-success')
-          var roundsCont = document.querySelector('.rounds > .has-background-success')
+          var groupgames = document.querySelector('.groupgames > .has-background-success')
           var gamecompensation = document.querySelector('.gamecompensation > .has-background-success')
           var minutes = parseInt(gameclock.textContent)
-          var rounds = parseInt(roundsCont.textContent)
+          var games = parseInt(groupgames.textContent)
           var compensation = parseInt(gamecompensation.textContent)
 
           swal({
@@ -245,7 +250,7 @@ new Vue({
               code: code,
               owner: this.player,
               minutes: minutes,
-              rounds: rounds,
+              games: games,
               compensation: compensation
             }
 
@@ -255,7 +260,7 @@ new Vue({
               swal.close()
               if (res.data.status === 'success') {
                 snackbar('success', `Grupo creado`)
-                this.$router.push('/groups/' + res.data.data._id)
+                this.$router.push('/group/' + res.data.data._id)
               } else {
                 snackbar('error', `Algo pasó y no se pudo crear el grupo`)
               }

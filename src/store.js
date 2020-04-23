@@ -12,7 +12,7 @@ export default new Vuex.Store({
     players: null,
     games: games,
     status: null,
-    endpoint: (process.env.NODE_ENV === 'production' ? 'https://ajedrezenvivoapi.herokuapp.com' : 'http://localhost:4000')
+    endpoint: process.env.ENDPOINT
   },
   mutations: {
     /* A fit-them-all commit */

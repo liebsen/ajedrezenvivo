@@ -38,7 +38,7 @@
           <tbody>
             <tr v-for="item in data.data">
               <td>
-                <router-link :to="'/groups/'+item._id">
+                <router-link :to="'/group/'+item._id">
                   <span class="icon">
                     <span class="fa fa-play"></span>
                   </span>
@@ -48,7 +48,7 @@
                 <span v-html="item.code"></span>
               </td>
               <td>
-                <span v-html="item.rounds"></span>
+                <span v-html="item.games"></span>
               </td>
               <td>
                 <span v-html="item.minutes"></span>'

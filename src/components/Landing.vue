@@ -14,8 +14,8 @@
           </div>
           <div class="has-text-centered">
             <form id="search" class="has-text-centered" @submit.prevent="submit">
-              <label v-if="group.rounds" class="label">
-                <span v-html="`Match a ${group.rounds} - ${group.minutes}'+${group.compensation}`" class="has-text-light">
+              <label v-if="group.games" class="label">
+                <span v-html="`Match a ${group.games} - ${group.minutes}'+${group.compensation}`" class="has-text-light">
                 </span>
               </label>
               <div class="field has-addons is-hidden-mobile is-flex-centered">

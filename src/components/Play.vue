@@ -269,6 +269,9 @@
       })
     },
     sockets: {
+      play (data) {
+        this.$router.push(`/play/${data.game}`)
+      },
       game_updated (data) {
         if (data.result) {
           this.data = data
@@ -395,11 +398,13 @@
           playSound('defeat.mp3')
         } else {
           result = (t.playerColor==='white'?'1-0':'0-1')
+          let match = JSON.parse(localStorage.getItem('match'))
           t.$socket.emit('game',{
             id: t.data._id,
             wtime: t.timer.w,
             wtime: t.timer.b,
             result: result,
+            match: match.match,
             score: t.chart.values
           })
           playSound('victory.mp3')
@@ -419,17 +424,17 @@
           .then(accept => {
             if (accept) {
               result = '1/2-1/2'
-
+              let match = JSON.parse(localStorage.getItem('match'))
               t.$socket.emit('game',{
                 id: t.$route.params.game,
                 wtime: t.timer.w,
                 wtime: t.timer.b,
                 result: result,
+                match: match.match,
                 score: t.chart.values
               })
 
               t.$socket.emit('acceptdraw', data)
-              t.data.result = result
               t.announced_game_over = true
               playSound('game-end.mp3')
             } else {
@@ -470,19 +475,19 @@
         }
 
 
-        let result = winner ? `Ganador ${winner}` : 'Tablas'
-        let round = parseInt(data.round)
-        let rounds = parseInt(data.rounds)
+        let result_text = winner ? `Gana ${winner}` : 'Tablas'
+        let game = parseInt(data.game)
+        let games = parseInt(data.games)
 
-        if (round < rounds) {
+        if (game < games) {
           const template = (`
 <div>
   <div class="columns is-mobile">
     <div class="column">
-      <span class="button result-white">${data.whiteflag} ${data.white}</span>
+      <span class="button is-large is-rounded result-white">${data.whiteflag} ${data.white}</span>
     </div>
     <div class="column">
-      <span class="button result-black">${data.black} ${data.blackflag}</span>
+      <span class="button is-large is-rounded result-black">${data.black} ${data.blackflag}</span>
     </div>
   </div>
   <div class="has-text-centered">
@@ -496,8 +501,8 @@
   </div>
 </div>`)
           swal({
-            title: `Resultado parcial ${round}/${rounds}`,
-            text: result,
+            title: `Resultado parcial ${game}/${games}`,
+            text: result_text,
             content: {
               element: 'div',
               attributes: {
@@ -521,13 +526,15 @@
 
           setTimeout(() => {
             swal.close()
-            this.createNewGame(this.data.round + 1)
+            if (this.playerColor[0] === 'w') {
+              this.createNewGame(this.data.game + 1)
+            }
           }, seconds*1000)
 
-          if (result !== '1/2-1/2') {
+          if (data.result !== '1/2-1/2') {
             setTimeout(() => {
-              let sel = result === '1-0' ? 'white' : 'black'
-              document.querySelector(`.result-${sel}`).classList.add('is-success is-outlined')
+              let sel = data.result === '1-0' ? 'white' : 'black'
+              document.querySelector(`.result-${sel}`).classList.add('is-success', 'is-outlined')
             }, 100)
           }
         } else {
@@ -544,14 +551,16 @@
 </div>`)
           swal({
             title: `Resultado final`,
-            text: result,
+            text: result_text,
             closeOnClickOutside: false
           }).then(accept => {
-            this.$router.push('/groups/' + this.$route.params.group)
+            let match = JSON.parse(localStorage.getItem('match'))
+            this.$router.push('/group/' + match.group)
           })
         }
       },
-      createNewGame (round) {
+      createNewGame (game) {
+        console.log('createNewGame')
         let t = this
         axios.post('/game/create', {
           white: (t.playerColor==='white' ? this.player.code : this.opponentName),
@@ -559,20 +568,18 @@
           whiteflag: (t.playerColor==='white' ? this.player.flag : this.opponentFlag),
           blackflag: (t.playerColor==='black' ? this.player.flag : this.opponentFlag),
           minutes: t.data.minutes,
-          rounds: t.data.rounds,
-          round: round,
+          games: t.data.games,
+          game: game,
           compensation: t.data.compensation,
           broadcast: true
-        } ).then((response) => {
-          if(response.data.status === 'success'){
+        }).then((res) => {
+          if(res.data.status === 'success'){
             t.$socket.emit('play', {
-              asker: data.asker.code,
-              player: data.player.code,
-              id: response.data.id
+              id: t.data._id,
+              game: res.data.data._id
             })
-            t.$router.push(['/play',response.data.id].join('/'))
           } else {
-            snackbar('danger','El juego no pudo ser creado.')
+            snackbar('error','El juego no pudo ser creado.')
           }        
         })
       },
@@ -858,11 +865,13 @@
                 playSound('victory.mp3')
               }
               if (turn === 'w') {
+                let match = JSON.parse(localStorage.getItem('match'))
                 t.$socket.emit('game',{
                   id:t.data._id,
                   wtime: t.timer.w,
                   wtime: t.timer.b,
                   result: result,
+                  match: match.match,
                   score: t.chart.values
                 })
               }
@@ -999,12 +1008,13 @@
             console.log(t.game.turn())
 
             if (t.playerColor[0] === 'w') {
-              console.log('1b')
+              let match = JSON.parse(localStorage.getItem('match'))
               t.$socket.emit('game',{
                 id: this.$route.params.game,
                 wtime: t.timer.w,
                 wtime: t.timer.b,
                 result: result,
+                match: match.match,
                 score: t.chart.values
               })
             }

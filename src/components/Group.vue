@@ -179,8 +179,11 @@
       this.$socket.emit('group_leave', this.group)
     },
     sockets: {
-      group_updated () {
-        swal.close()
+      group_updated (data) {
+        this.data = data
+        if (data.owner.code === this.player.code) {
+          swal.close()  
+        }        
         this.chatLines.push({
           text: `<span class="fas fa-cog"></span> Configurción actualizada`,
           ts: moment().fromNow(true),
@@ -437,7 +440,7 @@
       </h4>
       <div class="field">
         <div class="control has-text-centered column">
-          <div class="buttons levels has-addons rounds" title="Nro. partidas de este match">
+          <div class="buttons levels has-addons groupgames" title="Nro. partidas de este match">
             <button class="button is-toggle is-rounded has-background-success" title="Match a 1 partida">1</button>
             <button class="button is-toggle" title="Match a 3 partidas">3</button>
             <button class="button is-toggle" title="Match a 5 partidas al match">5</button>
@@ -497,10 +500,10 @@
             var groupprivacy = document.querySelector('.groupprivacy > .has-background-success')
             var groupcode = document.querySelector('.groupcode')
             var gameclock = document.querySelector('.gameclock > .has-background-success')
-            var roundsCont = document.querySelector('.rounds > .has-background-success')
+            var groupgames = document.querySelector('.groupgames > .has-background-success')
             var gamecompensation = document.querySelector('.gamecompensation > .has-background-success')
             var minutes = parseInt(gameclock.textContent)
-            var rounds = parseInt(roundsCont.textContent)
+            var games = parseInt(groupgames.textContent)
             var compensation = parseInt(gamecompensation.textContent)
             var code = groupcode.value
             var broadcast = groupprivacy.textContent.toLowerCase() === 'privado' ? false : true
@@ -515,7 +518,7 @@
               let group = {
                 id: this.data._id,
                 minutes: minutes,
-                rounds: rounds,
+                games: games,
                 broadcast: broadcast,
                 code: code,
                 compensation: compensation
@@ -527,12 +530,12 @@
         })
 
         setTimeout(() => {
-          let pindex = this.data.broadcast ? 2 : 1
+          let pindex = this.data.broadcast ? 1 : 2
           document.querySelector(`.groupprivacy .button:nth-child(${pindex})`).classList.add('has-background-success')
-          document.querySelectorAll('.rounds .button').forEach(e => {
+          document.querySelectorAll('.groupgames .button').forEach(e => {
             let value = parseInt(e.innerHTML)
             e.classList.remove('has-background-success')
-            if (this.data.rounds === value) {
+            if (this.data.games === value) {
               e.classList.add('has-background-success')
             }
           })
@@ -637,12 +640,11 @@
         this.chat = ''
       },
       chatLine (line) {
-        console.log(line)
         const owned = this.player.code === line.sender
         this.chatLines.push({
           text: line.line,
           ts: moment(line.created).fromNow(true),
-          sender: owned ? '' : line.name,
+          sender: line.sender,
           owned: owned
         })
         if(!owned) {
@@ -796,7 +798,7 @@
         <span>Rondas</span>
       </h4>
       <div class="control has-text-centered column">
-        <div class="buttons levels has-addons rounds" title="Nro. partidas de este match">
+        <div class="buttons levels has-addons groupgames" title="Nro. partidas de este match">
           <button class="button is-toggle is-rounded has-background-success" title="Match a 1 partida">1</button>
           <button class="button is-toggle" title="Match a 3 partidas">3</button>
           <button class="button is-toggle" title="Match a 5 partidas al match">5</button>
@@ -871,12 +873,12 @@
           if (accept) {
             var playercolor = document.querySelector('.playercolor > .has-background-success')
             var gameclock = document.querySelector('.gameclock > .has-background-success')
-            var roundsCont = document.querySelector('.rounds > .has-background-success')
+            var groupgames = document.querySelector('.groupgames > .has-background-success')
             var gamecompensation = document.querySelector('.gamecompensation > .has-background-success')
             var white = this.player
             var black = player
             var minutes = parseInt(gameclock.textContent)
-            var rounds = parseInt(roundsCont.textContent)
+            var games = parseInt(groupgames.textContent)
             var compensation = parseInt(gamecompensation.textContent)
 
             if(playercolor.classList.contains('is-black-pieces')){
@@ -907,8 +909,8 @@
               white: white,
               black: black,
               minutes: minutes,
-              rounds: rounds,
-              round: 1,
+              games: games,
+              game: 1,
               compensation: compensation
             }
 

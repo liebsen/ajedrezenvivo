@@ -60,7 +60,7 @@ const router = new Router({
       component: Game
     },
     {
-      path: '/play/:group/:game',
+      path: '/play/:game',
       name: 'play',
       component: Play
     },
@@ -80,7 +80,7 @@ const router = new Router({
       component: Groups
     },
     {
-      path: '/groups/:group',
+      path: '/group/:group',
       name: 'group',
       component: Group
     },
