@@ -4,6 +4,9 @@
       <div class="columns is-vcentered fadeIn">
         <div class="column is-hidden-mobile"></div>
         <div class="column is-8 has-text-centered">
+          <div class="notification is-danger is-light is-shadow content">
+            <h5 class="has-text-danger"><span class="icon is-margin-right"><span class="fa fa-exclamation-triangle"></span></span>Estás viendo una versión antigua de <a href="https://flitz.herokuapp.com"><strong>Flitz Chess</strong></a></h5> 
+            Te sugerimos usar la nueva versión cuenta con mayor funcionalidad y es multilenguaje.<br>Ajedrez En Vivo, sin embargo, quedará disponible cuando lo necesites. <a href="https://flitz.herokuapp.com"><strong>Ir a nueva versión</strong></a><br><small>@martin 10-6-20</small></div>
           <div class="content is-hidden-mobile">
             <h1 class="has-text-white"></a>Estudia, entrena y gana</h1>
             <h6></h6>

@@ -46,6 +46,14 @@ label {
   border-width: 0.25rem!important;
 }
 
+.is-shadow {
+  box-shadow: 0 0 10px 10px #FF000033;
+}
+
+.is-margin-right {
+  margin-right: 0.75rem;
+}
+
 .buttons.has-addons {
   justify-content: center;
   .button {
