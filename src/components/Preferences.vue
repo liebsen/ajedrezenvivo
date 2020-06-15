@@ -64,6 +64,7 @@
                   <div class="select is-fullwidth">
                     <select v-model="data.pieces" id="piezas" title="Elegí estilo de piezas">
                       <option value="classic">Clásico</option>
+                      <option value="cburnett">cburnett</option>
                       <option value="neo">Neo</option>
                       <option value="neo_wood">Neo Madera</option>
                       <option value="wood">Madera</option>
