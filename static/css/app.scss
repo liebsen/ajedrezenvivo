@@ -573,21 +573,21 @@ table {
 }
 
 .is-white-pieces {
-  background-image: url(/static/img/chesspieces/classic/wN.png);
+  background-image: url(/static/img/chesspieces/cburnett/wN.png);
   background-repeat: no-repeat;
   background-position: 7px -2px;
   background-size: contain;
 }
 
 .is-black-pieces {
-  background-image: url(/static/img/chesspieces/classic/bN.png);
+  background-image: url(/static/img/chesspieces/cburnett/bN.png);
   background-repeat: no-repeat;
   background-position: -2px -2px;
   background-size: contain;
 }
 
 .is-random-pieces {
-  background-image: url(/static/img/chesspieces/classic/wN.png),url(/static/img/chesspieces/classic/bN.png);
+  background-image: url(/static/img/chesspieces/cburnett/wN.png),url(/static/img/chesspieces/cburnett/bN.png);
   background-repeat: no-repeat;
   background-position: 6px 6px, 0px 5px;
   background-size: 90%, 90%;

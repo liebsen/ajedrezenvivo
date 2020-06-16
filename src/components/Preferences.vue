@@ -63,13 +63,14 @@
                   <label class="label">Estilo de Piezas</label>
                   <div class="select is-fullwidth">
                     <select v-model="data.pieces" id="piezas" title="Elegí estilo de piezas">
-                      <option value="classic">Clásico</option>
                       <option value="cburnett">cburnett</option>
+                      <option value="alpha">Alpha</option>
                       <option value="neo">Neo</option>
                       <option value="neo_wood">Neo Madera</option>
                       <option value="wood">Madera</option>
                       <option value="bases">Bases</option>
                       <option value="uscf">USCF</option>
+                      <option value="merida">Merida</option>
                       <option value="chess24">Chess24</option>
                       <option value="leipzig">Leipzig</option>
                       <option value="fantasy">Fantasía</option>
@@ -281,7 +282,7 @@
       return {
         boardCfg: {
           position: 'r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R',
-          pieceTheme:'/static/img/chesspieces/classic/{piece}.png',
+          pieceTheme:'/static/img/chesspieces/cburnett/{piece}.png',
           draggable: false
         },
         data:{},

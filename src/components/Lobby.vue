@@ -268,7 +268,7 @@
           pieces.forEach(tag => {
             let e = document.querySelector(tag)
             let li = window.getComputedStyle(e);
-            e.style.backgroundImage = li.getPropertyValue('background-image').split('classic').join(saved.pieces)
+            e.style.backgroundImage = li.getPropertyValue('background-image').split('cburnett').join(saved.pieces)
           })
         },10)
       }

@@ -114,7 +114,7 @@ export default new Vuex.Store({
             strongnotification: false,
             darkmode: false,
             sound: true,
-            pieces: 'classic',
+            pieces: 'cburnett',
             board:'classic'
           }
 

@@ -139,7 +139,7 @@ export default {
     if (saved.pieces) {
       document.querySelectorAll('.pieces li').forEach(e => {
         let li = window.getComputedStyle(e)
-        e.style.backgroundImage = li.getPropertyValue('background-image').replace('classic',saved.pieces)
+        e.style.backgroundImage = li.getPropertyValue('background-image').replace('cburnett',saved.pieces)
       })
     }
   },

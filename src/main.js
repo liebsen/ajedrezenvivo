@@ -431,7 +431,7 @@ new Vue({
       return new Promise(function(resolve,reject){
 
         var pos = 'start'
-        var pieces = '/static/img/chesspieces/classic/{piece}.png'
+        var pieces = '/static/img/chesspieces/cburnett/{piece}.png'
 
         if(data.fen){
           pos = data.fen
